@@ -1,0 +1,51 @@
+body {
+	padding-top: 5px;
+}
+
+.heading {
+	text-align: center;
+	font-size: 14px;
+	margin-bottom: 15px;
+}
+
+.tab-pane.fade {
+	padding-top: 30px;
+}
+
+#about p {
+	font-size: 14px;
+}
+
+#vitae p, span, li {
+	font-size: 14px;
+	margin-bottom: 0px;
+}
+
+#vitae hr {
+	margin-top: 0px;
+}
+
+#publications hr {
+	margin-top: 0px;
+}
+
+#publications li {
+	font-size: 14px;
+}
+
+#services hr {
+	margin-top: 0px;
+}
+
+table td {
+	padding: 6px;
+	font-size: 14px;
+}
+
+#projects p {
+	font-size: 14px;
+}
+
+#contact div {
+	font-size: 14px;
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet href="geo.xsl" type="text/xsl" ?>
+<musee nom="Fabre">
+	<secteur nom="AntiquiteGB">
+		<salle nom="S1">
+			<oeuvre name="Oeu1" auteur="au1" x="89" y="71" src="monalisa.jpg"/>
+			<oeuvre name="Oeu2" auteur="au2" x="88" y="72"/>
+			<oeuvre name="Oeu3" auteur="au3" x="87" y="73"/>
+			<oeuvre name="Oeu4" auteur="au4" x="86" y="74"/>
+
+		</salle>	
+		<salle nom="S2">
+			<oeuvre name="Oeu5" auteur="au5" x="12" y="61"/>
+			<oeuvre name="Oeu6" auteur="au6" x="13" y="62"/>
+			<oeuvre name="Oeu7" auteur="au7" x="14" y="63"/>
+			<oeuvre name="Oeu8" auteur="au8" x="15" y="64"/>
+
+		</salle>
+		<salle nom="S3">
+			<oeuvre name="Oeu9" auteur="au9" x="88" y="51"/>
+			<oeuvre name="Oeu10" auteur="au10" x="87" y="52"/>
+			<oeuvre name="Oeu11" auteur="au11" x="89" y="53"/>
+			<oeuvre name="Oeu12" auteur="au12" x="83" y="54"/>
+
+		</salle>
+	</secteur>
+	<secteur nom="Test">
+		<salle nom="S4">
+			<oeuvre name="Oeu13" auteur="au13" x="77" y="41"/>
+			<oeuvre name="Oeu14" auteur="au14" x="71" y="42"/>
+			<oeuvre name="Oeu15" auteur="au15" x="75" y="43"/>
+			<oeuvre name="Oeu16" auteur="au16" x="74" y="44"/>
+
+		</salle>	
+		<salle nom="S5">
+			<oeuvre name="Oeu17" auteur="au17" x="61" y="31"/>
+			<oeuvre name="Oeu18" auteur="au18" x="62" y="32"/>
+			<oeuvre name="Oeu19" auteur="au19" x="63" y="33"/>
+			<oeuvre name="Oeu20" auteur="au20" x="64" y="34"/>
+
+		</salle>
+		<salle nom="S6">
+			<oeuvre name="Oeu21" auteur="au21" x="51" y="21"/>
+			<oeuvre name="Oeu22" auteur="au22" x="52" y="22"/>
+			<oeuvre name="Oeu23" auteur="au23" x="53" y="23"/>
+			<oeuvre name="Oeu24" auteur="au24" x="54" y="24"/>
+
+		</salle>
+	</secteur>	
+</musee>
+
+	
