@@ -1,0 +1,34 @@
+{"type" : "tweets",
+"ranges": [
+		{"name" : "Pleasant - Activation",
+		 "children" : [
+				{"name" : ""}
+			]	
+		},
+		{"name" : "Activation - Unpleasant",
+		 "children" : [
+				{"name" : ""}
+			]	
+		},
+		{"name" : "Unpleasant - Deactivation",
+		 "children" : [
+				{"name" : ""}
+			]	
+		},
+		{"name" : "Deactivation - Pleasant",
+		 "children" : [
+				{"name" : ""}
+			]	
+		}	
+	],
+"data": [
+		{
+			"date_time":"jj/MM/yyyy hh:mm:ss"
+			"value":"Equal as a children name"
+			"text":"Optional"
+		}
+		.
+		.
+		.
+	]
+}

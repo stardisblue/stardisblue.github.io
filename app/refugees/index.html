@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- <script async
+	src="https://www.googletagmanager.com/gtag/js?id=UA-129272585-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-129272585-1');
+</script> -->
+<title>Refugees Flows</title>
+
+<!-- Required meta tags -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"> -->
+
+<!-- SHORTCUT -->
+<link rel="shortcut icon" type="image/png" href="img/multistream.png" />
+
+<!-- BOOTSTRAP CSS-->
+<!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link> -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous"></link>
+
+<!-- STYLE MAIN CSS -->
+<link rel="stylesheet" type="text/css" href="css/style.css"></link>
+
+<!-- MULTIRESOLUTION-VIS CSS -->
+<link rel="stylesheet" type="text/css"
+	href="css/style-multiresolution.css"></link>
+<link rel="stylesheet" type="text/css"
+	href="css/style-multiresolution-tooltip.css"></link>
+
+<!-- TREE-VIS CSS -->
+<link rel="stylesheet" type="text/css" href="css/style-tree.css"></link>
+<link rel="stylesheet" type="text/css" href="css/style-tree-tooltip.css"></link>
+
+<!-- MAP-VIS CSS-->
+<link rel="stylesheet" type="text/css" href="css/style-map.css"></link>
+<link rel="stylesheet" type="text/css" href="css/style-map-tooltip.css"></link>
+
+<!-- LOADER CSS-->
+<link rel="stylesheet" type="text/css" href="css/loader.css"></link>
+
+<!-- TREENAV CSS-->
+<link rel="stylesheet" type="text/css" href="css/treenav.css"></link>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Roboto"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"
+	rel="stylesheet">
+
+<!-- Icons Fonts -->
+<!-- <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.2.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+	integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+	crossorigin="anonymous">
+
+<!-- LEAFLET 1.4 CSS -->
+<link rel="stylesheet"
+	href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/popper.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+ -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+	integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+	integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+	crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+	<div id="loader" style="display: none"></div>
+
+	<div class="container-fluid">
+
+		<div id="headerApp-wrapper" class="row">
+			<div class="col-sm">
+				<div style="text-align: left">
+					<h1 id="titleApp" class="d-inline">Refugees People Flows</h1>
+					<!-- <button type="button"
+						class="d-inline position-relative btn btn-primary"
+						data-toggle="modal" data-target="#exampleModal"
+						style="left: 10px; bottom: 10px">
+						<i class="fa fa-file"></i>
+					</button>
+					<button type="button"
+						class="d-inline position-relative btn btn-primary"
+						data-toggle="collapse" data-target="#multiCollapseExample1"
+						aria-expanded="false" aria-controls="multiCollapseExample1"
+						style="left: 10px; bottom: 10px">
+						<i class="fa fa-bars"></i>
+					</button> -->
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+
+			<!-- <div class="col-1">
+				<div class="title-vis-wrapper">
+							<h2 id="tree-vis-title" class="title-vis"
+								style="text-align: left" onclick="openTreeNav()">Tree</h2>
+				</div>
+				<div class="vis-wrapper">
+					<span onclick="openTreeNav()">Tree</span>
+					<div id="myTreenav" class="treenav">
+						<a href="javascript:void(0)" class="closebtn"
+							onclick="closeTreeNav()">&times;</a>
+						<svg id="tree-vis"></svg>
+					</div>
+				</div>
+			</div> -->
+
+			<div id="main" class="col-sm">
+				<div class="row">
+					<div class="col-sm">
+						<div id="main-title-vis-wrapper">
+							<h2 id="main-title-vis">MAIN TITLE</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-7">
+						<div class="title-vis-wrapper">
+							<!-- <h2 id="multiresolution-vis-title" class="title-vis">Origin
+								Flow</h2> -->
+							<select id="variables" onchange="myFunction()">
+								<option value="0">ORIGIN FLOW</option>
+								<option value="1">DESTINATION FLOW</option>
+							</select>
+							<!-- <h2 id="labelSelectFlow" class="d-inline-block">All</h2> -->
+						</div>
+						<div id="multiresolution-vis-wrapper" class="vis-wrapper">
+							<div id="myTreenav" class="treenav">
+								<a href="javascript:void(0)" class="closebtn"
+									onclick="closeTreeNav()">&times;</a>
+								<svg id="svg-tree-vis"></svg>
+							</div>
+							<div class="vis-header-wrapper">
+								<div id="multiresolution-vis-header"
+									class="btn-toolbar justify-content-between" role="toolbar"
+									aria-label="Toolbar with button groups">
+
+									<!-- <span onclick="openTreeNav()">Show Tree</span> -->
+									<button type="button" class="btn btn-primary"
+										data-toggle="button" aria-pressed="true" autocomplete="off"
+										onclick="openTreeNav()">Show tree</button>
+
+									<!-- <div class="btn-group mr-2" role="group"
+										aria-label="First group">
+										<button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+										  Single toggle
+										</button>
+										<button type="button" class="btn btn-secondary"
+											data-toggle="tooltip" data-placement="top"
+											title="Tooltip on top">Outline layers</button>
+										<button type="button" class="btn btn-secondary"
+											data-toggle="tooltip" data-placement="top"
+											title="Tooltip on top">Border Areas</button>
+										<button type="button" class="btn btn-secondary"
+											data-toggle="tooltip" data-placement="top"
+											title="Tooltip on top">Highlight Detailed-Area</button>
+									</div> -->
+									<div class="btn-group mr-2" role="group"
+										aria-label="Second group">
+										<div id="col-visualization" class="btn-group btn-group-toggle"
+											data-toggle="buttons">
+											<label class="btn btn-outline-secondary active vis-menu-btn">
+												<input type="radio" name="options" id="option1"
+												autocomplete="off" value="streamgraph" checked> <img
+												class="icon" src="img/streamgraph.png" title="Streamgraph"
+												alt="" /> Stream
+											</label> <label class="btn btn-outline-secondary vis-menu-btn">
+												<input type="radio" name="options" id="option2"
+												autocomplete="off" value="stackedgraph"> <img
+												class="icon" src="img/stackgraph.png" title="Strackgraph"
+												alt="" /> Stack
+											</label>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div>
+								<svg id="svg-multiresolution-vis"></svg>
+							</div>
+						</div>
+					</div>
+					<!-- 	<div class="col-1">
+						<div style="border: solid; border-radius: 10px; background: red">
+							<p>C</p>
+						</div>
+					</div> -->
+					<div class="col-5">
+						<div class="title-vis-wrapper">
+							<!-- <h2 id="map-vis-period" class="d-inline-block" style="text-align: left"></h2> -->
+							<h2 id="map-vis-title" class="title-vis">Destination</h2>
+						</div>
+						<div id="map-vis-wrapper" class="vis-wrapper">
+							<div class="vis-header-wrapper">
+								<div id="map-vis-header"
+									class="btn-toolbar justify-content-between" role="toolbar"
+									aria-label="Toolbar with button groups">
+									<div class="btn-group mr-2" role="group"
+										aria-label="Second group">
+										<div id="map-type-visualization"
+											class="btn-group btn-group-toggle" data-toggle="buttons">
+											<label class="btn btn-outline-secondary active vis-menu-btn">
+												<input type="radio" name="options" id="option1"
+												autocomplete="off" value="choropleth" checked>
+												Choropleth <!-- <img class="icon" src="img/streamgraph.png" title="Streamgraph" alt="Pic Loading..."/> -->
+											</label> <label class="btn btn-outline-secondary vis-menu-btn">
+												<input type="radio" name="options" id="option2"
+												autocomplete="off" value="point"> Points <!-- <img class="icon" src="img/stackgraph.png" title="Strackgraph" alt="Pic Loading..."/> -->
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="map-vis">
+								<svg id="svg-map-vis"></svg>
+								<!-- <div id="map" style="width: 100%; height: 90vh">
+								<svg id="map-vis"></svg>
+							</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 
+	<div class="row">
+		<div class="collapse multi-collapse" id="multiCollapseExample1">
+			<div class="row">
+				<div class="card card-body">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item"><a class="nav-link active"
+							href="#variables" role="tab" data-toggle="tab">Variables</a></li>
+						<li class="nav-item"><a class="nav-link" href="#others"
+							role="tab" data-toggle="tab">Others</a></li>
+					</ul>
+					Tab panes
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane fade in active" id="others	">More
+							variables</div>
+						<div role="tabpanel" class="tab-pane fade" id="variables">
+							<input type="radio" id="immi" name="optradio" value="immigration"
+								checked><label for="immi">Refugees by
+								destination</label> <input type="radio" id="emi" name="optradio"
+								value="emigration"><label for="emi">Refugees by
+								origin</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+						<div class="collapse multi-collapse" id="multiCollapseExample1">
+							<div id="col-visualization" class="card card-body">
+								<input type="radio" id="streamgraph" name="optradio"
+									value="stream" checked><label for="streamgraph">Streamgraph</label>
+								<input type="radio" id="stackedgraph" name="optradio"
+									value="stacked"><label for="stackedgraph">Stackedgraph</label>
+							</div>
+						</div>
+					</div>
+
+
+		<div class="col">
+							<div class="collapse multi-collapse" id="multiCollapseExample2">
+								<div id="col-projections" class="card card-body">
+									<div class="col-md-4">
+										<h6>
+											&#x3B1; <input type="number" id="alpha" name="alpha"
+												data-toggle="tooltip" title="detailed-area">
+										</h6>
+									</div>
+									<div class="col-md-4">
+										<h6>
+											&#x3B2; <input type="number" id="beta" name="beta"
+												data-toggle="tooltip" title="transition-areas">
+										</h6>
+									</div>
+									<div class="col-md-4">
+										<h6>
+											&#x3B3; <input type="number" id="gamma" name="gamma"
+												data-toggle="tooltip" title="context-areas">
+										</h6>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="collapse multi-collapse" id="multiCollapseExample3">
+								<div id="col-checked" class="card card-body">
+
+									<label class="checkbox-inline" style="display: none;"><input
+										id="animation" type="checkbox" value="" checked>Animation</label>
+									<label class="checkbox-inline"><input
+										id="outline-layers" type="checkbox" value="">Outline
+										layers</label> <label class="checkbox-inline"><input
+										id="limit-ranges" type="checkbox" value="">Border
+										areas</label> <label class="checkbox-inline"><input
+										id="fading-colors" type="checkbox" value="">Highlight
+										detailed-area</label>
+
+
+								</div>
+							</div>
+						</div>
+
+	</div> -->
+
+
+	<div id="alert-msg"
+		class="alert alert-danger alert-dismissable hidden fade in"
+		style="display: none">
+		<span id="close-alert" class="close">&times;</span> <strong>Warning!</strong>
+		not allowed due to constraints.
+	</div>
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Origin-Destination
+						Dataset</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="card card-body">
+						<p class="text-center">Load data</p>
+						<div class="row">
+							<div class="col-sm">
+								<div class="card card-body">
+									<p class="text-center">Your data</p>
+									<input id="fileElem" type="file" accept=".tsv"
+										style="display: none">
+									<button id="fileSelect" data-toggle="tooltip"
+										data-placement="top" title="Select your dataset">Select
+										a file</button>
+								</div>
+							</div>
+							or
+							<div class="col-sm">
+								<div class="card card-body">
+									<p class="text-center">Demo data</p>
+									<div class="row">
+										<div class="col-sm">
+											<button data-toggle="tooltip" data-placement="top"
+												title="Dataset about Migration">Migra</button>
+										</div>
+										<div class="col-sm">
+											<button data-toggle="tooltip" data-placement="top"
+												title="Dataset about Refugees">Refug</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="aboutFile" class="card card-body" style="display: none">
+						<p class="text-center">Information about this dataset</p>
+						<div>
+							<label for="fileTitle">Name: </label>
+							<p id="fileTitle"></p>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button id="btnVisualize" type="button"
+						class="btn btn-primary disabled" data-dismiss="modal">Visualize</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal data -->
+	<div class="modal fade" id="data-modal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="data-modal-title" class="modal-header"></div>
+				<div id="data-modal-msg" class="modal-body"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- 	<script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cookie.min.js"></script>
+	<script type="text/javascript" src="js/fastclick.min.js"></script> -->
+
+	<!-- <script src="//d3js.org/d3.geo.projection.v2.min.js"></script> -->
+	<!-- <script type="text/javascript" src="js/d3.min.js"></script> -->
+
+	<script src="//d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="js/d3-queue.js"></script>
+	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+
+
+
+
+
+	<!-- <script type="text/javascript">
+	
+	var map = L.map('map').setView([0, 0], 1);
+    mapLink = 
+        '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+    L.tileLayer(
+        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; ' + mapLink + ' Contributors',
+        maxZoom: 18,
+        }).addTo(map);
+	
+	
+	var JSONPath = 'source/od/countries.geo.json';
+    var myCustomStyle = {
+    		"stroke": true,
+    		"fill":true,
+    		"fillColor": "#fff",
+    	    "color": "#ff7800",
+    	    "weight": 1,
+    	    "opacity": 0.65
+    } 
+       
+    
+	function getColorByName(name){
+    	if(name.toLowerCase() == "ecuador"){
+    		return "#ff7800";
+    	}else{
+    		return "#fff";
+    	}
+    }
+    
+    function style(feature) {
+        return {
+            fillColor: "#fff", // getColorByName(feature.properties.name),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0
+        };
+    }
+    
+    var group = L.layerGroup();
+    var datamap = [];
+	$.getJSON(JSONPath,function(data){
+		datamap=data;
+	/* 	function highlightFeature(e) {
+		    var layer = e.target;
+//		    console.log(layer)
+
+		    layer.setStyle({
+		        weight: 2,
+		        color: '#666', //#666
+		        fillColor: "red",
+		        dashArray: '',
+		        fillOpacity: 0.2
+		    });
+
+		    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+		        layer.bringToFront();
+		    }
+		}
+		
+		function resetHighlight(e) {
+		    geojson.resetStyle(e.target);
+		}
+		
+		function zoomToFeature(e) {
+		    map.fitBounds(e.target.getBounds());
+		}
+		
+		function onEachFeature(feature, layer){
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight,
+				click: zoomToFeature
+			})
+		}
+		
+		function createJSON(data, d_id){
+			var shapeJSON = {'features': [{
+				'type': 'Feature',
+				'geometry': {
+					'type':'Polygon',
+					'coordinates': data
+				},
+				'District': d_id
+			}]}
+			return shapeJSON;
+		} 
+		
+    	var geojson = L.geoJson(data, {
+            clickable: false,
+            style: style,
+            //onEachFeature: onEachFeature
+        }).addTo(map);
+		*/
+    	
+    	
+     })
+     
+     	//REvisra toLowercase()
+	    function dibujar(ary){
+			group.clearLayers();
+			ary.forEach(function(item){
+				var preEc = datamap.features.filter(d=>d.properties.name.toLowerCase() == item.country);			
+				if(preEc!==null && preEc.length>0){
+					var ec = preEc[0].geometry.coordinates;   	
+		    		var poliTmp= L.polygon(ec); 
+		    		var poli = L.polygon(poliTmp.toGeoJSON().geometry.coordinates,{fill:false, stroke:false}).addTo(map);
+		    		var point = L.circle(poli.getCenter(),{
+		    				color: 'red',
+		    				fillColor: '#f03',
+		    				fillOpacity: 0.5,
+		    				radius: item.value	
+		    		});
+		    		point.bindPopup("Country: " + item.country + " value: " + toolTipFormat(item.value));
+		    		group.addLayer(point);
+				}   
+			})
+			group.addTo(map);
+		}
+		
+	</script>
+	
+ -->
+
+	<script type="text/javascript" src="js/compVecOut.js"></script>
+	<script type="text/javascript" src="js/rpoly.js"></script>
+	<script type="text/javascript" src="js/PolyReCoeffInT.js"></script>
+	<script type="text/javascript" src="js/svg-crowbar-2.js"></script>
+	<script type="text/javascript" src="js/chroma.js"></script>
+
+
+	<script type="text/javascript" src="js/generalizes.js"></script>
+	<script type="text/javascript" src="js/multistream-var-global.js"></script>
+	<script type="text/javascript" src="js/multiresolution-vis.js"></script>
+	<script type="text/javascript" src="js/multistream-hierarchy-util.js"></script>
+	<script type="text/javascript" src="js/tree-vis.js"></script>
+	<script type="text/javascript" src="js/map.js"></script>
+
+
+	<script type="text/javascript">
+		/* Set the width of the side navigation to 250px */
+		/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+		function openTreeNav() {
+			document.getElementById("myTreenav").style.width = "600px";
+			document.getElementById("main").style.marginLeft = "600px";
+		}
+
+		/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+		function closeTreeNav() {
+			document.getElementById("myTreenav").style.width = "0";
+			document.getElementById("main").style.marginLeft = "0";
+		}
+
+		var multiresolutionVisWidth;
+		var multiresolutionVisHeigh;
+		var mapVisWidth;
+		var mapVisHeight
+
+		var treeVisWidth = 500;
+		var treeVisHeight = 4000;
+
+		$(document).ready(
+				function() {
+					
+					
+					document.getElementById("loader").style.display = "initial";
+
+					var gapEveryWindowsWidth = 15;
+					var gapWindowsHeight = 250;
+					//MULTIRESOLUTION VIS
+					multiresolutionVisWidth = document.querySelector(
+							'#multiresolution-vis-wrapper')
+							.getBoundingClientRect().width
+							- gapEveryWindowsWidth;
+
+					multiresolutionVisHeight = window.innerHeight
+							|| document.documentElement.clientHeight
+							|| document.body.clientHeight;
+
+					multiresolutionVisHeight = multiresolutionVisHeight
+							- gapWindowsHeight;
+
+					//MAP VIS
+					mapVisWidth = document.querySelector('#map-vis')
+							.getBoundingClientRect().width
+							- gapEveryWindowsWidth;
+
+					mapVisHeight = window.innerHeight
+							|| document.documentElement.clientHeight
+							|| document.body.clientHeight;
+
+					mapVisHeight = mapVisHeight - gapWindowsHeight;
+
+					//LOAD 
+					load_d3();
+					//
+
+					/* var loadFile = true;
+					var selectedFile;
+					var isSelectedFileValid = false;
+
+					const fileSelect = document
+							.getElementById("fileSelect");
+					const fileElem = document
+							.getElementById("fileElem");
+
+					fileSelect.addEventListener("click", function(e) {
+						if (fileElem) {
+							fileElem.click();
+						}
+					}, false);
+
+					function verifyFile(file) {
+						if (file != null) {
+							return true;
+						}
+						return false;
+					}
+
+					//listener of the fileElem input
+					function handleFiles() {
+						selectedFile = this.files[0];
+						isSelectedFileValid = verifyFile(selectedFile);
+
+						if (isSelectedFileValid) {
+							document.getElementById("aboutFile").style.display = "block";
+							document.getElementById("fileTitle").innerHTML = selectedFile.name;
+
+							d3.select("#btnVisualize").attr("class",
+									"btn btn-primary");
+						} else {
+							alert("error");
+						}
+					}
+
+					function visualize() {
+						if (isSelectedFileValid) {
+							document.getElementById("loader").style.display = "initial";
+							var reader = new FileReader();
+							// Read in the file as a data URL.
+							reader.readAsDataURL(selectedFile);
+							// Wait to reader.result finish 
+							reader.onload = function(event) {
+								load_d3(reader.result)
+							};
+						}
+					}
+
+					//Adding event listener
+					document.getElementById("fileElem")
+							.addEventListener("change", handleFiles,
+									false);
+					document
+							.getElementById("btnVisualize")
+							.addEventListener("click", visualize, false); */
+
+				});
+	</script>
+
+
+	<script>
+		var total = [ {
+			category : "ecuador",
+			date : "Enero",
+			value : [ {
+				nameIndicator : "peopleIn",
+				valueIndicator : 53,
+				componentIndicator : [ {
+					type : "",
+					id : "",
+					properties : {
+						name : "colombia"
+					},
+					geometry : "",
+					value : 15
+				}, {
+					type : "",
+					id : "",
+					properties : {
+						name : "venezuela"
+					},
+					geometry : "",
+					value : 5
+				}, {
+					type : "",
+					id : "",
+					properties : {
+						name : "chile"
+					},
+					geometry : "",
+					value : 33
+				} ]
+
+			}, {
+				nameIndicator : "peopleOut",
+				valueIndicator : 100,
+				componentIndicator : [ {
+					type : "",
+					id : "",
+					properties : {
+						name : "francia"
+					},
+					geometry : "",
+					value : 60
+				}, {
+					type : "",
+					id : "",
+					properties : {
+						name : "usa"
+					},
+					geometry : "",
+					value : 40
+				} ]
+
+			}
+
+			]
+		}, {
+			category : "ecuador",
+			date : "Febrero",
+			value : [ {
+				nameIndicator : "peopleIn",
+				valueIndicator : 5,
+				componentIndicator : [ {
+					type : "",
+					id : "",
+					properties : {
+						name : "colombia"
+					},
+					geometry : "",
+					value : 2
+				}, {
+					type : "",
+					id : "",
+					properties : {
+						name : "peru"
+					},
+					geometry : "",
+					value : 3
+				} ]
+
+			}, {
+				nameIndicator : "peopleOut",
+				valueIndicator : 50,
+				componentIndicator : [ {
+					type : "",
+					id : "",
+					properties : {
+						name : "belgica"
+					},
+					geometry : "",
+					value : 10
+				}, {
+					type : "",
+					id : "",
+					properties : {
+						name : "usa"
+					},
+					geometry : "",
+					value : 40
+				} ]
+
+			}
+
+			]
+		}
+
+		]
+
+		var tmp = [];
+		total.forEach(function(d) {
+			d.value.forEach(function(val) {
+				tmp.push(val);
+			})
+		})
+		console.log(groupIndicatorByName(tmp))
+		
+		
+
+		
+	</script>
+
+
+
+
+
+</body>
+
+
+</html>

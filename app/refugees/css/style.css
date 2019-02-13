@@ -1,0 +1,139 @@
+/* #ffffff
+#f0f0f0
+#d9d9d9
+#bdbdbd
+#969696
+#737373
+#525252
+#252525
+#00000 */
+body {
+	font-family: 'Roboto', 'Source Sans Pro', sans-serif;
+	background: white; /* #f9f9f9ff; */ /* #f1f1f1; */
+}
+
+h1 {
+	
+}
+
+h2 {
+	
+}
+
+h3 {
+	
+}
+
+h4 {
+	
+}
+
+div {
+	-webkit-user-select: none; /* Chrome, Opera, Safari */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	/* user-select: none; Standard syntax */
+}
+
+#headerApp-wrapper {
+	padding: 10px 10px 10px 10px;
+	background: #f0f0f0;
+	border-bottom: 1px solid #bdbdbd;
+}
+
+#titleApp {
+	vertical-align: middle;
+	font-size: 24px;
+	/* font-weight: bold; */
+	text-transform: uppercase;
+}
+
+/* Main title */
+/* ========================== */
+
+#main-title-vis-wrapper{
+	text-align:center;
+	vertical-align: middle;
+	/* background:blue; */
+}
+
+#main-title-vis{
+	/* border:1px solid; */
+	padding: 10px 0px 0px 10px;
+}
+
+
+#main-title-date {
+	display:inline-block;
+	font-weight:bold;
+	color:black;
+}
+
+#main-title-quantitative {
+	display:inline-block;
+	font-weight:bold;
+	color:#3366cc;
+	font-size:40px;
+}
+
+#main-title-from {
+	display:inline-block;
+	border-radius: 5px;
+	padding: 2px 5px 2px 5px;
+	text-transform: capitalize;
+}
+
+#main-title-to {
+	display:inline-block;
+}
+/* ========================== */
+
+
+/* VIS title */
+/* ========================== */
+.title-vis-wrapper {
+	vertical-align: middle;
+	text-align: center;
+	/* background: red; */
+	margin: 5px auto 0px;
+}
+
+.title-vis-wrapper .title-vis {
+	display:inline-block;
+	vertical-align: middle;
+	padding: 0px 0px 0px 0px;
+	font-size: 16px;
+	text-transform: uppercase;
+}
+/* ========================== */
+
+
+/* VIS wrapper */
+.vis-wrapper {
+	border: 0.5px solid #bdbdbd;
+	border-radius: 5px;
+	background: white;
+}
+
+.vis-header-wrapper {
+	/* border-style: solid; */
+	border-bottom-width: 0.5px;
+	border-bottom-style: solid;
+	border-bottom-color: #bdbdbd;
+	margin-bottom: 20px;
+}
+/* ========================== */
+
+/* BUTTONS VIS MENU */
+.vis-menu-btn{
+	font-size:11px;
+}
+
+/* ========================== */
+
+
+
+.icon {
+	height: 25px;
+	width: 25px;
+}
