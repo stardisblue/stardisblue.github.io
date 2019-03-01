@@ -1,5 +1,3 @@
-//screenHeight = 2; // window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
-
 var opts_tree = {
 	hDepth : 110, //90 
 	wraps : 45,
@@ -9,8 +7,7 @@ var opts_tree = {
 }
 
 var margin = {top: 0, right: 60, bottom: 50, left: 60},
-    //width = 560 - margin.right - margin.left,
-    height = screenHeight - margin.top - margin.bottom; //screenHeight 1050
+    height = 0 - margin.top - margin.bottom; //screenHeight 1050 //
 
 var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
 
@@ -22,27 +19,14 @@ var nodes;
 var links;
 var linkNivelTop=[];
 var linkNivelBottom=[];
-
 var svg_vrai;
 
 function loadTreeVis(){
-	
-//	console.log("svg-tre-vis width" , width + margin.right + margin.left)
-//	console.log("svg-tre-vis heigth",tree_height + margin.top + margin.bottom)
-	
-//	svg_tree_vis = d3.select("#tree-vis")
-//				    .attr("width", width + margin.right + margin.left)
-//				    .attr("height", tree_height + margin.top + margin.bottom)
-//				  .append("g")
-//				    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	
 	
 	svg_vrai = d3.select("#svg-tree-vis")
 				    .attr("width", treeVisWidth)
 				    .attr("height", treeVisHeight)
 				    
-				  	
-
 //	svg_vrai.attr('viewBox', '0 0 ' +  ( treeVisWidth) + ' ' 
 //										+ ( treeVisHeight) )
 //							.attr('height', treeVisHeight)
@@ -66,9 +50,6 @@ function loadTreeVis(){
 	
 	tooltip_tree = d3.select("#main").append("div").attr("id", "tooltip-tree");
 	
-	//tooltip_tree = d3.select("#tooltip-tree");
-					
-												
 }
 
 function zoom() {
@@ -308,7 +289,7 @@ function lineTopAndBottomHierarchy(links){
 	}	
 		
 	//update
-	topH.transition(t)
+	topH.transition()
 					.duration(opts.durationTransition)
 						.attr("x1", function(d){return d.y1;})
 			            .attr("y1", function(d){return d.x1;})

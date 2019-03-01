@@ -163,6 +163,11 @@ function voidHierarchyLevel(){
 
 function mergingChildren(father, children){
 	
+//	console.log("===================================")
+//	console.log("mergingChildren")
+//	console.log("father",father)
+//	console.log("children",children.length)
+	
 	var fusion = [];
 	
 	children.forEach(function(child){

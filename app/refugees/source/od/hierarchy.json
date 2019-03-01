@@ -243,7 +243,7 @@
 								"name": "Mongolia"
 							},
 							{
-								"name": "Republic of Korea"
+								"name": "rep. of korea"
 							}
 						]
 					},
@@ -290,7 +290,7 @@
 								"name": "Indonesia"
 							},
 							{
-								"name": "Lao People's Democratic Republic"
+								"name": "lao people's dem. rep."
 							},
 							{
 								"name": "Malaysia"
@@ -503,7 +503,7 @@
 								"name": "Spain"
 							},
 							{
-								"name": "TFYR Macedonia"
+								"name": "the former yugoslav republic of macedonia"
 							}
 						]
 					},
@@ -713,7 +713,7 @@
 						"name": "Greenland"
 					},
 					{
-						"name": "Saint Pierre and Miquelon"
+						"name": "saint-pierre-et-miquelon"
 					},
 					{
 						"name": "United States of America"
@@ -730,6 +730,9 @@
 							},
 							{
 								"name": "New Zealand"
+							},
+							{
+								"name": "norfolk island"
 							}
 						]
 					},
@@ -764,7 +767,7 @@
 								"name": "Marshall Islands"
 							},
 							{
-								"name": "Micronesia (Fed. States of)"
+								"name": "micronesia (federated states of)"
 							},
 							{
 								"name": "Nauru"

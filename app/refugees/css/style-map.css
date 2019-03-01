@@ -5,45 +5,82 @@
 }
 
 #svg-map-vis {
-	/* background:#D4E6F7; */
-	
+	background:white;
 }
+
 
 /* MAP LAND */
-.land-map {
-	fill: #ccc;
-	stroke: #969696; 
+.land {
+	fill: #535353;
+	stroke: white; 
+	/* stroke: #969696;  */
 	stroke-width: 1px;
+	fill-opacity:0.3;
+	stroke-linejoin: round;
+	stroke-linecap: round;
 }
 
-.land-map:hover {
-	stroke: black; /* orange */
-	/* fill: lightsteelblue; */
+/* .land:hover {
+	stroke: black; 
+	fill:yellow;
+} 
+*/
+
+.land-label{
+	fill: black;
+	fill-opacity: .9;
+	font-size: 12px;
+	font-weight: 500;
+	text-anchor: middle;
+	text-transform: capitalize;
+	pointer-events: none;
+	text-shadow:0px 0px 5px white;
 }
+
+/* .land-rect{
+	fill:none;
+	stroke:black;
+	stroke-width: 1px;
+} */
+
 /* ==================== */
 
-/* .mouse-over {
-	fill: #fdae6b;
-	#6baed6;
-	#3182bd;
-	stroke:black;
-}
- */
- 
- 
- 
+
  /* FEATURE MAP */
 .feature-map {
-	stroke: #737373;
-	fill:#ccc;
+	stroke: white; 
+	/* fill:#ccc; */
 }
-
-/* .feature-over {
-	stroke-weight:1px;
-	stroke: black;
-	fill-opacity: 1;
-} */
 
 .feature-map:hover {
 	stroke: black;
 }
+
+.feature-label{
+	font-size:10px;
+	opacity:1;
+	text-transform: capitalize;
+}
+
+
+
+/* LEGEND */
+.legend rect{
+	fill:white;
+	/* stroke:#f0f0f0; */
+	opacity:0.9;
+}
+
+.legend circle {
+	fill: none;
+	stroke: #6baed6;
+	stroke-width: 2px;
+}
+
+.legend text{
+	font-size:12px;
+	fill:black;
+	pointer-events:none;
+	text-anchor: middle
+}
+  

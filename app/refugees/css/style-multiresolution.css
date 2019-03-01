@@ -253,13 +253,14 @@ rect.f.border, rect.c.border {
 /* Axis time text in Focus and Context */
 .y.axis text, .x.axis text {
 	fill: black;
-	font-size: 9px;
+	font-size: 12px; 
+	/* font-size: 0.71em;  */
 }
 
 /* Axis label in Focus */
 .x.axis.label, .y.axis.label {
 	fill: black;
-	font-size: 11px;
+	font-size: 12px;
 	text-transform: capitalize;
 }
 
@@ -282,6 +283,11 @@ rect.f.border, rect.c.border {
 	stroke-linecap: round;
 	stroke-linejoin: round;
 }
+
+.brushDisRight .resize.e rect:hover{
+	border-color:grey;
+}
+
 
 .brushZoom .resize.e rect, .brushZoom .resize.w rect {
 	stroke: grey;
@@ -352,6 +358,11 @@ rect.f.border, rect.c.border {
 	fill: grey;
 	fill-opacity: 0.3;
 }
+
+/* .brushZoom .extent:hover{
+	fill-opacity: 0.6;
+} */
+
 
 .brushNorLeft .extent, .brushNorRight .extent {
 	stroke: none;

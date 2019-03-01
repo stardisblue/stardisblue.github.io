@@ -1,13 +1,12 @@
 var opts = {
 	log : false,
 	animation: true,
+	showLimitsAreas: false,
 	//
 	fadingColors: false,
 	fadingColorsFactor: 1.15, //brightness of fadingColor
 	//
-	limitRanges: false,
-	//
-	outlineLayers: false,
+	showOutlineLayers: false,
 	outlineLayersColor: "#585858", //if outlineLayer(up) true Black grey
 	//
 	//Initial time steps
@@ -30,8 +29,6 @@ var opts = {
 	maxInputValue : 800,
 	stepInputValue : 1,
 	//
-	//
-	//
 	//OPACITY
 	opacityFlowFocusSelected : 1,
 	opacityFlowFocusDeselected : 0.20, //
@@ -40,24 +37,15 @@ var opts = {
 	opacityTextLabelDeselected : 0.25,
 	strokeWidth : 2, //1.7
 	//
-	//
 	tooltipTransitionMouseMove : 1,
 	tooltipTransitionMouseOut : 1,
 	//
+	minSizeTextLabel : 15,//Minimum label size of text in label flow
+	maxSizeTextLabel : 35,//Maximum label size of text in label flow
 	//
 	//
-	minSizeTextLabel : 20,//20 Minimum label size of text in label flow
-	maxSizeTextLabel : 35,//35 Maximum label size of text in label flow
-	patternTextFont : "10px Sans-Serif", //not used in path background
-	labelTextFont : "Arial",
-	toleranceTextLabel : 1,
-	//
-	//
-	x_axis_label_context : "",
 	pathCandadoOpen: ".\\img\\icon_lock_open.svg",
 	pathCandadoClose: ".\\img\\icon_lock_close.svg",
-	//
-	//
 	//
 	//INTERPOLATIONS options
 	// basis-open vertical-ruler implementado pero no texto, y el grid en interseccioes no es bueno, 
@@ -109,7 +97,6 @@ var opts = {
 	//		out-in - copies and mirrors the easing function from [1,.5] and [.5,0].
 	//
 	//
-	//
 	// STACKED layout options
 	offsetType : "silhouette",
 	// Sets the stack offset algorithm to the specified value, Algorithms: 
@@ -123,20 +110,21 @@ var opts = {
 	//		inside-out - sort by index of maximum value, then use balanced weighting.
 	//		reverse - reverse the input layer order.
 	//		default - use the input layer order.		
-	
-	// AXIS TickFormat
-	yAxisFocusTickFormat : ".2s"
-		
-}
+};
 
-var errorProjection = false;
-var blocage = false;
-var rangesDomainFocus; 
+
 var svg_multiresolution_vis; 
+var blocage = false;
 var tooltip;
-	
+var tooltipFlag = new Date();
 
-var nest_by_key = d3.nest().key(function(d) {return d.key}); //Group by key
+//
+var sDisLeft;
+var sDisRight;
+
+//
+var scaleTextLabel = d3.scale.linear();
+var nest_by_key = d3.nest().key(function(d) {return d.key;});
 var stack = d3.layout.stack()
 				.offset(opts.offsetType)
 				.order(orderTest)
@@ -145,125 +133,79 @@ var stack = d3.layout.stack()
 				.y(function(d) {return d.value;});
 
 function orderTest(data) {
-	  return d3.range(data.length);
-	}
+	return d3.range(data.length);
+}
 
-//Lineal scale to normalize text label
-var scaleTextLabel;					
-					
+//===============================================
 /* FOCUS */
 var focus;
 var yScaleFocus; 
 var yAxisFocus;
 var scalesFocus = []; 
 var axisFocus = [];
-var color;
+var rangesDomainFocus=[];
+var marginFocus;
+var heightFocus;
+//===============================================
 
-/* CONTEXT */
+//===============================================
+/*  CONTEXT */
 var areaContext = d3.svg.area()
 					.interpolate(opts.interpolateType)
 					.x(function(d) { return xScaleContext(d.date);})
 					.y0(function(d) {return yScaleContext(d.y0);})
 					.y1(function(d) {return yScaleContext(d.y0 + d.y);}); 
 
-//Define the line
-var valueline = d3.svg.line()
-					.interpolate(opts.interpolateType)
-					.x(function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date);})
-					.y(function(d) {return yScaleFocus(d.y);});
-
+var marginContext;
+var widthIntern;
+var heightContext;
 
 var flowContext; 
 var context;
+var beginContext;
+
+//AXIS
+var xAxisContext; 
+var yAxisContext;
+
+//SCALE
+var yScaleContext; 
 var xScaleContext;
 var xScaleContextDisLeft;
 var xScaleContextNorLeft; 
 var xScaleContextDisRight; 
 var xScaleContextNorRight;
-var yScaleContext; 
-var xAxisContext; 
-var yAxisContext; 
+
+//BRUSH
 var brushContext;
 var brushContextDisLeft; 
 var brushContextNorLeft; 
 var brushContextDisRight; 
 var brushContextNorRight;
 
-var beginContext;
+//To improve the responde of the app
+//to just update data when there is a really change of the mouse pointer
+var brushContextFlag = [];
+var brushContextNorLeftFlag = [];
+var brushContextNorRightFlag = [];
+var brushContextDisLeftFlag = [];
+var brushContextDisRightFlag = [];
 
-//number of minutes in interval
-var nNorLeft; 
-var nDisLeft; 
-var nZoom; 
-var nDisRight; 
-var nNorRight; 
-var nTotal;
-
-//Proportions
-var pNorLeft; 
-var pDisLeft; 
-var pZoom; 
-var pDisRight; 
-var pNorRight; 
-var pTotal;
-
-//size
-var sNorLeft; 
-var sDisLeft; 
-var sZoom; 
-var sDisRight; 
-var sNorRight;
-
-//intervals
-var iNorLeft; 
-var iZoom; 
-var iNorRight;
-//var dateExtRange; 
-//var dateMinRange; 
-//var dateMaxRange; 
-//var timeWindow;
-
-var patternFocusFond;
-var gradientFocusRight; 
-var gradientFocusRightStroke; 
-var gradientFocusLeft; 
-var gradientFocusLeftStroke;
-
-// MARGINS
-var marginFocus;
-var marginContext;
-var widthIntern;
-var heightFocus;
-var heightContext;
-
-
-var screenHeight;
-
+//==================================================
+//DATA CURRENTLY
 var dataCurrentlyContext;
 var dataCurrentlyFocus;
-var filteredRangesInContext;
-var filteredRangesInFocus;
-var isFilter = false;
-
-var t = d3.transition();
-var rangeVisualize = [];
+var data_bottom_level;
+var data_top_level;
+//=================================================
 
 var lockedLeft = true;
 var lockedRight = true;
-var data_bottom_level;
-var data_top_level;
-
-
-//To improve the responde of the app
-//to just update data when there is a really change of the mouse pointer
-//
-var brushContextHistoric = [];
-
-//
-var tooltipHistoric = new Date();
 
 
 function updateFlows(){
+	
+//	console.log(nivel_alto)
 	
 	//--CONTEXT---
 	dataCurrentlyContext = stack(nest_by_key.entries(nivel_alto));
@@ -277,10 +219,11 @@ function updateFlows(){
 		}else{
 			node.color = node_hierarchy.color;
 		}
-	})
+	});
 	
 	//Update Axis
-	var max = d3.max(nivel_alto, function(d) {return d.y0 + d.y;})
+	var max = d3.max(nivel_alto, function(d) {return d.y0 + d.y;});
+	
 	yScaleContext.domain([ 0, max]);
 	
 	//Flows in OVERVIEW
@@ -292,8 +235,8 @@ function updateFlows(){
 			.duration(opts.durationTransition)
 				.attr("d",  function(d) {return areaContext(d.values);})
 				.style({
-						"fill" : function(d) {return d.color},
-						"stroke" : function(d) {return d.color},
+						"fill" : function(d) {return d.color;},
+						"stroke" : function(d) {return d.color;},
 						"opacity":1
 				});
 	
@@ -306,10 +249,10 @@ function updateFlows(){
 		.duration(opts.durationTransition)
 			.attr("d", function(d) {return areaContext(d.values);})
 			.style({
-					"fill" : function(d) {return d.color},
-					"stroke" : function(d) {return d.color},
+					"fill" : function(d) {return d.color;},
+					"stroke" : function(d) {return d.color;},
 					"opacity":1
-			})
+			});
 	
 	//EXIT Context
 	fContext.exit().transition()
@@ -327,12 +270,12 @@ function updateFlows(){
 		node.key = node_hierarchy.key;
 		node.category = node_hierarchy.name;
 		node.color =  node_hierarchy.color;
-	})
+	});
 
 	//Update Axis
 	var max = d3.max(dataCurrentlyFocus, function(aray){
 		return d3.max(aray.values,function(d){return d.y0+d.y;});
-	})
+	});
 	yScaleFocus.domain([0,max]);
 	
 	opts.offsetType == "zero" ? focus.select(".y.axis.focus").style({"display":"inline"}) : focus.select(".y.axis.focus").style({"display":"none"});
@@ -351,22 +294,22 @@ function updateFlows(){
 				.duration(opts.durationTransition)
 					.attr("d", function(d) {return areaFocus(d, 0);})
 					.style({
-							"fill" : function(d) {return d.color},
-							"stroke" : function(d){return opts.outlineLayers ? opts.outlineLayersColor : d.color}
+							"fill" : function(d) {return d.color;},
+							"stroke" : function(d){return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;}
 					});
 
 	//CREATE
 	flowFocusNormal.enter()
 				.append("path")
-				.attr("id", function(d){return "focus_area0_" + d.key})
-				.attr("class", function(d){return "focus area0 " + d.key})
+				.attr("id", function(d){return "focus_area0_" + d.key;})
+				.attr("class", function(d){return "focus area0 " + d.key;})
 				.style("opacity",0)
 			.transition(t)
 			.duration(opts.durationTransition)
 				.attr("d", function(d) {return areaFocus(d, 0);})
 				.style({
-						"fill" : function(d) {return d.color},
-						"stroke" : function(d){return opts.outlineLayers ? opts.outlineLayersColor : d.color},
+						"fill" : function(d) {return d.color;},
+						"stroke" : function(d){return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;},
 						"opacity" : 1
 				});	
 
@@ -396,9 +339,9 @@ function updateFlows(){
 							},
 							"stroke" : function(d) {
 								switch (index) {
-									case 1: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
-									case 2: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
-									case 3: return opts.outlineLayers ? opts.outlineLayersColor : d.color;
+									case 1: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
+									case 2: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
+									case 3: return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;
 								}
 							}
 						});
@@ -406,8 +349,8 @@ function updateFlows(){
 		//ENTER
 		flowFocusIndex.enter()
 					.append("path")
-					.attr("id", function(d){return "focus_area"+index+"_" + d.key})
-					.attr("class", function(d){return "focus area" +index +" "+  d.parentKey})
+					.attr("id", function(d){return "focus_area"+index+"_" + d.key;})
+					.attr("class", function(d){return "focus area" +index +" "+  d.parentKey;})
 					.style("opacity",0)
 				.transition(t)
 					.attr("d", function(d) {return areaFocus(d, index);})
@@ -422,9 +365,9 @@ function updateFlows(){
 							},
 							"stroke" : function(d) {
 								switch (index) {
-									case 1: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
-									case 2: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
-									case 3: return opts.outlineLayers ? opts.outlineLayersColor : d.color;
+									case 1: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
+									case 2: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
+									case 3: return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;
 								}
 							}
 					});				
@@ -437,7 +380,7 @@ function updateFlows(){
 	}
 	
 	createTooltip();
-	createTextLabel(opts.durationTransition);
+	createTextLabel();
 }
 
 function beforeExport(){
@@ -452,6 +395,13 @@ function beforeExport(){
 	svg_tree_vis.selectAll("text").style("text-transform","capitalize");
 }
 
+function createFocusLeyend(){
+//
+let focus_leyend = focus.append("g").attr("id","focus-label")
+							.attr("transform","translate("+ marginFocus.right +","+ marginFocus.top +")");
+
+}
+
 function loadMultiresolutionVis(){
 	
 	//create svg main and axes
@@ -459,6 +409,12 @@ function loadMultiresolutionVis(){
 	
 	//
 	display(); 
+
+	createFocusLeyend();
+	
+
+
+
 	
 	d3.select("#close-alert").on("click",function(d){
 		document.getElementById("alert-msg").classList.toggle("hidden");
@@ -471,7 +427,7 @@ function loadMultiresolutionVis(){
 	});
 	
 	d3.select("#time").on("mouseup", function() {
-		console.log(+this.value)
+		console.log(+this.value);
 		stepTemporal = +this.value;
 		changeGranularity();
 	});
@@ -480,17 +436,17 @@ function loadMultiresolutionVis(){
 	});
 	
 	d3.select("#outline-layers").on("change", function() {
-		opts.outlineLayers = document.getElementById("outline-layers").checked;
+		opts.showOutlineLayers = document.getElementById("outline-layers").checked;
 		
 		for(var index=0;index<4;index++){
 			focus.select("#flowsInFocus").selectAll(".focus.area" + index) 
 						.style({
 								"stroke" : function(d) {
 									switch (index) {
-										case 0: return opts.outlineLayers ? opts.outlineLayersColor : d.color
-										case 1: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
-										case 2: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
-										case 3: return opts.outlineLayers ? opts.outlineLayersColor : d.color;
+										case 0: return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;
+										case 1: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
+										case 2: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
+										case 3: return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;
 									}
 								}
 						});
@@ -502,10 +458,10 @@ function loadMultiresolutionVis(){
 		callUpdate();
 	});
 	d3.select("#limit-ranges").on("change", function() {
-		opts.limitRanges = document.getElementById("limit-ranges").checked;
+		opts.showLimitsAreas = document.getElementById("limit-ranges").checked;
 		
 		var visibleLimitRanges;
-		if(opts.limitRanges){
+		if(opts.showLimitsAreas){
 			visibleLimitRanges = "visible";
 		}else{
 			visibleLimitRanges = "hidden";
@@ -546,7 +502,7 @@ function loadMultiresolutionVis(){
 				document.getElementById("alert-msg").classList.toggle("hidden");
 			}
 		}
-		updateFocus();
+		updateFocus(calcule);
 	});
 	d3.select("#alpha").on("mouseover", function() {
 		brushZoomOver();
@@ -576,7 +532,7 @@ function loadMultiresolutionVis(){
 				document.getElementById("alert-msg").classList.toggle("hidden");
 			}
 		}
-		updateFocus()
+		updateFocus(calcule);
 	});
 	d3.select("#beta").on("mouseover", function() {
 		brushDisLeftOver();
@@ -608,7 +564,7 @@ function loadMultiresolutionVis(){
 				document.getElementById("alert-msg").classList.toggle("hidden");
 			}
 		}
-		updateFocus()
+		updateFocus(calcule);
 	});
 	d3.select("#gamma").on("mouseover", function() {
 		brushNorLeftOver();
@@ -624,8 +580,24 @@ function loadMultiresolutionVis(){
 		else {opts.offsetType = "zero"} //Stackedgraph, baseline at 0
 		stack.offset(opts.offsetType);
 		//changeOffset();
-		updateFlows()
-	})
+		updateFlows();
+	});
+	
+	
+//	$("#populationType .btn").click(function() {
+//
+//		let selectedPopulations = getCheckedPopulationType();
+//		
+//		console.log(selectedPopulations.length)
+//		
+//		if (selectedPopulations.length >= 1) {
+//			//$(this).prop ("checked",true)
+//			this.classList.remove("active")
+//		} else {
+//			myFunction();
+//		}
+//	})
+	
 	
 	d3.select("#candadoLeft").on("click",function(d){
 		document.getElementById("candadoLeft").classList.toggle("consin");		
@@ -636,7 +608,7 @@ function loadMultiresolutionVis(){
 			d3.select("#candadoLeft").attr('xlink:href',opts.pathCandadoClose);
 			lockedLeft = true;
 		}
-	})
+	});
 
 	d3.select("#candadoRight").on("click",function(d){
 		document.getElementById("candadoRight").classList.toggle("consin");		
@@ -647,59 +619,25 @@ function loadMultiresolutionVis(){
 			d3.select("#candadoRight").attr('xlink:href',opts.pathCandadoClose);
 			lockedRight = true;
 		}
-	})
+	});
 	
 	
-	
-	
-	//
-//	d3.select("#variables").selectAll("input").on("change", function(){
-//		if(this.value === "immigration"){
-//			kaka(0);
-//			updateFlows();
-//		}else {
-//			kaka(1);
-//			updateFlows();
-//		}
-//	})
-	
-	
-};
 
-function createBtnHierachy(){
-	rangeVisualize = [];
-	hierarchy.children.forEach(function(element){
-		if(document.getElementById(element.key).classList.contains("btn-primary")){
-			rangeVisualize.push(element.key)
-		}
-	})
 }
 
-//COLORS AVAILABLES
-//d3.scale.category10() d3 category10 BETTER
-//d3.scale.category20() d3 category20
-//d3.scale.category20b() d3 category20b BETTER
-//d3.scale.category20c() d3 category20c
-
-
 function createSvg(){
-//	multiresolutionVisWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-//	screenHeight = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
-//	screenHeight = screenHeight - 125;
-	//screenHeight = (screenHeight - 125)/2;
-//	multiresolutionVisWidth = (multiresolutionVisWidth - 100)/2;
-//	multiresolutionVisWidth = (multiresolutionVisWidth - 100);
 
 	/* Creation margin Focus */
-	marginFocus = {top : 15, right : 20, bottom : 100, left : 50};
+	marginFocus = {top : 50, right : 60, bottom : 150, left : 70};
 	heightFocus = (multiresolutionVisHeight) - marginFocus.top - marginFocus.bottom - 10;
 
+	let heightGapFocusContext = 50;
+	//marginFocus.bottom is the height space for the gapBetweenFocusContext and Context
 	/* Creation margin Context */
-	marginContext = {top : (marginFocus.top + heightFocus + 30), right :  marginFocus.right, bottom : 20, left : marginFocus.left};
+	marginContext = {top : (marginFocus.top + heightFocus + heightGapFocusContext), right :  marginFocus.right, bottom : 50, left : marginFocus.left};
 	heightContext = (multiresolutionVisHeight) - marginContext.top - marginContext.bottom;
 
 	widthIntern = multiresolutionVisWidth - marginFocus.left - marginFocus.right;
-//	widthIntern = multiresolutionVisWidth - marginFocus.left - marginFocus.right - marginFocus.left - marginFocus.right;
 	
 	
 //	d3.selectAll('div.svg-container svg')
@@ -718,7 +656,6 @@ function createSvg(){
 	
 	/* SVG */
 	svg_multiresolution_vis = d3.select("body").select("#svg-multiresolution-vis")
-//	svg_multiresolution_vis = d3.select("#pedo").append("svg")
 //						.attr("id","svg-multiresolution-vis")
 						.attr("xmlns","http://www.w3.org/2000/svg")
 						.attr("xlink","http://www.w3.org/1999/xlink")
@@ -733,7 +670,7 @@ function createSvg(){
 													+ ( multiresolutionVisHeight) )
 							.attr('height', multiresolutionVisHeight)
 							.attr('width', '100%')
-							.attr('preserveAspectRatio', 'none')
+							.attr('preserveAspectRatio', 'none');
 	
 	
 	/* Focus */
@@ -748,13 +685,13 @@ function createSvg(){
 							.tickSize(5, 0)
 							.tickPadding(5)
 							.ticks(10)
-							.tickFormat(d3.format(opts.yAxisFocusTickFormat))
+							.tickFormat(customNumberFormat)
 							.orient("left");
 
 	focus.append("text")
 			.attr("class", "y axis label")
 			.attr("x",0 - heightFocus / 2)
-			.attr("y", -60)
+			.attr("y", -marginFocus.left)
 			.attr("dy","2em")
 			.attr("transform", "rotate(-90)")
 			.text("# " + data_type);
@@ -778,7 +715,7 @@ function createSvg(){
 	context.append("text")
 			.attr("class","x axis label")
 			.attr("transform","translate(" + (widthIntern/2) + " ," + (heightContext+marginContext.bottom) + ")")
-			.text(opts.x_axis_label_context);
+			.text("");
 
 
 	xScaleContext = d3.time.scale().range([ 0, (widthIntern) ]);
@@ -825,32 +762,8 @@ function display() {
 	opts.offsetType == "zero" ? focus.select(".y.axis.focus").style({"display":"inline"}) : focus.select(".y.axis.focus").style({"display":"none"});
 	opts.offsetType == "zero" ? focus.select(".y.axis.label").style({"display":"inline"}) : focus.select(".y.axis.label").style({"display":"none"});
 	
-	switch (polarityTemporal) {
-		case "m": 
-			xAxisContext.ticks(20).tickFormat(customTimeFormat)
-			xScaleContext.nice(d3.time.minute);
-			break;
-		case "h": 
-			xAxisContext.ticks(10).tickFormat(customTimeFormat);
-			xScaleContext.nice(d3.time.hour);
-			break;
-		case "d": 
-			xAxisContext.ticks(10).tickFormat(customTimeFormat);
-			xScaleContext.nice(d3.time.day);
-			break;
-//		case 3: 
-//			xAxisContext.ticks(10).tickFormat(customTimeFormat);
-//			xScaleContext.nice(d3.time.week);
-//			break;
-		case "b": 
-			xAxisContext.ticks(10).tickFormat(customTimeFormat);
-			xScaleContext.nice(d3.time.month);
-			break;
-		case "y": 
-			xAxisContext.ticks(10).tickFormat(customTimeFormat);
-			xScaleContext.nice(d3.time.year);
-			break;
-	}
+	
+	xAxisContext.tickFormat(customTimeFormat);
 	
 	context.append("g").attr("id","flowsInContext");
 	
@@ -876,14 +789,6 @@ function display() {
 //	console.log("finish brush In Context")
 	
 	
-//	console.log(brushContextNorLeft.extent());
-//	console.log(brushContextDisLeft.extent());
-//	console.log(brushContext.extent());
-//	console.log(brushContextDisRight.extent());
-//	console.log(brushContextNorRight.extent());
-	
-	
-	
 	//To get the hierarchy for each scale in focus
 	rangesDomainFocus = (nest_by_key.entries(calculateRangeFocus(opts.facteurNor, opts.facteurDis, opts.facteurZoom,"nestByEntries" )));
 	// To create a new rangesDomainFocus with the result of calling a functionon every element depending
@@ -892,19 +797,19 @@ function display() {
 	rangesDomainFocus.map(function(element) {
 		if (element.key == "NL") {
 			element.domain = brushContextNorLeft.extent();
-			element.values.map(function(element) {element.domain = brushContextNorLeft.extent();})
+			element.values.map(function(element) {element.domain = brushContextNorLeft.extent();});
 		} else if (element.key == "FL") {
 			element.domain = brushContextDisLeft.extent();
-			element.values.map(function(element, index) {element.domain = calculeExtent(brushContextDisLeft.extent(),index);})
+			element.values.map(function(element, index) {element.domain = calculeExtent(brushContextDisLeft.extent(),index);});
 		} else if (element.key == "Z") {
 			element.domain = brushContext.extent();
-			element.values.map(function(element) {element.domain = brushContext.extent();})
+			element.values.map(function(element) {element.domain = brushContext.extent();});
 		} else if (element.key == "FR") {
 			element.domain = brushContextDisRight.extent();
-			element.values.map(function(element, index) {element.domain = calculeExtent(brushContextDisRight.extent(),index);})
+			element.values.map(function(element, index) {element.domain = calculeExtent(brushContextDisRight.extent(),index);});
 		} else if (element.key == "NR") {
 			element.domain = brushContextNorRight.extent();
-			element.values.map(function(element) {element.domain = brushContextNorRight.extent();})
+			element.values.map(function(element) {element.domain = brushContextNorRight.extent();});
 		}
 	})
 	focus.append("g").attr("id","x_grid_focus");
@@ -934,7 +839,7 @@ function display() {
 					.attr("d", function(d) {return areaFocus(d, 0);})
 					.style({
 							"fill" : function(d) {return d.color},
-							"stroke" : function(d){return opts.outlineLayers ? opts.outlineLayersColor : d.color}
+							"stroke" : function(d){return opts.showOutlineLayers ? opts.outlineLayersColor : d.color}
 							//"opacity": 0.7
 					});
 				
@@ -943,8 +848,8 @@ function display() {
 					.data(data_bottom_level,function(d) { return d.key; })
 					.enter()
 					.append("path")
-					.attr("id", function(d){return "focus_area"+index+"_" + d.key})
-					.attr("class", function(d){return "focus area" +index +" "+  d.key})
+					.attr("id", function(d){return "focus_area"+index+"_" + d.key;})
+					.attr("class", function(d){return "focus area" +index +" "+  d.key;})
 					.attr("d", function(d) {return areaFocus(d, index);})
 					.style({
 							"fill" : function(d) {
@@ -956,8 +861,8 @@ function display() {
 							},
 							"stroke" : function(d) {
 								switch (index) {
-									case 1: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
-									case 2: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
+									case 1: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
+									case 2: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
 									case 3: return d.color;
 								}
 							}
@@ -974,20 +879,26 @@ function display() {
 	
 //	focus.select("#flowsInFocus").style("stroke-width",opts.strokeWidth);
 	
-	var end =  new Date().toLocaleString()
-	
-	focus.append("g").attr("id","linksProjetions")
+	var end =  new Date().toLocaleString();
+	//CREATE THE LINK LINKS PROJETIONS GROUP
+	focus.append("g").attr("id","linksProjetions");
 	updateRectanglesAndLinksInFocus();// Rectangles BORDERS
-//	console.log("finish updateRectanglesAndLinksInFocus")
+	
+	//CREATE THE POINTCHANGES GROUP
+	focus.append("g").attr("id","gPointChanges");
+
+	//TEXT LABELS GROUP
 	focus.append("g").attr("id","textsLabels");
-	var dAnimation = opts.animation ? opts.durationTransitionAnimation:opts.durationTransitionMoveFlow;
-	createTextLabel(dAnimation);
+//	var dAnimation = opts.animation ? opts.durationTransitionAnimation:opts.durationTransitionMoveFlow;
+	createTextLabel();
+	
+	getPointChanges();
 	
 	/* ToolTip */
 	tooltip = d3.select("body").append("div")
 							.attr("id", "tooltip-flow");
 	
-	focus.append("g").attr("id","interseccion");
+	//focus.append("g").attr("id","interseccion");
 	createTooltip();
 	createContextBrushes();
 	createStylesBrushes();
@@ -999,78 +910,112 @@ function display() {
 	drawDataIntoMap(nivel_bajo,brushContext.extent()[0],brushContext.extent()[1]);
 }
 
-function getTextLabels(){
-	var datesForTextLabel = []
+function getDataInZoomArea(){
 
-	var dataInZoomArea = [];
+	let dataInZoomArea = [];
 	if(dataCurrentlyFocus==null){
 		dataInZoomArea = data_bottom_level;
 	}else{
 		dataInZoomArea = dataCurrentlyFocus;
 	}
 	
-	var dateLimMin = brushContext.extent()[0];
-	var dateLimMax = brushContext.extent()[1];
+	let dateLimMin = brushContext.extent()[0];
+	let dateLimMax = brushContext.extent()[1];
 
-	switch (polarityTemporal) {
-		case "m":
-			if(dateLimMax > d3.time.minute.offset(dateMaxRange, -2)){
-				dateLimMax = d3.time.minute.offset(dateMaxRange, -2);
-			}
-			break;
-		case "h":
-			if(dateLimMax > d3.time.hour.offset(dateMaxRange, -2)){
-				dateLimMax = d3.time.hour.offset(dateMaxRange, -2);
-			}
-			break;
-		case "d":
-			if(dateLimMax > d3.time.day.offset(dateMaxRange, -2)){
-				dateLimMax = d3.time.day.offset(dateMaxRange, -2);
-			}
-			break;
-//		case 3:
-//			if(dateLimMax > d3.time.week.offset(dateMaxRange, -2)){
-//				dateLimMax = d3.time.week.offset(dateMaxRange, -2);
-//			}
-//			break;
-		case "b":
-			if(dateLimMax > d3.time.month.offset(dateMaxRange, -2)){
-				dateLimMax = d3.time.month.offset(dateMaxRange, -2);
-			}
-			break;
-		case "y":
-			if(dateLimMax > d3.time.year.offset(dateMaxRange, -2)){
-				dateLimMax = d3.time.year.offset(dateMaxRange, -2);
-			}
-			break;
+	let lim = getTimeOffset(dateMaxRange, -2, polarityTemporal);
+	if(dateLimMax > lim){
+		dateLimMax = lim;
 	}
 	
+	let result = [];
+	dataInZoomArea.forEach(function(element,index){
+		let filterValues = element.values.filter(function(obj){return (obj.date>=dateLimMin && obj.date<=dateLimMax );});
+		result.push({
+			"key":element.key,
+			"color":element.color,
+			"category":element.category,
+			"values":filterValues
+		})
+		
+	});
 	
-	function getMaximo(element, index){
-		var datesFilter = element.values.filter(function(obj){return (obj.date>=dateLimMin && obj.date<=dateLimMax )});
-		datesFilter.sort(function (a, b) {
-			  if (a.value > b.value) {
-				    return 1;
-				  }
-				  if (a.value < b.value) {
-				    return -1;
-				  }
-				  return 0;
-				});
-		datesForTextLabel.push(datesFilter.pop()); //fechas filtradas solo en el area del focus
-	}
-	dataInZoomArea.forEach(getMaximo);
+	return result;
+}
 
-	//Ordering this array to get the maximun and minimun
-	datesForTextLabel.sort(function (a, b) {
-		  if (a.value > b.value) {
-			    return 1;
-			  }
-			  if (a.value < b.value) {
-			    return -1;
-			  }
-			  return 0;
+
+///
+function getPointChanges(){
+
+	let dataInZoomArea = getDataInZoomArea();
+	
+	
+	dataInZoomArea.forEach(function(layerInZoom){
+		
+		let threshold = 500000;// getAvg.apply(null,layerInZoom.values.map(d=>d.value));
+
+		//let threshold = getAvg.apply(null,layerInZoom.values.map(d=>d.value));
+		
+		let dataPointDetection =getPointDetection(layerInZoom.values, threshold);
+		let aryPointDetection = [];
+
+		layerInZoom.values.forEach(function(element){
+			//get date array
+			let aryMatchPointDetection = dataPointDetection.map(d=>d.date);
+			if(aryMatchPointDetection.indexOf(element.date)!=-1){
+				aryPointDetection.push(element);
+			}
 		});
+
+		//avg.apply(null, [2, 3, 4, 5]); // 3.5
+		
+		//focus.select("#flowsInFocus").selectAll(".focus.area" + index) 
+		let points = focus.select("#gPointChanges").selectAll(".point-detection."+layerInZoom.key)
+						.data(aryPointDetection,function(d){return d.date;});
+		
+
+		//update
+		points.attr("cx", function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date); })
+				.attr("cy", function(d) {return yScaleFocus(d.y0 + d.value/2); })
+				.attr("r",10)
+
+		//enter
+		points.enter().append("circle")
+						.attr("class","point-detection "+layerInZoom.key)
+						.attr("cx", function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date); })
+						.attr("cy", function(d) {return yScaleFocus(d.y0 + d.value/2); })
+						.attr("r",10)
+						.on("mouseover",function(){
+							//console.log(this)
+						});
+						
+			//exit
+			points.exit().remove();
+			
+		
+	})
+	
+	
+}
+
+
+///
+
+
+
+
+
+function getTextLabels(){
+	var datesForTextLabel = []; 
+	
+	getDataInZoomArea().forEach(function(element){
+		const max = element.values.reduce(function(prev, current) {
+		    return (prev.value > current.value) ? prev : current
+		},{})
+		datesForTextLabel.push(max);
+	});
+	
+	//Ordering descending this array to get the maximun and minimun
+	datesForTextLabel.sort(function(a,b){return a.value-b.value;});
 	
 	var rangeValuesText = [];
 	stdDev = datesForTextLabel.forEach(function(element){
@@ -1079,28 +1024,26 @@ function getTextLabels(){
 	
 	//Adding valueNormal attribute 
 	//DONT USED VALUENORMAL, but implemented
-	var stdDev = standardDeviation(rangeValuesText);
-	var mediana = median(rangeValuesText);
-	datesForTextLabel.forEach(function(element){
-		element.valueNormal = (element.value-mediana)/stdDev;
-	})
+	// var stdDev = standardDeviation(rangeValuesText);
+	// var mediana = median(rangeValuesText);
+	// datesForTextLabel.forEach(function(element){
+	// 	element.valueNormal = (element.value-mediana)/stdDev;
+	// })
 	//------------------------------------------------
 	
 	var minValueTextLabel = 0; //datesForTextLabel[0].valueNormal;
 	var maxValueTextLabel = datesForTextLabel[datesForTextLabel.length-1].value;
 	
 	//Scale to get the HEIGHT of the text 
-	scaleTextLabel = d3.scale.linear()
-							.clamp(false)
-							.domain([minValueTextLabel, maxValueTextLabel])
-							.range([opts.minSizeTextLabel, opts.maxSizeTextLabel]);
+	scaleTextLabel.clamp(true)
+					.domain([minValueTextLabel, maxValueTextLabel])
+					.range([opts.minSizeTextLabel, opts.maxSizeTextLabel]);
 	
 	
-	
-	//Adding coordonates
+	//Adding coordonatesand other properties
 	datesForTextLabel.forEach(function(element){
 		var value = element.value;
-		var font = scaleTextLabel(value).toString().concat("px ").concat(opts.labelTextFont);
+		var font = scaleTextLabel(value).toString().concat("px ").concat(text_font_family);
 		var textWidth = getTextWidth(element.category,font);
 		
 		var textWidthMiddle = textWidth/2;
@@ -1114,83 +1057,46 @@ function getTextLabels(){
 		
 		element.coordinates = coord;
 		element.overlaping = false;
-	})
+	});
 	
-	//Filtering just elements not overlapping
-	datesForTextLabel.forEach(function(element){
-		
-		var rangeOthers = datesForTextLabel.filter(function(elementToFilter){
-			return element.key != elementToFilter.key
-		})
 
-		var rectElement = {left: element.coordinates.x1, 
-							 bottom: element.coordinates.y1, 
-							 right: element.coordinates.x2, 
-						 	 top: element.coordinates.y2} 
-
-		rangeOthers.forEach(function(elementOther){
-			if(!elementOther.overlaping){
-				var rectElementOther = {
-						left: elementOther.coordinates.x1, 
-						bottom: elementOther.coordinates.y1, 
-						right: elementOther.coordinates.x2, 
-						top: elementOther.coordinates.y2} 
-				if(intersectRect(rectElement, rectElementOther)){
-					element.overlaping = true;
-				}
-			}
-			
-		})
-	})
-	
-	//To get just text label that are not overlapping
-	datesForTextLabel = datesForTextLabel.filter(function(element){
-		return element.overlaping == false;
-	})
-	return datesForTextLabel;
+	return removeOverlapping(datesForTextLabel);
 }
 
-function createTextLabel(transitionDuration){
+function createTextLabel(){
 	var datesForTextLabel = getTextLabels();
 	var textLabel = focus.select("#textsLabels").selectAll(".textLabel")
 										.data(datesForTextLabel,function (d){return d.key;});
 	
 	//update
-	textLabel.transition()
-			.duration(transitionDuration)	
+	textLabel
 				.attr("x", function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date); })
 				.attr("y", function(d) {return yScaleFocus(d.y0 + d.value/2 ); }) //y0 + value/2
 				.text(function(d) {return d.category;})
 				.style({
 						"opacity":1,
 						"font-size":function(d) {return scaleTextLabel(d.value) + "px";},
-						"font-family":opts.labelTextFont,
+						"font-family":text_font_family,
 						"text-anchor":"middle",
 						"pointer-events": "none"
 				})
 
 	//enter
 	textLabel.enter().append("text")
-					.style({"opacity":0})
-				.transition()
-				.duration(transitionDuration)
 					.attr("class",function(d){return "textLabel" + " " + d.parentKey + " " +d.key;})
 					.attr("x", function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date); })
 					.attr("y", function(d) {return yScaleFocus(d.y0 + d.value/2); }) 
+					.attr("dy",".35em")
 					.text(function(d) {return d.category;})
 					.style({
 							"opacity":1,
 							"font-size":function(d) {return scaleTextLabel(d.value) + "px";},
-							"font-family":opts.labelTextFont,
+							"font-family":text_font_family,
 							"text-anchor":"middle",
 							"pointer-events": "none",
 					})
 	//exit
 	textLabel.exit()
-					.style("opacity",0)
-					.transition()
-					.duration(transitionDuration)
-					.style("opacity",0)
 					.remove();
 	
 	
@@ -1242,6 +1148,7 @@ function createTextLabel(transitionDuration){
 }
 
 function ratonOver(d){
+
 	
 	ratonOverTree(d);
 	
@@ -1249,15 +1156,15 @@ function ratonOver(d){
 	
 	for(var index=0;index<4;index++){
 		focus.select("#flowsInFocus").selectAll(".focus.area" + index) 
-				.transition()
-				.duration(opts.tooltipTransitionMouseMove)		
+				// .transition()
+				// .duration(opts.tooltipTransitionMouseMove)		
 					.style({
 							"stroke" : function(d) {
 								switch (index) {
-									case 0: return opts.outlineLayers ? opts.outlineLayersColor : d.color
-									case 1: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
-									case 2: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
-									case 3: return opts.outlineLayers ? opts.outlineLayersColor : d.color;
+									case 0: return opts.showOutlineLayers ? opts.outlineLayersColor : d.color
+									case 1: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
+									case 2: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
+									case 3: return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;
 								}
 							},
 							"opacity":function(d){
@@ -1282,7 +1189,7 @@ function ratonOver(d){
 
 function ratonOut(){
 	
-	tooltipHistoric = new Date();
+	tooltipFlag = new Date();
 	
 	//
 	drawDataIntoMap(nivel_bajo,brushContext.extent()[0],brushContext.extent()[1])
@@ -1295,10 +1202,10 @@ function ratonOut(){
 			.style({
 				"stroke" : function(d) {	
 					switch (index) {
-						case 0: return opts.outlineLayers ? opts.outlineLayersColor : d.color;
-						case 1: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
-						case 2: return opts.outlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
-						case 3: return opts.outlineLayers ? opts.outlineLayersColor : d.color;
+						case 0: return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;
+						case 1: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientLeftStroke"+ d.values[0]["key"]+")";
+						case 2: return opts.showOutlineLayers ? opts.outlineLayersColor : "url(#gradientRightStroke"+ d.values[0]["key"]+")";
+						case 3: return opts.showOutlineLayers ? opts.outlineLayersColor : d.color;
 					}
 				},
 				"stroke-width":opts.strokeWidth,
@@ -1344,6 +1251,7 @@ function createTooltip(){
 	var fixedToExploreMap = false;
 
 	focus.select("#flowsInFocus").selectAll(".focus")
+			// .on("mouseover",ratonOver)
 			.on("mouseover",function(d, i) {
 					ratonOver(d);				
 			})
@@ -1388,38 +1296,14 @@ function createTooltip(){
 						var dateSelected = (d.values[mouseDateIndex].date); //FECHA
 						
 						//to update the map only when change a time step	
-						if(dateSelected.getTime() != tooltipHistoric.getTime()){
+						if(dateSelected.getTime() != tooltipFlag.getTime()){
 							
-							var valueSelected = toolTipNumberFormat(d.values[mouseDateIndex].value)
+							var valueSelected = customNumberFormat(d.values[mouseDateIndex].value)
 							textsArraySelected = (d.values[mouseDateIndex].text); //ARRAY
 							var formatDate;
 							
-							
 							let spatial = d.values[mouseDateIndex].components.filter(d=>(d.value>0));
 							coloring(spatial)
-//							console.log(spatial)
-							
-	//						polarityTemporal == 5 ? formatDate= d3.time.format("") : formatDate= d3.time.format("%d %b %Y");						
-							switch(polarityTemporal){
-								case "m": // 0 minutes
-									formatDate= d3.time.format("%d %b %Y %H:%M");
-									break;
-								case "h":// 1 hours
-									formatDate= d3.time.format("")
-									break;
-								case "d": // 2 days
-									formatDate= d3.time.format("")
-									break;
-//								case 3: //3 week
-//									formatDate= d3.time.format("")
-//									break;
-								case "m": // 4 month
-									formatDate= d3.time.format("%b %Y");
-									break;
-								case "y": //5 For years
-									formatDate= d3.time.format("%Y")
-									break;
-							}
 							
 							//points for vertical tooltip
 							var x1 = scalesFocus[selectAxisFocus(dateSelected)](dateSelected);  
@@ -1436,8 +1320,8 @@ function createTooltip(){
 								.transition()
 								.duration(opts.tooltipTransitionMouseMove)
 									.style("opacity",1)
-										var first_line = "<p class='title'>" + formatDate(dateSelected)  + "</p>";
-										var second_line = "<p class='info'>" + d.category + ": " + "<strong>" + valueSelected + " "+  data_type + "</strong></p>";
+										var first_line = "<p class='title'>" + customTimeFormat(dateSelected)  + "</p>";
+										var second_line = "<p class='info'>" + d.category + ": " + "<span class='value'>" + valueSelected + "</span> "+  data_type + "</p>";
 										var thrid_line = "";
 										//'d3.format("' + d + '")'	
 										
@@ -1477,14 +1361,19 @@ function createTooltip(){
 										.style("top",(d3.event.pageY + 15) + "px");
 							
 							
-							let timePeriod= "<h2 id='main-title-date'>" + formatDate(dateSelected) + "</h2>";
+							let timePeriod= "<h2 id='main-title-date'>" + customTimeFormat(dateSelected) + "</h2>";
 							let valQuantitative = "<h2 id='main-title-quantitative'>" + valueSelected + "</h2>";
 							let from = "<h2 id='main-title-from' style='background: " + d.color + "'>" + d.category + "</h2>";
-							let to = "<h2 id='main-title-to'>" + "World" + "</h2>";
 							
+							let to;
+							if(nameFilter===""){
+								to = "<h2 id='main-title-to'>" + "World" + "</h2>";
+							}else{
+								to = "<h2 id='main-title-to'>" + nameFilter + "</h2>";
+							}
 							updateMainTitleVis(timePeriod,valQuantitative,from,to);
 							
-							tooltipHistoric = dateSelected;
+							tooltipFlag = dateSelected;
 						}
 					}
 			})
@@ -1494,8 +1383,6 @@ function createTooltip(){
 					tooltip.transition()
 							.duration(opts.tooltipTransitionMouseOut)
 								.style("opacity",0);
-					
-					
 					//updateTitleMultiresolutionVis("", "white")
 					
 					ratonOut();
@@ -1605,7 +1492,7 @@ function brushOutAll(){
 
 //
 function brushZoomOver() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		if(blocage){
 			brushOutAll();
 		}else{
@@ -1618,7 +1505,7 @@ function brushZoomOver() {
 }
 //
 function brushZoomOut() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		focus.select(".focusZoom").style({
 			"visibility": "hidden"
 		});
@@ -1627,7 +1514,7 @@ function brushZoomOut() {
 //
 //// -------------------------------------------------------
 function brushDisLeftOver() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		if(blocage){
 			brushOutAll();
 		}else{
@@ -1639,7 +1526,7 @@ function brushDisLeftOver() {
 }
 //
 function brushDisLeftOut() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		focus.selectAll(".focusDisLeft").style({
 			"visibility": "hidden"
 		});
@@ -1648,7 +1535,7 @@ function brushDisLeftOut() {
 //
 //// -------------------------------------------------------
 function brushDisRightOver() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		if(blocage){
 			brushOutAll();
 		}else{
@@ -1660,7 +1547,7 @@ function brushDisRightOver() {
 }
 //
 function brushDisRightOut() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		focus.select(".focusDisRight").style({
 			"visibility": "hidden"
 		});
@@ -1669,7 +1556,7 @@ function brushDisRightOut() {
 //
 //// -------------------------------------------------------
 function brushNorRightOver() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		if(blocage){
 			brushOutAll();
 		}else{
@@ -1681,7 +1568,7 @@ function brushNorRightOver() {
 }
 //
 function brushNorRightOut() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		focus.select(".focusNorRight").style({
 			"visibility": "hidden"
 		});
@@ -1691,7 +1578,7 @@ function brushNorRightOut() {
 //// -------------------------------------------------------
 //
 function brushNorLeftOver() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		if(blocage){
 			brushOutAll();
 		}else{
@@ -1703,7 +1590,7 @@ function brushNorLeftOver() {
 }
 //
 function brushNorLeftOut() {
-	if(!opts.limitRanges){
+	if(!opts.showLimitsAreas){
 		focus.select(".focusNorLeft").style({
 			"visibility": "hidden"
 		});
@@ -1793,29 +1680,8 @@ function createScalesAxisFocus() {
 								.scale(scalesFocus[scalesFocus.length-1])
 								.orient("top")
 								.tickSize(heightFocus)
+								.ticks(getTimePolarity(polarityTemporal),stepTemporal)
 								.tickFormat("");
-			
-			switch (polarityTemporal) { 
-				case "m":
-					axisGridDivision.ticks(d3.time.minutes,stepTemporal);
-					break;
-				case "h":
-					axisGridDivision.ticks(d3.time.hours,stepTemporal);
-					break;
-				case "d":
-					axisGridDivision.ticks(d3.time.days,stepTemporal);
-					break;
-//				case 3:
-//					axisGridDivision.ticks(d3.time.weeks,stepTemporal)
-//					break;
-				case "b":
-					axisGridDivision.ticks(d3.time.months,stepTemporal);
-					break;
-				case "y":
-					axisGridDivision.ticks(d3.time.years,stepTemporal);	
-					break;
-			}
-			
 			
 			focus.select("#x_grid_focus").append("g")
 									.attr("class", "x grid area" +i+" "+j)
@@ -1832,42 +1698,35 @@ function createScalesAxisFocus() {
 			switch (polarityTemporal) { 
 				case "m"://minutes
 					if(i==1 || i==3){
-						axisFocus[axisFocus.length - 1].ticks(d3.time.minutes, getNumIntervalsDistortion(polarityTemporal, i, j));
+						axisFocus[axisFocus.length - 1].ticks(d3.time.minutes, getNumIntervalsDistortion(polarityTemporal, i, j, sDisLeft, sDisRight));
 					}else{
 						axisFocus[axisFocus.length - 1].ticks(getNumberOfLabels(polarityTemporal, i, j));
 					}
 					break;
 				case "h"://hours
 					if(i==1 || i==3){
-						axisFocus[axisFocus.length - 1].ticks(d3.time.hours, getNumIntervalsDistortion(polarityTemporal, i, j));
+						axisFocus[axisFocus.length - 1].ticks(d3.time.hours, getNumIntervalsDistortion(polarityTemporal, i, j, sDisLeft, sDisRight));
 					}else{
 						axisFocus[axisFocus.length - 1].ticks(getNumberOfLabels(polarityTemporal, i, j));
 					}
 					break;
 				case "d":
 					if(i==1 || i==3){
-						axisFocus[axisFocus.length - 1].ticks(d3.time.days, getNumIntervalsDistortion(polarityTemporal, i, j));
+						axisFocus[axisFocus.length - 1].ticks(d3.time.days, getNumIntervalsDistortion(polarityTemporal, i, j, sDisLeft, sDisRight));
 					}else{
 						axisFocus[axisFocus.length - 1].ticks(getNumberOfLabels(polarityTemporal, i, j));
 					}
 					break;
-//				case 3:
-//					if(i==1 || i==3){
-//						axisFocus[axisFocus.length - 1].ticks(d3.time.weeks, getNumIntervalsDistortion(polarityTemporal, i, j));
-//					}else{
-//						axisFocus[axisFocus.length - 1].ticks(getNumberOfLabels(polarityTemporal, i, j));
-//					}
-//					break;
 				case "b":
 					if(i==1 || i==3){
-						axisFocus[axisFocus.length - 1].ticks(d3.time.months, getNumIntervalsDistortion(polarityTemporal, i, j));
+						axisFocus[axisFocus.length - 1].ticks(d3.time.months, getNumIntervalsDistortion(polarityTemporal, i, j, sDisLeft, sDisRight));
 					}else{
 						axisFocus[axisFocus.length - 1].ticks(getNumberOfLabels(polarityTemporal, i, j));
 					}
 					break;
 				case "y":
 					if(i==1 || i==3){
-						axisFocus[axisFocus.length - 1].ticks(d3.time.years, getNumIntervalsDistortion(polarityTemporal, i, j));
+						axisFocus[axisFocus.length - 1].ticks(d3.time.years, getNumIntervalsDistortion(polarityTemporal, i, j, sDisLeft, sDisRight));
 					}else{
 						axisFocus[axisFocus.length - 1].ticks(getNumberOfLabels(polarityTemporal, i, j));
 					}
@@ -1947,93 +1806,6 @@ function createStylesBrushes() {
 
 }
 
-//pas mis en place Deprecated
-function createPatternFondArrays(){
-	patternFocusFond = [];
-	var newPattern = function(key,name,fillPattern) {
-		
-		var nameTextSize = Math.ceil(getTextWidth(name,opts.patternTextFont)); //Math.round();
-		var rectWidth = (nameTextSize * 2) + 20; //20 separtions between 2 text
-		var rectHeight = 32;
-		
-		var viewBox1 = (nameTextSize+10)/2;
-		var viewBox2 = 0;
-		var viewBox3 = (nameTextSize);
-		var viewBox4 = rectHeight;
-		
-		var patternFond = focus //.append("svg:defs")
-							.append("svg:pattern")
-							.attr('id', 'diagonal'+key)
-							.attr('patternUnits', 'userSpaceOnUse') // userSpaceOnUse, objectBoundingBox
-//							.attr('patternTransform',"scale(1,-1)")
-							.attr('patternContentUnits', 'userSpaceOnUse') //userSpaceOnUse, objectBoundingBox
-							.attr("viewBox",viewBox1 + " " + viewBox2 + " " + viewBox3 + " " + viewBox4)
-							.attr("x",1)
-							.attr("y",1)
-							.attr('width', (nameTextSize+10))
-							.attr('height', rectHeight)
-							
-							;
-		
-		patternFond.append("rect")
-					.attr("x",-1)
-					.attr("y",0)
-					.attr("width", (nameTextSize+10)*2)
-					.attr("height", rectHeight)
-					.attr("stroke-width", 0)
-					.attr("fill", fillPattern)
-					.attr("opacity", "1") //here is style("opacity..;
-					;
-		
-		
-		//CREATE 4 Text into Pattern
-		var text1_x = 0;
-		var text1_y = 10;
-		var text2_x = nameTextSize + 10 ; 
-		var text2_y = 10;
-		var text3_x = (nameTextSize/2);
-		var text3_y = 25;
-		var text4_x = -(nameTextSize/2);
-		var text4_y = 25;
-		
-		patternFond.append("text")
-					.attr("x",text1_x)
-					.attr("y",text1_y)
-					.style("fill-opacity",opts.opacityTextPattern)
-					.text(name);
-		
-		patternFond.append("text")
-					.attr("x",text2_x)
-					.attr("y",text2_y)
-					.style("fill-opacity",opts.opacityTextPattern)
-					.text(name);
-	
-		patternFond.append("text")
-					.attr("x",text3_x)
-					.attr("y",text3_y)
-					.style("fill-opacity",opts.opacityTextPattern)
-					.text(name);
-		
-		patternFond.append("text")
-					.attr("x",text4_x)
-					.attr("y",text4_y)
-					.style("fill-opacity",opts.opacityTextPattern)
-					.text(name);
-		
-		patternFocusFond.push({
-			cle : key
-		});
-	}
-	
-	hierarchy.children.forEach(function (element){
-		element.children.forEach(function (elementChild){
-			var fillPattern = GetRGBColorString((elementChild.from + elementChild.end)/2);
-			newPattern(elementChild.key,elementChild.name.toUpperCase(),fillPattern);
-		})
-	})
-	
-}
-
 /**
  * FOCUS CREATION OF GRADIENTS FOR INTERPOLATE COLEURS
  */
@@ -2042,10 +1814,10 @@ function createGradientArrays(bottom_list) {
 	focus.append("g").attr("id","linearGradient");
 	
 	/* Gradient Part */
-	gradientFocusRight = [];
-	gradientFocusLeft = [];
-	gradientFocusLeftStroke = [];
-	gradientFocusRightStroke = [];
+	let gradientFocusRight = [];
+	let gradientFocusLeft = [];
+	let gradientFocusLeftStroke = [];
+	let gradientFocusRightStroke = [];
 
 	var newGradientRight = function(index, colorBegin, colorEnd) {
 		
@@ -2151,9 +1923,8 @@ function createGradientArrays(bottom_list) {
 		var hierarchy_father_node = getNodeByKey(father_key);
 		var hierarchy_hijo_node = getNodeByKey(key_bottom);
 		
-//		var colorBegin = hierarchy_father_node.color; // GetRGBColorString(66); //.desaturate().brighten(1.2)
 		if(opts.fadingColors){
-			colorBegin = hierarchy_father_node.color.desaturate().brighten(opts.fadingColorsFactor); // GetRGBColorString(66); //.desaturate().brighten(1.2)	
+			colorBegin = hierarchy_father_node.color.desaturate().brighten(opts.fadingColorsFactor);	
 		}else{
 			colorBegin = hierarchy_father_node.color;
 		}
@@ -2185,33 +1956,34 @@ function calculateRangeFocus(factNor, factDis, factZoom, callOrigin) {
 	//tomando en cuanta tambien los nuevos SD and SCi
 	
 	// number-of-minute-in-interval
-	nNorLeft = calculeNumIntervals(brushContextNorLeft,polarityTemporal, stepTemporal), 
-	nDisLeft = calculeNumIntervals(brushContextDisLeft,polarityTemporal, stepTemporal),
-	nZoom = calculeNumIntervals(brushContext,polarityTemporal, stepTemporal),
-	nDisRight = calculeNumIntervals(brushContextDisRight,polarityTemporal, stepTemporal),
-	nNorRight = calculeNumIntervals(brushContextNorRight,polarityTemporal, stepTemporal),
-	nTotal = nNorLeft + nDisLeft + nZoom + nDisRight + nNorRight;
+	let nNorLeft = calculeNumIntervals(brushContextNorLeft,polarityTemporal, stepTemporal); 
+	let nDisLeft = calculeNumIntervals(brushContextDisLeft,polarityTemporal, stepTemporal);
+	let nZoom = calculeNumIntervals(brushContext,polarityTemporal, stepTemporal);
+	let nDisRight = calculeNumIntervals(brushContextDisRight,polarityTemporal, stepTemporal);
+	let nNorRight = calculeNumIntervals(brushContextNorRight,polarityTemporal, stepTemporal);
+	let nTotal = nNorLeft + nDisLeft + nZoom + nDisRight + nNorRight;
 
 	// Proportions
-	pNorLeft = (factNor * nNorLeft) / nTotal, 
-	pDisLeft = (factDis * nDisLeft) / nTotal, 
-	pZoom = (factZoom * nZoom)/ nTotal, 
-	pDisRight = (factDis * nDisRight) / nTotal,
-	pNorRight = (factNor * nNorRight) / nTotal, 
-	pTotal = pNorLeft + pDisLeft + pZoom + pNorRight + pDisRight;
+	let pNorLeft = (factNor * nNorLeft) / nTotal; 
+	let pDisLeft = (factDis * nDisLeft) / nTotal; 
+	let pZoom = (factZoom * nZoom)/ nTotal;
+	let pDisRight = (factDis * nDisRight) / nTotal;
+	let pNorRight = (factNor * nNorRight) / nTotal; 
+	let pTotal = pNorLeft + pDisLeft + pZoom + pNorRight + pDisRight;
 	
+	//SNorLeft and SDisLeft are global
 	// Size
-	sNorLeft = pNorLeft * ((widthIntern) / pTotal), 
-	sDisLeft = pDisLeft * ((widthIntern) / pTotal), 
-	sZoom = pZoom * ((widthIntern) / pTotal),
-	sDisRight = pDisRight * ((widthIntern) / pTotal), 
-	sNorRight = pNorRight * ((widthIntern) / pTotal);
-	sTotal = sNorLeft + sDisLeft + sZoom + sDisRight + sNorRight;
+	let sNorLeft = pNorLeft * ((widthIntern) / pTotal); 
+	sDisLeft = pDisLeft * ((widthIntern) / pTotal); 
+	let sZoom = pZoom * ((widthIntern) / pTotal);
+	sDisRight = pDisRight * ((widthIntern) / pTotal); 
+	let sNorRight = pNorRight * ((widthIntern) / pTotal);
+	let sTotal = sNorLeft + sDisLeft + sZoom + sDisRight + sNorRight;
 	
 	// tailles-des-intervals fixes
-	iNorLeft = sNorLeft / nNorLeft, 
-	iZoom = sZoom / nZoom,
-	iNorRight = sNorRight / nNorRight;
+	let iNorLeft = sNorLeft / nNorLeft;
+	let iZoom = sZoom / nZoom;
+	let iNorRight = sNorRight / nNorRight;
 
 	//Calcule constante de croissance left distortion
 	var stringConstanteLeft = "";
@@ -2278,7 +2050,7 @@ function calculateRangeFocus(factNor, factDis, factZoom, callOrigin) {
 		size : sNorRight
 	});
 
-	if (validateDistortion(factNor, factDis, factZoom)) {
+	if (validateDistortion(factNor, factDis, factZoom, iNorLeft, iNorRight, iZoom)) {
 		return calculateAxisFocusIntervals(rangesFocus);
 	} else {
 		return null;
@@ -2347,7 +2119,7 @@ function calculateDistortionR(iNorRight, numberInterval) {
 	return iFunctionR.reverse();
 }
 
-function validateDistortion(factNor, factDis, factZoom) {
+function validateDistortion(factNor, factDis, factZoom, iNorLeft, iNorRight, iZoom) {
 	
 	var validationIntervals = false;
 	var validationDisLeft = false;
@@ -2388,68 +2160,57 @@ function validateDistortion(factNor, factDis, factZoom) {
 	return false;
 }
 
-function updateFocus() {
+//This is the hardest process	
+function updateFocus(calcule) {
 	var timerStart = Date.now();
-	var calcule = calculateRangeFocus(opts.facteurNor, opts.facteurDis, opts.facteurZoom, "updateFocus");
-	if (calcule != null) {
-		
-		rangesDomainFocus = (nest_by_key.entries(calcule));
-		// Delete All axis focus
-		var div = focus.selectAll(".x.axis").data([]);
-		div.exit().remove();
-		
-		var divGrid = focus.selectAll(".x.grid").data([])
-		divGrid.exit().remove();
 
-		rangesDomainFocus.map(function(element) {
-			if (element.key == "NL") {
-				element.domain = brushContextNorLeft.extent();
-				element.values.map(function(element) {element.domain = brushContextNorLeft.extent();})
-			} else if (element.key == "FL") {
-				element.domain = brushContextDisLeft.extent();
-				element.values.map(function(element, index) {element.domain = calculeExtent(brushContextDisLeft.extent(), index);})
-			} else if (element.key == "Z") {
-				element.domain = brushContext.extent();
-				element.values.map(function(element) {element.domain = brushContext.extent();})
-			} else if (element.key == "FR") {
-				element.domain = brushContextDisRight.extent();
-				element.values.map(function(element, index) {element.domain = calculeExtent(brushContextDisRight.extent(), index);})
-			} else if (element.key == "NR") {
-				element.domain = brushContextNorRight.extent();
-				element.values.map(function(element) {element.domain = brushContextNorRight.extent();})
-			}
-		})
+	rangesDomainFocus = (nest_by_key.entries(calcule));
+	// Delete All axis focus
+	var div = focus.selectAll(".x.axis").data([]);
+	div.exit().remove();
+	
+	var divGrid = focus.selectAll(".x.grid").data([])
+	divGrid.exit().remove();
 
-		scalesFocus = []
-		axisFocus = []
-		createScalesAxisFocus()
-
-		/* Append Axis Focus */
-		for (var i = 0; i < axisFocus.length; i++) {
-			focus.select("#x_axis_focus").append("g")
-									.attr("class", "x axis focus" + i)
-									.attr("transform", "translate(0,0)")
-									.call(axisFocus[i]);
+	rangesDomainFocus.map(function(element) {
+		if (element.key == "NL") {
+			element.domain = brushContextNorLeft.extent();
+			element.values.map(function(element) {element.domain = brushContextNorLeft.extent();})
+		} else if (element.key == "FL") {
+			element.domain = brushContextDisLeft.extent();
+			element.values.map(function(element, index) {element.domain = calculeExtent(brushContextDisLeft.extent(), index);})
+		} else if (element.key == "Z") {
+			element.domain = brushContext.extent();
+			element.values.map(function(element) {element.domain = brushContext.extent();})
+		} else if (element.key == "FR") {
+			element.domain = brushContextDisRight.extent();
+			element.values.map(function(element, index) {element.domain = calculeExtent(brushContextDisRight.extent(), index);})
+		} else if (element.key == "NR") {
+			element.domain = brushContextNorRight.extent();
+			element.values.map(function(element) {element.domain = brushContextNorRight.extent();})
 		}
-		
-		/* Update rectangles and links lines in focus */
-		updateRectanglesAndLinksInFocus();
+	})
 
-		/* Move area */// 4 it is 3 areas
-		for (var index = 0; index < 4; index++) {
-			focus.selectAll(".focus.area" + index)
-						.attr("d", function(d) {return areaFocus(d, index);});
-		}
+	scalesFocus = []
+	axisFocus = []
+	createScalesAxisFocus()
 
-		
-		var dAnimation = opts.animation ? 0:opts.durationTransitionMoveFlow;
-		createTextLabel(dAnimation);
-		
-		
-	} else {
-		backContext();
+	/* Append Axis Focus */
+	for (var i = 0; i < axisFocus.length; i++) {
+		focus.select("#x_axis_focus").append("g")
+								.attr("class", "x axis focus" + i)
+								.attr("transform", "translate(0,0)")
+								.call(axisFocus[i]);
 	}
-//	console.log("Time upateFocus: ",(Date.now()-timerStart) + " milliseconds");
+	
+	//HARD PART
+	/* Move area */// 4 it is 3 areas
+	for (var index = 0; index < 4; index++) {
+		focus.selectAll(".focus.area" + index)
+					.attr("d", function(d) {return areaFocus(d, index);});
+	}
+
+	createTextLabel();
 }
 
 /*  */
@@ -2489,6 +2250,8 @@ function beginValidation() {
 
 /*  */
 function backContext() {
+	
+	console.log("returning to back context :(")
 	
 	/* NorLeft */
 	xScaleContextNorLeft.domain(beginContext[0].scaleDomain)
@@ -2542,18 +2305,21 @@ function backContext() {
 //	}
 }
 
-//ANIMATION
 function callAnimation() {
-	var calcule = calculateRangeFocus(opts.facteurNor, opts.facteurDis, opts.facteurZoom, "callAnimation");
+
+	let calcule = calculateRangeFocus(opts.facteurNor, opts.facteurDis, opts.facteurZoom, "callAnimation");
+
 	if (calcule != null) {
 		beginValidation();
+		updateFocus(calcule);
+		updateRectanglesAndLinksInFocus();
+		drawDataIntoMap(nivel_bajo,brushContext.extent()[0],brushContext.extent()[1])
+		getPointChanges();
 	}else{
 		backContext();
 	}
-	if (opts.animation) {
-		updateFocus();
-	}
 }
+
 
 function loadExtent1(extent0) {
 	var extent1;
@@ -2566,189 +2332,55 @@ function loadExtent1(extent0) {
 }
 
 function timeTooltip(time){
-	var subHalf;
-	var addHalf;
-	var moyenne;
-	switch (polarityTemporal) {
-		case "m":
-			if(stepTemporal==1){
-				return d3.time.minute.round(scalesFocus[selectScaleFocusPixel(mousex)].invert(mousex));
-			}
-			subHalf = d3.time.minute.offset(time, -stepTemporal);
-			addHalf = d3.time.minute.offset(time, stepTemporal);
-			moyenne = d3.time.minute.offset(d3.time.minutes(subHalf, addHalf, stepTemporal)[0], Math.floor(stepTemporal/2));
-			if(time <= moyenne){
-				return d3.time.minutes(subHalf, addHalf, stepTemporal)[0];
-			}else{
-				return d3.time.minutes(subHalf, addHalf, stepTemporal)[1];
-			}
-		case "h":
-			if(stepTemporal==1){
-				return d3.time.hour.round(scalesFocus[selectScaleFocusPixel(mousex)].invert(mousex));
-			}
-			subHalf = d3.time.hour.offset(time, -stepTemporal);
-			addHalf = d3.time.hour.offset(time, stepTemporal);
-			moyenne = d3.time.hour.offset(d3.time.hours(subHalf, addHalf, stepTemporal)[0], Math.floor(stepTemporal/2));
-			if(time <= moyenne){
-				return d3.time.hours(subHalf, addHalf, stepTemporal)[0];
-			}else{
-				return d3.time.hours(subHalf, addHalf, stepTemporal)[1];
-			}
-		case "d":
-			if(stepTemporal==1){
-				return d3.time.day.round(scalesFocus[selectScaleFocusPixel(mousex)].invert(mousex));
-			}
-			subHalf = d3.time.day.offset(time, -stepTemporal);
-			addHalf = d3.time.day.offset(time, stepTemporal);
-			moyenne = d3.time.day.offset(d3.time.days(subHalf, addHalf, stepTemporal)[0], Math.floor(stepTemporal/2));
-			if(time <= moyenne){
-				return d3.time.days(subHalf, addHalf, stepTemporal)[0];
-			}else{
-				return d3.time.days(subHalf, addHalf, stepTemporal)[1];
-			}
-//		case 3:
-//			if(stepTemporal==1){
-//				return d3.time.week.round(scalesFocus[selectScaleFocusPixel(mousex)].invert(mousex));
-//			}
-//			subHalf = d3.time.week.offset(time, -stepTemporal);
-//			addHalf = d3.time.week.offset(time, stepTemporal);
-//			moyenne = d3.time.week.offset(d3.time.weeks(subHalf, addHalf, stepTemporal)[0], Math.floor(stepTemporal/2));
-//			if(time <= moyenne){
-//				return d3.time.weeks(subHalf, addHalf, stepTemporal)[0];
-//			}else{
-//				return d3.time.weeks(subHalf, addHalf, stepTemporal)[1];
-//			}
-		case "b":
-			if(stepTemporal==1){
-				return d3.time.month.round(scalesFocus[selectScaleFocusPixel(mousex)].invert(mousex));
-			}
-			subHalf = d3.time.month.offset(time, -stepTemporal);
-			addHalf = d3.time.month.offset(time, stepTemporal);
-			moyenne = d3.time.month.offset(d3.time.months(subHalf, addHalf, stepTemporal)[0], Math.floor(stepTemporal/2));
-			if(time <= moyenne){
-				return d3.time.months(subHalf, addHalf, stepTemporal)[0];
-			}else{
-				return d3.time.months(subHalf, addHalf, stepTemporal)[1];
-			}
-		case "y":
-			if(stepTemporal==1){
-				return d3.time.year.round(scalesFocus[selectScaleFocusPixel(mousex)].invert(mousex));
-			}
-			subHalf = d3.time.year.offset(time, -stepTemporal);
-			addHalf = d3.time.year.offset(time, stepTemporal);
-			moyenne = d3.time.year.offset(d3.time.years(subHalf, addHalf, stepTemporal)[0], Math.floor(stepTemporal/2));
-			if(time <= moyenne){
-				return d3.time.years(subHalf, addHalf, stepTemporal)[0];
-			}else{
-				return d3.time.years(subHalf, addHalf, stepTemporal)[1];
-			}
+	let subHalf;
+	let addHalf;
+	let moyenne;
+	
+	if(stepTemporal==1){
+		return getTimeRound(scalesFocus[selectScaleFocusPixel(mousex)].invert(mousex),polarityTemporal);
 	}
+	subHalf = getTimeOffset(time, -stepTemporal,polarityTemporal);
+	addHalf = getTimeOffset(time, stepTemporal,polarityTemporal);
+	moyenne = getTimeOffset(getTimeWindow(subHalf, addHalf, polarityTemporal, stepTemporal)[0], Math.floor(stepTemporal/2),polarityTemporal);
+	if(time <= moyenne){
+		return getTimeWindow(subHalf, addHalf, polarityTemporal, stepTemporal)[0];
+	}else{
+		return getTimeWindow(subHalf, addHalf, polarityTemporal, stepTemporal)[1];
+	}
+	
 }
 
 //Used to get the moyen when brush move
 //depends de stepTemporal
 function timeParser(time) {
-	var subHalf;
-	var addHalf;
-	switch (polarityTemporal) {
-		case "m":
-			subHalf = d3.time.minute.offset(d3.time.minute.round(time), -stepTemporal);
-			addHalf = d3.time.minute.offset(d3.time.minute.round(time), stepTemporal);
-			return d3.time.minutes(subHalf, addHalf, stepTemporal)[1];
-		case "h":
-			subHalf = d3.time.hour.offset(d3.time.hour.round(time), -stepTemporal);
-			addHalf = d3.time.hour.offset(d3.time.hour.round(time), stepTemporal);
-			return d3.time.hours(subHalf, addHalf, stepTemporal)[1];
-		case "d":
-			subHalf = d3.time.day.offset(d3.time.day.round(time), -stepTemporal);
-			addHalf = d3.time.day.offset(d3.time.day.round(time), stepTemporal);
-			return d3.time.days(subHalf, addHalf, stepTemporal)[1];
-//		case 3:
-//			subHalf = d3.time.week.offset(d3.time.week.round(time), -stepTemporal);
-//			addHalf = d3.time.week.offset(d3.time.week.round(time), stepTemporal);
-//			return d3.time.weeks(subHalf, addHalf, stepTemporal)[1];
-		case "b":
-			subHalf = d3.time.month.offset(d3.time.month.round(time), -stepTemporal);
-			addHalf = d3.time.month.offset(d3.time.month.round(time), stepTemporal);
-			return d3.time.months(subHalf, addHalf, stepTemporal)[1];
-		case "y":
-			subHalf = d3.time.year.offset(d3.time.year.round(time), -stepTemporal);
-			addHalf = d3.time.year.offset(d3.time.year.round(time), stepTemporal);
-			return d3.time.years(subHalf, addHalf, stepTemporal)[1];
-	}
+	let subHalf = getTimeOffset(getTimeRound(time,polarityTemporal), -stepTemporal, polarityTemporal);
+	let addHalf = getTimeOffset(getTimeRound(time,polarityTemporal), stepTemporal, polarityTemporal);
+	let timeParse = getTimeWindow(subHalf, addHalf, polarityTemporal, stepTemporal)[1];
+//	console.log(timeParse)
+	return timeParse;
 }
 
 
 function brushContextMove() {
 	
-	var extent0 = brushContext.extent();
-	var extent1 = loadExtent1(extent0);
+	let extent0 = brushContext.extent();
+	let extent1 = loadExtent1(extent0);
 	d3.select(this).call(brushContext.extent(extent1));		
 	
-	if(brushContextHistoric[0].getTime() == extent1[0].getTime() && brushContextHistoric[1].getTime() == extent1[1].getTime()){
-//		console.log("do nothing");
-	}else{
-	
+	if(brushContextFlag[0].getTime() != extent1[0].getTime() || brushContextFlag[1].getTime() != extent1[1].getTime()){
+		
 		// Distortion Areas
-		var facteurBrusDisLeft;
-		var facteurBrusDisRight;
+		let facteurBrusDisLeft = getTimeWindow(brushContextDisLeft.extent()[0],brushContextDisLeft.extent()[1], polarityTemporal,stepTemporal).length;
+		let facteurBrusDisRight =  getTimeWindow(brushContextDisRight.extent()[0],brushContextDisRight.extent()[1], polarityTemporal,stepTemporal).length; 
 		
-		var extentDisLeft;
-		var extentDisRight;
-		
-		switch (polarityTemporal) {
-			case "m":
-				facteurBrusDisLeft = (d3.time.minutes(brushContextDisLeft.extent()[0],brushContextDisLeft.extent()[1])).length;
-				facteurBrusDisRight = (d3.time.minutes(brushContextDisRight.extent()[0],brushContextDisRight.extent()[1])).length;
-				
-				extentDisLeft = [d3.time.minute.offset(brushContext.extent()[0],-facteurBrusDisLeft), brushContext.extent()[0] ];
-				extentDisRight = [brushContext.extent()[1],d3.time.minute.offset(brushContext.extent()[1],+facteurBrusDisRight) ];
-				break;
-			case "h":
-				facteurBrusDisLeft = (d3.time.hours(brushContextDisLeft.extent()[0],brushContextDisLeft.extent()[1])).length;
-				facteurBrusDisRight = (d3.time.hours(brushContextDisRight.extent()[0],brushContextDisRight.extent()[1])).length;
-				
-				extentDisLeft = [d3.time.hour.offset(brushContext.extent()[0],-facteurBrusDisLeft), brushContext.extent()[0] ];
-				extentDisRight = [brushContext.extent()[1],d3.time.hour.offset(brushContext.extent()[1],+facteurBrusDisRight) ];
-	
-				break;
-			case "d":
-				facteurBrusDisLeft = (d3.time.days(brushContextDisLeft.extent()[0],brushContextDisLeft.extent()[1])).length;
-				facteurBrusDisRight = (d3.time.days(brushContextDisRight.extent()[0],brushContextDisRight.extent()[1])).length;
-				
-				extentDisLeft = [d3.time.day.offset(brushContext.extent()[0],-facteurBrusDisLeft), brushContext.extent()[0] ];
-				extentDisRight = [brushContext.extent()[1],d3.time.day.offset(brushContext.extent()[1],+facteurBrusDisRight) ];
-	
-				break;
-			case "b":
-				facteurBrusDisLeft = (d3.time.months(brushContextDisLeft.extent()[0],brushContextDisLeft.extent()[1])).length;
-				facteurBrusDisRight = (d3.time.months(brushContextDisRight.extent()[0],brushContextDisRight.extent()[1])).length;
-	
-				extentDisLeft = [d3.time.month.offset(brushContext.extent()[0],-facteurBrusDisLeft), brushContext.extent()[0] ];
-				extentDisRight = [brushContext.extent()[1],d3.time.month.offset(brushContext.extent()[1],+facteurBrusDisRight) ];
-				break;
-			case "y":
-				facteurBrusDisLeft = (d3.time.years(brushContextDisLeft.extent()[0],brushContextDisLeft.extent()[1])).length;
-				facteurBrusDisRight = (d3.time.years(brushContextDisRight.extent()[0],brushContextDisRight.extent()[1])).length;
-				
-				extentDisLeft = [d3.time.year.offset(brushContext.extent()[0],-facteurBrusDisLeft), brushContext.extent()[0] ];
-				extentDisRight = [brushContext.extent()[1],d3.time.year.offset(brushContext.extent()[1],+facteurBrusDisRight) ];
-				
-				
-//				console.log("facteurBrusDisLeft",facteurBrusDisLeft)
-//				console.log("facteurBrusDisRight",facteurBrusDisRight)
-//				console.log("extentDisLeft",extentDisLeft)
-//				console.log("extentDisRight",extentDisRight)
-				
-				break;
-		}
+		let extentDisLeft = [getTimeOffset(brushContext.extent()[0],-facteurBrusDisLeft*stepTemporal,polarityTemporal), brushContext.extent()[0]];
+		let extentDisRight = [brushContext.extent()[1], getTimeOffset(brushContext.extent()[1],+facteurBrusDisRight*stepTemporal,polarityTemporal)];
 		
 		brushContextDisLeft.extent(extentDisLeft);
 		context.select(".brushDisLeft").call(brushContextDisLeft);
 	
 		brushContextDisRight.extent(extentDisRight);
 		context.select(".brushDisRight").call(brushContextDisRight);
-		
 		
 		
 		/* Distortion Area Left */
@@ -2761,103 +2393,21 @@ function brushContextMove() {
 		
 	
 		// Local Areas
-		var facteurBrusNorLeft;
-		var facteurBrusNorRight;
-	
-		var extentNorLeft;
-		var extentNorRight;
-	
-		switch (polarityTemporal) {
-		case "m":
-			facteurBrusNorLeft = (d3.time.minutes(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			facteurBrusNorRight = (d3.time.minutes(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.minute.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1],brushContextNorRight.extent()[1] ];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.minute.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
-		case "h":
-			facteurBrusNorLeft = (d3.time.hours(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			facteurBrusNorRight = (d3.time.hours(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-			
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.hour.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1],brushContextNorRight.extent()[1] ];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.hour.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			
-			break;
-		case "d":
-			facteurBrusNorLeft = (d3.time.days(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			facteurBrusNorRight = (d3.time.days(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-	
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.day.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1],brushContextNorRight.extent()[1] ];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.day.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
-//		case 3:
-//			facteurBrusNorLeft = (d3.time.weeks(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-//			facteurBrusNorRight = (d3.time.weeks(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-//	
-//			if(lockedLeft){
-//				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-//			}else{
-//				extentNorLeft = [d3.time.week.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-//			}
-//			if(lockedRight){
-//				extentNorRight = [brushContextDisRight.extent()[1],brushContextNorRight.extent()[1] ];
-//			}else{
-//				extentNorRight = [brushContextDisRight.extent()[1],d3.time.week.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-//			}		
-//			break;
-		case "b":
-			facteurBrusNorLeft = (d3.time.months(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			facteurBrusNorRight = (d3.time.months(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-	
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.month.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1],brushContextNorRight.extent()[1] ];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.month.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
-		case "y":
-			facteurBrusNorLeft = (d3.time.years(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			facteurBrusNorRight = (d3.time.years(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-	
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.year.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1],brushContextNorRight.extent()[1] ];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.year.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
+		let facteurBrusNorLeft = getTimeWindow(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1], polarityTemporal,stepTemporal).length;
+		let facteurBrusNorRight =  getTimeWindow(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1], polarityTemporal,stepTemporal).length; 
+		
+		let extentNorLeft;
+		if(lockedLeft){
+			extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
+		}else{
+			extentNorLeft = [getTimeOffset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft*stepTemporal,polarityTemporal), brushContextDisLeft.extent()[0]]
+		}
+		
+		let extentNorRight
+		if(lockedRight){
+			extentNorRight = [brushContextDisRight.extent()[1],brushContextNorRight.extent()[1] ];
+		}else{
+			extentNorRight = [brushContextDisRight.extent()[1],getTimeOffset(brushContextDisRight.extent()[1],+facteurBrusNorRight*stepTemporal,polarityTemporal)];
 		}
 		
 		brushContextNorLeft.extent(extentNorLeft);
@@ -2875,223 +2425,125 @@ function brushContextMove() {
 		
 		
 		
-		updateRectanglesAndLinksInFocus();
-		
 		// ANIMATION
 		callAnimation();
 		
-		
-		//
-		drawDataIntoMap(nivel_bajo,brushContext.extent()[0],brushContext.extent()[1])
-		
-		
-//		let fDate= d3.time.format("%Y");
-//		let mapTitlePeriod = fDate(brushContext.extent()[0]) + "-" + fDate(brushContext.extent()[1]);
-//		updateTitlePeriod(mapTitlePeriod);
-		
-		//update the historic
-		brushContextHistoric = brushContext.extent();
-	
+		//update the Flag
+		brushContextFlag = brushContext.extent();
 	}
-	
 }
-
 
 function brushContextNorLeftMove() {
 	
-	var extent0 = brushContextNorLeft.extent(); 
-	var extent1 = loadExtent1(extent0);
-
+	let extent0 = brushContextNorLeft.extent(); 
+	let extent1 = loadExtent1(extent0);
 	d3.select(this).call(brushContextNorLeft.extent(extent1));
-
-	//Changing range and domain in brushContextDifLeft
-	xScaleContextDisLeft.range([xScaleContext(brushContextNorLeft.extent()[0]), xScaleContext(brushContext.extent()[0])])
-						.domain([brushContextNorLeft.extent()[0], brushContext.extent()[0]]);
 	
-	context.select(".brushDisLeft").call(brushContextDisLeft);
-
-	updateRectanglesAndLinksInFocus();
+	if(brushContextNorLeftFlag[0].getTime() != extent1[0].getTime() || brushContextNorLeftFlag[1].getTime() != extent1[1].getTime()){
+		
+		//Changing range and domain in brushContextDifLeft
+		xScaleContextDisLeft.range([xScaleContext(brushContextNorLeft.extent()[0]), xScaleContext(brushContext.extent()[0])])
+							.domain([brushContextNorLeft.extent()[0], brushContext.extent()[0]]);
+		
+		context.select(".brushDisLeft").call(brushContextDisLeft);
 	
-	// ANIMATION
-	callAnimation();
-	
+		// ANIMATION
+		callAnimation();
+		
+		brushContextNorLeftFlag = brushContextNorLeft.extent();
+	}
 }
+
 
 function brushContextDisLeftMove() {
 
-	var extent0 = brushContextDisLeft.extent();
-	var extent1 = loadExtent1(extent0);
-
+	let extent0 = brushContextDisLeft.extent();
+	let extent1 = loadExtent1(extent0);
 	d3.select(this).call(brushContextDisLeft.extent(extent1));
-
-	var facteurBrusNorLeft;
-	var extentNorLeft;
-
-	switch (polarityTemporal) {
-		case "m":
-			facteurBrusNorLeft = (d3.time.minutes(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.minute.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			break;
-		case "h":
-			facteurBrusNorLeft = (d3.time.hours(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.hour.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			
-			break;
-		case "d":
-			facteurBrusNorLeft = (d3.time.days(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.day.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			break;
-//		case 3:
-//			facteurBrusNorLeft = (d3.time.weeks(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-//			if(lockedLeft){
-//				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-//			}else{
-//				extentNorLeft = [d3.time.week.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-//			}
-//			break;
-		case "b":
-			facteurBrusNorLeft = (d3.time.months(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.month.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			break;
-		case "y":
-			facteurBrusNorLeft = (d3.time.years(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1])).length;
-			if(lockedLeft){
-				extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
-			}else{
-				extentNorLeft = [d3.time.year.offset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft), brushContextDisLeft.extent()[0] ];
-			}
-			break;
+	
+	if(brushContextDisLeftFlag[0].getTime() != extent1[0].getTime() || brushContextDisLeftFlag[1].getTime() != extent1[1].getTime()){
+		
+		let facteurBrusNorLeft = getTimeWindow(brushContextNorLeft.extent()[0],brushContextNorLeft.extent()[1], polarityTemporal,stepTemporal).length;
+		let extentNorLeft;
+		if(lockedLeft){
+			extentNorLeft = [brushContextNorLeft.extent()[0], brushContextDisLeft.extent()[0] ];	
+		}else{
+			extentNorLeft = [getTimeOffset(brushContextDisLeft.extent()[0],-facteurBrusNorLeft,polarityTemporal), brushContextDisLeft.extent()[0]]
+		}
+		
+		//Changing range and domain in BrushContextNorLeft
+		xScaleContextNorLeft.range([0, xScaleContext(brushContextDisLeft.extent()[0])])
+							.domain([dateMinRange, brushContextDisLeft.extent()[0]]);
+		
+		context.select(".brushNorLeft").call(brushContextNorLeft.extent(extentNorLeft));
+	
+		
+		//Changing range and domain in DisLeft
+		xScaleContextDisLeft.range([ xScaleContext(extentNorLeft[0]), xScaleContext(brushContext.extent()[0]) ])
+							.domain([ extentNorLeft[0], brushContext.extent()[0] ]);
+							
+		// ANIMATION
+		callAnimation();
+		
+		brushContextDisLeftFlag = brushContextDisLeft.extent();
 	}
-	
-	//Changing range and domain in BrushContextNorLeft
-	xScaleContextNorLeft.range([0, xScaleContext(brushContextDisLeft.extent()[0])])
-						.domain([dateMinRange, brushContextDisLeft.extent()[0]]);
-	
-	context.select(".brushNorLeft").call(brushContextNorLeft.extent(extentNorLeft));
-
-	
-	//Changing range and domain in DisLeft
-	xScaleContextDisLeft.range([ xScaleContext(extentNorLeft[0]), xScaleContext(brushContext.extent()[0]) ])
-						.domain([ extentNorLeft[0], brushContext.extent()[0] ]);
-						
-	updateRectanglesAndLinksInFocus();
-	
-	// ANIMATION
-	callAnimation();
 }
 
 function brushContextDisRightMove() {
 
-	var extent0 = brushContextDisRight.extent(); 
-	var extent1 = loadExtent1(extent0);
-
+	let extent0 = brushContextDisRight.extent(); 
+	let extent1 = loadExtent1(extent0);
 	d3.select(this).call(brushContextDisRight.extent(extent1));
 
-	var facteurBrusNorRight;
-	var extentNorRight;
-
-	switch (polarityTemporal) {
-		case "m":
-			facteurBrusNorRight = (d3.time.minutes(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1], brushContextNorRight.extent()[1]];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.minute.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
-		case "h":
-			facteurBrusNorRight = (d3.time.hours(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1], brushContextNorRight.extent()[1]];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.hour.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
-		case "d":
-			facteurBrusNorRight = (d3.time.days(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1], brushContextNorRight.extent()[1]];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.day.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
-//		case 3:
-//			facteurBrusNorRight = (d3.time.weeks(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-//			if(lockedRight){
-//				extentNorRight = [brushContextDisRight.extent()[1], brushContextNorRight.extent()[1]];
-//			}else{
-//				extentNorRight = [brushContextDisRight.extent()[1],d3.time.week.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-//			}
-//			break;
-		case "b":
-			facteurBrusNorRight = (d3.time.months(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1], brushContextNorRight.extent()[1]];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.month.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
-		case "y":
-			facteurBrusNorRight = (d3.time.years(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1])).length;
-			if(lockedRight){
-				extentNorRight = [brushContextDisRight.extent()[1], brushContextNorRight.extent()[1]];
-			}else{
-				extentNorRight = [brushContextDisRight.extent()[1],d3.time.year.offset(brushContextDisRight.extent()[1],+facteurBrusNorRight) ];
-			}
-			break;
+	if(brushContextDisRightFlag[0].getTime() != extent1[0].getTime() || brushContextDisRightFlag[1].getTime() != extent1[1].getTime()){
+		
+		let facteurBrusNorRight =  getTimeWindow(brushContextNorRight.extent()[0],brushContextNorRight.extent()[1], polarityTemporal,stepTemporal).length; 
+		
+		let extentNorRight
+		if(lockedRight){
+			extentNorRight = [brushContextDisRight.extent()[1],brushContextNorRight.extent()[1] ];
+		}else{
+			extentNorRight = [brushContextDisRight.extent()[1],getTimeOffset(brushContextDisRight.extent()[1],+facteurBrusNorRight,polarityTemporal)];
+		}
+		
+		//Changing range and domain in BrushContextNorRight
+		xScaleContextNorRight.range([xScaleContext(brushContextDisRight.extent()[1]),widthIntern ])
+							 .domain([brushContextDisRight.extent()[1], dateMaxRange]);
+		
+		context.select(".brushNorRight").call(brushContextNorRight.extent(extentNorRight));
+		
+		//Changing range and domain in DisRight
+		xScaleContextDisRight.range([xScaleContext(brushContext.extent()[1]), xScaleContext(extentNorRight[1]) ])
+							.domain([ brushContext.extent()[1], extentNorRight[1] ]);
+							
+	
+		// ANIMATION
+		callAnimation();
+	
+		brushContextDisRightFlag = brushContextDisRight.extent();
 	}
-	
-	
-	//Changing range and domain in BrushContextNorRight
-	xScaleContextNorRight.range([xScaleContext(brushContextDisRight.extent()[1]),widthIntern ])
-						 .domain([brushContextDisRight.extent()[1], dateMaxRange]);
-	
-	context.select(".brushNorRight").call(brushContextNorRight.extent(extentNorRight));
-	
-	//Changing range and domain in DisRight
-	xScaleContextDisRight.range([xScaleContext(brushContext.extent()[1]), xScaleContext(extentNorRight[1]) ])
-						.domain([ brushContext.extent()[1], extentNorRight[1] ]);
-						
-
-	updateRectanglesAndLinksInFocus();
-	
-	// ANIMATION
-	callAnimation();
 
 }
 
 function brushContextNorRightMove() {
 	
-	var extent0 = brushContextNorRight.extent(); 
-	var extent1 = loadExtent1(extent0);
-
+	let extent0 = brushContextNorRight.extent(); 
+	let extent1 = loadExtent1(extent0);
 	d3.select(this).call(brushContextNorRight.extent(extent1));
 	
-	xScaleContextDisRight.range([xScaleContext(brushContext.extent()[1]), xScaleContext(brushContextNorRight.extent()[1])])
-						 .domain([brushContext.extent()[1], brushContextNorRight.extent()[1]]);
+	if(brushContextNorRightFlag[0].getTime() != extent1[0].getTime() || brushContextNorRightFlag[1].getTime() != extent1[1].getTime()){
+		
+		xScaleContextDisRight.range([xScaleContext(brushContext.extent()[1]), xScaleContext(brushContextNorRight.extent()[1])])
+							.domain([brushContext.extent()[1], brushContextNorRight.extent()[1]]);
+		
+		context.select(".brushDisRight").call(brushContextDisRight);
+		
+		// ANIMATION
+		callAnimation();
+		
+		brushContextNorRightFlag = brushContextNorRight.extent();
+	}
 	
-	context.select(".brushDisRight").call(brushContextDisRight);
-
-	updateRectanglesAndLinksInFocus();
-	
-	// ANIMATION
-	callAnimation();
 }
 
 
@@ -3102,7 +2554,7 @@ function updateRectanglesAndLinksInFocus(){
 	var objZ = selectScaleFocus("Z");
 	var objFr = selectScaleFocus("FR");
 	var objNr = selectScaleFocus("NR");
-	var heightVertical = marginFocus.top + heightFocus + 15;// marginContext.top
+	var heightVertical = marginFocus.top + heightFocus + 0;
 	
 	
 	// --------------------------------------------------------
@@ -3485,6 +2937,8 @@ function selectAxisFocus(date) {
 	}
 	return index;
 }
+
+
 /**
  * FOCUS Append areas
  * 
@@ -3493,86 +2947,20 @@ function selectAxisFocus(date) {
  */
 function areaFocus(d, index) {
 	// Update each x axis in focus : Local, Distortion, Detailed
-//	for (var i = 0; i < axisFocus.length; i++) {
-//		focus.selectAll(".x.axis.focus" + i).call(axisFocus[i]);
-//	}
 	
 	/* NORMAL AREA */
 	areaNormal = d3.svg.area()
 			.interpolate(opts.interpolateType)
 			.defined(function(d) {
-						var var1, var2, var3, var4;
-						var interpolationLeft1, interpolationLeft2, interpolationRight1, interpolationRight2; 
-						switch (polarityTemporal) {
-							case "m":
-								var1 = d3.time.minute.offset(brushContextNorLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.minute.offset(brushContextNorLeft.extent()[1], stepTemporal);
-								
-								var3 = d3.time.minute.offset(brushContextNorRight.extent()[0], -stepTemporal);
-								var4 = d3.time.minute.offset(brushContextNorRight.extent()[1], stepTemporal);
-								//
-								interpolationLeft1 = d3.time.minute.offset(brushContextNorLeft.extent()[0],-1*stepTemporal);
-								interpolationLeft2 = d3.time.minute.offset(brushContextNorLeft.extent()[1],-2*stepTemporal);
-								interpolationRight1 = d3.time.minute.offset(brushContextNorRight.extent()[0],+3*stepTemporal);
-								interpolationRight2 = d3.time.minute.offset(brushContextNorRight.extent()[1],+1*stepTemporal);
-								break;
-							case "h":
-								var1 = d3.time.hour.offset(brushContextNorLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.hour.offset(brushContextNorLeft.extent()[1], stepTemporal);
-								var3 = d3.time.hour.offset(brushContextNorRight.extent()[0], -stepTemporal);
-								var4 = d3.time.hour.offset(brushContextNorRight.extent()[1], stepTemporal);
-								//
-								interpolationLeft1 = d3.time.hour.offset(brushContextNorLeft.extent()[0],-1*stepTemporal);
-								interpolationLeft2 = d3.time.hour.offset(brushContextNorLeft.extent()[1],-2*stepTemporal);
-								interpolationRight1 = d3.time.hour.offset(brushContextNorRight.extent()[0],+3*stepTemporal);
-								interpolationRight2 = d3.time.hour.offset(brushContextNorRight.extent()[1],+1*stepTemporal);
-								break;
-							case "d":
-								var1 = d3.time.day.offset(brushContextNorLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.day.offset(brushContextNorLeft.extent()[1], stepTemporal);
-								var3 = d3.time.day.offset(brushContextNorRight.extent()[0], -stepTemporal);
-								var4 = d3.time.day.offset(brushContextNorRight.extent()[1], stepTemporal);			
-								//
-								interpolationLeft1 = d3.time.day.offset(brushContextNorLeft.extent()[0],-1*stepTemporal);
-								interpolationLeft2 = d3.time.day.offset(brushContextNorLeft.extent()[1],-2*stepTemporal);
-								interpolationRight1 = d3.time.day.offset(brushContextNorRight.extent()[0],+3*stepTemporal);
-								interpolationRight2 = d3.time.day.offset(brushContextNorRight.extent()[1],+1*stepTemporal);
-								break;
-//							case 3:
-//								var1 = d3.time.week.offset(brushContextNorLeft.extent()[0], -stepTemporal);
-//								var2 = d3.time.week.offset(brushContextNorLeft.extent()[1], stepTemporal);
-//								var3 = d3.time.week.offset(brushContextNorRight.extent()[0], -stepTemporal);
-//								var4 = d3.time.week.offset(brushContextNorRight.extent()[1], stepTemporal);	
-//								//
-//								interpolationLeft1 = d3.time.week.offset(brushContextNorLeft.extent()[0],-1*stepTemporal);
-//								interpolationLeft2 = d3.time.week.offset(brushContextNorLeft.extent()[1],-2*stepTemporal);
-//								interpolationRight1 = d3.time.week.offset(brushContextNorRight.extent()[0],+3*stepTemporal);
-//								interpolationRight2 = d3.time.week.offset(brushContextNorRight.extent()[1],+1*stepTemporal);
-//								break;
-							case "b":
-								var1 = d3.time.month.offset(brushContextNorLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.month.offset(brushContextNorLeft.extent()[1], stepTemporal);
-								var3 = d3.time.month.offset(brushContextNorRight.extent()[0], -stepTemporal);
-								var4 = d3.time.month.offset(brushContextNorRight.extent()[1], stepTemporal);	
-								//
-								interpolationLeft1 = d3.time.month.offset(brushContextNorLeft.extent()[0],-1*stepTemporal);
-								interpolationLeft2 = d3.time.month.offset(brushContextNorLeft.extent()[1],-2*stepTemporal);
-								interpolationRight1 = d3.time.month.offset(brushContextNorRight.extent()[0],+3*stepTemporal);
-								interpolationRight2 = d3.time.month.offset(brushContextNorRight.extent()[1],+1*stepTemporal);
-								break;
-							case "y":
-								var1 = d3.time.year.offset(brushContextNorLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.year.offset(brushContextNorLeft.extent()[1], stepTemporal);
-								var3 = d3.time.year.offset(brushContextNorRight.extent()[0], -stepTemporal);
-								var4 = d3.time.year.offset(brushContextNorRight.extent()[1], stepTemporal);	
-								//
-								
-								interpolationLeft1 = d3.time.year.offset(brushContextNorLeft.extent()[0],-1*stepTemporal);
-								interpolationLeft2 = d3.time.year.offset(brushContextNorLeft.extent()[1],-2*stepTemporal);
-								interpolationRight1 = d3.time.year.offset(brushContextNorRight.extent()[0],+3*stepTemporal);
-								interpolationRight2 = d3.time.year.offset(brushContextNorRight.extent()[1],+1*stepTemporal);
-								break;
-						}
+						let var1 = getTimeOffset(brushContextNorLeft.extent()[0], -stepTemporal, polarityTemporal);
+						let var2 = getTimeOffset(brushContextNorLeft.extent()[1], stepTemporal, polarityTemporal);
+						let var3 = getTimeOffset(brushContextNorRight.extent()[0], -stepTemporal, polarityTemporal);
+						let var4 = getTimeOffset(brushContextNorRight.extent()[1], stepTemporal, polarityTemporal);
+
+						let interpolationLeft1 = getTimeOffset(brushContextNorLeft.extent()[0],-1*stepTemporal,polarityTemporal);
+						let interpolationLeft2 = getTimeOffset(brushContextNorLeft.extent()[1],-2*stepTemporal,polarityTemporal);
+						let interpolationRight1 = getTimeOffset(brushContextNorRight.extent()[0],+3*stepTemporal,polarityTemporal);
+						let interpolationRight2 = getTimeOffset(brushContextNorRight.extent()[1],+1*stepTemporal,polarityTemporal);
 //						return d.date;
 						if(interpolationLeft1 < dateMinRange && interpolationLeft2 < dateMinRange){
 							return d.date >= (var3) && d.date <= (var4);
@@ -3593,52 +2981,13 @@ function areaFocus(d, index) {
 	areaDistortionLeft = d3.svg.area()
 				.interpolate(opts.interpolateType)
 				.defined(function(d) {
-						var var1, var2;
-						var interpolationLeft1, interpolationLeft2;
-						switch (polarityTemporal) {
-							case "m":
-								var1 = d3.time.minute.offset(brushContextDisLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.minute.offset(brushContextDisLeft.extent()[1], stepTemporal);
-								//
-								interpolationLeft1 = d3.time.minute.offset(brushContextDisLeft.extent()[0],-2*stepTemporal);
-								interpolationLeft2 = d3.time.minute.offset(brushContextDisLeft.extent()[1],-2*stepTemporal);
-								break;
-							case "h":
-								var1 = d3.time.hour.offset(brushContextDisLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.hour.offset(brushContextDisLeft.extent()[1], stepTemporal);
-								//
-								interpolationLeft1 = d3.time.hour.offset(brushContextDisLeft.extent()[0],-2*stepTemporal);
-								interpolationLeft2 = d3.time.hour.offset(brushContextDisLeft.extent()[1],-2*stepTemporal);
-								break;
-							case "d":
-								var1 = d3.time.day.offset(brushContextDisLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.day.offset(brushContextDisLeft.extent()[1], stepTemporal);
-								//
-								interpolationLeft1 = d3.time.day.offset(brushContextDisLeft.extent()[0],-2*stepTemporal);
-								interpolationLeft2 = d3.time.day.offset(brushContextDisLeft.extent()[1],-2*stepTemporal);
-								break;
-//							case 3:
-//								var1 = d3.time.week.offset(brushContextDisLeft.extent()[0], -stepTemporal);
-//								var2 = d3.time.week.offset(brushContextDisLeft.extent()[1], stepTemporal);
-//								//
-//								interpolationLeft1 = d3.time.week.offset(brushContextDisLeft.extent()[0],-2*stepTemporal);
-//								interpolationLeft2 = d3.time.week.offset(brushContextDisLeft.extent()[1],-2*stepTemporal);
-//								break;
-							case "b":
-								var1 = d3.time.month.offset(brushContextDisLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.month.offset(brushContextDisLeft.extent()[1], stepTemporal);
-								//
-								interpolationLeft1 = d3.time.month.offset(brushContextDisLeft.extent()[0],-2*stepTemporal);
-								interpolationLeft2 = d3.time.month.offset(brushContextDisLeft.extent()[1],-2*stepTemporal);
-								break;
-							case "y":
-								var1 = d3.time.year.offset(brushContextDisLeft.extent()[0], -stepTemporal);
-								var2 = d3.time.year.offset(brushContextDisLeft.extent()[1], stepTemporal);
-								//
-								interpolationLeft1 = d3.time.year.offset(brushContextDisLeft.extent()[0],-2*stepTemporal);
-								interpolationLeft2 = d3.time.year.offset(brushContextDisLeft.extent()[1],-2*stepTemporal);
-								break;
-						}
+						
+						let var1 = getTimeOffset(brushContextDisLeft.extent()[0], -stepTemporal,polarityTemporal);
+						let var2 = getTimeOffset(brushContextDisLeft.extent()[1], stepTemporal,polarityTemporal);
+						//
+						let interpolationLeft1 = getTimeOffset(brushContextDisLeft.extent()[0],-2*stepTemporal,polarityTemporal);
+						let interpolationLeft2 = getTimeOffset(brushContextDisLeft.extent()[1],-2*stepTemporal,polarityTemporal);
+						
 						if(interpolationLeft1 < dateMinRange && interpolationLeft2 < dateMinRange ){
 							return false;
 						}
@@ -3652,33 +3001,9 @@ function areaFocus(d, index) {
 	areaZoom = d3.svg.area() 
 			.interpolate(opts.interpolateType)
 			.defined(function(d) {
-				var var1, var2;
-				switch (polarityTemporal) {
-					case "m":
-						var1 = d3.time.minute.offset(brushContext.extent()[0],-stepTemporal);
-						var2 = d3.time.minute.offset(brushContext.extent()[1],stepTemporal);
-						break;
-					case "h":
-						var1 = d3.time.hour.offset(brushContext.extent()[0],-stepTemporal);
-						var2 = d3.time.hour.offset(brushContext.extent()[1],stepTemporal);
-						break;
-					case "d":
-						var1 = d3.time.day.offset(brushContext.extent()[0],-stepTemporal);
-						var2 = d3.time.day.offset(brushContext.extent()[1],stepTemporal);
-						break;
-//					case 3:
-//						var1 = d3.time.week.offset(brushContext.extent()[0],-stepTemporal);
-//						var2 = d3.time.week.offset(brushContext.extent()[1],stepTemporal);
-//						break;
-					case "b":
-						var1 = d3.time.month.offset(brushContext.extent()[0],-stepTemporal);
-						var2 = d3.time.month.offset(brushContext.extent()[1],stepTemporal);
-						break;
-					case "y":
-						var1 = d3.time.year.offset(brushContext.extent()[0],-stepTemporal);
-						var2 = d3.time.year.offset(brushContext.extent()[1],stepTemporal);
-						break;
-				}
+				
+				let var1 = getTimeOffset(brushContext.extent()[0],-stepTemporal,polarityTemporal);
+				let var2 = getTimeOffset(brushContext.extent()[1],stepTemporal,polarityTemporal);
 //				return d.date;
 				return d.date >= (var1) && d.date <= (var2);
 			})
@@ -3690,52 +3015,12 @@ function areaFocus(d, index) {
 	areaDistortionRight = d3.svg.area()
 			.interpolate(opts.interpolateType)
 			.defined(function(d) {
-				var var1, var2;
-				var interpolationRight1, interpolationRight2;
-				switch (polarityTemporal) {
-					case "m":
-						var1 = d3.time.minute.offset(brushContextDisRight.extent()[0],-stepTemporal);
-						var2 = d3.time.minute.offset(brushContextDisRight.extent()[1], stepTemporal);
-						//
-						interpolationRight1 = d3.time.minute.offset(brushContextDisRight.extent()[0],+4*stepTemporal);
-						interpolationRight2 = d3.time.minute.offset(brushContextDisRight.extent()[1],+4*stepTemporal);
-						break;
-					case "h":	
-						var1 = d3.time.hour.offset(brushContextDisRight.extent()[0],-stepTemporal);
-						var2 = d3.time.hour.offset(brushContextDisRight.extent()[1], stepTemporal);
-						//
-						interpolationRight1 = d3.time.hour.offset(brushContextDisRight.extent()[0],+4*stepTemporal);
-						interpolationRight2 = d3.time.hour.offset(brushContextDisRight.extent()[1],+4*stepTemporal);
-						break;
-					case "d":
-						var1 = d3.time.day.offset(brushContextDisRight.extent()[0],-stepTemporal);
-						var2 = d3.time.day.offset(brushContextDisRight.extent()[1], stepTemporal);
-						//
-						interpolationRight1 = d3.time.day.offset(brushContextDisRight.extent()[0],+4*stepTemporal);
-						interpolationRight2 = d3.time.day.offset(brushContextDisRight.extent()[1],+4*stepTemporal);
-						break;
-//					case 3:
-//						var1 = d3.time.week.offset(brushContextDisRight.extent()[0],-stepTemporal);
-//						var2 = d3.time.week.offset(brushContextDisRight.extent()[1], stepTemporal);
-//						//
-//						interpolationRight1 = d3.time.week.offset(brushContextDisRight.extent()[0],+4*stepTemporal);
-//						interpolationRight2 = d3.time.week.offset(brushContextDisRight.extent()[1],+4*stepTemporal);
-//						break;
-					case "b":
-						var1 = d3.time.month.offset(brushContextDisRight.extent()[0],-stepTemporal);
-						var2 = d3.time.month.offset(brushContextDisRight.extent()[1], stepTemporal);
-						//
-						interpolationRight1 = d3.time.month.offset(brushContextDisRight.extent()[0],+4*stepTemporal);
-						interpolationRight2 = d3.time.month.offset(brushContextDisRight.extent()[1],+4*stepTemporal);
-						break;
-					case "y":
-						var1 = d3.time.year.offset(brushContextDisRight.extent()[0],-stepTemporal);
-						var2 = d3.time.year.offset(brushContextDisRight.extent()[1], stepTemporal);
-						//
-						interpolationRight1 = d3.time.year.offset(brushContextDisRight.extent()[0],+4*stepTemporal);
-						interpolationRight2 = d3.time.year.offset(brushContextDisRight.extent()[1],+4*stepTemporal);
-						break;
-				}
+				let var1 = getTimeOffset(brushContextDisRight.extent()[0],-stepTemporal,polarityTemporal);
+				let var2 = getTimeOffset(brushContextDisRight.extent()[1], stepTemporal,polarityTemporal);
+				//
+				let interpolationRight1 = getTimeOffset(brushContextDisRight.extent()[0],+4*stepTemporal,polarityTemporal);
+				let interpolationRight2 = getTimeOffset(brushContextDisRight.extent()[1],+4*stepTemporal,polarityTemporal);
+				
 				if(interpolationRight1 > dateMaxRange && interpolationRight2 > dateMaxRange ){
 					return false;
 				}
@@ -3759,7 +3044,6 @@ function areaFocus(d, index) {
 			return areaDistortionRight(d.values);
 			break;
 		case 3:
-//			return null;
 			return areaZoom(d.values);
 			break;
 	}
@@ -3773,133 +3057,14 @@ function areaFocus(d, index) {
  * @returns {Array}
  */
 function calculeExtent(brushExtent, index) {
-	var extent = [], 
-	d0, 
-	d1;
-	switch (polarityTemporal) {
-		case "m":
-			d0 = d3.time.minute.offset(brushExtent[0], index * stepTemporal );
-			d1 = d3.time.minute.offset(brushExtent[0], index * stepTemporal + stepTemporal);
-			break;
-		case "h":
-			d0 = d3.time.hour.offset(brushExtent[0], index * stepTemporal );
-			d1 = d3.time.hour.offset(brushExtent[0], index * stepTemporal + stepTemporal);
-			break;
-		case "d":
-			d0 = d3.time.day.offset(brushExtent[0], index * stepTemporal );
-			d1 = d3.time.day.offset(brushExtent[0], index * stepTemporal + stepTemporal);			
-			break;
-//		case 3:
-//			d0 = d3.time.week.offset(brushExtent[0], index * stepTemporal );
-//			d1 = d3.time.week.offset(brushExtent[0], index * stepTemporal + stepTemporal);			
-//			break;
-		case "b":
-			d0 = d3.time.month.offset(brushExtent[0], index * stepTemporal );
-			d1 = d3.time.month.offset(brushExtent[0], index * stepTemporal + stepTemporal);				
-			break;
-		case "y":
-			d0 = d3.time.year.offset(brushExtent[0], index * stepTemporal );
-			d1 = d3.time.year.offset(brushExtent[0], index * stepTemporal + stepTemporal);				
-			break;
-	}
-
-	extent = [ d0, d1 ]
+	let extent = [];
+	let d0 = getTimeOffset(brushExtent[0], index * stepTemporal, polarityTemporal);
+	let d1 = getTimeOffset(brushExtent[0], index * stepTemporal + stepTemporal, polarityTemporal);
+	
+	extent = [d0, d1]
 	return extent;
 }
 
-/**
- * LOAD DATA Parser Date and Time and Value from Path Source
- * 
- * @param d
- * @returns {Array}
- */
-function type(d) {
-	console.log("parsing..")
-	d.date = parseDate(d.Date + " " + d.Time);
-	d.value = +d.value; // Value numeric
-	return [ d.date, d.value ];
-}
-
-/**
- * 
- * @param huedegree
- * @returns {String}
- */
-function GetRGBColorString(huedegree) {
-	var rgbcolor = hsvToRgb(huedegree, 80, 80);
-	var rgbstring = "rgb(" + rgbcolor[0] + "," + rgbcolor[1] + ","
-			+ rgbcolor[2] + ")";
-	return rgbstring;
-}
-
-function hsvToRgb(h, s, v) {
-	var r, g, b;
-	var i;
-	var f, p, q, t;
-	// Hue range from 0 to 360
-	// Make sure our arguments stay in-range
-
-	h = Math.max(0, Math.min(360, h));
-	s = Math.max(0, Math.min(100, s));
-	v = Math.max(0, Math.min(100, v));
-
-	// We accept saturation and value arguments from 0 to 100, however, the
-	// saturation and value are calculated from a range of 0 to 1. We make
-	// That conversion here.
-	s /= 100;
-	v /= 100;
-
-	if (s == 0) {
-		// Achromatic (grey)
-		r = g = b = v;
-		return [ Math.round(r * 255), Math.round(g * 255), Math.round(b * 255) ];
-	}
-
-	h /= 60; // sector 0 to 5
-	i = Math.floor(h);
-	f = h - i; // factorial part of h
-	p = v * (1 - s);
-	q = v * (1 - s * f);
-	t = v * (1 - s * (1 - f));
-
-	switch (i) {
-	case 0:
-		r = v;
-		g = t;
-		b = p;
-		break;
-
-	case 1:
-		r = q;
-		g = v;
-		b = p;
-		break;
-
-	case 2:
-		r = p;
-		g = v;
-		b = t;
-		break;
-
-	case 3:
-		r = p;
-		g = q;
-		b = v;
-		break;
-
-	case 4:
-		r = t;
-		g = p;
-		b = v;
-		break;
-
-	default: // case 5:
-		r = v;
-		g = p;
-		b = q;
-	}
-	return [ Math.round(r * 255), Math.round(g * 255), Math.round(b * 255) ];
-}
 
 
 function brushStart(){
@@ -3908,9 +3073,10 @@ function brushStart(){
 
 
 function brushEnd(){
+	console.log("brushEnd...")
 	blocage = false;
 	if (!opts.animation) {
-		updateFocus();
+		//updateFocus();
 	}
 }
 
@@ -3918,7 +3084,6 @@ function brushEnd(){
 function createBrushInContext(){
 	
 	//Getting Averange date depends of stepTemporal
-	
 	indexDateAveRange = Math.round(timeWindow.length/2);
 	var extentBrushContext;
 	extentBrushContext = [timeWindow[(indexDateAveRange - opts.factBrushContext/2)],timeWindow[(indexDateAveRange + opts.factBrushContext/2)]];
@@ -3938,8 +3103,6 @@ function createBrushInContext(){
 					.on("brush", brushContextMove)
 					.on("brushend", brushEnd);
 	
-	//
-	brushContextHistoric = brushContext.extent();
 	
 	//NorLeft
 	xScaleContextNorLeft = d3.time.scale()
@@ -3952,7 +3115,7 @@ function createBrushInContext(){
 								.on("brushstart", brushStart)
 								.on("brush", brushContextNorLeftMove)
 								.on("brushend", brushEnd);
-
+	
 	
 	//DisLeft
 	xScaleContextDisLeft = d3.time.scale()
@@ -3997,5 +3160,15 @@ function createBrushInContext(){
 								.on("brushstart", brushStart)
 								.on("brush", brushContextDisRightMove)
 								.on("brushend", brushEnd);
+	
+	
+	
+	//FLAG TO IMPROVE UPDATE TIME
+	brushContextFlag = brushContext.extent();
+	brushContextNorLeftFlag = brushContextNorLeft.extent();
+	brushContextNorRightFlag = brushContextNorRight.extent();
+	brushContextDisLeftFlag = brushContextDisLeft.extent();
+	brushContextDisRightFlag = brushContextDisRight.extent();
+	
 
 }
