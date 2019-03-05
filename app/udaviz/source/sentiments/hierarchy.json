@@ -1,0 +1,70 @@
+{
+	"ranges": {
+		"name": "sentiment ranges",
+		"children": [{
+				"name": "Deactivation Pleasant",
+				"children": [{
+						"name": "Contented"
+					},
+					{
+						"name": "Serene"
+					},
+					{
+						"name": "Relaxed"
+					},
+					{
+						"name": "Calm"
+					}
+				]
+			},
+			{
+				"name": "Unpleasant Deactivation",
+				"children": [{
+						"name": "Lethargic"
+					},
+					{
+						"name": "Bored"
+					},
+					{
+						"name": "Depressed"
+					},
+					{
+						"name": "Sad"
+					}
+				]
+			},
+			{
+				"name": "Activation Unpleasant",
+				"children": [{
+						"name": "Upset"
+					},
+					{
+						"name": "Stressed"
+					},
+					{
+						"name": "Nervous"
+					},
+					{
+						"name": "Tense"
+					}
+				]
+			},
+			{
+				"name": "Pleasant Activation",
+				"children": [{
+						"name": "Alert"
+					},
+					{
+						"name": "Excited"
+					},
+					{
+						"name": "Elated"
+					},
+					{
+						"name": "Happy"
+					}
+				]
+			}
+		]
+	}
+}

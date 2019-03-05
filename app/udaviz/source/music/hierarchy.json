@@ -1,0 +1,66 @@
+{"ranges": {
+		"name": "music genres",
+		"children":[
+			{"name":"RHYTHM MUSIC",
+				"children": [{"name": "BLUE NOTE",
+								"children":[{"name": "blues"},
+											{"name": "jazz"}]},
+							 {"name": "R 'N' B",
+								"children":[{"name": "r 'n' b"},
+											{"name": "soul"},
+											{"name": "funk"}]}]},
+			{"name":"ROCK MUSIC",
+				"children": [
+							{"name": "HEAVY MUSIC",
+								"children":[
+											{"name": "INDUSTRIAL GOTHIC",
+												"children":[
+															{"name": "industrial metal"},
+															{"name": "industrial"}]},
+											{"name": "METAL",
+												"children":[
+															{"name": "black metal"},
+															{"name": "death metal"},
+															{"name": "heavy metal"}]},														
+											{"name": "PUNK/WAVE",
+											
+												"children":[
+															{"name": "punk"},
+															{"name": "new wave"},
+															{"name": "psychobilly"},
+															{"name": "hardcore punk"}]}
+											]},	
+							{"name": "CLASSIC ROCK",
+												"children":[
+															{"name": "hard rock"},
+															{"name": "psychedelic"},
+															{"name": "rock"}]},
+							{"name": "ROCK INDIE",
+												"children":[
+															{"name": "indie rock"},
+															{"name": "alternative"}]}
+						]
+			},
+			{"name": "POP MUSIC",
+				"children":[{"name": "pop"},
+							{"name": "indie pop"}]},
+			 {"name":"FOLK AND COUNTRY",
+				"children":[{"name":"country"},
+							{"name":"folk"}]},
+			{"name":"JAMAICAN",
+				"children":[{"name":"ska"},
+							{"name":"reggae"},
+							{"name":"dub"}]},
+			{"name":"ELECTRONICA",
+				"children":[
+							{"name":"RAP MUSIC",
+								"children":[{"name":"hip-hop"},
+											{"name":"rap"}]},
+							{"name":"BREAKDANCE",
+								"children":[{"name":"house"},
+											{"name":"trance"}]},
+																		{"name":"electronic"},
+							{"name":"downtempo"}]}
+		]
+	}
+}

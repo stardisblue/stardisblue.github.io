@@ -1,0 +1,90 @@
+{
+	"ranges": {
+		"name": "Seria A",
+		"children": [{
+			"name": "Equipos",
+			"color":"#a1d99b",
+			"children": [{
+					"name": "@barcelonaSC",
+					"color": "#FBEC5D",
+					"img": "img/equipos/bsc.png"
+				},
+				{
+					"name": "@UCatolicaEC",
+					"color": "#00CED1",
+					"img": "img/equipos/catolica.png"
+				},
+				{
+					"name": "@elnacionalec",
+					"color": "#FF6961",
+					"img": "img/equipos/nacional.png"
+				},
+				{
+					"name": "@DCuencaOficial",
+					"color": "#DC143C",
+					"img": "img/equipos/cuenca.png"
+				},
+				{
+					"name": "@DelfinSC",
+					"color": "#1E90FF",
+					"img": "img/equipos/delfin.png"
+				},
+				{
+					"name": "@GuayaquilCityFC",
+					"color": "#87CEFA",
+					"img": "img/equipos/guayaquil_city.png"
+				},
+				{
+					"name": "@LDU_Oficial",
+					"color": "#bdbdbd",
+					"img": "img/equipos/ldu.png"
+				},
+				{
+					"name": "@cd_olmedo",
+					"color": "#556B2F",
+					"img": "img/equipos/olmedo.png"
+				},
+				{
+					"name": "@Aucas45",
+					"color": "#F0E68C",
+					"img": "img/equipos/aucas.png"
+				},
+				{
+					"name": "@Macara_Oficial",
+					"color": "#4682B4",
+					"img": "img/equipos/macara.png"
+				},
+				{
+					"name": "@ClubMushucRuna1",
+					"color": "#008080",
+					"img": "img/equipos/mushucruna.png"
+				},
+				{
+					"name": "@CSEmelec",
+					"color": "#2A52BE",
+					"img": "img/equipos/emelec.png"
+				},
+				{
+					"name": "@IDV_EC",
+					"color": "#800080",
+					"img": "img/equipos/independiente.png"
+				},
+				{
+					"name": "@FuerzAmarillaSC",
+					"color": "#ADFF2F",
+					"img": "img/equipos/fuerza_amarilla.png"
+				},
+				{
+					"name": "@CDAmericaQuito",
+					"color": "#32CD32",
+					"img": "img/equipos/america_quito.png"
+				},
+				{
+					"name": "@TecnicoUOficial",
+					"color": "#E6E6FA",
+					"img": "img/equipos/tecnico.png"
+				}
+			]
+		}]
+	}
+}

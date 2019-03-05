@@ -1,0 +1,162 @@
+body {
+	font-family: 'Roboto', 'Source Sans Pro', sans-serif;
+	background: white; /* #f9f9f9ff; */ /* #f1f1f1; */
+}
+
+h1 {
+	
+}
+
+h2 {
+	
+}
+
+h3 {
+	
+}
+
+h4 {
+	
+}
+
+div {
+	-webkit-user-select: none; /* Chrome, Opera, Safari */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	/* user-select: none; Standard syntax */
+}
+
+#headerApp-wrapper {
+	padding: 10px 10px 10px 10px;
+	background: #f0f0f0;
+	border-bottom: 1px solid #bdbdbd;
+}
+
+#titleApp {
+	vertical-align: middle;
+	font-size: 24px;
+	/* font-weight: bold; */
+	text-transform: uppercase;
+}
+
+/* Main title */
+/* ========================== */
+#main-title-vis-wrapper {
+	text-align: center;
+	vertical-align: middle;
+	/* background:blue; */
+}
+
+#main-title-vis {
+	/* border:1px solid; */
+	padding: 10px 0px 0px 10px;
+}
+
+#main-title-date {
+	display: inline-block;
+	font-weight: bold;
+	color: black;
+}
+
+#main-title-quantitative {
+	display: inline-block;
+	font-weight: bold;
+	color: #3366cc;
+	font-size: 40px;
+}
+
+#main-title-from {
+	display: inline-block;
+	border-radius: 5px;
+	padding: 2px 5px 2px 5px;
+	text-transform: capitalize;
+}
+
+#main-title-to {
+	display: inline-block;
+}
+/* ========================== */
+
+/* VIS title */
+/* ========================== */
+.title-vis-wrapper {
+	vertical-align: middle;
+	text-align: center;
+	/* background: red; */
+	margin: 5px auto 0px;
+}
+
+.title-vis-wrapper .title-vis {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0px 0px 0px 0px;
+	font-size: 16px;
+	text-transform: uppercase;
+}
+/* ========================== */
+
+/* VIS wrapper */
+.vis-wrapper {
+	border: 0.5px solid #bdbdbd;
+	border-radius: 5px;
+	background: white;
+}
+
+.vis-header-wrapper {
+	/* border-style: solid; */
+	border-bottom-width: 0.5px;
+	border-bottom-style: solid;
+	border-bottom-color: #bdbdbd;
+	margin-bottom: 20px;
+}
+
+
+/* ========================== */
+
+#populationType{
+	margin-left:20px
+}
+
+.vis-population-type.active{
+	border: 1px solid #737373;
+	background-color: #4292c6;
+	color: white;
+}
+
+.vis-population-type{
+	width:100px;
+	text-transform: uppercase;
+	font-size: 11px;
+	border: 1px solid #737373;
+	background-color: white;
+	max-width: 120px;
+	min-width: 120px;
+	white-space: nowrap;
+	word-wrap: break-word;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+
+/* ========================== */
+.vis-menu-btn.active {
+	border: 1px solid #737373;
+	background-color: #4292c6;
+	color: white;
+}
+
+.vis-menu-btn {
+	font-size: 9px;
+	border: 1px solid #737373;
+	background-color: white;
+}
+/* ========================== */
+
+/* BUTTONS VIS MENU */
+.icon {
+	height: 16px;
+	width: 16px;
+	padding: 0px;
+	margin: 0px;
+}
+/* ========================== */
