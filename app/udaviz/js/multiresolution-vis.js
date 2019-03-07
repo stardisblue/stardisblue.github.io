@@ -125,7 +125,7 @@ var sDisLeft;
 var sDisRight;
 
 //
-var scaleTextLabel = d3.scale.linear();
+var scaleTextLabel = d3.scale.sqrt();
 var nest_by_key = d3.nest().key(function(d) {return d.key;});
 var stack = d3.layout.stack()
 				.offset(opts.offsetType)
@@ -1139,23 +1139,49 @@ function getFlowLabelWithoutOverlapping(){
 	
 	
 	//Adding coordonatesand other properties
+// 	datesForTextLabel.forEach(function(element){
+// 		var value = element.value;
+// 		var font = scaleTextLabel(value).toString().concat("px ").concat(text_font_family);
+// 		var textWidth = getTextWidth(element.category,font);
+		
+// 		var textWidthMiddle = textWidth/2;
+		
+// 		var x1 = scalesFocus[selectAxisFocus(element.date)](element.date)-textWidthMiddle;
+// 		var y1 = yScaleFocus(element.y0 + element.value/2 )-scaleTextLabel(value);
+// 		var x2 = (x1+textWidth);
+// 		var y2 = (y1+scaleTextLabel(value));
+// //		var coord = {"x1":x1,"y1":y1,"x2":x2-opts.toleranceTextLabel,"y2":y2-opts.toleranceTextLabel};
+		
+// 		element.coordinates = {"x1":x1,"y1":y1,"x2":x2,"y2":y2};
+// 		element.overlaping = false;
+// 	});
+	
 	datesForTextLabel.forEach(function(element){
 		var value = element.value;
-		var font = scaleTextLabel(value).toString().concat("px ").concat(text_font_family);
-		var textWidth = getTextWidth(element.category,font);
+		var objectWidth;
+		switch(opts.flowLabel){
+			case "flowLabelText":
+			var font = scaleTextLabel(value).toString().concat("px ").concat(text_font_family);
+			objectWidth = getTextWidth(element.category,font);
+				break;
+			case 'flowLabelImg':
+				objectWidth = scaleTextLabel(value); // getTextWidth(element.category,font);
+				break;
+		}
+
+		var objectHeight = scaleTextLabel(value);
+		var objectWidthMiddle = objectWidth/2;
+		var objectHeightMiddle = objectHeight/2;
 		
-		var textWidthMiddle = textWidth/2;
-		
-		var x1 = scalesFocus[selectAxisFocus(element.date)](element.date)-textWidthMiddle;
-		var y1 = yScaleFocus(element.y0 + element.value/2 )-scaleTextLabel(value);
-		var x2 = (x1+textWidth);
-		var y2 = (y1+scaleTextLabel(value));
-//		var coord = {"x1":x1,"y1":y1,"x2":x2-opts.toleranceTextLabel,"y2":y2-opts.toleranceTextLabel};
+		var x1 = scalesFocus[selectAxisFocus(element.date)](element.date)-objectWidthMiddle;
+		var y1 = yScaleFocus(element.y0 + element.value/2 )-objectHeightMiddle;
+		var x2 = (x1+objectWidth);
+		var y2 = (y1+objectHeight);
 		
 		element.coordinates = {"x1":x1,"y1":y1,"x2":x2,"y2":y2};
 		element.overlaping = false;
 	});
-	
+
 
 	return removeOverlapping(datesForTextLabel);
 }
@@ -1192,49 +1218,47 @@ function flowTextLabel(){
 					
 					
 	
-	//
-	//
-	//To create RECTANGLES around the text label 
-	//
-	//
 	
-//	var rectangleLabel = focus.select("#textsLabels").selectAll(".rect")
-//				.data(datesForTextLabel,function (d){return d.key;});
-//
-//	//update
-//	rectangleLabel
-//				//.style({"opacity":0})	
-//				.attr("x",function(d){return d.coordinates.x1})
-//				.attr("y",function(d){return d.coordinates.y1})
-//				.attr("width",(function(d){return d.coordinates.x2-d.coordinates.x1}))
-//				.attr("height",(function(d){return d.coordinates.y2-d.coordinates.y1}))
-//				.text(function(d) {return d.name;})
-//				.style({
-//						"display":"inline",
-//						"fill":"none",
-//						"stroke":"black"
-//				})
-//	
-//	//enter RECTANGLE
-//	rectangleLabel.enter().append("rect")
-//						.attr("class",function(d){return "rect" + " " + d.parentKey + " " +d.key;})
-//						.attr("x",function(d){return d.coordinates.x1})
-//						.attr("y",function(d){return d.coordinates.y1})
-//						.attr("width",(function(d){return d.coordinates.x2-d.coordinates.x1}))
-//						.attr("height",(function(d){return d.coordinates.y2-d.coordinates.y1}))
-//						.style({
-//							"display":"inline",
-//							"fill":"none",
-//							"stroke":"black"
-//							})
-//	
-//	//exit
-//	rectangleLabel.exit()
-//				.style("opacity",0)
-//				.transition()
-//				.duration(transitionDuration)
-//				.style("opacity",0)
-//				.remove();
+	// To create RECTANGLES around the text label 
+	// 
+	
+	// var rectangleLabel = focus.select("#textsLabels").selectAll(".rect")
+	// 			.data(flowWithoutOverlapping,function (d){return d.key;});
+
+	// //update
+	// rectangleLabel
+	// 			//.style({"opacity":0})	
+	// 			.attr("x",function(d){return d.coordinates.x1;})
+	// 			.attr("y",function(d){return d.coordinates.y1;})
+	// 			.attr("width",(function(d){return d.coordinates.x2-d.coordinates.x1;}))
+	// 			.attr("height",(function(d){return d.coordinates.y2-d.coordinates.y1;}))
+	// 			.text(function(d) {return d.name;})
+	// 			.style({
+	// 					"display":"inline",
+	// 					"fill":"none",
+	// 					"stroke":"black"
+	// 			})
+	
+	// //enter RECTANGLE
+	// rectangleLabel.enter().append("rect")
+	// 					.attr("class",function(d){return "rect" + " " + d.parentKey + " " +d.key;})
+	// 					.attr("x",function(d){return d.coordinates.x1;})
+	// 					.attr("y",function(d){return d.coordinates.y1;})
+	// 					.attr("width",(function(d){return d.coordinates.x2-d.coordinates.x1;}))
+	// 					.attr("height",(function(d){return d.coordinates.y2-d.coordinates.y1;}))
+	// 					.style({
+	// 						"display":"inline",
+	// 						"fill":"none",
+	// 						"stroke":"black"
+	// 						})
+	
+	// //exit
+	// rectangleLabel.exit()
+	// 			.style("opacity",0)
+	// 			// .transition()
+	// 			// .duration(transitionDuration)
+	// 			.style("opacity",0)
+	// 			.remove();
 
 }
 
@@ -1249,21 +1273,19 @@ function flowImgLabel(){
 
 	//update
 	flowLabel
-			.attr("x", function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date); })
-			.attr("y", function(d) {return yScaleFocus(d.y0 + d.value/2 ); });
+			.attr("x", function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date) - (scaleTextLabel(d.value)/2); })
+			.attr("y", function(d) {return yScaleFocus(d.y0 + d.value/2) - (scaleTextLabel(d.value)/2); }) 
+			.attr("width",function(d){return scaleTextLabel(d.value);})
+			.attr("height",function(d){return scaleTextLabel(d.value);});
 
 	//enter
 	flowLabel.enter().append("image")
 				.attr("class",function(d){return "textLabel" + " " + d.parentKey + " " +d.key;})
-				.attr("x", function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date); })
-				.attr("y", function(d) {return yScaleFocus(d.y0 + d.value/2); }) 
-				.attr("xlink:href",function(d){return d.img;})
+				.attr("x", function(d) {return scalesFocus[selectAxisFocus(d.date)](d.date) - (scaleTextLabel(d.value)/2); })
+				.attr("y", function(d) {return yScaleFocus(d.y0 + d.value/2) - (scaleTextLabel(d.value)/2); }) 
+				.attr("xlink:href",d=>{return d.img;})
 				.attr("width",function(d){return scaleTextLabel(d.value);})
-				// .attr({
-				// 				'xlink:href': opts.pathCandadoClose,  // can also add svg file here
-				// 				width: function(d) {return scaleTextLabel(d.value);},
-				// 				// height: 16
-				// 			})
+				.attr("height",function(d){return scaleTextLabel(d.value);})
 				.style({
 						"opacity":1,
 						"font-size":function(d) {return scaleTextLabel(d.value) + "px";},
@@ -1271,6 +1293,53 @@ function flowImgLabel(){
 						"text-anchor":"middle",
 						"pointer-events": "none",
 				});
+
+
+
+
+//
+	//
+	//To create RECTANGLES around the text label 
+	//
+	//
+	
+	// var rectangleLabel = focus.select("#textsLabels").selectAll(".rect")
+	// 			.data(flowWithoutOverlapping,function (d){return d.key;});
+
+	// //update
+	// rectangleLabel
+	// 			//.style({"opacity":0})	
+	// 			.attr("x",function(d){return d.coordinates.x1;})
+	// 			.attr("y",function(d){return d.coordinates.y1;})
+	// 			.attr("width",(function(d){return d.coordinates.x2-d.coordinates.x1;}))
+	// 			.attr("height",(function(d){return d.coordinates.y2-d.coordinates.y1;}))
+	// 			.text(function(d) {return d.name;})
+	// 			.style({
+	// 					"display":"inline",
+	// 					"fill":"none",
+	// 					"stroke":"black"
+	// 			})
+	
+	// //enter RECTANGLE
+	// rectangleLabel.enter().append("rect")
+	// 					.attr("class",function(d){return "rect" + " " + d.parentKey + " " +d.key;})
+	// 					.attr("x",function(d){return d.coordinates.x1;})
+	// 					.attr("y",function(d){return d.coordinates.y1;})
+	// 					.attr("width",(function(d){return d.coordinates.x2-d.coordinates.x1;}))
+	// 					.attr("height",(function(d){return d.coordinates.y2-d.coordinates.y1;}))
+	// 					.style({
+	// 						"display":"inline",
+	// 						"fill":"none",
+	// 						"stroke":"black"
+	// 						})
+	
+	// //exit
+	// rectangleLabel.exit()
+	// 			.style("opacity",0)
+	// 			// .transition()
+	// 			// .duration(transitionDuration)
+	// 			.style("opacity",0)
+	// 			.remove();
 
 }
 
