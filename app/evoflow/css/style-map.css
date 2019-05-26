@@ -1,0 +1,89 @@
+#svg-map-vis {
+	background:#f2f2f2;
+}
+
+
+/* MAP LAND */
+.land {
+	fill: #fafafa;
+	stroke: #bdbdbd; 
+}
+
+.land-borders {
+	stroke:none;
+	fill-opacity: 0;
+}
+
+.land-borders:hover {
+	stroke: black; 
+}  
+
+.land-label{
+	fill: black;
+	fill-opacity: .9;
+	font-weight: 550;
+	text-anchor: middle;
+	text-transform: capitalize;
+	pointer-events: none;
+	text-shadow:0px 0px 5px white;
+}
+
+.land-rect{
+	fill:none;
+	stroke:black;
+	stroke-width: 1px;
+}
+
+/* ==================== */
+
+
+ /* FEATURE MAP */
+.feature-map {
+	stroke: #bdbdbd; 
+	/* fill:#ccc; */
+}
+
+.feature-map:hover {
+	stroke: black;
+}
+
+
+/* ==================== */
+/* LINE ARROW */
+.line-arrow-map{
+	opacity:0.6;
+	pointer-events: none;
+}
+
+/* to change only arrowHead */
+.arrowHead{
+	fill:rgba(0, 0, 0, 0.9	);
+	stroke:rgba(0, 0, 0, 1);
+	stroke-width:1;
+	stroke-opacity:1;
+
+}
+/* ==================== */
+
+
+/* ==================== */
+/* SMALL MULTIPLE */
+/* Barchart */
+/* Axis in Barchart */
+.barchart .x.axis path, 
+.barchart .x.axis line {
+	fill:none;
+	stroke: grey; /* to hide */
+}
+
+.barchart .y.axis path,
+.barchart .y.axis line {
+	fill: none;
+	stroke: grey; /* to hide */
+}
+
+.barchart .y.axis text{
+	text-transform: capitalize;
+}
+
+

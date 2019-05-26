@@ -1,0 +1,814 @@
+{
+	"ranges": {
+		"name": "continents",
+		"children": [{
+				"name": "africa",
+				"children": [{
+						"name": "eastern africa",
+						"children": [{
+								"name": "burundi"
+							},
+							{
+								"name": "comoros"
+							},
+							{
+								"name": "djibouti"
+							},
+							{
+								"name": "eritrea"
+							},
+							{
+								"name": "ethiopia"
+							},
+							{
+								"name": "kenya"
+							},
+							{
+								"name": "madagascar"
+							},
+							{
+								"name": "malawi"
+							},
+							{
+								"name": "mauritius"
+							},
+							{
+								"name": "mayotte"
+							},
+							{
+								"name": "mozambique"
+							},
+							{
+								"name": "réunion"
+							},
+							{
+								"name": "rwanda"
+							},
+							{
+								"name": "seychelles"
+							},
+							{
+								"name": "somalia"
+							},
+							{
+								"name": "south sudan"
+							},
+							{
+								"name": "uganda"
+							},
+							{
+								"name": "tanzania"
+							},
+							{
+								"name": "zambia"
+							},
+							{
+								"name": "zimbabwe"
+							}
+						]
+					},
+					{
+						"name": "middle africa",
+						"children": [{
+								"name": "angola"
+							},
+							{
+								"name": "cameroon"
+							},
+							{
+								"name": "central african rep."
+							},
+							{
+								"name": "chad"
+							},
+							{
+								"name": "congo"
+							},
+							{
+								"name": "dr congo"
+							},
+							{
+								"name": "equatorial guinea"
+							},
+							{
+								"name": "gabon"
+							},
+							{
+								"name": "sao tome and principe"
+							}
+						]
+					},
+					{
+						"name": "northern africa",
+						"children": [{
+								"name": "algeria"
+							},
+							{
+								"name": "egypt"
+							},
+							{
+								"name": "libya"
+							},
+							{
+								"name": "morocco"
+							},
+							{
+								"name": "sudan"
+							},
+							{
+								"name": "tunisia"
+							},
+							{
+								"name": "western sahara"
+							}
+						]
+					},
+					{
+						"name": "southern africa",
+						"children": [{
+								"name": "botswana"
+							},
+							{
+								"name": "lesotho"
+							},
+							{
+								"name": "namibia"
+							},
+							{
+								"name": "south africa"
+							},
+							{
+								"name": "swaziland"
+							}
+						]
+					},
+					{
+						"name": "western africa",
+						"children": [{
+								"name": "benin"
+							},
+							{
+								"name": "burkina faso"
+							},
+							{
+								"name": "cabo verde"
+							},
+							{
+								"name": "côte d'ivoire"
+							},
+							{
+								"name": "gambia"
+							},
+							{
+								"name": "ghana"
+							},
+							{
+								"name": "guinea"
+							},
+							{
+								"name": "guinea-bissau"
+							},
+							{
+								"name": "liberia"
+							},
+							{
+								"name": "mali"
+							},
+							{
+								"name": "mauritania"
+							},
+							{
+								"name": "niger"
+							},
+							{
+								"name": "nigeria"
+							},
+							{
+								"name": "saint helena"
+							},
+							{
+								"name": "senegal"
+							},
+							{
+								"name": "sierra leone"
+							},
+							{
+								"name": "togo"
+							}
+						]
+					}
+
+				]
+			},
+			{
+				"name": "asia",
+				"children": [{
+						"name": "central asia",
+						"children": [{
+								"name": "kazakhstan"
+							},
+							{
+								"name": "kyrgyzstan"
+							},
+							{
+								"name": "tajikistan"
+							},
+							{
+								"name": "turkmenistan"
+							},
+							{
+								"name": "uzbekistan"
+							}
+						]
+					},
+					{
+						"name": "eastern asia",
+						"children": [{
+								"name": "china"
+							},
+							{
+								"name": "china, hong kong sar"
+							},
+							{
+								"name": "china, macao sar"
+							},
+							{
+								"name": "dem. people's republic of korea"
+							},
+							{
+								"name": "japan"
+							},
+							{
+								"name": "mongolia"
+							},
+							{
+								"name": "rep. of korea"
+							}
+						]
+					},
+					{
+						"name": "south-eastern asia",
+						"children": [{
+								"name": "afghanistan"
+							},
+							{
+								"name": "bangladesh"
+							},
+							{
+								"name": "bhutan"
+							},
+							{
+								"name": "india"
+							},
+							{
+								"name": "iran"
+							},
+							{
+								"name": "maldives"
+							},
+							{
+								"name": "nepal"
+							},
+							{
+								"name": "pakistan"
+							},
+							{
+								"name": "sri lanka"
+							}
+						]
+					},
+					{
+						"name": "south-eastern asia",
+						"children": [{
+								"name": "brunei darussalam"
+							},
+							{
+								"name": "cambodia"
+							},
+							{
+								"name": "indonesia"
+							},
+							{
+								"name": "laos"
+							},
+							{
+								"name": "malaysia"
+							},
+							{
+								"name": "myanmar"
+							},
+							{
+								"name": "philippines"
+							},
+							{
+								"name": "singapore"
+							},
+							{
+								"name": "thailand"
+							},
+							{
+								"name": "timor-leste"
+							},
+							{
+								"name": "viet nam"
+							}
+						]
+					},
+					{
+						"name": "western asia",
+						"children": [{
+								"name": "armenia"
+							},
+							{
+								"name": "azerbaijan"
+							},
+							{
+								"name": "bahrain"
+							},
+							{
+								"name": "cyprus"
+							},
+							{
+								"name": "georgia"
+							},
+							{
+								"name": "iraq"
+							},
+							{
+								"name": "israel"
+							},
+							{
+								"name": "jordan"
+							},
+							{
+								"name": "kuwait"
+							},
+							{
+								"name": "lebanon"
+							},
+							{
+								"name": "oman"
+							},
+							{
+								"name": "qatar"
+							},
+							{
+								"name": "saudi arabia"
+							},
+							{
+								"name": "state of palestine"
+							},
+							{
+								"name": "syrian arab republic"
+							},
+							{
+								"name": "turkey"
+							},
+							{
+								"name": "united arab emirates"
+							},
+							{
+								"name": "yemen"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "europe",
+				"children": [{
+						"name": "eastern europe",
+						"children": [{
+								"name": "belarus"
+							},
+							{
+								"name": "bulgaria"
+							},
+							{
+								"name": "czech rep."
+							},
+							{
+								"name": "hungary"
+							},
+							{
+								"name": "poland"
+							},
+							{
+								"name": "moldova"
+							},
+							{
+								"name": "romania"
+							},
+							{
+								"name": "russia"
+							},
+							{
+								"name": "slovakia"
+							},
+							{
+								"name": "ukraine"
+							}
+						]
+					},
+					{
+						"name": "northern europe",
+						"children": [{
+								"name": "channel islands"
+							},
+							{
+								"name": "denmark"
+							},
+							{
+								"name": "estonia"
+							},
+							{
+								"name": "faeroe islands"
+							},
+							{
+								"name": "finland"
+							},
+							{
+								"name": "iceland"
+							},
+							{
+								"name": "ireland"
+							},
+							{
+								"name": "isle of man"
+							},
+							{
+								"name": "latvia"
+							},
+							{
+								"name": "lithuania"
+							},
+							{
+								"name": "norway"
+							},
+							{
+								"name": "sweden"
+							},
+							{
+								"name": "united kingdom"
+							}
+						]
+					},
+					{
+						"name": "southern europe",
+						"children": [{
+								"name": "albania"
+							},
+							{
+								"name": "andorra"
+							},
+							{
+								"name": "bosnia"
+							},
+							{
+								"name": "croatia"
+							},
+							{
+								"name": "gibraltar"
+							},
+							{
+								"name": "greece"
+							},
+							{
+								"name": "holy see"
+							},
+							{
+								"name": "italy"
+							},
+							{
+								"name": "malta"
+							},
+							{
+								"name": "montenegro"
+							},
+							{
+								"name": "portugal"
+							},
+							{
+								"name": "san marino"
+							},
+							{
+								"name": "serbia"
+							},
+							{
+								"name": "slovenia"
+							},
+							{
+								"name": "spain"
+							},
+							{
+								"name": "macedonia"
+							}
+						]
+					},
+					{
+						"name": "western europe",
+						"children": [{
+								"name": "austria"
+							},
+							{
+								"name": "belgium"
+							},
+							{
+								"name": "france"
+							},
+							{
+								"name": "germany"
+							},
+							{
+								"name": "liechtenstein"
+							},
+							{
+								"name": "luxembourg"
+							},
+							{
+								"name": "monaco"
+							},
+							{
+								"name": "netherlands"
+							},
+							{
+								"name": "switzerland"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "latin america and the caribbean",
+				"children": [{
+						"name": "caribbean",
+						"children": [{
+								"name": "anguilla"
+							},
+							{
+								"name": "antigua and barbuda"
+							},
+							{
+								"name": "aruba"
+							},
+							{
+								"name": "bahamas"
+							},
+							{
+								"name": "barbados"
+							},
+							{
+								"name": "british virgin islands"
+							},
+							{
+								"name": "caribbean netherlands"
+							},
+							{
+								"name": "cayman islands"
+							},
+							{
+								"name": "cuba"
+							},
+							{
+								"name": "curaçao"
+							},
+							{
+								"name": "dominica"
+							},
+							{
+								"name": "dominican rep."
+							},
+							{
+								"name": "grenada"
+							},
+							{
+								"name": "guadeloupe"
+							},
+							{
+								"name": "haiti"
+							},
+							{
+								"name": "jamaica"
+							},
+							{
+								"name": "martinique"
+							},
+							{
+								"name": "montserrat"
+							},
+							{
+								"name": "puerto rico"
+							},
+							{
+								"name": "saint kitts and nevis"
+							},
+							{
+								"name": "saint lucia"
+							},
+							{
+								"name": "saint vincent and the grenadines"
+							},
+							{
+								"name": "sint maarten (dutch part)"
+							},
+							{
+								"name": "trinidad and tobago"
+							},
+							{
+								"name": "turks and caicos islands"
+							},
+							{
+								"name": "united states virgin islands"
+							}
+						]
+					},
+					{
+						"name": "central america",
+						"children": [{
+								"name": "belize"
+							},
+							{
+								"name": "costa rica"
+							},
+							{
+								"name": "el salvador"
+							},
+							{
+								"name": "guatemala"
+							},
+							{
+								"name": "honduras"
+							},
+							{
+								"name": "mexico"
+							},
+							{
+								"name": "nicaragua"
+							},
+							{
+								"name": "panama"
+							}
+						]
+					},
+					{
+						"name": "south america",
+						"children": [{
+								"name": "argentina"
+							},
+							{
+								"name": "bolivia"
+							},
+							{
+								"name": "brazil"
+							},
+							{
+								"name": "chile"
+							},
+							{
+								"name": "colombia"
+							},
+							{
+								"name": "ecuador"
+							},
+							{
+								"name": "falkland islands (malvinas)"
+							},
+							{
+								"name": "french guiana"
+							},
+							{
+								"name": "guyana"
+							},
+							{
+								"name": "paraguay"
+							},
+							{
+								"name": "peru"
+							},
+							{
+								"name": "suriname"
+							},
+							{
+								"name": "uruguay"
+							},
+							{
+								"name": "venezuela"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "north america",
+				"children": [{
+						"name": "bermuda"
+					},
+					{
+						"name": "canada"
+					},
+					{
+						"name": "greenland"
+					},
+					{
+						"name": "saint-pierre-et-miquelon"
+					},
+					{
+						"name": "united states of america"
+					}
+				]
+			},
+			{
+				"name": "oceania",
+				"children": [{
+						"name": "australia/new zealand",
+						"children": [{
+								"name": "australia"
+							},
+							{
+								"name": "new zealand"
+							},
+							{
+								"name": "norfolk island"
+							}
+						]
+					},
+					{
+						"name": "melanesia",
+						"children": [{
+								"name": "fiji"
+							},
+							{
+								"name": "new caledonia"
+							},
+							{
+								"name": "papua new guinea"
+							},
+							{
+								"name": "solomon islands"
+							},
+							{
+								"name": "vanuatu"
+							}
+						]
+					},
+					{
+						"name": "micronesia",
+						"children": [{
+								"name": "guam"
+							},
+							{
+								"name": "kiribati"
+							},
+							{
+								"name": "marshall islands"
+							},
+							{
+								"name": "micronesia (federated states of)"
+							},
+							{
+								"name": "nauru"
+							},
+							{
+								"name": "northern mariana islands"
+							},
+							{
+								"name": "palau"
+							}
+						]
+					},
+					{
+						"name": "polynesia",
+						"children": [{
+								"name": "american samoa"
+							},
+							{
+								"name": "cook islands"
+							},
+							{
+								"name": "french polynesia"
+							},
+							{
+								"name": "niue"
+							},
+							{
+								"name": "samoa"
+							},
+							{
+								"name": "tokelau"
+							},
+							{
+								"name": "tonga"
+							},
+							{
+								"name": "tuvalu"
+							},
+							{
+								"name": "wallis and futuna islands"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}
