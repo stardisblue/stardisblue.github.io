@@ -12,7 +12,10 @@ var dataForEventLegend = [
 	{"label":"decrease","pathImg":"img/events/arrow_down.svg"}
 ];
 
-var selectedDate; //USED IN MAP
+//USED IN MAP
+var selectedDate; 
+var typeOrientation; 
+//
 
 var minInputValue = 1;
 var maxInputValue = 100;
@@ -746,7 +749,7 @@ function loadMultiresolutionVis(){
 
 	}
 	
-
+	setMainTitleVisVisibility(false);
 	
 	
 	let calcule = calculateRangeFocus(optsMultistream.facteurNor, optsMultistream.facteurDis, optsMultistream.facteurZoom);
@@ -1470,6 +1473,8 @@ function flowImgLabel(flowWithoutOverlapping){
 
 }
 
+var dataInZoomAreaDestino = [];
+
 function execAlgosInZoomArea(){
 
 	//get the focusArea data
@@ -1494,9 +1499,8 @@ function execAlgosInZoomArea(){
 		dataInFocusBottom = dataCurrentlyMultiresolutionBottom;
 	}
 
-	let dataInZoomAreaDestino = getDataInFocus(dataInFocusBottom, brushContext.extent()[0],brushContext.extent()[1]);
+	dataInZoomAreaDestino = getDataInFocus(dataInFocusBottom, brushContext.extent()[0],brushContext.extent()[1]);
 
-	// console.log(dataInZoomAreaDestino)
 	//flow labels
 	flowLabel(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom);
 
@@ -1578,8 +1582,10 @@ function ratonOutFlow(multi){
 	
 }
 
-var isOutflowBlocked = false;
-var isInflowBlocked = false;
+// var isOutflowBlocked = false;
+// var isInflowBlocked = false;
+
+var isFlowBloqued = false;
 
 function createTooltip(){
 	
@@ -1588,7 +1594,7 @@ function createTooltip(){
 
 	multiresolutionTop.select("#multiresolutionBackground")
 					.on("mousemove",function(d){
-						if(!isOutflowBlocked){			
+						if(!isFlowBloqued){			
 							mousex = d3.mouse(this);
 							mousex = mousex[0];// + 5;
 							let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mousex)].invert(mousex)); //invert: get the domain, return range and viceversa
@@ -1639,7 +1645,7 @@ function createTooltip(){
 					})
 					
 					.on("mouseout",function(d){
-						if(!isOutflowBlocked){
+						if(!isFlowBloqued){
 							ratonOutMultiresolution();
 							// updateMainTitle(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 							// drawDataIntoMap(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
@@ -1649,7 +1655,7 @@ function createTooltip(){
 					
 	multiresolutionTop.select("#flowsInFocus").selectAll(".focus")
 			.on("mouseover",d=>{
-				if(!isOutflowBlocked){
+				if(!isFlowBloqued){
 					ratonOverFlow(d,multiresolutionTop);
 					// ratonOverLine(d);
 				}
@@ -1657,7 +1663,7 @@ function createTooltip(){
 			// .on("mouseover",ratonOverFlow)
 			.on("mousemove",function(d, i) {
 				
-				if(!isOutflowBlocked){
+				if(!isFlowBloqued){
 
 					mousex = d3.mouse(this);
 					mousex = mousex[0];// + 5;
@@ -1673,6 +1679,8 @@ function createTooltip(){
 						textsArraySelected = selectedCategory.text; //ARRAY
 						linkArraySelected = selectedCategory.link; //ARRAY link
 
+						// console.log(selectedCategory)
+
 						//ensemble
 						dataArraySelected = [];
 						if(textsArraySelected.length!=0){
@@ -1680,8 +1688,6 @@ function createTooltip(){
 								dataArraySelected[i] = {"text":textsArraySelected[i],"link":linkArraySelected[i]};
 							}
 						}
-						
-
 						
 						//points for vertical ruler
 						let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
@@ -1692,49 +1698,171 @@ function createTooltip(){
 						showVerticalRuler(x1,y1,x2,y2,verticalRulerTop);
 						
 						showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],"Click to PIN this flow",dataType_outflow,d3.event.pageX ,d3.event.pageY);
-						updateMainTitleVis(dateSelected,selectedCategory.value,dataType_outflow);
+						updateMainTitleVis(dateSelected,selectedCategory,dataType_outflow);
 						
 						//MAP BEHAIVOR
 						let destinations = selectedCategory.components.filter(d=>(d.value>0));
 						coloring(selectedCategory.item,destinations,"out");
 
+
+						d3.select("#multiresolutionBackground").attr("class","backgroundHighlight");						
+						let destinationsName = destinations.map(d=>d.properties.name);
+
+
+						// let nuevito = [];
+						// dataInZoomAreaDestino.forEach(d=>{
+						// 	let indexDestination= destinationsName.indexOf(d.category);
+						// 	if(indexDestination != -1){
+						// 		let categoryMatch = d.values.filter(v=>{
+						// 			return v.date.getTime()===dateSelected.getTime();
+						// 		});
+						// 		if(typeof categoryMatch[0] !='undefined'){
+						// 			categoryMatch[0].value = destinations[indexDestination].value;
+						// 			nuevito.push(categoryMatch[0]);
+						// 		}
+						// 	}
+						// });
+
+						// let escobas = multiresolutionBottom.select("#flowsInFocus").selectAll(".vertical-ruler").data(nuevito,d=>d.key);
+
+						// //exit
+						// escobas.exit().remove();
+
+						// //update
+						// escobas.attr("x1", x1 + "px")
+						// 		.attr("y1", d=>yScaleMultiresolutionBottom(d.y0))
+						// 		.attr("x2", x2 + "px")
+						// 		.attr("y2", d=>yScaleMultiresolutionBottom((d.y0 + d.value)))
+						// 		.style({
+						// 			"stroke":"white",
+						// 			"stroke-width":"5px",
+						// 			"display":"inline"
+						// 			// "stroke-linecap":"round"
+						// 		});
+
+						// //create
+						// escobas.enter().append("line")
+						// 					.attr("class","vertical-ruler")
+						// 					.attr("x1", x1 + "px")
+						// 					.attr("y1", d=>yScaleMultiresolutionBottom(d.y0))
+						// 					.attr("x2", x2 + "px")
+						// 					.attr("y2", d=>yScaleMultiresolutionBottom((d.y0 + d.value)))
+						// 					.style({
+						// 						"stroke":"white",//;function(d){console.log(d.color); return d.color;},
+						// 						"stroke-width":"5px",
+						// 						"display":"inline"
+						// 						// "stroke-linecap":"round"
+						// 					});
+
+
+						// let escobasTwo = multiresolutionBottom.select("#flowsInFocus").selectAll(".vertical-ruler-to").data(nuevito,d=>d.key);
+
+						// //exit
+						// escobasTwo.exit().remove();
+
+						// //update
+						// escobasTwo.attr("x1", x1 + "px")
+						// 			.attr("y1", d=>yScaleMultiresolutionBottom(d.y0)-1)
+						// 			.attr("x2", x2 + "px")
+						// 			.attr("y2", d=>yScaleMultiresolutionBottom((d.y0 + d.value))+1)
+						// 			.style({
+						// 				"stroke":"black",
+						// 				"stroke-width":"3px",
+						// 				"display":"inline",
+						// 				// "stroke-linecap":"round"
+						// 			});
+
+						// //create
+						// escobasTwo.enter().append("line")
+						// 					.attr("class","vertical-ruler-to")
+						// 					.attr("x1", x1 + "px")
+						// 					.attr("y1", d=>yScaleMultiresolutionBottom(d.y0)-1)
+						// 					.attr("x2", x2 + "px")
+						// 					.attr("y2", d=>yScaleMultiresolutionBottom((d.y0 + d.value)+1))
+						// 					.style({
+						// 						"stroke":"black",//;function(d){console.log(d.color); return d.color;},
+						// 						"stroke-width":"3px",
+						// 						"display":"inline",
+						// 						// "stroke-linecap":"round"
+						// 					});
 						
 
-						d3.select("#multiresolutionBackground").attr("class","backgroundHighlight");
-						// multiresolutionTop.selectAll(".x.grid").style({
-						// 	"stroke":"white", //"#292724",
-						// 	"opacity":layersOpacityNotSelected
+
+						// //formar un nuevo NUEVITO
+						// let otroNuevito = [];
+						// // console.log(nuevito)
+						// nuevito.forEach(d=>{
+						// 	let v =[];
+						// 	v.push(d);
+						// 	let a = {
+						// 		"category":d.category,
+						// 		"color":d.color,
+						// 		"key":d.key,
+						// 		"values":v
+						// 	};
+						// 	otroNuevito.push(a);
 						// });
+
+						// // console.log(otroNuevito)
+						// flowLabel(otroNuevito,multiresolutionBottom,yScaleMultiresolutionBottom);
+
+						// multiresolutionBottom.select("#flowsInFocus").selectAll(".focus") 	
+						// .style({
+						// 		"fill-opacity":function(d){
+						// 			return (destinationsName.indexOf(d.category) != -1 ) ? layersOpacitySelected : layersOpacityNotSelected;
+						// 			// return (selectedCategory.key == d.key || selectedCategory.key == getFatherKey(d.key) ) ? layersOpacitySelected : layersOpacityNotSelected;
+						// 		},
+						// 		"stroke-opacity":function(d){
+						// 			return (destinationsName.indexOf(d.category) != -1 ) ? layersOpacitySelected : 0;
+						// 			// return (selectedCategory.key == d.key || selectedCategory.key == getFatherKey(d.key) ) ? layersOpacitySelected : 0;
+						// 		}
+						// });	
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 						tooltipFlag = dateSelected;
 					}
 				}
 			})
 			.on("mouseout", function(d, i) {
-				if(!isOutflowBlocked){
+				if(!isFlowBloqued){
+
 					ratonOutMultiresolution();
 					ratonOutFlow(multiresolutionTop);
 					ratonOutLine();
 					//map behaivor
 					clearFeaturesLayerMap();
 					landLabel();
+					setMainTitleVisVisibility(false);
 					setMapBarchartVisibility(false);
 					setMapLegendVisibility(false);
 				}
 					// drawDataIntoMap(nivel_bajo,brushContext.extent()[0],brushContext.extent()[1]);
 			})
-			.on("mouseleave",function(d){
-				// console.log("leave...")
-			})
-			.on('contextmenu', (d)=>{
-				console.log("click right;");
+			.on('contextmenu', function(d){
+				updateGraphComparision(d);
+				 //stop showing browser menu
+				d3.event.preventDefault();
 			} )
 			.on("click",function(d){
-
-				isOutflowBlocked = !isOutflowBlocked;
-
-				//updateGraphComparision(d);
-			
+				
+				isFlowBloqued = !isFlowBloqued;
+				
+				// updateGraphComparision(d);
+				// d3.select(this).attr("data-toggle", "modal");
+				// d3.select(this).attr("data-target", "#comparisonModal");
+			 
 				// if(dataArraySelected.length!=0){
 				// 	ratonOutMultiresolution();
 				// 	showDataModal(customTimeFormatTitle(selectedCategory.date),selectedCategory.category, selectedCategory.value, dataArraySelected, "footnoteModal");
@@ -1742,19 +1870,6 @@ function createTooltip(){
 				// 	d3.select(this).attr("data-target", "#data-modal");
 				// }
 			});
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //-----------------------------------------------------------------------
@@ -1767,7 +1882,7 @@ function createTooltip(){
 
 multiresolutionBottom.select("#multiresolutionBackground-bottom")
 				.on("mousemove",function(d){
-					if(!isInflowBlocked){			
+					if(!isFlowBloqued){			
 						mousex = d3.mouse(this);
 						mousex = mousex[0];// + 5;
 						let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mousex)].invert(mousex)); //invert: get the domain, return range and viceversa
@@ -1817,7 +1932,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 				})
 
 				.on("mouseout",function(d){
-					if(!isInflowBlocked){
+					if(!isFlowBloqued){
 						ratonOutMultiresolution();
 						// updateMainTitle(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 						// drawDataIntoMap(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
@@ -1828,13 +1943,13 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 
 	multiresolutionBottom.select("#flowsInFocus").selectAll(".focus")
 				.on("mouseover",d=>{
-					if(!isInflowBlocked){
+					if(!isFlowBloqued){
 						ratonOverFlow(d,multiresolutionBottom);
 					}
 				})
 				.on("mousemove",function(d, i) {
 
-					if(!isInflowBlocked){
+					if(!isFlowBloqued){
 					
 						mousex = d3.mouse(this);
 						mousex = mousex[0];// + 5;
@@ -1870,7 +1985,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 							showVerticalRuler(x1,y1,x2,y2,verticalRulerBottom);
 							
 							showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],"Click to PIN this flow",dataType_inflow,d3.event.pageX ,d3.event.pageY);
-							updateMainTitleVis(dateSelected,selectedCategory.value,dataType_inflow);
+							updateMainTitleVis(dateSelected,selectedCategory,dataType_inflow);
 							
 							d3.select("#multiresolutionBackground-bottom").attr("class","backgroundHighlight");
 							// multiresolutionBottom.selectAll(".x.grid").style({
@@ -1885,11 +2000,12 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 
 				})
 				.on("mouseout", function(d, i) {
-					if(!isInflowBlocked){
+					if(!isFlowBloqued){
 						ratonOutMultiresolution();
 						ratonOutFlow(multiresolutionBottom);
 						clearFeaturesLayerMap();
 						landLabel();
+						setMainTitleVisVisibility(false);
 						setMapBarchartVisibility(false);
 						setMapLegendVisibility(false);
 					}
@@ -1902,7 +2018,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 					console.log("click right;");
 				} )
 				.on("click",function(d){
-					isInflowBlocked = !isInflowBlocked;
+					isFlowBloqued = !isFlowBloqued;
 				});
 
 
@@ -2017,16 +2133,27 @@ function getTooltipLeftPosition(){
 }
 
 
-function updateMainTitleVis(timePeriod,quantitative,dataTypeOrientation){
-	let date_title = "At "+customTimeFormatTitle(timePeriod)+",";
+function updateMainTitleVis(timePeriod,selectedCategory,dataTypeOrientation){
+
+	setMainTitleVisVisibility(true);
+
+	let quantitative  = selectedCategory.value;
+	let category = selectedCategory.category;
+	let date_title = jsCapitalize(category) + "-"+customTimeFormatTitle(timePeriod);
 	document.getElementById("date-title").innerHTML = date_title;
 	document.getElementById("quantitative-value").innerHTML = customNumberFormat(quantitative);
 	document.getElementById("label-value").innerHTML = dataType + " " + dataTypeOrientation;
 
 	selectedDate = timePeriod;
+	typeOrientation = dataTypeOrientation;
+}
 
+function setMainTitleVisVisibility(visibility){
+
+	document.getElementById("msg-title-wrapper").style.opacity = visibility?1:0;
 
 }
+
 
 function createGroupForContextBrushes() {
 	/**

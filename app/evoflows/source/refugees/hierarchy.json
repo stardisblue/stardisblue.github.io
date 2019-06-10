@@ -4,6 +4,30 @@
 		"children": [{
 				"name": "africa",
 				"children": [{
+						"name": "northern africa",
+						"children": [{
+								"name": "algeria"
+							},
+							{
+								"name": "egypt"
+							},
+							{
+								"name": "libya"
+							},
+							{
+								"name": "morocco"
+							},
+							{
+								"name": "sudan"
+							},
+							{
+								"name": "tunisia"
+							},
+							{
+								"name": "western sahara"
+							}
+						]
+					}, {
 						"name": "eastern africa",
 						"children": [{
 								"name": "burundi"
@@ -98,31 +122,7 @@
 							}
 						]
 					},
-					{
-						"name": "northern africa",
-						"children": [{
-								"name": "algeria"
-							},
-							{
-								"name": "egypt"
-							},
-							{
-								"name": "libya"
-							},
-							{
-								"name": "morocco"
-							},
-							{
-								"name": "sudan"
-							},
-							{
-								"name": "tunisia"
-							},
-							{
-								"name": "western sahara"
-							}
-						]
-					},
+
 					{
 						"name": "southern africa",
 						"children": [{
@@ -247,7 +247,7 @@
 						]
 					},
 					{
-						"name": "south-eastern asia",
+						"name": "southern asia",
 						"children": [{
 								"name": "afghanistan"
 							},
@@ -377,40 +377,6 @@
 			{
 				"name": "europe",
 				"children": [{
-						"name": "eastern europe",
-						"children": [{
-								"name": "belarus"
-							},
-							{
-								"name": "bulgaria"
-							},
-							{
-								"name": "czech rep."
-							},
-							{
-								"name": "hungary"
-							},
-							{
-								"name": "poland"
-							},
-							{
-								"name": "moldova"
-							},
-							{
-								"name": "romania"
-							},
-							{
-								"name": "russia"
-							},
-							{
-								"name": "slovakia"
-							},
-							{
-								"name": "ukraine"
-							}
-						]
-					},
-					{
 						"name": "northern europe",
 						"children": [{
 								"name": "channel islands"
@@ -452,7 +418,41 @@
 								"name": "united kingdom"
 							}
 						]
+					}, {
+						"name": "eastern europe",
+						"children": [{
+								"name": "belarus"
+							},
+							{
+								"name": "bulgaria"
+							},
+							{
+								"name": "czech rep."
+							},
+							{
+								"name": "hungary"
+							},
+							{
+								"name": "poland"
+							},
+							{
+								"name": "moldova"
+							},
+							{
+								"name": "romania"
+							},
+							{
+								"name": "russia"
+							},
+							{
+								"name": "slovakia"
+							},
+							{
+								"name": "ukraine"
+							}
+						]
 					},
+
 					{
 						"name": "southern europe",
 						"children": [{
@@ -539,10 +539,52 @@
 				]
 			},
 			{
-				"name": "latin america and the caribbean",
+				"name": "america",
 				"children": [{
-						"name": "caribbean",
+						"name": "north america",
 						"children": [{
+								"name": "bermuda"
+							},
+							{
+								"name": "canada"
+							},
+							{
+								"name": "greenland"
+							},
+							{
+								"name": "saint-pierre-et-miquelon"
+							},
+							{
+								"name": "united states of america"
+							}
+						]
+					}, {
+						"name": "central america",
+						"children": [{
+								"name": "belize"
+							},
+							{
+								"name": "costa rica"
+							},
+							{
+								"name": "el salvador"
+							},
+							{
+								"name": "guatemala"
+							},
+							{
+								"name": "honduras"
+							},
+							{
+								"name": "mexico"
+							},
+							{
+								"name": "nicaragua"
+							},
+							{
+								"name": "panama"
+							},
+							{
 								"name": "anguilla"
 							},
 							{
@@ -623,34 +665,6 @@
 						]
 					},
 					{
-						"name": "central america",
-						"children": [{
-								"name": "belize"
-							},
-							{
-								"name": "costa rica"
-							},
-							{
-								"name": "el salvador"
-							},
-							{
-								"name": "guatemala"
-							},
-							{
-								"name": "honduras"
-							},
-							{
-								"name": "mexico"
-							},
-							{
-								"name": "nicaragua"
-							},
-							{
-								"name": "panama"
-							}
-						]
-					},
-					{
 						"name": "south america",
 						"children": [{
 								"name": "argentina"
@@ -698,25 +712,7 @@
 					}
 				]
 			},
-			{
-				"name": "north america",
-				"children": [{
-						"name": "bermuda"
-					},
-					{
-						"name": "canada"
-					},
-					{
-						"name": "greenland"
-					},
-					{
-						"name": "saint-pierre-et-miquelon"
-					},
-					{
-						"name": "united states of america"
-					}
-				]
-			},
+
 			{
 				"name": "oceania",
 				"children": [{

@@ -44,6 +44,7 @@ var currMapTranslate = [0,0];
 //LEGEND
 var legend_wrapper_height;
 var legend_wrapper_width;
+var margingLegendMap;
 var legendItemsPoint;
 var legendItemsChoropleth;
 
@@ -119,6 +120,8 @@ function loadMapVis(rawGeoJson){
 	dataGeoJson = rawGeoJson;
 
 	updateMapTypeRepresentation(typeMapVisualization);
+
+	updateShowArrowMap(showMapArrow);
 	
 	createMapSvg();
 	
@@ -135,15 +138,31 @@ function loadMapVis(rawGeoJson){
 		
 		//remove the path and circles of Features
 		clearFeaturesLayerMap();
+
+		if(isFlowBloqued){
+			coloring(currSelectedItem,currGroupedData,currOrientation);
+		}
+	});
+
+	$("#btnArrow").click(function() {
 		
-		drawDataIntoMap(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
+		if (!this.classList.contains("active")) {
+			showMapArrow = true;
+		} else {
+			showMapArrow = false;
+		}
+		this.classList.toggle("active");
+		
+		clearFeaturesLayerMap();
+		
+		if(isFlowBloqued){
+			coloring(currSelectedItem,currGroupedData,currOrientation);
+		}
 	});
 }
 
 
 function updateMapTypeRepresentation(typeRepresentation){
-
-	mapTypeRepresentation = typeRepresentation;
 
 	document.getElementById("choropleth").classList.remove("active");
 	document.getElementById("bubbles").classList.remove("active");
@@ -154,16 +173,39 @@ function updateMapTypeRepresentation(typeRepresentation){
 	if(typeRepresentation==="bubbles"){
 		document.getElementById("bubbles").classList.add("active");
 	}
+
+
+}
+
+function updateShowArrowMap(showArrow){
+	document.getElementById("btnArrow").classList.remove("active");
+	if(showArrow){
+		document.getElementById("btnArrow").classList.add("active");
+	}
 }
 
 function setMapBarchartVisibility(visibility){
 	gBarchartMap.style({
 		"opacity":visibility?1:0
 	});
+}
 
+function updateTitleBarchart (orientation){
 	//update title in barchart
 	if(typeof selectedDate!="undefined"){
-		d3.select("#barchart-map-title").text("Highest values in " +customTimeFormatTitle(selectedDate));
+		let titleByOrientation = '';
+		switch (orientation.toLowerCase()){
+			case "in":
+					titleByOrientation = "Origin";
+				break;
+			case "out":
+				titleByOrientation = "Destination";
+				break;
+			default:
+				titleByOrientation = "";
+		}
+	
+		d3.select("#barchart-map-title").text("Top " + titleByOrientation + " Countries  in " +customTimeFormatTitle(selectedDate));
 	}
 }
 
@@ -177,7 +219,6 @@ function clearFeaturesLayerMap(){
 	//remove the path and circles of Features
     gFeatures.selectAll("path").remove();
 	gFeatures.selectAll("circle").remove();
-	// gFeatures.selectAll("text").remove();
 	gFeaturesMapLabels.selectAll(".land-label").remove();
 	gFeatures.selectAll(".feature-map").remove();
 	gFeatures.selectAll(".feature-map-selected").remove();
@@ -367,13 +408,13 @@ function zoomed() {
 	gMapZoomable.selectAll("line").style("stroke-width", 1 / d3.event.scale + "px");
 
 	//update features-land-labels and lines
-	if(currGroupedData.length>0 &&(isOutflowBlocked || isInflowBlocked)){
+	if(currGroupedData.length>0 && isFlowBloqued){
 		updateFeaturesLandLabel(currGroupedData,currSelectedItem);
 		updateLinesIntoMap(currGroupedData,currSelectedItem,currOrientation);
 	}
 
 	//update land labels
-	if(!isOutflowBlocked && !isInflowBlocked){
+	if(!isFlowBloqued){
 		landLabel();
 	}
 }
@@ -399,6 +440,7 @@ function updateScaleTranslate(toScale,toTranslate){
 function coloring(selectedItem,otherItems,orientation){
 
 	setMapBarchartVisibility(true);
+	updateTitleBarchart(orientation);
 	setMapLegendVisibility(true);
 	
 	gLandMap.selectAll("text").remove();
@@ -476,8 +518,6 @@ function coloring(selectedItem,otherItems,orientation){
 
 			break;
 			
-			
-			
 		case "bubbles":
 			
 			scaleMapPoint.domain([extentData[0],extentData[1]]);//sino max 5e7
@@ -516,8 +556,6 @@ function coloring(selectedItem,otherItems,orientation){
 	}
 
 
-	
-
 	if(selectedItem!=""){
 
 		let landSelected = gFeatures.selectAll(".feature-map-selected")
@@ -530,9 +568,6 @@ function coloring(selectedItem,otherItems,orientation){
 		//update
 		landSelected.attr("d", pathMap)
 					.style({
-						"fill":"#ffa000",
-						"fill-opacity":1,
-						"stroke":"#c67100",
 						"stroke-width": 1/currMapScale+"px"
 					});
 
@@ -542,24 +577,22 @@ function coloring(selectedItem,otherItems,orientation){
 				.attr("d", pathMap)
 				.attr("class","feature-map-selected")
 				.style({
-					"fill":"#ffa000",
-					"fill-opacity":1,
-					"stroke":"#c67100",
 					"stroke-width": 1/currMapScale+"px"
 				});
 				
 	}
 
+	
 	updateLinesIntoMap(currGroupedData,selectedItem,orientation);
 	updateFeaturesLandLabel(currGroupedData,selectedItem);
 	updateBarchart(currGroupedData,5);
-	// updateLegendMapChoropleth(extentData,orientation);
 }
 
 function updateLegendMapPoint(extent){
 
-	let xRefPosition = legend_wrapper_height/2 - scaleMapPoint.range()[1];
-	let yRefPosition = legend_wrapper_width/2;
+
+	let xRefPosition = margingLegendMap.left;
+	let yRefPosition = margingLegendMap.top + 10;
 
 	legendItemsChoropleth.style({"opacity":0});
 	legendItemsPoint.style({"opacity":1});
@@ -568,24 +601,25 @@ function updateLegendMapPoint(extent){
 	legendItemsPoint.selectAll("text").remove();
 
 	let legend_items = legendItemsPoint.selectAll("circle").data(extent);
-		
+	
+	//append circles
 	legend_items.enter().append("circle")
-					.attr("cy", function(d) {return -scaleMapPoint(d); })
+					.attr("cy", d=> -scaleMapPoint(d))
 					.attr("transform","translate(" + xRefPosition + "," + yRefPosition + ")")
-					.attr("r", function(d){return scaleMapPoint(d);})
+					.attr("r", d=>scaleMapPoint(d))
 					.style({
 						"fill":"none",
-						"stroke":"black"
+						"stroke":"#2196f3"
 					});
 
+	//append text
 	legend_items.enter().append("text")
 					.attr("class","legendText")
 					.attr("y",d=>-2*scaleMapPoint(d))
 					.attr("transform","translate(" + xRefPosition + "," + yRefPosition + ")")
 					.attr("dy","-0.1em")
-					.text(customNumberFormat)
-					;
-					
+					.text(customNumberFormat);
+
 }
 
 function updateLegendMapChoropleth(extent){
@@ -610,67 +644,74 @@ function updateBarchart(groupedData, topK){
 //orientation: in, out
 function updateLinesIntoMap(groupedData,selectedItem,orientation){
 
-	let odmatrix = [];
-	if(selectedItem!=""){
-
-		selectedItem.centroid = pathMap.centroid(getGeoJsonElementBiggestCoordinate(selectedItem));
+	if(showMapArrow){
 	
-		//tengo que hacer un 2-tupl		
-		groupedData.forEach((otherItem)=>{
+		let odmatrix = [];
+		if(selectedItem!=""){
 
-			let startArrow;
-			let endArrow;
-
-			if(orientation ==="in") {
-				startArrow = otherItem.centroid;
-				endArrow = getNewPointAlongPointA(
-					{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
-					{x:otherItem.centroid[0],y:otherItem.centroid[1]},
-					8
-				);
-			}else if(orientation ==="out"){
-				startArrow = selectedItem.centroid;
-				endArrow = otherItem.centroid;
-			}else{
-				console.log("THERE IS NOT ORIENTATION");
-			}
-			odmatrix.push({
-				"key":selectedItem.id + "-" + otherItem.id + "-" + orientation,
-				"origin": startArrow, 
-				"destination": endArrow,
-				"value":otherItem.value
-			});
-		});
-	
-
-		let lineWithArrows = gLineArrows.selectAll(".line-arrow-map")
-								.data(odmatrix,(d)=>{return d.key;});
+			selectedItem.centroid = pathMap.centroid(getGeoJsonElementBiggestCoordinate(selectedItem));
 		
-		lineWithArrows.exit().remove();
+			//tengo que hacer un 2-tupl		
+			groupedData.forEach((otherItem)=>{
 
-		lineWithArrows.attr("d",pathMap)
-						.style({
-							"stroke":()=>{return orientation==="out"?"#0069c0":"#00701a";},
-							"stroke-width": 1.5/currMapScale+"px"
-							// "stroke-width": (d)=>{
-							// 	// console.log("value",d.value,"scale",tmpValueScale(d.value))
-							// 	return tmpValueScale(d.value)+"px";
-							// }
-						});
-		lineWithArrows.enter()
-			.append("line")
-				.attr("class","line-arrow-map")						
-				.attr("x1",(d)=>{return d.origin[0];})
-				.attr("y1",(d)=>{return d.origin[1];})
-				.attr("x2",(d)=>{return d.destination[0];})
-				.attr("y2",(d)=>{return d.destination[1];})
-				.attr("marker-end","url(#arrow)")
-				.style({
-					"fill":"none",
-					"stroke":()=>{return orientation==="out"?"#0069c0":"#00701a";},
-					"stroke-width": 1.5/currMapScale+"px"
-				});								
+				let startArrow;
+				let endArrow;
+
+				if(orientation ==="in") {
+					startArrow = otherItem.centroid;
+					endArrow = getNewPointAlongPointA(
+						{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
+						{x:otherItem.centroid[0],y:otherItem.centroid[1]},
+						8
+					);
+				}else if(orientation ==="out"){
+					startArrow = selectedItem.centroid;
+					endArrow = otherItem.centroid;
+				}else{
+					console.log("THERE IS NOT ORIENTATION");
+				}
+				odmatrix.push({
+					"key":selectedItem.id + "-" + otherItem.id + "-" + orientation,
+					"origin": startArrow, 
+					"destination": endArrow,
+					"value":otherItem.value
+				});
+			});
+		
+
+			let lineWithArrows = gLineArrows.selectAll(".line-arrow-map")
+									.data(odmatrix,(d)=>{return d.key;});
+			
+			lineWithArrows.exit().remove();
+
+			lineWithArrows.attr("d",pathMap)
+							.style({
+								"stroke":()=>{return orientation==="out"?"#0069c0":"#00701a";},
+								"stroke-width": 1.5/currMapScale+"px"
+								// "stroke-width": (d)=>{
+								// 	// console.log("value",d.value,"scale",tmpValueScale(d.value))
+								// 	return tmpValueScale(d.value)+"px";
+								// }
+							});
+			lineWithArrows.enter()
+				.append("line")
+					.attr("class","line-arrow-map")						
+					.attr("x1",(d)=>{return d.origin[0];})
+					.attr("y1",(d)=>{return d.origin[1];})
+					.attr("x2",(d)=>{return d.destination[0];})
+					.attr("y2",(d)=>{return d.destination[1];})
+					.attr("marker-end","url(#arrow)")
+					.style({
+						"fill":"none",
+						"stroke":()=>{return orientation==="out"?"#0069c0":"#00701a";},
+						"stroke-width": 1.5/currMapScale+"px"
+					});								
+		}
+
+
 	}
+
+	
 }
 
 
@@ -699,15 +740,13 @@ function drawDataIntoMap (data, fromDate, toDate){
 
 function createMapLegend(){
 
-	legend_wrapper_width = mapVisWidth/5;
-	let rectVerticalSize = 80;
-	let recHorizontalSize = legend_wrapper_width/2;
-	let verticalGapEntries = 5;
-	let numEntries = 1;
-	let margingLegendMap = {top:20,right:40,bottom:5,left:20};
-	let legendMapHeight = numEntries * rectVerticalSize + (numEntries+1)*verticalGapEntries;
-	legend_wrapper_height = legendMapHeight + margingLegendMap.top + margingLegendMap.bottom;
-	
+	legend_wrapper_width = mapVisWidth/6;
+	legend_wrapper_height = mapVisHeight/7;
+	margingLegendMap = {top:40,right:50,bottom:20,left:30};
+
+	let rectChoroplethHeight = legend_wrapper_height - margingLegendMap.top - margingLegendMap.bottom;
+	let recChoroplethWidth = legend_wrapper_width - margingLegendMap.left - margingLegendMap.right;
+		
 	gLegendMap.attr("class","legend")
 			.attr("transform","translate("+ (mapVisWidth-legend_wrapper_width) +","+ (mapVisHeight - legend_wrapper_height) + ")");
 	
@@ -726,31 +765,31 @@ function createMapLegend(){
 						.attr("transform","translate("+(margingLegendMap.left)+","+(margingLegendMap.top)+")");
 
 			
-	let gradient = legendItemsChoropleth.append("defs");
-	let mainGradient = gradient.append("linearGradient")
+	let defsGradient = legendItemsChoropleth.append("defs");
+	let gradientChoropleth = defsGradient.append("linearGradient")
 								.attr("id", "legendRectMapGradiente");
 	
-	mainGradient.attr("x1", "0%")
-				.attr("y1", "0%")
-				.attr("x2", "0%")
-				.attr("y2", "100%")
-				.attr("spreadMethod", "pad"); // pad, repeat, reflect
+	gradientChoropleth.attr("x1", "0%")
+						.attr("y1", "0%")
+						.attr("x2", "0%")
+						.attr("y2", "100%")
+						.attr("spreadMethod", "pad"); // pad, repeat, reflect
 
-	mainGradient.append("stop")
-			.attr("offset", "0%")
-			.attr("stop-color",d3.rgb(outputRangeColorScaleMap[0]))
-			.style("fill-opacity", "1");
+	gradientChoropleth.append("stop")
+						.attr("offset", "0%")
+						.attr("stop-color",d3.rgb(outputRangeColorScaleMap[0]))
+						.style("fill-opacity", "1");
 
-	mainGradient.append("stop")
-			.attr("offset", "100%")
-			.attr("stop-color",d3.rgb(outputRangeColorScaleMap[1]))
-			.attr("stop-opacity", 1);
+	gradientChoropleth.append("stop")
+						.attr("offset", "100%")
+						.attr("stop-color",d3.rgb(outputRangeColorScaleMap[1]))
+						.attr("stop-opacity", 1);
 
 	legendItemsChoropleth.append("rect")
 			.attr("x",0)
 			.attr("y",0)
-			.attr("width",recHorizontalSize)
-			.attr("height",rectVerticalSize)
+			.attr("width",recChoroplethWidth)
+			.attr("height",rectChoroplethHeight)
 			.style({
 				"fill":"url(#legendRectMapGradiente)",
 				"stroke":"#fafa"
@@ -760,9 +799,8 @@ function createMapLegend(){
 	legendItemsChoropleth.append("text")
 				.attr("id","min-val-legend-map")
 				.attr("class","text")
-				.attr("x",recHorizontalSize+5)
+				.attr("x",recChoroplethWidth+5)
 				.attr("y",0)
-				// .text("min")
 				.style({
 					"alignment-baseline":"central" //only for text
 				});
@@ -771,16 +809,14 @@ function createMapLegend(){
 	legendItemsChoropleth.append("text")
 				.attr("id","max-val-legend-map")
 				.attr("class","text")
-				.attr("x",recHorizontalSize+5)
-				.attr("y",rectVerticalSize)
-				// .text("max")
+				.attr("x",recChoroplethWidth+5)
+				.attr("y",rectChoroplethHeight)
 				.style({
 					"alignment-baseline":"central" //only for text
 				});
 
 
 	//LEGEND POINT
-
 	legendItemsPoint = gLegendMap.append("g")
 								.attr("transform","translate("+(margingLegendMap.left)+","+(margingLegendMap.top)+")");
 
@@ -883,16 +919,28 @@ function mapLandMouseClick(d){
 //FEATURE MOUSE BEHAIVOR
 function featureMouseMove(d){
 
-	let titleToolTip = "<p class='title'>" + d.properties.name + "</p>";
-	let descriptionToolTip = "<p class='info'>" + customNumberFormat(d.value) + "</p>";
-	let textHtml = titleToolTip + descriptionToolTip;
+	if(typeof selectedDate!="undefined" && typeOrientation!='undefined'){
 	
-	tooltipMap.html(textHtml).style({
-		"left":(d3.event.pageX+ 10)  + "px",
-		"top":(d3.event.pageY+ 10) + "px",
-		"opacity":1,
-		"display":"inline"
-	});
+		orientation = typeOrientation.toLowerCase() == dataType_inflow?dataType_outflow:dataType_inflow;
+		
+		let title_line = "<h6>" + customTimeFormatTitle(selectedDate)  + "</h6>";
+		let categories_lines = "<div class='category-entry-wrapper'>"+
+					"<div class='category-wrapper subtitle2'>" + getCapitalize(d.properties.name) + ":&nbsp;"+"</div>"+
+					"<div class='value-wrapper'>"+
+						" <span class='quantitative-value subtitle2'>" + customNumberFormat(d.value) + "</span> "+
+						"<span class='overline'>" + dataType +" " + orientation +  "</span>"+
+					"</div>"+
+				"</div>";
+
+		let htmlText = title_line + categories_lines;
+		
+		tooltipMap.html(htmlText).style({
+			"left":(d3.event.pageX+ 10)  + "px",
+			"top":(d3.event.pageY+ 10) + "px",
+			"opacity":1,
+			"display":"inline"
+		});
+	}
 }
 
 function featureMouseOver(d){
@@ -906,25 +954,4 @@ function featureMouseOut(d){
 		"opacity":0
 	});
 }
-
-function featureMouseClick(d){
-	//kaka(timeWindow, 0, arraySubIndicators, "", jerarquiaOutflow);
-}
-
-function setMapVisTitle(idVariable){
-	switch(parseInt(idVariable)){
-		case 0:
-			document.getElementById("map-vis-title").innerHTML = "Destination Location";
-			break;
-		case 1:
-			document.getElementById("map-vis-title").innerHTML = "Origin Location";
-			break;
-	}
-}
-
-//================================================
-function updateTitleMapVis(text){
-	//document.getElementById("map-vis-title").innerHTML = text;
-}
-
 

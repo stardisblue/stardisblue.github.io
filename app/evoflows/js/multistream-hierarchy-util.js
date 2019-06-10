@@ -242,38 +242,58 @@ function fillChildrenBottomListNuevo(node){
 
 function mergingChildrenNuevo (father, children, my_leaf_level){
 	let fusion = [];
+
+	// console.log("========================")
+	// console.log("========================")
+	// console.log("========================")
+	// console.log("========================")
+	// console.log("papa",father)
 	
 	children.forEach((child)=>{
-		
 		let value = 0;
 		let text = [];
 		let components = [];
+
+		let countryWithFeatures = [{}];
 		
-		let ds_child = my_leaf_level.filter((leaf)=>{
+		let ds_child_by_date = my_leaf_level.filter((leaf)=>{
 			return leaf.key == child.key;
 		});
+		countryWithFeatures = geoJson.features.filter(d=>d.properties.name == "south america");
+
+		if(child.name ==="south america"){
+			console.log("hijo",child)
+			console.log(geoJson)
+			countryWithFeatures = geoJson.features.filter(d=>d.properties.name == "south america");
+			console.log(countryWithFeatures);
+
+		}
+		// console.log(ds_child_by_date)
 		
-		if(ds_child.length>0){
-			for(let i = 0; i < ds_child.length; i++) {
-				if(!fusion[i]){
-					value = ds_child[i].value;
-					text = ds_child[i].text;
-					components = ds_child[i].components;
+		//ds_child has all child time period 1960,1961,...
+		if(ds_child_by_date.length>0){
+			for(let indexDate = 0; indexDate < ds_child_by_date.length; indexDate++) {
+				if(!fusion[indexDate]){
+					value = ds_child_by_date[indexDate].value;
+					text = ds_child_by_date[indexDate].text;
+					components = ds_child_by_date[indexDate].components;
 				}else{
-					value = fusion[i].value + ds_child[i].value;
-					text = fusion[i].text.concat(ds_child[i].text);
-					components = fusion[i].components.concat(ds_child[i].components);
+					value = fusion[indexDate].value + ds_child_by_date[indexDate].value;
+					text = fusion[indexDate].text.concat(ds_child_by_date[indexDate].text);
+					components = fusion[indexDate].components.concat(ds_child_by_date[indexDate].components);
 				}
 				
-				fusion[i] = {
-								"date":ds_child[i].date,
+				fusion[indexDate] = {
+								"date":ds_child_by_date[indexDate].date,
 								"key":father.key,
 								"category":father.name,
-								"item":ds_child[i].item, //hay q gregar los valores de los paises 
+								//aqui hay que traer del GeoJson las coordenadas
+								//o pasarles en la firma de la funcion
+								// "item":ds_child_by_date[indexDate].item, //hay q gregar las coordenadas de los paises 
+								"item":countryWithFeatures[0], //hay q gregar las coordenadas de los paises 
 								"value":value,
 								"text":text,
 								"components":groupComponentIndicatorByName(components)
-								//"components":groupBy(components,"name")
 							};	
 			}
 		}

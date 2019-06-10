@@ -52,9 +52,7 @@
 	color: black;
 }
 
-#panelInfo{
-	cursor:pointer;
-}
+
 
 #not-used {
 	cursor: url('../img/move.png') 13 13, auto;
@@ -86,7 +84,7 @@ input[type=number] {
 }
 
 .vertical-ruler {
-	stroke-width: 2.5;
+	stroke-width: 0.2em;
 	stroke: #14171a;
 	pointer-events: none;
 	display:none;
@@ -174,18 +172,15 @@ text.textLabel {
 
 /* Axis in Focus */
 .focus .x.axis path, .focus .x.axis line {
-	fill: none;
-	stroke: none; /* to hide */
+	stroke: none;
 }
 
 .focus .y.axis path, .focus .y.axis line {
-	fill: none;
-	stroke: grey; /* to hide */
+	stroke: grey;
 }
 
 /* Axis in Context */
 .context .x.axis path, .context .x.axis line {
-	fill: none; /* to hide */
 	stroke: grey;
 	stroke-width: 0.15em;
 }

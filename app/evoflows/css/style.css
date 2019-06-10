@@ -159,9 +159,12 @@ div {
 /* APP HEADER  */
 #appHeaderWrapper {
 	background: #2e7d32!important;
-	 /* #03a9f4!important; */
 	z-index: 1;
-	/* border-bottom: 3px solid #f5da55; */
+}
+
+.navbar-brand{
+	/* margin:0; */
+	padding: 0;
 }
 
 #appTitle {
@@ -178,9 +181,15 @@ div {
 	vertical-align: middle;
 	font-size: 0.7em;
 	font-weight: 500;
-	/* letter-spacing: 0.15em; */
 	color:rgba(238, 238, 238, 0.7);
 	margin:0;
+	display:inline-block;
+}
+
+.panelInfo{
+	cursor:pointer;
+	margin:0;
+	padding: 0;
 }
 
 #appIcon {
@@ -247,7 +256,9 @@ div {
 /* ========================== */
  #vistas{
 	margin-top: 1em;
+	opacity:0 !important;
 }
+
 
 /* ========================== */
 /* ========================== */
@@ -284,7 +295,7 @@ div {
 }
 
 .vis-header{
-	margin: 0.5em 0.5em 2em 0.5em;
+	margin: 0.5em 0em 2em 0em;
 }
 
 #btnTreeNav{
@@ -427,7 +438,7 @@ div {
 .vis-population-type{
 	width:100px;	
 
-	max-width: 120px;
+	max-width: 120 fpx;
 	min-width: 120px;
 	white-space: nowrap;
 	word-wrap: break-word;
@@ -440,14 +451,18 @@ div {
 
 /*  */
 #msg-title-wrapper{
+	background:rgba(255, 255, 255, 0.8);
 	text-align: left;
 	vertical-align: middle;
-	display:inline;
+	display:inline-block;
+	position:absolute;
+	margin-top:4.5em;
+	padding-right: 2em;
 }
 
 #msg-title-wrapper .date-title-wrapper{
 	vertical-align: middle;
-	display:inline-block;
+	display:block;
 }
 #msg-title-wrapper #date-title{
 	margin:0;
@@ -465,7 +480,7 @@ div {
 	margin:0em; */
 }
 
-#msg-title-wrapper .kk{
+#msg-title-wrapper .quantitative-label{
 	display:inline-block;
 	width: 2em;
 	height: 10px;
@@ -473,8 +488,6 @@ div {
 
 #msg-title-wrapper .label-value{
 	display:inline-block;
-	/* position:relative; */
-	/* top:-0.6em; */
 	text-transform: uppercase;
 }
 

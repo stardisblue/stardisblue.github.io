@@ -36,17 +36,11 @@
 
 /* ==================== */
 
-
- /* FEATURE MAP */
-.feature-map {
-	stroke: #bdbdbd; 
-	/* fill:#ccc; */
+.feature-map-selected{
+	fill:#ffa000;
+	fill-opacity:1;
+	stroke:#c67100;
 }
-
-.feature-map:hover {
-	stroke: black;
-}
-
 
 /* ==================== */
 /* LINE ARROW */
@@ -71,15 +65,13 @@
 /* Barchart */
 /* Axis in Barchart */
 .barchart .x.axis path, 
-.barchart .x.axis line {
-	fill:none;
-	stroke: grey; /* to hide */
+.barchart .y.axis path{
+	stroke: rgba(0, 0, 0, 1);
 }
 
-.barchart .y.axis path,
+.barchart .x.axis line,
 .barchart .y.axis line {
-	fill: none;
-	stroke: grey; /* to hide */
+	stroke: rgba(0, 0, 0, 1);
 }
 
 .barchart .y.axis text{
@@ -87,3 +79,14 @@
 }
 
 
+
+.barchart .barsTopK{
+	fill:#74c476;
+}
+
+.barchart .x.grid {
+	stroke: #636363;
+	stroke-opacity:0.3;
+	stroke-width: 1;
+	pointer-events: none;
+}

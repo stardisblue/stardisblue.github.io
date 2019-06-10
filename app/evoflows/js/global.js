@@ -14,13 +14,13 @@ var nivel_context_inflow = [];
 
 
 var legend_y_outflow = "outflow";
-var sub_legend_y_outflow = "num. of refugees outgoing";
-var dataType_outflow = "outgoing";
+var sub_legend_y_outflow = "num. of refugees leaving";
+var dataType_outflow = "leaving";
 var leyend_y_inflow = "inflow";
-var sub_leyend_y_inflow = "num. of refugees incoming";
-var dataType_inflow = "incoming";
+var sub_leyend_y_inflow = "num. of refugees entering";
+var dataType_inflow = "entering";
 
-var arraySubIndicators = [0,1,5];
+var arraySubIndicators = [0];
 
 var t = d3.transition();
 var customNumberFormat = d3.format(".2s");
@@ -76,6 +76,7 @@ var numTimeStepBrushNormal;
 var outputRangeColorScaleMap;
 var featuresOutputRangeLabelScale;
 var typeMapVisualization;
+var showMapArrow = true;
 let projectionMap = d3.geo.equirectangular() ////mercator();
 						.scale(200)
 						.center([0, 0])
@@ -124,9 +125,11 @@ var num_initial_color;
 var color_range_children;
 var num_leaf_children;
 var node_radius = 9; // px
-var node_gap = 9; // px
+var node_gap = 15; // px
 var tree = d3.layout.tree();
 
+///
+var geoJson;
 
 // ==========================
 // MULTIRESOLUTION
@@ -272,6 +275,7 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 		}
 
 		dataset = [];
+		geoJson = rawGeoJson;
 		leaf_level = [];
 		hierarchyOrigen = [];
 		hierarchyDestino = [];
@@ -373,86 +377,83 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 				"date":new Date(year,0),
 				"values":	
 							// filter by each category
-							categories.map(function(currCountry){
-								
-								// FROM this current country to others countries
-								let personasSalieronDesdeX = []; 
-								byYear.filter(d=>d.origin==currCountry).forEach(function(item){
-									let countryWithFeatures = rawGeoJson.features.filter(d=>d.properties.name == item.destination);
-									if(countryWithFeatures.length==1){
-										personasSalieronDesdeX.push({
-											"type":countryWithFeatures[0].type,
-											"id":countryWithFeatures[0].id,
-											"geometry":countryWithFeatures[0].geometry,
-											"properties":countryWithFeatures[0].properties,
-											"centroid":countryWithFeatures[0].centroid,
-											"arraray":populationTypes.map(function(populationType){
-												return{
-													"item":populationType,
-													"value":Number.isNaN(+item[populationType])?0:+item[populationType]
-												}
-											})
-										});
-									}
-								});
-
-								// countries that moved to currCountry
-								var personasEntraronAX = [];
-								byYear.filter(d=>d.destination==currCountry).forEach(function(item){
-									let countryWithFeatures = rawGeoJson.features.filter(d=>d.properties.name == item.origin);
-									if(countryWithFeatures.length==1){
-										personasEntraronAX.push({
-											"type":countryWithFeatures[0].type,
-											"id":countryWithFeatures[0].id,
-											"geometry":countryWithFeatures[0].geometry,
-											"properties":countryWithFeatures[0].properties,
-											"centroid":countryWithFeatures[0].centroid,
-											"arraray":populationTypes.map(function(populationType){
-												return{
-													"item":populationType,
-													"value":Number.isNaN(+item[populationType])?0:+item[populationType]
-												}
-											})
-										})							
-									}
-								});
-								
-								var indicators = [];
-								indicators.push({
-									"nameIndicator" : "PersonasSalieronDesdeX",
-									"valueIndicator" : 0, // d3.sum(personasSalieronDesdeX.map(d=>d.value)),
-									"componentIndicator" : personasSalieronDesdeX
-								});
-								indicators.push({
-									"nameIndicator" : "PersonasEntraronAX",
-									"valueIndicator" : 0, // d3.sum(personasEntraronAX.map(d=>d.value)),
-									"componentIndicator" : personasEntraronAX
-								});
-								
-								return {
-									"item":rawGeoJson.features.filter(d=>d.properties.name == currCountry)[0],
-									// "item":currCountry,
-									"indicators" : indicators
+						categories.map(function(currCountry){
+							
+							// OUTFLOW - OUTGOING
+							let outgoing = []; 
+							byYear.filter(d=>d.origin==currCountry).forEach(function(item){
+								let countryWithFeatures = rawGeoJson.features.filter(d=>d.properties.name == item.destination);
+								if(countryWithFeatures.length==1){
+									outgoing.push({
+										"type":countryWithFeatures[0].type,
+										"id":countryWithFeatures[0].id,
+										"geometry":countryWithFeatures[0].geometry,
+										"properties":countryWithFeatures[0].properties,
+										"centroid":countryWithFeatures[0].centroid,
+										"arraray":populationTypes.map(function(populationType){
+											return{
+												"item":populationType,
+												"value":Number.isNaN(+item[populationType])?0:+item[populationType]
+											};
+										})
+									});
 								}
-							})
-			}
+							});
+
+							// INFLOW - INCOMING
+							let incoming = [];
+							byYear.filter(d=>d.destination==currCountry).forEach(function(item){
+								let countryWithFeatures = rawGeoJson.features.filter(d=>d.properties.name == item.origin);
+								if(countryWithFeatures.length==1){
+									incoming.push({
+										"type":countryWithFeatures[0].type,
+										"id":countryWithFeatures[0].id,
+										"geometry":countryWithFeatures[0].geometry,
+										"properties":countryWithFeatures[0].properties,
+										"centroid":countryWithFeatures[0].centroid,
+										"arraray":populationTypes.map(function(populationType){
+											return{
+												"item":populationType,
+												"value":Number.isNaN(+item[populationType])?0:+item[populationType]
+											};
+										})
+									});							
+								}
+							});
+							
+							var indicators = [];
+							indicators.push({
+								"nameIndicator" : "outgoing",
+								"valueIndicator" : 0,
+								"componentIndicator" : outgoing
+							});
+							indicators.push({
+								"nameIndicator" : "incoming",
+								"valueIndicator" : 0,
+								"componentIndicator" : incoming
+							});
+							
+							return {
+								"category":rawGeoJson.features.filter(d=>d.properties.name == currCountry)[0],
+								"indicators" : indicators
+							};
+						})
+			};
 			
 		});
 		
 		parserToDataset.forEach(function(parser){
-			var date = parser.date;
 			parser.values.forEach(function(d){
-				var obj = {};
-				obj.date = date;
-				obj.category = d.item;	// category
-				obj.indicators = d.indicators;
-				dataset.push(obj);
+				dataset.push({
+					"date" : parser.date,
+					"category" : d.category,
+					"indicators" : d.indicators
+				});
 			});
 		});
 		
 		
 		var start = new Date(years[0],0);
-
 		var stop = getTimeOffset(new Date(years[years.length-1],0), 2*stepTemporal, polarityTemporal);
 		timeWindow = getTimeWindow(start,stop,polarityTemporal,stepTemporal);
 		
@@ -470,6 +471,85 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 
 		//-------------------------------
 
+		console.log("");
+		console.log("");
+
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
+		console.log("");
 		jerarquiaInflow = new Jerarquia(hierarchyDestino);
 		jerarquiaInflow.my_leaf_level = kaka(timeWindow, 1, arraySubIndicators, "", jerarquiaInflow);
 		jerarquiaInflow.setBottomNodes(jerarquiaInflow.getLeafNodes());
@@ -495,9 +575,11 @@ function setLoader(display){
 	if(display){
 		document.getElementById("overlay").style.display = "block";
 		document.getElementById("loader").style.display = "block";
+		document.getElementById("vistas").setAttribute( 'style', 'opacity: 0 !important' );
 	}else{
 		document.getElementById("loader").style.display = "none";
 		document.getElementById("overlay").style.display = "none";
+		document.getElementById("vistas").setAttribute( 'style', 'opacity: 1 !important' );
 	}
 }
 
@@ -556,14 +638,7 @@ function kaka(timeWindow, indexIndicator, subArrayIndicators, filtroDeNose, jera
 						dataGeoJsonFeature = dataInPeriod[0].category;
 						compo = selectedIndicator.componentIndicator;
 
-						// if(filtroDeNose!=null && filtroDeNose!=""){
-						// 	compo = compo.filter(d=>d.properties.name === filtroDeNose);
-						// 	if(compo.length==1){
-						// 		valueIndicator = compo[0].value;
-						// 	}else{
-						// 		valueIndicator = 0;
-						// 	}
-						// }
+					
 					}else {
 						// console.log("NO HAY DATOS DE:",node.name);
 					}
@@ -603,6 +678,10 @@ function kaka(timeWindow, indexIndicator, subArrayIndicators, filtroDeNose, jera
 		}
 	});
 
+
+	console.log(result_leaf_level)
+
+	console.log("terminado acabado")
 	return result_leaf_level;
 
 
