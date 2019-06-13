@@ -20,8 +20,8 @@ var xAxisBarchart = d3.svg.axis().scale(xScaleBarchart)
 
 function createTopKBarchart(){
 
-	let barchart_wrapper_width = mapVisWidth/2; // mapVisWidth/2;
-	let barchart_wrapper_height = 250;// mapVisHeight/4; //250	
+	let barchart_wrapper_width = mapVisWidth/2; //2 // mapVisWidth/2;
+	let barchart_wrapper_height = mapVisHeight/3; //4//250	
 	
 	gBarchartMap.attr("class","smallMultiple")
 			.attr("transform","translate("+ 0 +","+ (mapVisHeight - barchart_wrapper_height) + ")");

@@ -57,20 +57,13 @@
 								"name": "mauritius"
 							},
 							{
-								"name": "mayotte"
-							},
-							{
 								"name": "mozambique"
 							},
-							{
-								"name": "réunion"
-							},
+
 							{
 								"name": "rwanda"
 							},
-							{
-								"name": "seychelles"
-							},
+
 							{
 								"name": "somalia"
 							},
@@ -154,7 +147,7 @@
 								"name": "cabo verde"
 							},
 							{
-								"name": "côte d'ivoire"
+								"name": "ivory coast"
 							},
 							{
 								"name": "gambia"
@@ -183,9 +176,7 @@
 							{
 								"name": "nigeria"
 							},
-							{
-								"name": "saint helena"
-							},
+
 							{
 								"name": "senegal"
 							},
@@ -227,13 +218,11 @@
 								"name": "china"
 							},
 							{
-								"name": "china, hong kong sar"
+								"name": "china. hong kong sar"
 							},
+							
 							{
-								"name": "china, macao sar"
-							},
-							{
-								"name": "dem. people's republic of korea"
+								"name": "north korea"
 							},
 							{
 								"name": "japan"
@@ -242,7 +231,7 @@
 								"name": "mongolia"
 							},
 							{
-								"name": "rep. of korea"
+								"name": "south korea"
 							}
 						]
 					},
@@ -263,9 +252,7 @@
 							{
 								"name": "iran"
 							},
-							{
-								"name": "maldives"
-							},
+
 							{
 								"name": "nepal"
 							},
@@ -322,9 +309,7 @@
 							{
 								"name": "azerbaijan"
 							},
-							{
-								"name": "bahrain"
-							},
+
 							{
 								"name": "cyprus"
 							},
@@ -355,11 +340,9 @@
 							{
 								"name": "saudi arabia"
 							},
+
 							{
-								"name": "state of palestine"
-							},
-							{
-								"name": "syrian arab republic"
+								"name": "syria"
 							},
 							{
 								"name": "turkey"
@@ -379,17 +362,12 @@
 				"children": [{
 						"name": "northern europe",
 						"children": [{
-								"name": "channel islands"
-							},
-							{
 								"name": "denmark"
 							},
 							{
 								"name": "estonia"
 							},
-							{
-								"name": "faeroe islands"
-							},
+
 							{
 								"name": "finland"
 							},
@@ -399,9 +377,7 @@
 							{
 								"name": "ireland"
 							},
-							{
-								"name": "isle of man"
-							},
+
 							{
 								"name": "latvia"
 							},
@@ -467,20 +443,13 @@
 							{
 								"name": "croatia"
 							},
-							{
-								"name": "gibraltar"
-							},
+
 							{
 								"name": "greece"
 							},
-							{
-								"name": "holy see"
-							},
+
 							{
 								"name": "italy"
-							},
-							{
-								"name": "malta"
 							},
 							{
 								"name": "montenegro"
@@ -488,9 +457,7 @@
 							{
 								"name": "portugal"
 							},
-							{
-								"name": "san marino"
-							},
+
 							{
 								"name": "serbia"
 							},
@@ -519,15 +486,11 @@
 							{
 								"name": "germany"
 							},
-							{
-								"name": "liechtenstein"
-							},
+
 							{
 								"name": "luxembourg"
 							},
-							{
-								"name": "monaco"
-							},
+
 							{
 								"name": "netherlands"
 							},
@@ -543,16 +506,7 @@
 				"children": [{
 						"name": "north america",
 						"children": [{
-								"name": "bermuda"
-							},
-							{
 								"name": "canada"
-							},
-							{
-								"name": "greenland"
-							},
-							{
-								"name": "saint-pierre-et-miquelon"
 							},
 							{
 								"name": "united states of america"
@@ -584,84 +538,40 @@
 							{
 								"name": "panama"
 							},
-							{
-								"name": "anguilla"
-							},
-							{
-								"name": "antigua and barbuda"
-							},
-							{
-								"name": "aruba"
-							},
+
 							{
 								"name": "bahamas"
 							},
-							{
-								"name": "barbados"
-							},
-							{
-								"name": "british virgin islands"
-							},
-							{
-								"name": "caribbean netherlands"
-							},
-							{
-								"name": "cayman islands"
-							},
+
 							{
 								"name": "cuba"
 							},
-							{
-								"name": "curaçao"
-							},
-							{
-								"name": "dominica"
-							},
+
 							{
 								"name": "dominican rep."
 							},
-							{
-								"name": "grenada"
-							},
-							{
-								"name": "guadeloupe"
-							},
+
 							{
 								"name": "haiti"
 							},
 							{
 								"name": "jamaica"
 							},
-							{
-								"name": "martinique"
-							},
-							{
-								"name": "montserrat"
-							},
+
+
 							{
 								"name": "puerto rico"
 							},
-							{
-								"name": "saint kitts and nevis"
-							},
+
 							{
 								"name": "saint lucia"
 							},
-							{
-								"name": "saint vincent and the grenadines"
-							},
-							{
-								"name": "sint maarten (dutch part)"
-							},
+
+
 							{
 								"name": "trinidad and tobago"
-							},
-							{
-								"name": "turks and caicos islands"
-							},
-							{
-								"name": "united states virgin islands"
 							}
+
 						]
 					},
 					{
@@ -684,12 +594,7 @@
 							{
 								"name": "ecuador"
 							},
-							{
-								"name": "falkland islands (malvinas)"
-							},
-							{
-								"name": "french guiana"
-							},
+							
 							{
 								"name": "guyana"
 							},
@@ -722,9 +627,6 @@
 							},
 							{
 								"name": "new zealand"
-							},
-							{
-								"name": "norfolk island"
 							}
 						]
 					},
@@ -754,52 +656,17 @@
 							},
 							{
 								"name": "kiribati"
-							},
-							{
-								"name": "marshall islands"
-							},
-							{
-								"name": "micronesia (federated states of)"
-							},
-							{
-								"name": "nauru"
-							},
-							{
-								"name": "northern mariana islands"
-							},
-							{
-								"name": "palau"
 							}
+
 						]
 					},
 					{
 						"name": "polynesia",
-						"children": [{
-								"name": "american samoa"
-							},
-							{
-								"name": "cook islands"
-							},
-							{
-								"name": "french polynesia"
-							},
-							{
-								"name": "niue"
-							},
+						"children": [
+
+
 							{
 								"name": "samoa"
-							},
-							{
-								"name": "tokelau"
-							},
-							{
-								"name": "tonga"
-							},
-							{
-								"name": "tuvalu"
-							},
-							{
-								"name": "wallis and futuna islands"
 							}
 						]
 					}

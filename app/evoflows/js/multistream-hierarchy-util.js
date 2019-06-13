@@ -262,11 +262,10 @@ function mergingChildrenNuevo (father, children, my_leaf_level){
 		countryWithFeatures = geoJson.features.filter(d=>d.properties.name == "south america");
 
 		if(child.name ==="south america"){
-			console.log("hijo",child)
-			console.log(geoJson)
+			// console.log("hijo",child)
+			// console.log(geoJson)
 			countryWithFeatures = geoJson.features.filter(d=>d.properties.name == "south america");
-			console.log(countryWithFeatures);
-
+			// console.log(countryWithFeatures);
 		}
 		// console.log(ds_child_by_date)
 		

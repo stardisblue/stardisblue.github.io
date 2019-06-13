@@ -289,16 +289,16 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Refugee movements evolution by origin and destination</h4>
+					<h4 class="modal-title">Refugee movements</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>This example shows the movements evolution in refugees<br><br>
+					<p>This visualization shows the global refugee movements<br><br>
 						<strong>Period: </strong>1960 - 2017<br>
-						<strong>Polarity: </strong>year<br>
-						<strong>Source: </strong>UNHCR
+						<strong>Polarity: </strong>yearly<br>
+						<strong>Data source: </strong>We use the data provide by UNHCR
 					</p>
 				</div>
 				<div class="modal-footer">
@@ -313,7 +313,7 @@
 		<div class="modal-dialog-centered modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">New State</h5>
+					<h5 class="modal-title" id="exampleModalLabel">New Snapshot</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -328,7 +328,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick=addCurrConfiguration()>Add state</button>
+					<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick=addCurrConfiguration()>Add</button>
 				</div>
 			</div>
 		</div>
@@ -363,7 +363,7 @@
 
 	<script type="text/javascript">
 
-		const gapWindowsTop = 200;
+		const gapWindowsTop = 200;//400;
 		const windowsHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
 		//MULTISTREAM-VIS WIDTH HEIGHT
@@ -373,7 +373,7 @@
 		var mapVisWidth = document.querySelector('#map-vis-wrapper').getBoundingClientRect().width;
 		var mapVisHeight = windowsHeight - gapWindowsTop;
 		//TREE-VIS WIDTH HEIGHT
-		var treeVisWidth = 550;
+		var treeVisWidth = 600;
 		var treeVisHeight;// according to the hierarchy;
 		
 
@@ -491,6 +491,17 @@
 	<script src="https://d3js.org/d3-time.v1.min.js"></script>
 	<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
 
+	<!-- CASERO -->
+	<!--
+	<script src="/casero/chroma.js"></script>
+	<script src="/casero/compVecOut.js"></script>
+	<script src="/casero/d3-queue.js"></script>
+	<script src="/casero/generalizes.js"></script>
+	<script src="/casero/PolyReCoeffInT.js"></script>
+	<script src="/casero/rpoly.js"></script>
+	<script src="/casero/svg-crowbar-2.js"></script>
+	<script src="/casero/html2canvas.js"></script>
+	 -->
 	<!-- CASERO -->
 	<script src="js/chroma.js"></script>
 	<script src="js/compVecOut.js"></script>

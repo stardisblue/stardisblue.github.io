@@ -124,8 +124,8 @@ var color_begin_range = "white";
 var num_initial_color;
 var color_range_children;
 var num_leaf_children;
-var node_radius = 9; // px
-var node_gap = 15; // px
+var node_radius = 10; // px
+var node_gap = 20; // px
 var tree = d3.layout.tree();
 
 ///
@@ -266,6 +266,20 @@ function initOptsVariables(list){
 
 }
 
+var jerar = [];
+function imprimir(node){
+	//tomar los hijos que estan en el array de bottom list
+	if(!node.children){
+		jerar.push(node.name);
+		// console.log(node)
+	}
+	if(node.children){
+		node.children.forEach(imprimir);
+	}
+}
+
+
+
 function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 	
 		if (error){
@@ -303,14 +317,41 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 		
 		// BUILDING categories. Match rawGeoJson and entity in rawData
 		timerStart = Date.now();
-		var categoriesIntoGeoJson = rawGeoJson.features.map(d=>d.properties.name);
-		let categoriesIntoRawData = d3.nest().key(function(d) {return d;}).entries(rawData.map(d=>d.origin)).map(d=>d.key);
+		let categoriesIntoGeoJson = rawGeoJson.features.map(d=>d.properties.name);
+
+		// console.log(categoriesIntoGeoJson)
 		
-		categories = categoriesIntoGeoJson.filter(function(entity){
-												if(categoriesIntoRawData.indexOf(entity)!=-1){
+		let categoriesOriginRawData = d3.nest().key(function(d) {return d;}).entries(rawData.map(d=>d.origin)).map(d=>d.key);
+		let categoriesDestinationRawData = d3.nest().key(function(d) {return d;}).entries(rawData.map(d=>d.destination)).map(d=>d.key);
+
+		let categoriesIntoRawData = d3.nest().key(function(d) {return d;}).entries(categoriesOriginRawData.concat(categoriesDestinationRawData)).map(d=>d.key);
+
+		
+		//RAWDATA == GEOJSON == HIERARCHY COUNTRIES
+
+		categories = categoriesIntoRawData.filter(function(entity){
+												if(categoriesIntoGeoJson.indexOf(entity)!=-1){
 													return entity;
+												}else{
+													// console.log("hay en GeoJson pero no en Raw:",entity);
+													console.log("hay en RAW pero no en geo:",entity);
 												}
 											});
+
+
+											
+
+		// console.log(rawHierarchy.ranges.children)
+		rawHierarchy.ranges.children.forEach(imprimir);
+		jerar.filter(function(entity){
+			if(categories.indexOf(entity)!=-1){
+				return entity;
+			}else{
+				console.log("hay en hierarchy pero no en categoria:",entity);
+			}
+		});
+
+
 		
 		printLog(timerStart, "getting categories");
 
@@ -332,6 +373,8 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 		hierarchyOrigen[hierarchyOrigen.length-1].children.forEach((curr,index)=>{
 			addingKeyNuevo(curr,index);
 		});
+
+		
 
 		hierarchyDestino = tree.nodes(rawHierarchy.ranges).reverse();// array of objects
 		hierarchyDestino[hierarchyDestino.length-1].children.forEach((curr,index)=>{
@@ -379,6 +422,8 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 							// filter by each category
 						categories.map(function(currCountry){
 							
+							// console.log("dealing with: ",currCountry);
+
 							// OUTFLOW - OUTGOING
 							let outgoing = []; 
 							byYear.filter(d=>d.origin==currCountry).forEach(function(item){
@@ -463,6 +508,8 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 		jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getLeafNodes());
 		jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getNodesByDepth(1));
 			
+
+
 		nivel_focus_outflow = jerarquiaOutflow.hijos();
 		key_focus_list_outflow = jerarquiaOutflow.key_bottom_list;
 	
@@ -471,85 +518,6 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 
 		//-------------------------------
 
-		console.log("");
-		console.log("");
-
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
-		console.log("");
 		jerarquiaInflow = new Jerarquia(hierarchyDestino);
 		jerarquiaInflow.my_leaf_level = kaka(timeWindow, 1, arraySubIndicators, "", jerarquiaInflow);
 		jerarquiaInflow.setBottomNodes(jerarquiaInflow.getLeafNodes());
@@ -679,9 +647,8 @@ function kaka(timeWindow, indexIndicator, subArrayIndicators, filtroDeNose, jera
 	});
 
 
-	console.log(result_leaf_level)
-
-	console.log("terminado acabado")
+	// console.log(result_leaf_level)
+	// console.log("terminado acabado")
 	return result_leaf_level;
 
 

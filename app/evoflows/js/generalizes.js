@@ -848,3 +848,10 @@ function jsUcfirst(string)
 {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+function isDateBetweenInclus(dateSince,dateUntil,dateVerify){
+	if(dateSince<=dateVerify && dateVerify<=dateUntil){
+		return true;
+	}
+	return false;
+}

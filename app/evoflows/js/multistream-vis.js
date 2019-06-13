@@ -813,7 +813,6 @@ function createSvg(){
 			.text(legend_y_outflow);
 
 	multiresolutionTop.append("text")
-			// .attr("class", "y axis label sublegend")
 			.attr("class", "y axis label sublegend")
 			.attr("x",0 - heightMultiresolutionTop / 2)
 			.attr("y", -marginMultiresolutionBottom.left)
@@ -1582,8 +1581,8 @@ function ratonOutFlow(multi){
 	
 }
 
-// var isOutflowBlocked = false;
-// var isInflowBlocked = false;
+
+
 
 var isFlowBloqued = false;
 
@@ -1657,7 +1656,6 @@ function createTooltip(){
 			.on("mouseover",d=>{
 				if(!isFlowBloqued){
 					ratonOverFlow(d,multiresolutionTop);
-					// ratonOverLine(d);
 				}
 			})
 			// .on("mouseover",ratonOverFlow)
@@ -1698,15 +1696,26 @@ function createTooltip(){
 						showVerticalRuler(x1,y1,x2,y2,verticalRulerTop);
 						
 						showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],"Click to PIN this flow",dataType_outflow,d3.event.pageX ,d3.event.pageY);
-						updateMainTitleVis(dateSelected,selectedCategory,dataType_outflow);
 						
-						//MAP BEHAIVOR
-						let destinations = selectedCategory.components.filter(d=>(d.value>0));
-						coloring(selectedCategory.item,destinations,"out");
+
+						//isDateBetweenInclus(brushContextDisLeft.extent()[1], brushContext.extent()[1],dateSelected)
+						if(jerarquiaOutflow.getLeafNodes().indexOf(d.key)!=-1){
+							updateMainTitleVis(dateSelected,selectedCategory,dataType_outflow);
+							
+							//MAP BEHAIVOR
+							let destinations = selectedCategory.components.filter(d=>(d.value>0));
+							coloring(selectedCategory.item,destinations,"out");
+						}else {
+							//map behaivor
+							clearFeaturesLayerMap();
+							landLabel();
+							setMainTitleVisVisibility(false);
+							setMapBarchartVisibility(false);
+							setMapLegendVisibility(false);
+						}
 
 
 						d3.select("#multiresolutionBackground").attr("class","backgroundHighlight");						
-						let destinationsName = destinations.map(d=>d.properties.name);
 
 
 						// let nuevito = [];
@@ -1973,8 +1982,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 								}
 							}
 							
-							let origins = selectedCategory.components.filter(d=>(d.value>0));
-							coloring(selectedCategory.item,origins,"in");
+							
 							
 							//points for vertical ruler
 							let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
@@ -1985,13 +1993,33 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 							showVerticalRuler(x1,y1,x2,y2,verticalRulerBottom);
 							
 							showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],"Click to PIN this flow",dataType_inflow,d3.event.pageX ,d3.event.pageY);
-							updateMainTitleVis(dateSelected,selectedCategory,dataType_inflow);
 							
+							if(jerarquiaInflow.getLeafNodes().indexOf(d.key)!=-1){
+								updateMainTitleVis(dateSelected,selectedCategory,dataType_inflow);
+								
+								//MAP BEHAIVOR
+								let origins = selectedCategory.components.filter(d=>(d.value>0));
+								coloring(selectedCategory.item,origins,"in");
+							}else {
+								//map behaivor
+								clearFeaturesLayerMap();
+								landLabel();
+								setMainTitleVisVisibility(false);
+								setMapBarchartVisibility(false);
+								setMapLegendVisibility(false);
+							}
+	
+
+
+
+
+
+
+
+
+
 							d3.select("#multiresolutionBackground-bottom").attr("class","backgroundHighlight");
-							// multiresolutionBottom.selectAll(".x.grid").style({
-							// 	"stroke":"white", //"#292724",
-							// 	"opacity":0
-							// });
+						
 		
 							tooltipFlag = dateSelected;
 						}
@@ -3775,10 +3803,10 @@ function areaFocus(d, index,yCurrScale) {
 				let var1 = getTimeOffset(brushContextDisRight.extent()[0],-stepTemporal,polarityTemporal);
 				let var2 = getTimeOffset(brushContextDisRight.extent()[1], stepTemporal,polarityTemporal);
 				//
-				let interpolationRight1 = getTimeOffset(brushContextDisRight.extent()[0],+4*stepTemporal,polarityTemporal);
-				let interpolationRight2 = getTimeOffset(brushContextDisRight.extent()[1],+4*stepTemporal,polarityTemporal);
+				let interpolationRight1 = getTimeOffset(brushContextDisRight.extent()[0],+2*stepTemporal,polarityTemporal);
+				let interpolationRight2 = getTimeOffset(brushContextDisRight.extent()[1],+2*stepTemporal,polarityTemporal);
 				
-				if(interpolationRight1 > dateMaxRange && interpolationRight2 > dateMaxRange ){
+				if(interpolationRight1 >= dateMaxRange && interpolationRight2 >= dateMaxRange ){
 					return false;
 				}
 				return d.date >= (var1) && d.date <= (var2);

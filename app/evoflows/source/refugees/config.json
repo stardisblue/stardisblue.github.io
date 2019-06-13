@@ -17,7 +17,7 @@
 				"layersBorderlineColor": "#585858",
 				"layersOpacitySelected": 1,
 				"layersOpacityNotSelected": 0.10,
-				"layersOutputRangeLabelScale": [0.7,1.5],
+				"layersOutputRangeLabelScale": [0.8,1.6],
 				"layersLabelType": "flowLabelText"
 			},
 			"optsContext": {
@@ -29,11 +29,11 @@
 		"optsMap": {
 			"typeMapVisualization":"bubbles",
 			"outputRangeColorScaleMap": ["#feebe2", "#7a0177"],
-			"featuresOutputRangeLabelScale":[0.8,0.8]
+			"featuresOutputRangeLabelScale":[1.2,1.2]
 		},
 		"optsEvents": {
-			"eventWidthSizeLabelScale": 0.9,
-			"eventHeightSizeLabelScale": 0.9
+			"eventWidthSizeLabelScale": 0.8,
+			"eventHeightSizeLabelScale": 0.8
 		}
 	},
 	"list": [{

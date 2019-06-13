@@ -13,6 +13,7 @@ var scaleMapChoropleth = d3.scale.log()
 					
 var scaleMapPoint = d3.scale.sqrt()
 						.range([8,25]);
+						// .range([8,25]);
 
 var scaleFeatureMapLabel = d3.scale.sqrt();					
 					

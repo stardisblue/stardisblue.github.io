@@ -13,19 +13,19 @@
  
  
 .smallMultiple text{
-	font-size:0.7rem;
+	font-size:0.8rem;
 	pointer-events:none;
 	text-anchor: middle;
 	fill: grey;
 }
 
 .smallMultiple .y.axis text {
-	font-size: 0.65rem; 
+	font-size: 0.7rem; 
 }
 
 .smallMultiple .title {
 	fill: rgba(0,0,0,0.9);
-	font-size: 0.85rem; 
+	font-size: 1rem; 
 	font-weight: 600;
 }
 

@@ -6215,27 +6215,6 @@
 				"type": "Polygon",
 				"coordinates": [
 					[
-						[34.004467, 35.06525],
-						[32.712712, 35.171058],
-						[32.941587, 35.390424],
-						[33.607592, 35.354147],
-						[34.556062, 35.662061],
-						[33.941939, 35.292058],
-						[34.004467, 35.06525]
-					]
-				]
-			},
-			"properties": {
-				"name": "n. cyprus"
-			},
-			"id": 54
-		},
-		{
-			"type": "Feature",
-			"geometry": {
-				"type": "Polygon",
-				"coordinates": [
-					[
 						[32.712712, 35.171058],
 						[34.004467, 35.06525],
 						[33.007939, 34.56957],
@@ -8535,7 +8514,7 @@
 				]
 			},
 			"properties": {
-				"name": "china, hong kong sar"
+				"name": "china. hong kong sar"
 			},
 			"id": 91
 		},
@@ -11024,7 +11003,7 @@
 				]
 			},
 			"properties": {
-				"name": "s. korea"
+				"name": "south korea"
 			},
 			"id": 119
 		},
@@ -14286,7 +14265,7 @@
 				]
 			},
 			"properties": {
-				"name": "rep. of korea"
+				"name": "north korea"
 			},
 			"id": 177
 		},

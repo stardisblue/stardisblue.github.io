@@ -187,14 +187,15 @@ text.textLabel {
 
 .context .x.axis text {
 	fill: black;
-	font-size: 0.9rem; 
+	/* font-size: 0.9rem;  */
+	font-size: 1.1rem; 
 }
-
 
 /* Axis label in Focus */
 .x.axis.label{
 	fill: black;
-	font-size: 0.6em;
+	/* font-size: 0.6em; */
+	font-size: 0.9em;
 	text-transform: capitalize;
 }
 
@@ -209,7 +210,7 @@ text.textLabel {
 
 .y.axis.label.sublegend {
 	fill: grey;
-	font-size: 0.7rem;
+	font-size: 0.8rem;
 	text-transform: capitalize;
 }
 

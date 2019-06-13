@@ -12,14 +12,14 @@
 }
   
 .legend .text{
-	font-size:0.7em;
+	font-size:0.75em;
 	fill:black;
 	pointer-events:none;
 	text-anchor: start;
 }
 
 .legendText{
-	font-size:0.8em;
+	font-size:0.85em;
 	fill:black;
 	pointer-events:none;
 	text-anchor: middle;

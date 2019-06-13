@@ -6,7 +6,7 @@ var opts_tree = {
 	strokeWidthNodeDeselected : 1
 };
 
-var margin = {top: 0, right: 60, bottom: 0, left: 60},
+var margin = {top: 0, right: 60, bottom: 0, left: 90},
     height = 0 - margin.top - margin.bottom;
 
 var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });

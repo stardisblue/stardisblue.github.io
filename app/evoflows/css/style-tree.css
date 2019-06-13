@@ -9,7 +9,7 @@
 }
 
 .node text {
-	font: 10px sans-serif;
+	font-size: 0.9rem;
 	text-transform: capitalize;
 	pointer-events: none;
 }
