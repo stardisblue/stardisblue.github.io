@@ -271,7 +271,6 @@ function imprimir(node){
 	//tomar los hijos que estan en el array de bottom list
 	if(!node.children){
 		jerar.push(node.name);
-		// console.log(node)
 	}
 	if(node.children){
 		node.children.forEach(imprimir);
@@ -318,9 +317,7 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 		// BUILDING categories. Match rawGeoJson and entity in rawData
 		timerStart = Date.now();
 		let categoriesIntoGeoJson = rawGeoJson.features.map(d=>d.properties.name);
-
-		// console.log(categoriesIntoGeoJson)
-		
+	
 		let categoriesOriginRawData = d3.nest().key(function(d) {return d;}).entries(rawData.map(d=>d.origin)).map(d=>d.key);
 		let categoriesDestinationRawData = d3.nest().key(function(d) {return d;}).entries(rawData.map(d=>d.destination)).map(d=>d.key);
 
@@ -531,8 +528,8 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 
 
 		// Loading VIS 
-		loadMapVis(rawGeoJson);
 		loadMultiresolutionVis();
+		loadMapVis(rawGeoJson);
 		loadTreeVis();
 		loadCompareVis();
 	

@@ -1698,21 +1698,27 @@ function createTooltip(){
 						showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],"Click to PIN this flow",dataType_outflow,d3.event.pageX ,d3.event.pageY);
 						
 
-						//isDateBetweenInclus(brushContextDisLeft.extent()[1], brushContext.extent()[1],dateSelected)
-						if(jerarquiaOutflow.getLeafNodes().indexOf(d.key)!=-1){
-							updateMainTitleVis(dateSelected,selectedCategory,dataType_outflow);
+						updateMainTitleVis(dateSelected,selectedCategory,dataType_outflow);
 							
-							//MAP BEHAIVOR
-							let destinations = selectedCategory.components.filter(d=>(d.value>0));
-							coloring(selectedCategory.item,destinations,"out");
-						}else {
-							//map behaivor
-							clearFeaturesLayerMap();
-							landLabel();
-							setMainTitleVisVisibility(false);
-							setMapBarchartVisibility(false);
-							setMapLegendVisibility(false);
-						}
+						//MAP BEHAIVOR
+						let destinations = selectedCategory.components.filter(d=>(d.value>0));
+						coloring(selectedCategory.item,destinations,"out");
+
+						// //isDateBetweenInclus(brushContextDisLeft.extent()[1], brushContext.extent()[1],dateSelected)
+						// if(jerarquiaOutflow.getLeafNodes().indexOf(d.key)!=-1){
+						// 	updateMainTitleVis(dateSelected,selectedCategory,dataType_outflow);
+							
+						// 	//MAP BEHAIVOR
+						// 	let destinations = selectedCategory.components.filter(d=>(d.value>0));
+						// 	coloring(selectedCategory.item,destinations,"out");
+						// }else {
+						// 	//map behaivor
+						// 	clearFeaturesLayerMap();
+						// 	landLabel();
+						// 	setMainTitleVisVisibility(false);
+						// 	setMapBarchartVisibility(false);
+						// 	setMapLegendVisibility(false);
+						// }
 
 
 						d3.select("#multiresolutionBackground").attr("class","backgroundHighlight");						
@@ -1994,20 +2000,27 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 							
 							showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],"Click to PIN this flow",dataType_inflow,d3.event.pageX ,d3.event.pageY);
 							
-							if(jerarquiaInflow.getLeafNodes().indexOf(d.key)!=-1){
-								updateMainTitleVis(dateSelected,selectedCategory,dataType_inflow);
+
+							updateMainTitleVis(dateSelected,selectedCategory,dataType_inflow);
 								
-								//MAP BEHAIVOR
-								let origins = selectedCategory.components.filter(d=>(d.value>0));
-								coloring(selectedCategory.item,origins,"in");
-							}else {
-								//map behaivor
-								clearFeaturesLayerMap();
-								landLabel();
-								setMainTitleVisVisibility(false);
-								setMapBarchartVisibility(false);
-								setMapLegendVisibility(false);
-							}
+							//MAP BEHAIVOR
+							let origins = selectedCategory.components.filter(d=>(d.value>0));
+							coloring(selectedCategory.item,origins,"in");
+
+							// if(jerarquiaInflow.getLeafNodes().indexOf(d.key)!=-1){
+							// 	updateMainTitleVis(dateSelected,selectedCategory,dataType_inflow);
+								
+							// 	//MAP BEHAIVOR
+							// 	let origins = selectedCategory.components.filter(d=>(d.value>0));
+							// 	coloring(selectedCategory.item,origins,"in");
+							// }else {
+							// 	//map behaivor
+							// 	clearFeaturesLayerMap();
+							// 	landLabel();
+							// 	setMainTitleVisVisibility(false);
+							// 	setMapBarchartVisibility(false);
+							// 	setMapLegendVisibility(false);
+							// }
 	
 
 

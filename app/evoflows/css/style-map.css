@@ -20,12 +20,12 @@
 
 .land-label{
 	fill: black;
-	fill-opacity: .9;
+	fill-opacity: 1;
 	font-weight: 550;
 	text-anchor: middle;
 	text-transform: capitalize;
 	pointer-events: none;
-	text-shadow:0px 0px 5px white;
+	text-shadow: 2px 0 10px rgba(255, 255, 255, 1	);
 }
 
 .land-rect{

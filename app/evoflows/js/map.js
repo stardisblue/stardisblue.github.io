@@ -119,7 +119,7 @@ function createMapSvg(){
 function loadMapVis(rawGeoJson){
 
 	dataGeoJson = rawGeoJson;
-
+	
 	updateMapTypeRepresentation(typeMapVisualization);
 
 	updateShowArrowMap(showMapArrow);
@@ -237,9 +237,6 @@ function createLandsMap(){
 		.enter().append("path")
 			.attr("class","land")
 			.attr("d", pathMap)
-			// .attr('vector-effect', 'non-scaling-stroke')			
-			// .on("mousemove",mapLandMouseMove)
-			// .on("mouseout",mapLandMouseOut)
 			;
 
 
@@ -250,10 +247,6 @@ function createLandsMap(){
 			.attr("class","land-borders")
 			.attr("d", pathMap)
 			.on("click",mapLandMouseClick)
-			// .attr('vector-effect', 'non-scaling-stroke')
-			// .on("click",mapLandMouseClick)
-			// .on("mousemove",mapLandMouseMove)
-			// .on("mouseout",mapLandMouseOut)
 			;
 
 	landLabel();
@@ -315,87 +308,93 @@ function landLabel(){
 function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem){
 	// return;
 
-	dataForFeaturesLabels.sort((a,b)=>{return a.value - b.value;});
 
-	let inputMinValue = dataForFeaturesLabels[0].value;
-	let inputMaxValue = dataForFeaturesLabels[dataForFeaturesLabels.length-1].value;
-	scaleFeatureMapLabel.domain([inputMinValue, inputMaxValue])
-						.range(featuresOutputRangeLabelScale);
+	if(dataForFeaturesLabels.length>1){
 
-	
-	// dataForFeaturesLabels.forEach(function(dataGeoJsonElement){
-	// 	dataGeoJsonElement.properties.name = jsCapitalize(dataGeoJsonElement.properties.name);
-	// });
+		dataForFeaturesLabels.sort((a,b)=>{return a.value - b.value;});
 
-	let unionDataFeatures = dataForFeaturesLabels.filter(d=>d.properties.name!="");
-	if(selectedItem!=""){
-		// origin.properties.name = origin.properties.name.toUpperCase();
-		unionDataFeatures.push(selectedItem);
-	}
-	
-	//updating the features: coordinates, according to labelWidth and labelHeight
-	unionDataFeatures.forEach(function(dataGeoJsonElement){
-		//calculate centroid of a GeoJSON object	
-		let value = dataGeoJsonElement.value;
-		let heightValueInRem = scaleFeatureMapLabel(value)/currMapScale;
-		let font = (heightValueInRem).toString().concat("rem ").concat(text_font_family);
+		// console.log(dataForFeaturesLabels,dataForFeaturesLabels.length)
+		let inputMinValue = dataForFeaturesLabels[0].value;
+		let inputMaxValue = dataForFeaturesLabels[dataForFeaturesLabels.length-1].value;
+		scaleFeatureMapLabel.domain([inputMinValue, inputMaxValue])
+							.range(featuresOutputRangeLabelScale);
 
-		//Font does not change
-		let objectWidth = getTextWidthInPx(dataGeoJsonElement.properties.name,font);
-		let objectHeight = getPxFromRem(heightValueInRem); 
-		let refCenterPoint = [dataGeoJsonElement.centroid[0],dataGeoJsonElement.centroid[1]];
-		if(selectedItem!=""){
-			refCenterPoint = getNewEndArrowAccordingStartArrowInclination(selectedItem.centroid,refCenterPoint,objectWidth, objectHeight);
-		}
-
-		let x1 = refCenterPoint[0] - objectWidth/2;
-		let y1 = refCenterPoint[1] - objectHeight/2;
-		let x2 = (x1+objectWidth);
-		let y2 = (y1+objectHeight);
-		let coordinates = {"x1":x1,"y1":y1,"x2":x2,"y2":y2};
 		
-		dataGeoJsonElement.key = dataGeoJsonElement.properties.name.toLowerCase();
-		dataGeoJsonElement.overlaping = false;
-		dataGeoJsonElement.coordinates = coordinates;
-		dataGeoJsonElement.refCenterPoint = refCenterPoint;
-	});
-	
-	let aryWithOutOverlapping = removeOverlapping(unionDataFeatures);
+		// dataForFeaturesLabels.forEach(function(dataGeoJsonElement){
+		// 	dataGeoJsonElement.properties.name = jsCapitalize(dataGeoJsonElement.properties.name);
+		// });
 
-	//Create LAND LABELS	
-	let features_land_label = gFeaturesMapLabels.selectAll(".land-label")
-								.data(aryWithOutOverlapping,d=>d.properties.name);
+		let unionDataFeatures = dataForFeaturesLabels.filter(d=>d.properties.name!="");
+		if(selectedItem!=""){
+			// origin.properties.name = origin.properties.name.toUpperCase();
+			unionDataFeatures.push(selectedItem);
+		}
+		
+		//updating the features: coordinates, according to labelWidth and labelHeight
+		unionDataFeatures.forEach(function(dataGeoJsonElement){
+			//calculate centroid of a GeoJSON object	
+			let value = dataGeoJsonElement.value;
+			let heightValueInRem = scaleFeatureMapLabel(value)/currMapScale;
+			let font = (heightValueInRem).toString().concat("rem ").concat(text_font_family);
 
-	//exit
-	features_land_label.exit().remove();
+			//Font does not change
+			let objectWidth = getTextWidthInPx(dataGeoJsonElement.properties.name,font);
+			let objectHeight = getPxFromRem(heightValueInRem); 
+			let refCenterPoint = [dataGeoJsonElement.centroid[0],dataGeoJsonElement.centroid[1]];
+			if(selectedItem!=""){
+				refCenterPoint = getNewEndArrowAccordingStartArrowInclination(selectedItem.centroid,refCenterPoint,objectWidth, objectHeight);
+			}
 
-	//update
-	features_land_label.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
+			let x1 = refCenterPoint[0] - objectWidth/2;
+			let y1 = refCenterPoint[1] - objectHeight/2;
+			let x2 = (x1+objectWidth);
+			let y2 = (y1+objectHeight);
+			let coordinates = {"x1":x1,"y1":y1,"x2":x2,"y2":y2};
+			
+			dataGeoJsonElement.key = dataGeoJsonElement.properties.name.toLowerCase();
+			dataGeoJsonElement.overlaping = false;
+			dataGeoJsonElement.coordinates = coordinates;
+			dataGeoJsonElement.refCenterPoint = refCenterPoint;
+		});
+		
+		let aryWithOutOverlapping = removeOverlapping(unionDataFeatures);
+
+		//Create LAND LABELS	
+		let features_land_label = gFeaturesMapLabels.selectAll(".land-label")
+									.data(aryWithOutOverlapping,d=>d.properties.name);
+
+		//exit
+		features_land_label.exit().remove();
+
+		//update
+		features_land_label.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
+					.style({
+						"font-size":d=> {return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
+					}); 
+
+		//create
+		features_land_label.enter().append("text")
+				.attr("class","land-label")
+				.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
+				.attr("dy",".35em")
+				.text(d=>{return d.properties.name;})
 				.style({
-					"font-size":d=> {return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
+					"font-size":d=>{return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
 				}); 
+		
 
-	//create
-	features_land_label.enter().append("text")
-			.attr("class","land-label")
-			.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
-			.attr("dy",".35em")
-			.text(d=>{return d.properties.name;})
-			.style({
-				"font-size":d=>{return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
-			}); 
-	
+		//RECT BORDERS
+		// gLandMap.selectAll(".land-rect")
+		// 		.data(aryWithOutOverlapping,name)
+		// 	.enter().append("rect")
+		// 		.attr("class","land-rect")
+		// 		// .attr("width",function(d){return getTextWidth(d.properties.name,"12px Roboto");})
+		// 		// .attr("height","12px")
+		// 		.attr("transform", function(d) {
+		// 			return "translate(" + d.coordinates.x1 + "," + d.coordinates.y1 + ")"; 
+		// 		});
 
-	//RECT BORDERS
-	// gLandMap.selectAll(".land-rect")
-	// 		.data(aryWithOutOverlapping,name)
-	// 	.enter().append("rect")
-	// 		.attr("class","land-rect")
-	// 		// .attr("width",function(d){return getTextWidth(d.properties.name,"12px Roboto");})
-	// 		// .attr("height","12px")
-	// 		.attr("transform", function(d) {
-	// 			return "translate(" + d.coordinates.x1 + "," + d.coordinates.y1 + ")"; 
-	// 		});
+	}
 }
 
 
@@ -439,6 +438,17 @@ function updateScaleTranslate(toScale,toTranslate){
 //otherItems : destinations or origins
 //orientation : in, out 
 function coloring(selectedItem,otherItems,orientation){
+
+	
+	// otherItems = otherItems.filter(function(item){
+	// 	//jerarquia is the same
+	// 	let iNode = jerarquiaOutflow.getNodeByName(selectedItem.properties.name);
+	// 	let jNode = jerarquiaOutflow.getNodeByName(item.properties.name);
+	// 	if(!isDownInHierarchy(iNode,jNode)){
+	// 		return item;
+	// 	}
+	// });
+
 
 	setMapBarchartVisibility(true);
 	updateTitleBarchart(orientation);
@@ -593,7 +603,7 @@ function updateLegendMapPoint(extent){
 
 
 	let xRefPosition = margingLegendMap.left;
-	let yRefPosition = margingLegendMap.top + 10;
+	let yRefPosition = margingLegendMap.top + 20;
 
 	legendItemsChoropleth.style({"opacity":0});
 	legendItemsPoint.style({"opacity":1});
@@ -741,9 +751,9 @@ function drawDataIntoMap (data, fromDate, toDate){
 
 function createMapLegend(){
 
-	legend_wrapper_width = mapVisWidth/6;
-	legend_wrapper_height = mapVisHeight/7;
-	margingLegendMap = {top:40,right:50,bottom:20,left:30};
+	legend_wrapper_width = 80// mapVisWidth/6;
+	legend_wrapper_height = 100;// mapVisHeight/7;
+	margingLegendMap = {top:30,right:50,bottom:20,left:20};
 
 	let rectChoroplethHeight = legend_wrapper_height - margingLegendMap.top - margingLegendMap.bottom;
 	let recChoroplethWidth = legend_wrapper_width - margingLegendMap.left - margingLegendMap.right;
@@ -871,6 +881,8 @@ function initMap(){
 // }
 
 function mapLandMouseClick(d){
+
+	return;
 	
 	clearFeaturesLayerMap();
 	// let variable = getVariableOption();

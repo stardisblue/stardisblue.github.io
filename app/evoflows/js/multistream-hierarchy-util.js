@@ -223,8 +223,23 @@ function Jerarquia(hierarchy) {
 		}
 	};
 
+
+
 }
 
+
+function isDownInHierarchy (i,j){
+	if(i.children){
+		if(i.children.map(d=>d.name).indexOf(j.name.toLowerCase())!=-1){
+			return true;
+		}else{
+			i.children.forEach(function(d){
+				isDownInHierarchy(d,j);
+			});
+		}
+	}
+	return false;
+}
 
 
 function fillChildrenBottomListNuevo(node){
@@ -245,30 +260,25 @@ function mergingChildrenNuevo (father, children, my_leaf_level){
 
 	// console.log("========================")
 	// console.log("========================")
-	// console.log("========================")
-	// console.log("========================")
-	// console.log("papa",father)
+	// console.log("========================");
+	// console.log("========================");
+	
+	let countryWithFeatures;
+	let encontro = geoJson.features.filter(d=>d.properties.name == father.name)
+	if(encontro.length!=0){
+		countryWithFeatures = encontro[0];
+	}
 	
 	children.forEach((child)=>{
 		let value = 0;
 		let text = [];
 		let components = [];
 
-		let countryWithFeatures = [{}];
 		
 		let ds_child_by_date = my_leaf_level.filter((leaf)=>{
 			return leaf.key == child.key;
 		});
-		countryWithFeatures = geoJson.features.filter(d=>d.properties.name == "south america");
-
-		if(child.name ==="south america"){
-			// console.log("hijo",child)
-			// console.log(geoJson)
-			countryWithFeatures = geoJson.features.filter(d=>d.properties.name == "south america");
-			// console.log(countryWithFeatures);
-		}
-		// console.log(ds_child_by_date)
-		
+				
 		//ds_child has all child time period 1960,1961,...
 		if(ds_child_by_date.length>0){
 			for(let indexDate = 0; indexDate < ds_child_by_date.length; indexDate++) {
@@ -289,7 +299,7 @@ function mergingChildrenNuevo (father, children, my_leaf_level){
 								//aqui hay que traer del GeoJson las coordenadas
 								//o pasarles en la firma de la funcion
 								// "item":ds_child_by_date[indexDate].item, //hay q gregar las coordenadas de los paises 
-								"item":countryWithFeatures[0], //hay q gregar las coordenadas de los paises 
+								"item":countryWithFeatures, 
 								"value":value,
 								"text":text,
 								"components":groupComponentIndicatorByName(components)
@@ -302,6 +312,26 @@ function mergingChildrenNuevo (father, children, my_leaf_level){
 	
 }
 
+function kd(nodeA, nodeB){
+
+	
+
+	if(nodeA.children){
+		nodeA.children.forEach(function(item){
+			if(item.name===nodeB.name){
+				return true;
+			}
+		});
+	}
+
+	if(node.children){
+		node.children.forEach(function(d){
+			kd(d,nodeB);
+		});
+	}
+
+
+}
 
 function cambiarVisibilidadFalse(d){
 	if(d.level == "bottom"){

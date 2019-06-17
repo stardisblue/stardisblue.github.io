@@ -106,7 +106,7 @@ input[type=number] {
 text.textLabel {
 	fill: black;
 	/* text-transform: capitalize; */
-	/* text-shadow: 0px 0px 12px white; */
+	text-shadow: 0px 0px 12px white;
 }
 
 .centered-text {
