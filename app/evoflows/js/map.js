@@ -839,6 +839,7 @@ function createMapLegend(){
 
 //SVG MOUSE BEHAIVOR
 function initMap(){
+	return;
 	clearFeaturesLayerMap();
 	// let variable = getVariableOption();
 	// let selectedPopulations = getCheckedPopulationType();
