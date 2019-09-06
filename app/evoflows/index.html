@@ -20,8 +20,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<!-- SHORTCUT -->
-	<link rel="shortcut icon" type="image/png" href="img/multistream.png" />
+	<!-- SHORTCUT ICON -->
+	<link rel="shortcut icon" type="image/png" href="img/evoflows.png" />
 
 	<!-- BOOTSTRAP CSS-->
 	<link rel="stylesheet"
@@ -64,14 +64,10 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 
 	<!-- Icons Fonts -->
-	<!-- <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.2.0/css/font-awesome.min.css"> -->
 	<link rel="stylesheet"
 		href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
 		integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
 		crossorigin="anonymous">
-
-	<!-- LEAFLET 1.4 CSS -->
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
 
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -100,40 +96,6 @@
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-				<!-- <div id="populationType" class="d-inline-block">
-					<button title="Refugees" id='population-type-0' type="button"
-						class="chipFilter body2 btn vis-population-type active" data-toggle="button"
-						aria-pressed="false">Refugees</button>
-					<button title="Asylum-seekers" id='population-type-1'
-						type="button" class="chipFilter body2 btn vis-population-type active"
-						data-toggle="button" aria-pressed="false">Asylum-seekers</button>
-					<button title="Returned refugees" id='population-type-2'
-						type="button" class="chipFilter body2 btn  vis-population-type active"
-						data-toggle="button" aria-pressed="false">Returned
-						refugees</button>
-					<button title="Internally displaced persons"
-						id='population-type-3' type="button"
-						class="chipFilter body2 btn  vis-population-type active" data-toggle="button"
-						aria-pressed="false">Internally displaced persons</button>
-					<button title="Returned IDPs" id='population-type-4' type="button"
-						class="chipFilter body2  btn vis-population-type active" data-toggle="button"
-						aria-pressed="false">Returned IDPs</button>
-					<button title="Stateless persons" id='population-type-5'
-						type="button" class="chipFilter body2 btn vis-population-type active"
-						data-toggle="button" aria-pressed="false">Stateless
-						persons</button>
-					<button title="Others of concern" id='population-type-6'
-						type="button" class="chipFilter body2 btn vis-population-type active"
-						data-toggle="button" aria-pressed="false">Others of
-						concern</button>
-				</div> -->
-			<!-- <div class="navbar-collapse collapse justify-content-stretch">
-				<ul class="nav navbar-nav flex-row justify-content-right flex-nowrap">
-					<button id="btnExportConfiguration" type="button" class="button navbar-menu-btn" onclick="exportConfiguration()"><i class="fas fa-file-export"></i> Export</button>
-					<input type="file" id="fileElem" accept="application/json" style="display:none" onchange="handleFiles(this.files)">
-					<button id="fileSelect" type="button" class="button navbar-menu-btn"><i class="fas fa-file-import"></i> Import</button>
-				</ul>
-			</div> -->
 		</nav>
 		<div id="mainWrapper" class="row">
 			<div class="col-12">
@@ -185,8 +147,7 @@
 									</div>
 								</div>
 								<div class="col col-5">
-									<div class="title-vis-wrapper">
-										
+									<div class="title-vis-wrapper">					
 									</div>
 									<div id="map-vis-wrapper" class="vis-subwrapper">
 										<div class="vis-header-wrapper">
@@ -207,6 +168,10 @@
 															type="radio" name="map-type-options"  autocomplete="off"
 															value="bubbles"> <img class="icon" alt="Bubble"
 															src="img/bubble.png">
+														</label> <label title="Points" id="points" class="button btn vis-menu-btn"> <input
+															type="radio" name="map-type-options"  autocomplete="off"
+															value="points"> <img class="icon" alt="Bubble"
+															src="img/point.png">
 														</label>
 													</div>
 												</div>
@@ -215,14 +180,17 @@
 										<div id="map-vis">
 											<div>
 												<div id="msg-title-wrapper">
-													<div class="date-title-wrapper">
+													<!-- <div class="date-title-wrapper">
 														<h4 id="date-title"></h4>
-													</div>
+													</div> -->
 													<div class="value-title-wrapper">
-														<h3 id="quantitative-value" class='quantitative-value'></h3>
+														<h2 id="quantitative-value" class='quantitative-value'></h2>
 														<div class='quantitative-label'>
-															<span id="label-value" class='label-value body2'></span>
+															<h6 id="label-value" class='label-value'></h6>
 														</div>
+													</div>
+													<div class="date-title-wrapper">
+														<h1 id="date-title"></h1>
 													</div>
 												</div>
 											</div>
@@ -235,9 +203,6 @@
 					</div>
 					<div class="col-1 col-wrapper">
 						<div class='vis-wrapper'>
-							<!-- <div class="title-vis-wrapper">
-								<h6 id="snapshot-vis-title" class="title-vis">Snapshot</h6>
-							</div> -->
 							<div id="snapshot-vis-wrapper" class="vis-subwrapper">
 								<div class="vis-header-wrapper">
 									<div class="btn-toolbar vis-header" role="toolbar" aria-label="Toolbar with button groups">
@@ -256,35 +221,10 @@
 				</div>
 			</div>
 		</div>
-
-
 	</div>
 
-	<div id="alert-msg"
-		class="alert alert-danger alert-dismissable hidden fade in"
-		style="display: none">
-		<span id="close-alert" class="close">&times;</span> <strong>Warning!</strong>
-		not allowed due to constraints.
-	</div>
 
-	<div id ="menuMultistreamFlow" class="">
-
-	</div>
-
-	<!-- Modal data model -->
-	<!-- <div class="modal fade" id="data-modal" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div id="data-modal-title" class="modal-header"></div>
-				<div id="data-modal-msg" class="modal-body"></div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
-	<!-- Modal information -->
+	<!-- Modal information dataset -->
 	<div class="modal fade" id="infoModal" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -346,11 +286,9 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					
 					<div id="comparison-vis">
 						<svg id="svg-comparison-vis"></svg>
 					</div>
-
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -394,11 +332,6 @@
 
 		function showArrow(){
 			let showBtnArrow = document.getElementById("btnArrow");
-			// if (!showBtnArrow.classList.contains("active")) {
-			// 	showMapArrow = true;
-			// } else {
-			// 	showMapArrow = false;
-			// }
 			showBtnArrow.classList.toggle("active");
 		}
 		
@@ -486,34 +419,22 @@
 	</script>
 
 
+	<!-- D3 library -->
+	<script src="js/d3/d3.v3.min.js"></script>	
+	<!-- D3 time format -->
+	<script src="js/d3/d3-time.v1.min.js"></script>
+	<script src="js/d3/d3-time-format.v2.min.js"></script>
+	<!-- D3 Queue Async -->
+	<script src="js/d3/d3-queue.js"></script>
+	<!-- Colors -->
+	<script src="js/casero/chroma.js"></script>
+	<!-- rPoly Algorithm -->
+	<script src="js/casero/compVecOut.js"></script>
+	<script src="js/casero/PolyReCoeffInT.js"></script>
+	<script src="js/casero/rpoly.js"></script>
 
-	<script src="//d3js.org/d3.v3.min.js"></script>	
-	<script src="https://d3js.org/d3-time.v1.min.js"></script>
-	<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
-
-	<!-- CASERO -->
-	<!--
-	<script src="/casero/chroma.js"></script>
-	<script src="/casero/compVecOut.js"></script>
-	<script src="/casero/d3-queue.js"></script>
-	<script src="/casero/generalizes.js"></script>
-	<script src="/casero/PolyReCoeffInT.js"></script>
-	<script src="/casero/rpoly.js"></script>
-	<script src="/casero/svg-crowbar-2.js"></script>
-	<script src="/casero/html2canvas.js"></script>
-	 -->
-	<!-- CASERO -->
-	<script src="js/chroma.js"></script>
-	<script src="js/compVecOut.js"></script>
-	<script src="js/d3-queue.js"></script>
-	<script src="js/generalizes.js"></script>
-	<script src="js/PolyReCoeffInT.js"></script>
-	<script src="js/rpoly.js"></script>
-	<script src="js/svg-crowbar-2.js"></script>
-	<script src="js/html2canvas.js"></script>
-
-	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.5.0/math.js"></script>
+	<!-- General functions -->
+	<script src="js/casero/generalizes.js"></script>
 	<script src="js/files.js"></script>
 	<script src="js/global.js"></script>
 	<script src="js/multistream-vis.js"></script>
@@ -523,11 +444,11 @@
 	<script src="js/map-barchart.js"></script>
 	<script src="js/point-change.js"></script>
 	<script src="js/compare.js"></script>
-
 	
+	<script src="js/graph.js"></script>
 
+	<!--  -->
 	
-
 
 	<script>
 		var total = [ {
@@ -737,8 +658,7 @@
 			})
 		})
 
-		// console.log(groupIndicatorByName(tmp))
-		// console.log(total)
+
 	</script>
 
 

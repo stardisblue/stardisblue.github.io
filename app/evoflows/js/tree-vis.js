@@ -41,7 +41,6 @@ function loadTreeVis(){
 //    .call(d3.behavior.zoom()
 //      .scaleExtent([0.5, 5])
 //      .on("zoom", zoom));
-	
 	root = jerarquiaOutflow.hierarchy; //hierarchy[0] => root
 	root.x0 = 0;
 	root.y0 = 0;
@@ -393,14 +392,14 @@ function upInTheHierarchy(element) {
 		listNodeBottomToMove.forEach(function(child){
 			child.level = "";
 			child.visible = false;
-		})
+		});
 	}
 
 	if(hierarchy_node.level == "top"){
 		listNodeTopToMove.forEach(function(child){
 			child.level = "";
 			child.visible = false;
-		})
+		});
 	}
 	
 	callUpdate();
@@ -447,7 +446,6 @@ function downInTheHierarchy(element){
 
 //Toggle children on click.
 function nodeClick(d) {
-	// console.log("node click");
 	switch (d.level) {
 		case "bottom":
 				jerarquiaOutflow.changeNodeVisibility(d.key);
@@ -471,19 +469,19 @@ function nodeClick(d) {
 
 function setNodeColor(){
 	svg_tree_vis.selectAll("circle")
-	.data(jerarquiaOutflow.hierarchy)
-	.style({
-		"fill":function(d){
-					var nodeColor;
-					if(optsMultiresolution.layersFadingColors && d.level == "top"){
-						nodeColor = chroma(d.color).desaturate().brighten(optsMultiresolution.layersFadingColorsFactor);
-					}else{
-						nodeColor = d.color;
-					}
-					return d.visible ? nodeColor : "white";
-				},
-		"stroke":function(d){return d.visible ? d.color : "grey";},
-	});
+		.data(jerarquiaOutflow.hierarchy)
+		.style({
+			"fill":function(d){
+						var nodeColor;
+						if(optsMultiresolution.layersFadingColors && d.level == "top"){
+							nodeColor = chroma(d.color).desaturate().brighten(optsMultiresolution.layersFadingColorsFactor);
+						}else{
+							nodeColor = d.color;
+						}
+						return d.visible ? nodeColor : "white";
+					},
+			"stroke":function(d){return d.visible ? d.color : "grey";},
+		});
 }
 
 //used in assignGlobalVariablesFromOpts
@@ -506,6 +504,7 @@ function updateHierarchy(key_focus_list_outflow,key_context_list_outflow, key_fo
 	jerarquiaOutflow.setBottomNodes(key_focus_list_outflow);
 	jerarquiaOutflow.setTopNodes(key_context_list_outflow);
 	nivel_focus_outflow = jerarquiaOutflow.hijos();
+
 	key_focus_list_outflow = jerarquiaOutflow.key_bottom_list;
 	nivel_context_outflow = jerarquiaOutflow.papa();
 	key_context_list_outflow = jerarquiaOutflow.key_top_list;
@@ -529,6 +528,8 @@ function updateHierarchy(key_focus_list_outflow,key_context_list_outflow, key_fo
 
 function callUpdate(){
 
+	console.log("calling update from hierarchy")
+
 	// OUTFLOW
 	jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getVisibleBottomLevelNodes());
 	jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getVisibleTopLevelNodes());
@@ -544,16 +545,20 @@ function callUpdate(){
 	key_focus_list_inflow = jerarquiaInflow.key_bottom_list;
 	nivel_context_inflow = jerarquiaInflow.papa();
 	key_context_list_inflow = jerarquiaInflow.key_top_list;
-
+	
 	createGradientArrays(key_focus_list_outflow);
 	
 	updateFlows();
+
+	// updateMapLands();
 	
 	lineTopAndBottomHierarchy(links);
 	
 	setNodeColor();
 
 	nodeOut();
+	
+	landMap();
 }
 
 

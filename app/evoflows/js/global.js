@@ -82,8 +82,20 @@ let projectionMap = d3.geo.equirectangular() ////mercator();
 						.center([0, 0])
 						.translate([mapVisWidth / 2, mapVisHeight / 2]);
 
-let pathMap = d3.geo.path()
-						.projection(projectionMap);
+var pathMap = d3.geo.path()
+					.projection(projectionMap);
+var durationTransitionTS = 1000; //Multistream Time Series
+var durationTransitionMap = 750; //alwas < than durationTransitionTS
+//FLOWMAP
+var pointRadiusBackground = 10;
+var pointRadius = 5;
+var fmLineExtent = [1,8]; //line extend of the flowmap
+var fmArrowHeight = 13; //height has to be more than fmLineExtent maximium
+var fmArrowWidth = 13;
+
+//BARCHART
+let topKBarchart = 5;
+
 //Tree
 
 //Events
@@ -138,7 +150,7 @@ var leaf_level;
 var dateExtRange; 
 var dateMinRange; 
 var dateMaxRange; 
-var categories;
+var countries;
 
 // ==========================
 //MAP
@@ -164,15 +176,16 @@ function addingKeyNuevo(d,index){
 	d.name = d.name.toLowerCase();
 	d.key =  d.parent.key + "_" + index;
 	
+	let child_index;
+
 	if(d.depth == 1){
-		// console.log("num_initial_color",num_initial_color)
 		num_initial_color < 5 ? color_root = colores_d3(index) : color_root = colores_brewer(index);
+		if(!d.color)
 		d.color = chroma(color_root).desaturate().brighten(0.4);
-		
 		num_leaf_children = 0;
-		// child_index = 0;
+		child_index = 0;
 		setNumChildrenLeaf(d);
-		
+
 		let color_finish_range = chroma(color_root).saturate().darken();
 
 		if(num_leaf_children>10){
@@ -181,26 +194,28 @@ function addingKeyNuevo(d,index){
 			num_leaf_children = num_leaf_children+1;
 		}
 		color_range_children =  chroma.scale([color_begin_range,color_finish_range]).colors(num_leaf_children);
+		
 	}
 	if(d.children){
-		numberChild = d.children.length;
-			// d.children.forEach(addingKeyNuevo,index);
-			d.children.forEach((c,i)=>{
-				addingKeyNuevo(c,i);
-			});
+	    d.children.forEach(addingKeyNuevo,index);
 	}else{
-		let child_index = --num_leaf_children;
+		child_index = --num_leaf_children;
+		if(!d.color)
 		d.color = color_range_children[child_index];
 		d.visible = true;
+
+		if(!d.img)
+		d.img = "";
 	}
 }
 
 
 function preProcessingRawData(rawData){
-	rawData.forEach(function(d){
-		d.year = +d.year;
-		d.destination = d.destination.toLowerCase();
-		d.origin = d.origin.toLowerCase();
+	rawData.inflows.forEach(function(d){
+		d.date = new Date(d.date);
+	});
+	rawData.outflows.forEach(function(d){
+		d.date = new Date(d.date);
 	});
 }
 
@@ -210,6 +225,24 @@ function preProcessingGeoJSON(geoJson){
 		d.properties.name = d.properties.name.toLowerCase();
 		d.centroid = pathMap.centroid(getGeoJsonElementBiggestCoordinate(d));
 		d.value = 0;
+	});
+}
+
+
+function preProcessingHierarchyColors(jerarquiaInstance){
+	// BUILDING leaf_level for superior levels
+	jerarquiaInstance.forEach(function(node){
+		if(node.children){
+			if(!node.color){
+				if(node.children.length == 1){
+					node.color = node.children[0].color;
+				}else{
+					for(var i=0;i<node.children.length-1;i++){
+						node.color = chroma.blend(node.children[i].color, node.children[(i+1)].color, 'darken');	
+					}
+				}
+			}
+		}
 	});
 }
 
@@ -266,274 +299,179 @@ function initOptsVariables(list){
 
 }
 
-var jerar = [];
-function imprimir(node){
-	//tomar los hijos que estan en el array de bottom list
-	if(!node.children){
-		jerar.push(node.name);
-	}
-	if(node.children){
-		node.children.forEach(imprimir);
-	}
-}
+// var jerar = [];
+// function imprimir(node){
+// 	//tomar los hijos que estan en el array de bottom list
+// 	if(!node.children){
+// 		jerar.push(node.name);
+// 	}
+// 	if(node.children){
+// 		node.children.forEach(imprimir);
+// 	}
+// }
 
 
 
 function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
+
+	let asia = new Vertex(1,"Asia");
+	let europa = new Vertex(2,"Europa");
+	let america = new Vertex(3,"America");
+	let africa = new Vertex(4,"Africa");
 	
-		if (error){
-			alert(error);
-			setLoader(false);
-			throw error;
-		}
+	let listVertex = [asia,europa,america];
+	let listMultiedges = [];
 
-		dataset = [];
-		geoJson = rawGeoJson;
-		leaf_level = [];
-		hierarchyOrigen = [];
-		hierarchyDestino = [];
-		color_range_children = [];
-		//
-		//
-		d3.select("#svg-map-vis").selectAll("g").remove();
-		removeElement("tooltip-map");
-		//
-		d3.select("#svg-tree-vis").selectAll("g").remove();
-		removeElement("tooltip-tree");
-		//
-		d3.select("#svg-multiresolution-vis").selectAll("g").remove();
-		removeElement("tooltip-flow");
-
-		//PREPROCESSING
-		preProcessingRawData(rawData);
-		preProcessingGeoJSON(rawGeoJson);
-
-		//INIT OPTS
-		initOpts(rawConfiguration.init);
-
-		//OPTS VARIABLES
-		initOptsVariables(rawConfiguration.list);
-		
-		// BUILDING categories. Match rawGeoJson and entity in rawData
-		timerStart = Date.now();
-		let categoriesIntoGeoJson = rawGeoJson.features.map(d=>d.properties.name);
-	
-		let categoriesOriginRawData = d3.nest().key(function(d) {return d;}).entries(rawData.map(d=>d.origin)).map(d=>d.key);
-		let categoriesDestinationRawData = d3.nest().key(function(d) {return d;}).entries(rawData.map(d=>d.destination)).map(d=>d.key);
-
-		let categoriesIntoRawData = d3.nest().key(function(d) {return d;}).entries(categoriesOriginRawData.concat(categoriesDestinationRawData)).map(d=>d.key);
-
-		
-		//RAWDATA == GEOJSON == HIERARCHY COUNTRIES
-
-		categories = categoriesIntoRawData.filter(function(entity){
-												if(categoriesIntoGeoJson.indexOf(entity)!=-1){
-													return entity;
-												}else{
-													// console.log("hay en GeoJson pero no en Raw:",entity);
-													console.log("hay en RAW pero no en geo:",entity);
-												}
-											});
+	let graph = new Graph(listVertex,listMultiedges);
+	// console.log(graph.isAlreadyVertexByLabel("Asia"));
+	//console.log(tangentPoints2Circles(10,10,5,50,10,5));
+	// return;
 
 
-											
-
-		// console.log(rawHierarchy.ranges.children)
-		rawHierarchy.ranges.children.forEach(imprimir);
-		jerar.filter(function(entity){
-			if(categories.indexOf(entity)!=-1){
-				return entity;
-			}else{
-				console.log("hay en hierarchy pero no en categoria:",entity);
-			}
-		});
-
-
-		
-		printLog(timerStart, "getting categories");
-
-		// =======================================================================
-		// BUILDING hierachy
-		// setting the tree height according the number of leaves and the node
-		// radius
-		timerStart = Date.now();
-		let node_diameter = node_radius*2;
-		treeVisHeight =   (categories.length * node_diameter) + (categories.length * node_gap);
-
-		tree.size([treeVisHeight - gapWindowsTop, treeVisWidth]); // width
-		// tree.nodes adds: children, depth, name, x, y
-		hierarchyOrigen = tree.nodes(rawHierarchy.ranges).reverse();// array of objects
-		hierarchyOrigen[hierarchyOrigen.length-1].key = root_key;
-		hierarchyOrigen[hierarchyOrigen.length-1].color = root_color;
-		num_initial_color = 5; //getNodesByDepth(1).length;
-		// hierarchyOrigen[hierarchyOrigen.length-1].children.reverse().forEach(addingKey);
-		hierarchyOrigen[hierarchyOrigen.length-1].children.forEach((curr,index)=>{
-			addingKeyNuevo(curr,index);
-		});
-
-		
-
-		hierarchyDestino = tree.nodes(rawHierarchy.ranges).reverse();// array of objects
-		hierarchyDestino[hierarchyDestino.length-1].children.forEach((curr,index)=>{
-			addingKeyNuevo(curr,index);
-		});
-
-		
-		printLog(timerStart, "getting hierarchy");
-
-		hierarchyOrigen.forEach(function(node){
-			node.level = "";
-			node.visible = false;
-		});
-	
-		// =======================================================================
-		// BUILDING dataset
-		// get years
-		timerStart = Date.now();
-		let yearsExtent = d3.extent(rawData,d=>d.year);
-		let years = [];
-		for(let year = yearsExtent[0]; year<=yearsExtent[1]; year++){
-			years.push(year);
-		}
-		
-		// get keys
-		let populationTypes = [
-			"Refugees (incl. refugee-like situations)",// 0
-			"Asylum-seekers (pending cases)",// 1
-			"Returned refugees",// 2
-			"Internally displaced persons (IDPs)",// 3
-			"Returned IDPs",// 4
-			"Stateless persons",// 5
-			"Others of concern"// 6
-		];
-		
-		
-		let parserToDataset = years.map(function(year){
-			
-			// filter by each Year
-			let byYear = rawData.filter(d=>d.year==year);
-			
-			return{
-				"date":new Date(year,0),
-				"values":	
-							// filter by each category
-						categories.map(function(currCountry){
-							
-							// console.log("dealing with: ",currCountry);
-
-							// OUTFLOW - OUTGOING
-							let outgoing = []; 
-							byYear.filter(d=>d.origin==currCountry).forEach(function(item){
-								let countryWithFeatures = rawGeoJson.features.filter(d=>d.properties.name == item.destination);
-								if(countryWithFeatures.length==1){
-									outgoing.push({
-										"type":countryWithFeatures[0].type,
-										"id":countryWithFeatures[0].id,
-										"geometry":countryWithFeatures[0].geometry,
-										"properties":countryWithFeatures[0].properties,
-										"centroid":countryWithFeatures[0].centroid,
-										"arraray":populationTypes.map(function(populationType){
-											return{
-												"item":populationType,
-												"value":Number.isNaN(+item[populationType])?0:+item[populationType]
-											};
-										})
-									});
-								}
-							});
-
-							// INFLOW - INCOMING
-							let incoming = [];
-							byYear.filter(d=>d.destination==currCountry).forEach(function(item){
-								let countryWithFeatures = rawGeoJson.features.filter(d=>d.properties.name == item.origin);
-								if(countryWithFeatures.length==1){
-									incoming.push({
-										"type":countryWithFeatures[0].type,
-										"id":countryWithFeatures[0].id,
-										"geometry":countryWithFeatures[0].geometry,
-										"properties":countryWithFeatures[0].properties,
-										"centroid":countryWithFeatures[0].centroid,
-										"arraray":populationTypes.map(function(populationType){
-											return{
-												"item":populationType,
-												"value":Number.isNaN(+item[populationType])?0:+item[populationType]
-											};
-										})
-									});							
-								}
-							});
-							
-							var indicators = [];
-							indicators.push({
-								"nameIndicator" : "outgoing",
-								"valueIndicator" : 0,
-								"componentIndicator" : outgoing
-							});
-							indicators.push({
-								"nameIndicator" : "incoming",
-								"valueIndicator" : 0,
-								"componentIndicator" : incoming
-							});
-							
-							return {
-								"category":rawGeoJson.features.filter(d=>d.properties.name == currCountry)[0],
-								"indicators" : indicators
-							};
-						})
-			};
-			
-		});
-		
-		parserToDataset.forEach(function(parser){
-			parser.values.forEach(function(d){
-				dataset.push({
-					"date" : parser.date,
-					"category" : d.category,
-					"indicators" : d.indicators
-				});
-			});
-		});
-		
-		
-		var start = new Date(years[0],0);
-		var stop = getTimeOffset(new Date(years[years.length-1],0), 2*stepTemporal, polarityTemporal);
-		timeWindow = getTimeWindow(start,stop,polarityTemporal,stepTemporal);
-		
-
-		jerarquiaOutflow = new Jerarquia(hierarchyOrigen);
-		jerarquiaOutflow.my_leaf_level = kaka(timeWindow, 0, arraySubIndicators, "", jerarquiaOutflow);
-		jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getLeafNodes());
-		jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getNodesByDepth(1));
-			
-
-
-		nivel_focus_outflow = jerarquiaOutflow.hijos();
-		key_focus_list_outflow = jerarquiaOutflow.key_bottom_list;
-	
-		nivel_context_outflow = jerarquiaOutflow.papa();
-		key_context_list_outflow = jerarquiaOutflow.key_top_list;
-
-		//-------------------------------
-
-		jerarquiaInflow = new Jerarquia(hierarchyDestino);
-		jerarquiaInflow.my_leaf_level = kaka(timeWindow, 1, arraySubIndicators, "", jerarquiaInflow);
-		jerarquiaInflow.setBottomNodes(jerarquiaInflow.getLeafNodes());
-		jerarquiaInflow.setTopNodes(jerarquiaInflow.getNodesByDepth(1));
-
-		nivel_focus_inflow = jerarquiaInflow.hijos();
-		key_focus_list_inflow = jerarquiaInflow.key_bottom_list;
-	
-		nivel_context_inflow = jerarquiaInflow.papa();
-		key_context_list_inflow = jerarquiaInflow.key_top_list;
-
-
-		// Loading VIS 
-		loadMultiresolutionVis();
-		loadMapVis(rawGeoJson);
-		loadTreeVis();
-		loadCompareVis();
-	
+	if (error){
+		alert(error);
 		setLoader(false);
+		throw error;
+	}
+
+	dataset = [];
+	geoJson = rawGeoJson;
+	leaf_level = [];
+	hierarchyOrigen = [];
+	hierarchyDestino = [];
+	color_range_children = [];
+	//
+	//
+	d3.select("#svg-map-vis").selectAll("g").remove();
+	removeElement("tooltip-map");
+	//
+	d3.select("#svg-tree-vis").selectAll("g").remove();
+	removeElement("tooltip-tree");
+	//
+	d3.select("#svg-multiresolution-vis").selectAll("g").remove();
+	removeElement("tooltip-flow");
+
+	//PREPROCESSING
+	preProcessingRawData(rawData);
+	preProcessingGeoJSON(rawGeoJson);
+	
+
+	//INIT OPTS
+	initOpts(rawConfiguration.init);
+
+	//OPTS VARIABLES
+	initOptsVariables(rawConfiguration.list);
+	
+	// BUILDING categories. Match rawGeoJson and entity in rawData
+	timerStart = Date.now();
+	let categoriesIntoGeoJson = rawGeoJson.features.map(d=>d.properties.name);
+
+	let categoriesOriginRawData = d3.nest().key(function(d) {return d;}).entries(rawData.outflows.map(d=>d.category)).map(d=>d.key);
+	let categoriesDestinationRawData = d3.nest().key(function(d) {return d;}).entries(rawData.inflows.map(d=>d.category)).map(d=>d.key);
+
+	let categoriesIntoRawData = d3.nest().key(function(d) {return d;}).entries(categoriesOriginRawData.concat(categoriesDestinationRawData)).map(d=>d.key);
+
+	
+	//RAWDATA == GEOJSON == HIERARCHY COUNTRIES
+
+	countries = categoriesIntoRawData.filter(function(entity){
+											if(categoriesIntoGeoJson.indexOf(entity)!=-1){
+												return entity;
+											}else{
+												console.log("Exist in RAW data but not in the GeoJson:",entity);
+											}
+										});
+
+	printLog(timerStart, "getting categories");
+
+	// =======================================================================
+	// BUILDING hierachy
+	// setting the tree height according the number of leaves and the node
+	// radius
+	timerStart = Date.now();
+	let node_diameter = node_radius*2;
+	treeVisHeight = (countries.length * node_diameter) + (countries.length * node_gap);
+
+	tree.size([treeVisHeight - gapWindowsTop, treeVisWidth]); // width
+	// tree.nodes adds: children, depth, name, x, y
+	hierarchyOrigen = tree.nodes(rawHierarchy.ranges).reverse();// array of objects
+	hierarchyOrigen[hierarchyOrigen.length-1].key = root_key;
+	hierarchyOrigen[hierarchyOrigen.length-1].color = root_color;
+	num_initial_color = 6; //getNodesByDepth(1).length;
+	// hierarchyOrigen[hierarchyOrigen.length-1].children.reverse().forEach(addingKey);
+	hierarchyOrigen[hierarchyOrigen.length-1].children.reverse().forEach((curr,index)=>{
+		addingKeyNuevo(curr,index);
+	});
+
+	preProcessingHierarchyColors(hierarchyOrigen);
+// 
+	hierarchyDestino = hierarchyOrigen; // tree.nodes(rawHierarchy.ranges).reverse();// array of objects
+	// hierarchyDestino[hierarchyDestino.length-1].children.forEach((curr,index)=>{
+	// 	addingKeyNuevo(curr,index);
+	// });
+
+	
+	printLog(timerStart, "getting hierarchy");
+
+	hierarchyOrigen.forEach(function(node){
+		node.level = "";
+		node.visible = false;
+	});
+
+	// =======================================================================
+	// BUILDING dataset
+	// get years
+	timerStart = Date.now();
+	let yearsExtent = d3.extent(rawData.inflows,d=>d.date);
+	
+	
+	var start = new Date(yearsExtent[0]);// new Date(years[0],0);
+	var stop = getTimeOffset(new Date(yearsExtent[1]), 2*stepTemporal, polarityTemporal);
+	timeWindow = getTimeWindow(start,stop,polarityTemporal,stepTemporal);
+	
+
+	dateExtRange = d3.extent(timeWindow); // max and min date
+	dateMinRange = dateExtRange[0]; // min date
+	dateMaxRange = dateExtRange[1]; // max date
+
+	jerarquiaOutflow = new Jerarquia(hierarchyOrigen);
+	jerarquiaOutflow.my_leaf_level = rawData.outflows;// kaka(timeWindow, 0, arraySubIndicators, "", jerarquiaOutflow);
+	// jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getLeafNodes());
+	// jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getNodesByDepth(1));
+	jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getNodesByDepth(2));
+	jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getNodesByDepth(0));
+		
+
+	nivel_focus_outflow = jerarquiaOutflow.hijos();
+	key_focus_list_outflow = jerarquiaOutflow.key_bottom_list;
+		
+	nivel_context_outflow = jerarquiaOutflow.papa();
+	key_context_list_outflow = jerarquiaOutflow.key_top_list;
+
+	//-------------------------------
+
+	jerarquiaInflow = new Jerarquia(hierarchyDestino);
+	jerarquiaInflow.my_leaf_level = rawData.inflows; // kaka(timeWindow, 1, arraySubIndicators, "", jerarquiaInflow);
+	// jerarquiaInflow.setBottomNodes(jerarquiaInflow.getLeafNodes());
+	// jerarquiaInflow.setTopNodes(jerarquiaInflow.getNodesByDepth(1));
+	jerarquiaInflow.setBottomNodes(jerarquiaInflow.getNodesByDepth(2));
+	jerarquiaInflow.setTopNodes(jerarquiaInflow.getNodesByDepth(0));
+
+	nivel_focus_inflow = jerarquiaInflow.hijos();
+	key_focus_list_inflow = jerarquiaInflow.key_bottom_list;
+	
+
+	nivel_context_inflow = jerarquiaInflow.papa();
+	key_context_list_inflow = jerarquiaInflow.key_top_list;
+
+	// Loading VIS 
+	loadMultiresolutionVis();
+	loadTreeVis();
+	loadMapVis(rawGeoJson);
+	loadCompareVis();
+	//
+
+	setLoader(false);
 }
 
 function setLoader(display){
@@ -548,108 +486,106 @@ function setLoader(display){
 	}
 }
 
-function kaka(timeWindow, indexIndicator, subArrayIndicators, filtroDeNose, jerarquiaInstance){
-	//indexIndicator (0: origin, 1: destination)
-	//subArrayIndicators (refugees, asylum, internally)
-	let result_leaf_level = [];
+// function kaka(timeWindow, indexIndicator, subArrayIndicators, filtroDeNose, jerarquiaInstance){
 
-	dateExtRange = d3.extent(timeWindow); // max and min date
-	dateMinRange = dateExtRange[0]; // min date
-	dateMaxRange = dateExtRange[1]; // max date
+// 	console.log("")
+// 	console.log("kakakakakak")
+// 	//indexIndicator (0: origin, 1: destination)
+// 	//subArrayIndicators (refugees, asylum, internally)
+// 	let result_leaf_level = [];
 
-	// for each time step in the time window
-	for (let i = 0; i < timeWindow.length; i++) {
-		if((i+1) < timeWindow.length){
-			let start = timeWindow[i];
-			let stop = timeWindow[i+1];
+// 	dateExtRange = d3.extent(timeWindow); // max and min date
+// 	dateMinRange = dateExtRange[0]; // min date
+// 	dateMaxRange = dateExtRange[1]; // max date
+
+// 	// for each time step in the time window
+// 	for (let i = 0; i < timeWindow.length; i++) {
+// 		if((i+1) < timeWindow.length){
+// 			let start = timeWindow[i];
+// 			let stop = timeWindow[i+1];
 			
-			// [)
-			let dataPeriod = dataset.filter(d=>d.date>=start && d.date<stop);
+// 			// [)
+// 			let dataPeriod = dataset.filter(d=>d.date>=start && d.date<stop);
 
-			jerarquiaInstance.hierarchy.forEach(function(node){
+// 			jerarquiaInstance.hierarchy.forEach(function(node){
 
-				if(!node.children && filtroDeNose==="" || !node.children && node.name.toLowerCase()===filtroDeNose.toLowerCase()){// && node.name==="iran" //&& (node.name==="belgium" || node.name==="germany")
-					//If node has not children => is leaf
-					let dataInPeriod = dataPeriod.filter(d=>d.category.properties.name===node.name);
+// 				if(!node.children && filtroDeNose==="" || !node.children && node.name.toLowerCase()===filtroDeNose.toLowerCase()){// && node.name==="iran" //&& (node.name==="belgium" || node.name==="germany")
+// 					//If node has not children => is leaf
+// 					let dataInPeriod = dataPeriod.filter(d=>d.category.properties.name===node.name);
 
-					let valueIndicator = 0;
-					let text = [];
-					let compo = [];
-					let dataGeoJsonFeature = "";
+// 					let valueIndicator = 0;
+// 					let text = [];
+// 					let compo = [];
+// 					let dataGeoJsonFeature = "";
 
-					if(dataInPeriod.length>0){
+// 					if(dataInPeriod.length>0){
 	
-						let agregatedByIndicator = fusionValues(dataInPeriod);
-						let selectedIndicator = agregatedByIndicator[indexIndicator];
+// 						let agregatedByIndicator = fusionValues(dataInPeriod);
+// 						let selectedIndicator = agregatedByIndicator[indexIndicator];
 
-						// 1 
-						// sumar por cada pais los indicadores a mostrar
-						selectedIndicator.componentIndicator.forEach(function(d){
-							// Sacar la suma solo de los subArrayIndicators (arraray) deseados por pais
-							let sumByArrayComponent = 0;
-							subArrayIndicators.forEach(function(index){
-								sumByArrayComponent = sumByArrayComponent + d.arraray[index].value;
-							});
-							d.value = sumByArrayComponent; //valueByCountry
-						});
+// 						// 1 
+// 						// sumar por cada pais los indicadores a mostrar
+// 						selectedIndicator.componentIndicator.forEach(function(d){
+// 							// Sacar la suma solo de los subArrayIndicators (arraray) deseados por pais
+// 							let sumByArrayComponent = 0;
+// 							subArrayIndicators.forEach(function(index){
+// 								sumByArrayComponent = sumByArrayComponent + d.arraray[index].value;
+// 							});
+// 							d.value = sumByArrayComponent; //valueByCountry
+// 						});
 						
-						//
-						// 2 la suma total de la suma anterior (anteior por pais)
-						selectedIndicator.componentIndicator.forEach(function(d){
-							valueIndicator = valueIndicator + d.value; //valueByCountry
-						});
-						selectedIndicator.valueIndicator = valueIndicator;
+// 						//
+// 						// 2 la suma total de la suma anterior (anteior por pais)
+// 						selectedIndicator.componentIndicator.forEach(function(d){
+// 							valueIndicator = valueIndicator + d.value; //valueByCountry
+// 						});
+// 						selectedIndicator.valueIndicator = valueIndicator;
 						
-						dataGeoJsonFeature = dataInPeriod[0].category;
-						compo = selectedIndicator.componentIndicator;
+// 						dataGeoJsonFeature = dataInPeriod[0].category;
+// 						compo = selectedIndicator.componentIndicator;
 
 					
-					}else {
-						// console.log("NO HAY DATOS DE:",node.name);
-					}
+// 					}else {
+// 						// console.log("NO HAY DATOS DE:",node.name);
+// 					}
 
-					//NUEVO ATTRIBUTO
-					result_leaf_level.push({
-						"date":start,
-						"key":node.key,
-						"category":node.name,
-						"item":dataGeoJsonFeature,
-						"value":valueIndicator,
-						"components":compo,
-						"text":text
-					});
-				}
-			});
-
-		}
-	}
+// 					//NUEVO ATTRIBUTO
+// 					result_leaf_level.push({
+// 						"date":start,
+// 						"key":node.key,
+// 						"category":node.name,
+// 						"item":dataGeoJsonFeature,
+// 						"value":valueIndicator,
+// 						"components":compo,
+// 						"text":text
+// 					});
+// 				}
+// 			});
+// 		}
+// 	}
 	
-	// BUILDING leaf_level for superior levels
-	jerarquiaInstance.hierarchy.forEach(function(node){
-		if(node.children){
-			// console.log("merging:",node.name);
-			var fusion = mergingChildrenNuevo(node, node.children, result_leaf_level);
-			result_leaf_level = result_leaf_level.concat(fusion);
+// 	// BUILDING leaf_level for superior levels
+// 	jerarquiaInstance.hierarchy.forEach(function(node){
+// 		if(node.children){
+// 			// console.log("merging:",node.name);
+// 			var fusion = mergingChildrenNuevo(node, node.children, result_leaf_level);
+// 			result_leaf_level = result_leaf_level.concat(fusion);
 
-			if(!node.color){
-				if(node.children.length == 1){
-					node.color = node.children[0].color;
-				}else{
-					for(var i=0;i<node.children.length-1;i++){
-						node.color = chroma.blend(node.children[i].color, node.children[(i+1)].color, 'darken');	
-					}
-				}
-			}
-		}
-	});
+// 			if(!node.color){
+// 				if(node.children.length == 1){
+// 					node.color = node.children[0].color;
+// 				}else{
+// 					for(var i=0;i<node.children.length-1;i++){
+// 						node.color = chroma.blend(node.children[i].color, node.children[(i+1)].color, 'darken');	
+// 					}
+// 				}
+// 			}
+// 		}
+// 	});
 
+// 	return result_leaf_level;
 
-	// console.log(result_leaf_level)
-	// console.log("terminado acabado")
-	return result_leaf_level;
-
-
-}
+// }
 
 
 
@@ -679,7 +615,6 @@ function updateConfigMap(optsMap){
 
 function updateConfigMultistream(optsMultistream){
 
-
 	barZoomLeft = new Date(optsMultistream.optsContext.timeIntervalBrushZoom[0]);
 	barZoomRight = new Date(optsMultistream.optsContext.timeIntervalBrushZoom[1]);
 	barNorLeft = new Date(optsMultistream.optsContext.timeIntervalBrushNormalLeft[0]);
@@ -703,9 +638,9 @@ function updateConfigMultistream(optsMultistream){
 
 
 
-function groupComponentIndicatorByName(arrayComponents){
+function groupComponentTypeByName(arrayComponents){
 	var agrouped = arrayComponents.reduce(function (acc, obj) {
-		var cle = obj.properties["name"];
+		var cle = obj["name"];
 		if(!acc[cle]){
 			acc[cle] = [];
 		}
@@ -723,8 +658,9 @@ function groupComponentIndicatorByName(arrayComponents){
 			groupedElements.forEach(function(d){
 				d.arraray.forEach(function(ray){
 					tmp.push(ray)
-				})
-			})
+				});
+			});
+			// console.log(tmp)
 			let groupeArraray = tmp.reduce(function (acc, obj) {
 				let cle = obj.item;
 				if(!acc[cle]){
@@ -733,34 +669,35 @@ function groupComponentIndicatorByName(arrayComponents){
 				acc[cle].push(obj);
 				return acc;
 			}, {});
-			
-			let mm = Object.values(groupeArraray).map(function(gg){
+			let types = Object.values(groupeArraray).map(function(gg){
 				return{
 					"item":gg[0].item,
 					"value": gg.reduce(function (acc, curr) {
 						return acc + curr.value;
 					}, 0)
-				}
-			})
-			
+				};
+			});
+
 			return {
-				"type":groupedElements[0].type,
-				"id":groupedElements[0].ide,
-				"properties":groupedElements[0].properties,
-				"geometry":groupedElements[0].geometry,
-				"value":0,
-				"arraray":mm
+				// "type":groupedElements[0].type,
+				// "id":groupedElements[0].ide,
+				// "properties":groupedElements[0].properties,
+				// "geometry":groupedElements[0].geometry,
+				// "value":0,
+				"name":groupedElements[0].name,
+				"arraray":types
 			};
 		}
 	});
 	
+	// console.log("array",result["arraray"])
 	return result;
 }
 
 function groupIndicatorByName(arrayIndicators){
-	
+
 	var agrouped = arrayIndicators.reduce(function (acc, obj) {
-		var cle = obj.nameIndicator;
+		var cle = obj.indicator;
 		if(!acc[cle]){
 			acc[cle] = [];
 		}
@@ -771,34 +708,34 @@ function groupIndicatorByName(arrayIndicators){
 	var result = Object.values(agrouped).map(function(element){
 		if(element.length==1){
 			return element[0];	
-		}else{
-			
+		}else{	
 			let tmp = [];
 			element.forEach(function(d){
-	 			d.componentIndicator.forEach(function(elem){
-	 					tmp.push(elem);
+	 			d.components.forEach(function(elem){
+					tmp.push(elem);
 	 			});
 	 		});
 	 		
-			let nameIndicator = element[0].nameIndicator;
-			let valueIndicator = 0;
-			let componentIndicator = groupComponentIndicatorByName(tmp);
+			let nameIndicator = element[0].indicator;
+			let componentIndicator = groupComponentTypeByName(tmp);
 			
+			//
 			return {
-				"nameIndicator": nameIndicator,
-				"valueIndicator":valueIndicator,
-				"componentIndicator":componentIndicator
+				"indicator": nameIndicator,
+				"components":componentIndicator
 			};
 		}
 	});
+
 	return result;
 }
 
-
-function fusionValues(arrayObjets){
+//Indicator : inflow, outflow
+function fusionValuesByIndicator(arrayObjets){
 	var tmp = [];
 	arrayObjets.forEach(function(d){
 		d.indicators.forEach(function(indicator){
+			//indicator = inflow,
 			tmp.push(indicator);
 		});
 	});
@@ -814,7 +751,7 @@ function load_d3(configurationPathFile) {
 		// FILES PATHS
 		let myGeoJSONPath = "source/refugees/geojson.json";
 		let myHierarchyJSONPath = "source/refugees/hierarchy.json";
-		let myRawDataPath = "source/refugees/data.csv";
+		let myRawDataPath = "source/refugees/data.json";
 
 		//let myConfiguration = "source/refugees/config.json";
 		if(configurationPathFile==null){
@@ -826,7 +763,7 @@ function load_d3(configurationPathFile) {
 		d3.queue(4)
 			.defer(d3.json,myHierarchyJSONPath)
 			.defer(d3.json,myGeoJSONPath)
-			.defer(d3.csv,myRawDataPath)
+			.defer(d3.json,myRawDataPath)
 			.defer(d3.json,myConfiguration)
 			.await(ready);
 		
@@ -837,16 +774,16 @@ function load_d3(configurationPathFile) {
 
 function mono(jsonConfig) {
 
-		//LOAD OPTS
-		optsGeneral = jsonConfig.optsGeneral;
-		optsMultistream = jsonConfig.optsMultistream;
-		optsMultiresolution = jsonConfig.optsMultistream.optsMultiresolution;
-		optsContext = jsonConfig.optsMultistream.optsContext;
+	//LOAD OPTS
+	optsGeneral = jsonConfig.optsGeneral;
+	optsMultistream = jsonConfig.optsMultistream;
+	optsMultiresolution = jsonConfig.optsMultistream.optsMultiresolution;
+	optsContext = jsonConfig.optsMultistream.optsContext;
 
-		optsMap = jsonConfig.optsMap;
-		optsTree = jsonConfig.optsTree;
-	
-		updateFlows();
+	optsMap = jsonConfig.optsMap;
+	optsTree = jsonConfig.optsTree;
+
+	updateFlows();
 }
 
 
@@ -885,15 +822,25 @@ function getCheckedPopulationType() {
 
 function colores_brewer(n){
 	var colors = [
-					"#ffff33" // jaune			
-					,"#377eb8" // blue
-					,"#e41a1c" // red
-					,"#984ea3" // purple
-					,"#ff7f00" // orange
-					,"#4daf4a" // green
-					,"#a65628"
-					,"#f781bf"
-				]
+		"#ff7f00" // orange
+		,"#984ea3" // purple
+		,"#e41a1c" // red
+		,"#377eb8" // blue
+		,"#ffff33" // jaune			
+		,"#4daf4a" // green
+		,"#a65628"
+		,"#f781bf"
+	]
+	// var colors = [
+	// 				"#ffff33" // jaune			
+	// 				,"#377eb8" // blue
+	// 				,"#e41a1c" // red
+	// 				,"#984ea3" // purple
+	// 				,"#ff7f00" // orange
+	// 				,"#4daf4a" // green
+	// 				,"#a65628"
+	// 				,"#f781bf"
+	// 			]
 	
 	return colors[n % colors.length];
 }

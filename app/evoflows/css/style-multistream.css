@@ -9,10 +9,10 @@
 	fill: white; 
 }
 
-.y.axis text, .x.axis text {
+/* .y.axis text, .x.axis text {
 	fill: black;
-	font-size: 0.7rem; 
-}
+	font-size: 0.1rem; 
+} */
 
 #multiresolution-vis-header{
 	/* background:#f1f1f1; */
@@ -51,8 +51,6 @@
 #close-alert:hover {
 	color: black;
 }
-
-
 
 #not-used {
 	cursor: url('../img/move.png') 13 13, auto;
@@ -165,9 +163,13 @@ text.textLabel {
 
 
 /* Axis time text in Focus and Context and Comparison */
-.y.axis text, .x.axis text {
-	fill: black;
+.y.axis text {
+	fill: rgba(0, 0, 0, 0.8);
 	font-size: 0.7rem; 
+}
+.x.axis text {
+	fill: rgba(0, 0, 0, 0.8);
+	font-size: 1rem; 
 }
 
 /* Axis in Focus */
@@ -186,9 +188,8 @@ text.textLabel {
 }
 
 .context .x.axis text {
-	fill: black;
-	/* font-size: 0.9rem;  */
-	font-size: 1.1rem; 
+	fill: rgba(0, 0, 0, 0.8);
+	font-size: 1rem; 
 }
 
 /* Axis label in Focus */

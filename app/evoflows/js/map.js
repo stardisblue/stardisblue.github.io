@@ -11,9 +11,14 @@ var zoomMap = d3.behavior.zoom()
 var scaleMapChoropleth = d3.scale.log()
 								.clamp(true);			
 					
-var scaleMapPoint = d3.scale.sqrt()
+var scaleMapBubbles = d3.scale.sqrt()
 						.range([8,25]);
-						// .range([8,25]);
+
+var scaleMapPoints = d3.scale.linear()
+						.range(fmLineExtent);
+
+var scaleMapPointsBefore = d3.scale.linear()
+						.range(fmLineExtent);						
 
 var scaleFeatureMapLabel = d3.scale.sqrt();					
 					
@@ -35,6 +40,7 @@ var gBarchartMap;
 //
 var tooltipMap;
 var dataGeoJson = [];
+var dataLand = [];
 var currGroupedData = [];
 var currSelectedItem;
 var currOrientation;
@@ -102,23 +108,30 @@ function createMapSvg(){
 	defs.append("marker")
 			.attr({
 				"id":"arrow",
-				"viewBox":"0 -5 10 10",
-				"refX":5,
-				"refY":0,
-				"markerWidth":8,
-				"markerHeight":8,
-				"orient":"auto"
+				"markerWidth":fmArrowWidth+5,
+				"markerHeight":fmArrowHeight+5,
+				"refX":0,
+				"refY":fmArrowHeight/2, //to put in the middle of the parent line
+				"orient":"auto",
+				// "viewBox":"0 0 10 10",
+				"markerUnits":"userSpaceOnUse" //prevent to inherith stroke from parent as strokeWidth 
 			})
 			.append("path")
-				.attr("d", "M0,-5L10,0L0,5")
+				.attr("d", "M0,0 L0,"+fmArrowHeight+" L"+fmArrowWidth+","+fmArrowHeight/2+" z") //triangle
 				.attr("class","arrowHead");
+
+//<defs>
+//   <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+//    <path d="M0,0 L0,6 L9,3 z" fill="#f00" />
+// </marker>
+//</defs>				
 								
 }
 
 
 function loadMapVis(rawGeoJson){
 
-	dataGeoJson = rawGeoJson;
+	// dataGeoJson = rawGeoJson;
 	
 	updateMapTypeRepresentation(typeMapVisualization);
 
@@ -126,7 +139,7 @@ function loadMapVis(rawGeoJson){
 	
 	createMapSvg();
 	
-	createLandsMap();
+	landMap();
 
 	createMapLegend();
 
@@ -163,10 +176,28 @@ function loadMapVis(rawGeoJson){
 }
 
 
+// function updateMapLands(){
+
+// 	let dataInFocusTop = [];
+// 	if(dataCurrentlyMultiresolutionTop==null){
+// 		dataInFocusTop = data_focus_level_top;
+// 	}else{
+// 		dataInFocusTop = dataCurrentlyMultiresolutionTop;
+// 	}
+
+// 	let dataInZoomAreaOrigin = getSubSetOfData(dataInFocusTop, brushContext.extent()[0],brushContext.extent()[1]);	
+
+// 	//SOLO NECEITO LOS NOMBRES THINK 
+// 	console.log(dataInZoomAreaOrigin)
+
+// }
+
+
 function updateMapTypeRepresentation(typeRepresentation){
 
 	document.getElementById("choropleth").classList.remove("active");
 	document.getElementById("bubbles").classList.remove("active");
+	document.getElementById("points").classList.remove("active");
 
 	if(typeRepresentation==="choropleth"){
 		document.getElementById("choropleth").classList.add("active");
@@ -174,7 +205,9 @@ function updateMapTypeRepresentation(typeRepresentation){
 	if(typeRepresentation==="bubbles"){
 		document.getElementById("bubbles").classList.add("active");
 	}
-
+	if(typeRepresentation==="points"){
+		document.getElementById("points").classList.add("active");
+	}
 
 }
 
@@ -229,32 +262,52 @@ function clearFeaturesLayerMap(){
 
 
 //Create the land layers on the map
-function createLandsMap(){
-	//rawGeoJson.features from the GeoJson file
-	// console.log(dataGeoJson.features)
-	gLandMap.selectAll(".land")
-			.data(dataGeoJson.features,(d)=>d.properties.name)
-		.enter().append("path")
-			.attr("class","land")
-			.attr("d", pathMap)
-			;
+function landMap(){
 
+	// gLandMap.selectAll(".land")
+	// 		.data(dataGeoJson.features,d=>d.properties.name)
+	// 	.enter().append("path")
+	// 		.attr("class","land")
+	// 		.attr("d", pathMap);
 
 	//create border of land path
-	gLandMap.selectAll(".land-borders")
-			.data(dataGeoJson.features,(d)=>d.properties.name)
-		.enter().append("path")
-			.attr("class","land-borders")
-			.attr("d", pathMap)
-			.on("click",mapLandMouseClick)
-			;
+	// gLandMap.selectAll(".land-borders")
+	// 		.data(dataGeoJson.features,d=>d.properties.name)
+	// 	.enter().append("path")
+	// 		.attr("class","land-borders")
+	// 		.attr("d", pathMap)
+	// 		.on("click",mapLandMouseClick)
+	// 		;
+
+	// getting the nodes in the bottom level of the hierarchy
+	// Match: hierarchy <=> geoJson
+	dataLand = jerarquiaOutflow.getBottomLevelNodes().map(d=>{return getCountryFromGeoJson(d.name);});
+
+	//Create LAND PATHS	
+	let land_path = gLandMap.selectAll(".land")
+				.data(dataLand,d=>d.properties.name);
+
+	//exit
+	land_path.exit().remove();
+
+	//update
+	// land_path.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
+	// 			.style({
+	// 				"font-size":d=> {return 0.7/currMapScale + "rem";}
+	// 			}); 
+
+	//create
+	land_path.enter().append("path")
+			.attr("class","land")
+			.attr("d", pathMap);
+
 
 	landLabel();
 }
 
 function landLabel(){
 	
-	dataGeoJson.features.forEach(function(dataGeoJsonElement){
+	dataLand.forEach(function(dataGeoJsonElement){
 		
 		let heightValueInRem = 0.7/currMapScale;
 		let font = (heightValueInRem).toString().concat("rem ").concat(text_font_family);
@@ -271,13 +324,13 @@ function landLabel(){
 		let y2 = (y1+objectHeight);
 		let coordinates = {"x1":x1,"y1":y1,"x2":x2,"y2":y2};
 		
-		dataGeoJsonElement.key = dataGeoJsonElement.properties.name.toLowerCase();
+		dataGeoJsonElement.keyOverlap = dataGeoJsonElement.properties.name.toLowerCase();
 		dataGeoJsonElement.overlaping = false;
 		dataGeoJsonElement.coordinates = coordinates;
 		dataGeoJsonElement.refCenterPoint = refCenterPoint;
 	});
 
-	let aryWithOutOverlapping = removeOverlapping(dataGeoJson.features);			
+	let aryWithOutOverlapping = removeOverlapping(dataLand);			
 
 	//Create LAND LABELS	
 	let land_label = gLandMap.selectAll(".land-label")
@@ -305,26 +358,19 @@ function landLabel(){
 }
 
 
-function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem){
-	// return;
-
+function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem,durationAnimation){
 
 	if(dataForFeaturesLabels.length>1){
 
-		dataForFeaturesLabels.sort((a,b)=>{return a.value - b.value;});
+		let unionDataFeatures = dataForFeaturesLabels.filter(function(d){return d.properties.name!="";});
 
-		// console.log(dataForFeaturesLabels,dataForFeaturesLabels.length)
-		let inputMinValue = dataForFeaturesLabels[0].value;
-		let inputMaxValue = dataForFeaturesLabels[dataForFeaturesLabels.length-1].value;
+		unionDataFeatures.sort((a,b)=>{return a.value - b.value;});
+
+		let inputMinValue = unionDataFeatures[0].value;
+		let inputMaxValue = unionDataFeatures[unionDataFeatures.length-1].value;
 		scaleFeatureMapLabel.domain([inputMinValue, inputMaxValue])
 							.range(featuresOutputRangeLabelScale);
-
 		
-		// dataForFeaturesLabels.forEach(function(dataGeoJsonElement){
-		// 	dataGeoJsonElement.properties.name = jsCapitalize(dataGeoJsonElement.properties.name);
-		// });
-
-		let unionDataFeatures = dataForFeaturesLabels.filter(d=>d.properties.name!="");
 		if(selectedItem!=""){
 			// origin.properties.name = origin.properties.name.toUpperCase();
 			unionDataFeatures.push(selectedItem);
@@ -332,7 +378,6 @@ function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem){
 		
 		//updating the features: coordinates, according to labelWidth and labelHeight
 		unionDataFeatures.forEach(function(dataGeoJsonElement){
-			//calculate centroid of a GeoJSON object	
 			let value = dataGeoJsonElement.value;
 			let heightValueInRem = scaleFeatureMapLabel(value)/currMapScale;
 			let font = (heightValueInRem).toString().concat("rem ").concat(text_font_family);
@@ -341,8 +386,9 @@ function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem){
 			let objectWidth = getTextWidthInPx(dataGeoJsonElement.properties.name,font);
 			let objectHeight = getPxFromRem(heightValueInRem); 
 			let refCenterPoint = [dataGeoJsonElement.centroid[0],dataGeoJsonElement.centroid[1]];
+			
 			if(selectedItem!=""){
-				refCenterPoint = getNewEndArrowAccordingStartArrowInclination(selectedItem.centroid,refCenterPoint,objectWidth, objectHeight);
+				refCenterPoint = getNewEndArrowAccordingStartArrowInclination(selectedItem.centroid,refCenterPoint,objectWidth, objectHeight, pointRadius);
 			}
 
 			let x1 = refCenterPoint[0] - objectWidth/2;
@@ -351,7 +397,7 @@ function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem){
 			let y2 = (y1+objectHeight);
 			let coordinates = {"x1":x1,"y1":y1,"x2":x2,"y2":y2};
 			
-			dataGeoJsonElement.key = dataGeoJsonElement.properties.name.toLowerCase();
+			dataGeoJsonElement.keyOverlap = dataGeoJsonElement.properties.name.toLowerCase();
 			dataGeoJsonElement.overlaping = false;
 			dataGeoJsonElement.coordinates = coordinates;
 			dataGeoJsonElement.refCenterPoint = refCenterPoint;
@@ -361,27 +407,42 @@ function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem){
 
 		//Create LAND LABELS	
 		let features_land_label = gFeaturesMapLabels.selectAll(".land-label")
-									.data(aryWithOutOverlapping,d=>d.properties.name);
+												.data(aryWithOutOverlapping,d=>d.keyOverlap);
 
 		//exit
-		features_land_label.exit().remove();
+		features_land_label.exit().style({
+							"opacity":"1"
+						})
+					.transition().duration(durationAnimation)
+						.style({
+							"opacity":"0"
+						})
+						.remove();
 
 		//update
 		features_land_label.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
+					.text(d=>d.properties.name)	
 					.style({
 						"font-size":d=> {return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
-					}); 
+					});
 
 		//create
 		features_land_label.enter().append("text")
-				.attr("class","land-label")
-				.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
-				.attr("dy",".35em")
-				.text(d=>{return d.properties.name;})
+				.attr({
+					"class":"land-label",
+					"transform": d=> {return "translate(" + d.refCenterPoint + ")"; },
+					"dy":".35em"
+				})
+				.text(d=>d.properties.name)	
 				.style({
+					"opacity":1e-6,
+					"font-size":0
+				})
+			.transition().duration(durationAnimation)
+				.style({
+					"opacity":1,
 					"font-size":d=>{return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
 				}); 
-		
 
 		//RECT BORDERS
 		// gLandMap.selectAll(".land-rect")
@@ -405,12 +466,14 @@ function zoomed() {
 
 	gMapZoomable.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	gMapZoomable.selectAll("path").style("stroke-width", 1 / d3.event.scale + "px");
-	gMapZoomable.selectAll("line").style("stroke-width", 1 / d3.event.scale + "px");
+	// gMapZoomable.selectAll("line").style("stroke-width", 1 / d3.event.scale + "px");
 
 	//update features-land-labels and lines
 	if(currGroupedData.length>0 && isFlowBloqued){
-		updateFeaturesLandLabel(currGroupedData,currSelectedItem);
-		updateLinesIntoMap(currGroupedData,currSelectedItem,currOrientation);
+		updateFeaturesLandLabel(currGroupedData,currSelectedItem,0);
+		updateLinesIntoMap(currGroupedData,currSelectedItem,currOrientation,0);
+		updatePointIntoMap(currGroupedData,0);
+		// updateLinesIntoMap(currGroupedData,currSelectedItem,currOrientation);
 	}
 
 	//update land labels
@@ -431,25 +494,15 @@ function updateScaleTranslate(toScale,toTranslate){
 	gMapZoomable.selectAll("line").style("stroke-width", 1 / toScale + "px");
 
 	landLabel();
-		
 }
+
+
 
 //selecteItem : origin or destination
 //otherItems : destinations or origins
 //orientation : in, out 
-function coloring(selectedItem,otherItems,orientation){
-
+function coloring(selectedItem,otherItems,orientation,durationAnimation){
 	
-	// otherItems = otherItems.filter(function(item){
-	// 	//jerarquia is the same
-	// 	let iNode = jerarquiaOutflow.getNodeByName(selectedItem.properties.name);
-	// 	let jNode = jerarquiaOutflow.getNodeByName(item.properties.name);
-	// 	if(!isDownInHierarchy(iNode,jNode)){
-	// 		return item;
-	// 	}
-	// });
-
-
 	setMapBarchartVisibility(true);
 	updateTitleBarchart(orientation);
 	setMapLegendVisibility(true);
@@ -460,9 +513,9 @@ function coloring(selectedItem,otherItems,orientation){
 	let dataByCategories = d3.nest()
 						  .key(function(d) { return d.properties.name; })
 						  .entries(otherItems);
-	
 	currSelectedItem = selectedItem;
 	currOrientation = orientation;
+
 	currGroupedData = dataByCategories.map(function(valuesOfCategory){
 		//get the sum of the values by each category
 		let sumValues = valuesOfCategory.values.reduce(function(acc, curr){
@@ -478,17 +531,34 @@ function coloring(selectedItem,otherItems,orientation){
 			"geometry":element.geometry,
 			"properties":element.properties,	
 			"centroid":element.centroid,
-			"value": sumValues
+			"value": sumValues,
+			"color":element.color
 		};
 	});
 
 	//sorting ascending groupedData
 	currGroupedData.sort((a, b)=>{return a.value - b.value;});
+
+	//aqui hay que fuiconar ancien y curr
+	currGroupedData.forEach(function(d){
+		let indexInAncien = ancienData.map(a=>a.properties.name).indexOf(d.properties.name);
+		if(indexInAncien != -1){
+			d.valueBefore = ancienData[indexInAncien].value;
+		}else{
+			d.valueBefore = d.value;
+		}
+	});
 	
 	//get extend
 	let extentData = d3.extent(currGroupedData,d=>d.value);
 	if(extentData[0]==0){
 		extentData[0] = 1;
+	}
+
+	//get extend data before
+	let extentDataBefore = d3.extent(currGroupedData,d=>d.valueBefore);
+	if (extentDataBefore[0]==0){
+		extentDataBefore[0] = 1;
 	}
 
 	let features;
@@ -501,6 +571,7 @@ function coloring(selectedItem,otherItems,orientation){
 			
 			features = gFeatures.selectAll(".feature-map")
 								.data(currGroupedData,d=>d.properties.name);
+								
 
 			//exit
 			features.exit().remove();
@@ -526,21 +597,21 @@ function coloring(selectedItem,otherItems,orientation){
 
 
 			updateLegendMapChoropleth(extentData);
-
+			updateLinesIntoMap(currGroupedData,selectedItem,orientation);
 			break;
 			
 		case "bubbles":
-			
-			scaleMapPoint.domain([extentData[0],extentData[1]]);//sino max 5e7
+
+			scaleMapBubbles.domain([extentData[0],extentData[1]]);//sino max 5e7
 
 			features = gFeatures.selectAll(".feature-map")
 									.data(currGroupedData,d=>d.properties.name);
 			
 			//exit
-			features.exit().remove();	
+			// features.exit().remove();	
 
 			//update
-			features.attr("r", d=>scaleMapPoint(d.value))
+			features.attr("r", d=>scaleMapBubbles(d.value))
 					.style({
 						"stroke-width": (1/currMapScale)+"px"
 					});
@@ -553,7 +624,7 @@ function coloring(selectedItem,otherItems,orientation){
 					.on("mousemove",featureMouseMove)
 					.on("mouseout",featureMouseOut)
 					.attr("transform", (d)=>{return "translate(" + d.centroid + ")"; })
-					.attr("r", d=>scaleMapPoint(d.value))
+					.attr("r", d=>scaleMapBubbles(d.value))
 					.style({
 						"fill":"#0069c0", //#2196f3 #6baed6
 						"fill-opacity":"0.7",
@@ -562,41 +633,32 @@ function coloring(selectedItem,otherItems,orientation){
 					});
 
 			updateLegendMapPoint(extentData);
+			updateLinesIntoMap(currGroupedData,selectedItem,orientation);
+			break;
 
-			break;		
+		case "points":
+			
+			
+			updatePointIntoMap(currGroupedData,durationAnimation);
+
+			//CREATE LINES
+			scaleMapPoints.domain([extentData[0],extentData[1]]);
+			scaleMapPointsBefore.domain([extentDataBefore[0],extentDataBefore[1]]);//sino max 5e7
+
+			updateLinesIntoMap(currGroupedData,selectedItem,orientation,durationAnimation);
+
+			//updateLegendMapPoint(extentData);
+
+			break;					
 	}
 
-
-	if(selectedItem!=""){
-
-		let landSelected = gFeatures.selectAll(".feature-map-selected")
-										.data([selectedItem],d=>d.properties.name);
-										
-		//exit
-		landSelected.exit()
-					.remove();	
-
-		//update
-		landSelected.attr("d", pathMap)
-					.style({
-						"stroke-width": 1/currMapScale+"px"
-					});
-
-		//enter
-		landSelected.enter()
-			.append("path")
-				.attr("d", pathMap)
-				.attr("class","feature-map-selected")
-				.style({
-					"stroke-width": 1/currMapScale+"px"
-				});
-				
-	}
 
 	
-	updateLinesIntoMap(currGroupedData,selectedItem,orientation);
-	updateFeaturesLandLabel(currGroupedData,selectedItem);
-	updateBarchart(currGroupedData,5);
+	updateFeaturesLandLabel(currGroupedData,selectedItem,durationAnimation);
+	updateBarchart(currGroupedData,topKBarchart,durationAnimation);
+
+
+	ancienData = currGroupedData.filter(d=>isNaN(d.properties.name));
 }
 
 function updateLegendMapPoint(extent){
@@ -615,9 +677,9 @@ function updateLegendMapPoint(extent){
 	
 	//append circles
 	legend_items.enter().append("circle")
-					.attr("cy", d=> -scaleMapPoint(d))
+					.attr("cy", d=> -scaleMapBubbles(d))
 					.attr("transform","translate(" + xRefPosition + "," + yRefPosition + ")")
-					.attr("r", d=>scaleMapPoint(d))
+					.attr("r", d=>scaleMapBubbles(d))
 					.style({
 						"fill":"none",
 						"stroke":"#2196f3"
@@ -626,7 +688,7 @@ function updateLegendMapPoint(extent){
 	//append text
 	legend_items.enter().append("text")
 					.attr("class","legendText")
-					.attr("y",d=>-2*scaleMapPoint(d))
+					.attr("y",d=>-2*scaleMapBubbles(d))
 					.attr("transform","translate(" + xRefPosition + "," + yRefPosition + ")")
 					.attr("dy","-0.1em")
 					.text(customNumberFormat);
@@ -643,84 +705,208 @@ function updateLegendMapChoropleth(extent){
 }
 
 
-function updateBarchart(groupedData, topK){
+function updateBarchart(groupedData, topK,durationAnimation){
 
 	//take the last topK elements
 	let sinceSlice = Math.max(groupedData.length-topK,0);
 	let untilSlice = groupedData.length;
 	let groupedDataSliced = groupedData.slice(sinceSlice,untilSlice);
-	updateTopKBarsInChart(groupedDataSliced);
+	updateTopKBarsInChart(groupedDataSliced,durationAnimation);
+
+}
+
+function updatePointIntoMap(groupedData,durationAnimation){
+
+	//********** */
+	//CREATE BACKGROUND POINTS
+	//********** */
+	let backgroundPoints = gFeatures.selectAll(".feature-map-background")
+								.data(groupedData,d=>d.properties.name);
+
+	//exit
+	backgroundPoints.exit()
+				.style({
+					"opacity":1
+				})
+			.transition().duration(durationAnimation)
+				.style({
+					"opacity":0
+				})
+				.remove();
+
+	//update
+	backgroundPoints.attr({
+		"r":pointRadiusBackground/currMapScale+"px"
+	}).style({
+		"stroke-width": (1/currMapScale)+"px"
+	});
+
+	//enter
+	backgroundPoints.enter().append("circle")
+					.attr({
+						"class":"feature-map-background",
+						"transform":d=>{return "translate("+d.centroid+")";},
+						"r":pointRadiusBackground/currMapScale+"px"
+					})
+					.style({
+						"fill":"white",
+						"opacity":1e-6,
+						"stroke":"black",
+						"stroke-width": (1/currMapScale)+"px"
+					})
+				.transition().duration(durationAnimation)
+					.style({
+						"fill":"white",
+						"opacity":1,
+						"stroke":"black",
+						"stroke-width": (1/currMapScale)+"px"
+					});
+
+	//************* */
+	//CREATE POINTS
+	//************* */
+	features = gFeatures.selectAll(".feature-map")
+							.data(groupedData,d=>d.properties.name);
+
+	//exit
+	features.exit()
+			.style({
+				"opacity":1
+			})
+		.transition().duration(durationAnimation)
+			.style({
+				"opacity":0
+			}).remove();
+
+	//update
+	features.attr({
+				"r":pointRadius/currMapScale+"px"
+			}).style({
+				"stroke-width": (1/currMapScale)+"px"
+			});
+
+	//enter
+	features.enter().append("circle")
+			.attr("class","feature-map")
+			.on("mousemove",featureMouseMove)
+			.on("mouseout",featureMouseOut)
+			.attr("transform", (d)=>{return "translate(" + d.centroid + ")"; })
+			.attr("r", pointRadius/currMapScale+"px")
+			.style({
+				"fill": d=>d.color,
+				"opacity": 1e-6,
+				"stroke":"#bdbdbd", 
+				"stroke-width": (1/currMapScale)+"px"
+			})
+		.transition().duration(durationAnimation)
+			.style({
+				"fill": d=>d.color,
+				"opacity": 1,
+				"stroke":"#bdbdbd",
+				"stroke-width": (1/currMapScale)+"px"
+			});
+
 }
 
 //orientation: in, out
-function updateLinesIntoMap(groupedData,selectedItem,orientation){
+function updateLinesIntoMap(groupedData,selectedItem,orientation,durationAnimation){
 
-	if(showMapArrow){
-	
-		let odmatrix = [];
-		if(selectedItem!=""){
+	//tengo que hacer un 2-tupl
+	let odmatrix = [];		
+	groupedData.forEach((otherItem)=>{
 
-			selectedItem.centroid = pathMap.centroid(getGeoJsonElementBiggestCoordinate(selectedItem));
+		let startArrow;
+		let endArrow;
+
 		
-			//tengo que hacer un 2-tupl		
-			groupedData.forEach((otherItem)=>{
-
-				let startArrow;
-				let endArrow;
-
-				if(orientation ==="in") {
-					startArrow = otherItem.centroid;
-					endArrow = getNewPointAlongPointA(
-						{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
-						{x:otherItem.centroid[0],y:otherItem.centroid[1]},
-						8
-					);
-				}else if(orientation ==="out"){
-					startArrow = selectedItem.centroid;
-					endArrow = otherItem.centroid;
-				}else{
-					console.log("THERE IS NOT ORIENTATION");
-				}
-				odmatrix.push({
-					"key":selectedItem.id + "-" + otherItem.id + "-" + orientation,
-					"origin": startArrow, 
-					"destination": endArrow,
-					"value":otherItem.value
-				});
-			});
-		
-
-			let lineWithArrows = gLineArrows.selectAll(".line-arrow-map")
-									.data(odmatrix,(d)=>{return d.key;});
-			
-			lineWithArrows.exit().remove();
-
-			lineWithArrows.attr("d",pathMap)
-							.style({
-								"stroke":()=>{return orientation==="out"?"#0069c0":"#00701a";},
-								"stroke-width": 1.5/currMapScale+"px"
-								// "stroke-width": (d)=>{
-								// 	// console.log("value",d.value,"scale",tmpValueScale(d.value))
-								// 	return tmpValueScale(d.value)+"px";
-								// }
-							});
-			lineWithArrows.enter()
-				.append("line")
-					.attr("class","line-arrow-map")						
-					.attr("x1",(d)=>{return d.origin[0];})
-					.attr("y1",(d)=>{return d.origin[1];})
-					.attr("x2",(d)=>{return d.destination[0];})
-					.attr("y2",(d)=>{return d.destination[1];})
-					.attr("marker-end","url(#arrow)")
-					.style({
-						"fill":"none",
-						"stroke":()=>{return orientation==="out"?"#0069c0":"#00701a";},
-						"stroke-width": 1.5/currMapScale+"px"
-					});								
+		if(orientation ==="in") {
+			startArrow = getNewPointAlongPointA(
+				{x:otherItem.centroid[0],y:otherItem.centroid[1]},
+				{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
+				pointRadiusBackground/currMapScale
+				
+			);
+			endArrow = getNewPointAlongPointA(
+				{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
+				{x:otherItem.centroid[0],y:otherItem.centroid[1]},
+				pointRadiusBackground + fmArrowWidth
+			);
+		}else if(orientation ==="out"){
+			startArrow = getNewPointAlongPointA(
+				{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
+				{x:otherItem.centroid[0],y:otherItem.centroid[1]},
+				pointRadiusBackground
+			);
+			endArrow = getNewPointAlongPointA(
+				{x:otherItem.centroid[0],y:otherItem.centroid[1]},
+				{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
+				pointRadiusBackground + fmArrowWidth
+			);
+		}else{
+			console.log("THERE IS NOT ORIENTATION");
 		}
+		odmatrix.push({
+			"key":selectedItem.id + "-" + otherItem.id + "-" + orientation,
+			"origin": startArrow, 
+			"destination": endArrow,
+			"value":otherItem.value,
+			"valueBefore":otherItem.valueBefore
+		});
+	});
 
+	let lineWithArrows = gLineArrows.selectAll(".line-arrow-map")
+							.data(odmatrix,(d)=>{return d.key;});
 
-	}
+	//Exit
+	lineWithArrows.exit()
+			.style({
+				"opacity":0.6
+			})
+		.transition().duration(durationAnimation)
+			.style({
+				"opacity":1e-6
+			}).remove();
+
+	//Update
+	lineWithArrows.attr({
+						"d":pathMap
+					})
+					.style({
+						"opacity":0.6 ,
+						"stroke-width": (d)=>{
+							return scaleMapPointsBefore(d.valueBefore)/currMapScale+"px";
+						}
+					})
+				.transition().duration(durationAnimation)
+					.style({
+						"opacity":0.6 ,
+						"stroke-width": (d)=>{
+							return scaleMapPoints(d.value)/currMapScale+"px";
+						}
+					});
+	//Enter
+	lineWithArrows.enter().append("line")
+			.attr({
+				"class":"line-arrow-map",
+				"x1":(d)=>{return d.origin[0];},
+				"y1":(d)=>{return d.origin[1];},
+				"x2":(d)=>{return d.destination[0];},
+				"y2":(d)=>{return d.destination[1];},
+				"marker-end":"url(#arrow)"
+			})
+			.style({
+				"fill":"none",
+				"stroke":"black",
+				"stroke-width": 0,
+				"opacity":1e-6
+			})
+		.transition().duration(durationAnimation)
+			.style({
+				"fill":"none",
+				"stroke":"black",
+				"stroke-width": (d)=>{return scaleMapPoints(d.value)/currMapScale+"px";},
+				"opacity":0.6 
+			});	
 
 	
 }

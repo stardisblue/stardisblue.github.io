@@ -1,8 +1,14 @@
 
 var offsetType;
 
-var pathCandadoOpen =  "./img/icon_lock_open.svg ";
-var pathCandadoClose = "./img/icon_lock_close.svg ";
+var pathCandadoOpen =  "./img/icon_lock_open.svg";
+var pathCandadoClose = "./img/icon_lock_close.svg";
+
+var pathAnimationPlay = "./img/play.png";
+var pathAnimationPause = "./img/pause.png";
+var pathAnimationPlaySpeedUp = "./img/speed_up.png";
+var pathAnimationPlaySpeedDown = "./img/speed_down.png";
+
 
 var candadoRight;
 var candadoLeft;
@@ -43,6 +49,9 @@ var stack = d3.layout.stack()
 				.y(function(d) {return d.value;})
 				;
 
+//Keyboard funtionality
+var isBrushLockLeft = false;
+var isBrushLockRight = false;
 
 function orderTest(data) {
 	return d3.range(data.length);
@@ -149,16 +158,25 @@ var dataCurrentlyMultiresolutionTop;
 var dataCurrentlyMultiresolutionBottom;
 
 
-var data_focus_level;
-var data_context_level;
+var data_focus_level_top;
+var data_context_level_top;
 
-var data_focus_level_destino;
-var data_context_level_destino;
+var data_focus_level_bottom;
+var data_context_level_bottom;
 //=================================================
 
 var lockedLeft;
 var lockedRight;
+//
 var topKCategoriesTooltip =5;
+
+//
+var isPlayAnimation;
+var animationButton;
+var playSpeedUp;
+var playSpeedDown;
+var objSelectedFlowAnimation = {};
+var playSpeedRange = [100,2000];
 
 
 function updateFlows(){
@@ -169,7 +187,6 @@ function updateFlows(){
 		var node_hierarchy = jerarquiaOutflow.getNodeByKey(node.key);
 		node.key = node_hierarchy.key;
 		node.category = node_hierarchy.name;
-		//node.item = node_hierarchy.item;
 		
 		if(optsMultiresolution.layersFadingColors){
 			node.color = node_hierarchy.color.desaturate().brighten(layersFadingColorsFactor);
@@ -219,7 +236,6 @@ function updateFlows(){
 	// 				.remove();	
 	
 	context.select(".x.axis.context").call(xAxisContext);	
-	
 	
 	//--MULTIRESOLUTION---
 	dataCurrentlyMultiresolutionTop = stack(nest_by_key.entries(nivel_focus_outflow));//Used in Focus Local
@@ -538,6 +554,84 @@ function updateOpts(){
 	updateOffsetType(optsMultistream.offsetType);
 }
 
+
+function addPlayFuntionality(){
+
+}
+
+
+
+
+function addKeyboardFunctionality(){
+
+	document.onkeydown = (e)=>{
+
+		let stampTemporal = 1; //same time-step for left and right
+		let moving=false;
+
+		//where is the pointer selected
+		//     ___|c|focus_area|v|____
+		if (e.keyCode == 67){ //C
+			isBrushLockRight = true;
+		}else if(e.keyCode == 86){ //V
+			isBrushLockLeft = true;
+		}
+
+
+		// if (e.keyCode == 17){ //Ctrl
+		// 	isPressedCtrl = true;
+		// }
+		// if (e.keyCode == 16){ //Shift
+		// 	isPressedShift = true;
+		// }
+
+		switch(e.keyCode){
+			case 39: // ->
+				// stampTemporal = stampTemporal;
+				moving=true;
+				break;
+			case 37: // <-
+				stampTemporal = -stampTemporal;
+				moving=true;
+				break;
+		}
+
+		if(moving){
+			//moveContextByKeyboard(stampTemporal,isBrushLockLeft,isBrushLockRight);		
+
+			let currLeftTimeStep = brushContext.extent()[0];
+			let newTimeExtentLeft = isBrushLockLeft? currLeftTimeStep : getNewTimeStep(currLeftTimeStep,stampTemporal);
+			
+			let currRightTimeStep = brushContext.extent()[1];
+			let newTimeExtentRight = isBrushLockRight? currRightTimeStep : getNewTimeStep(currRightTimeStep,stampTemporal);
+		
+			brushContextMove([newTimeExtentLeft,newTimeExtentRight]);
+			brushEnd();
+		}
+	};
+
+	document.onkeyup = (e)=>{
+		//e.ctrlKey the same
+		// if (e.keyCode == 17){
+		// 	isPressedCtrl = false;
+		// }
+		// if (e.keyCode == 16){
+		// 	isPressedShift = false;
+		// }
+
+		if (e.keyCode == 67){ //C
+			isBrushLockRight = false;
+		}
+
+		if (e.keyCode == 86){ //V
+			isBrushLockLeft = false;
+		}
+
+	};
+
+}
+
+
 function loadMultiresolutionVis(){
 
 
@@ -550,6 +644,8 @@ function loadMultiresolutionVis(){
 	//
 	display(); 
 
+	//addKeyboardFunctionality
+	addKeyboardFunctionality();
 
 	
 	d3.select("#close-alert").on("click",function(d){
@@ -611,9 +707,7 @@ function loadMultiresolutionVis(){
 		
 	});
 	
-	
-	
-	
+
 	//
 	//
 	//ALPHA
@@ -740,17 +834,46 @@ function loadMultiresolutionVis(){
 		}
 	});
 
+	d3.select("#animationButton").on("click",function(d){
+		document.getElementById("animationButton").classList.toggle("consin");
+		if(document.getElementById("animationButton").classList.contains("consin")){
+			//ESTO PONER EN FUNCITON XQ ES IGUAL AL OTRO EN CREATETOOLTIP
+			animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
+			setVisibleButtonSpeed(false);
+			isPlayAnimation = false;
+		}else{
+			animationButton.attr('xlink:href',pathAnimationPause); //set the PAUSE Icon
+			isPlayAnimation = true;
+			playAnimation(objSelectedFlowAnimation.d,objSelectedFlowAnimation.verticalRuler,objSelectedFlowAnimation.orientation);
+		}
+	});
+
+	d3.select('#playSpeedUp').on('click',function(d){
+		let facteur = 0.2;
+		let newDurationTransitionTS = durationTransitionTS - (durationTransitionTS*facteur);
+		if(newDurationTransitionTS>=playSpeedRange[0] && newDurationTransitionTS <=playSpeedRange[1]){
+			durationTransitionTS = newDurationTransitionTS;
+			durationTransitionMap = durationTransitionMap - (durationTransitionMap*facteur);
+		}
+	});
+
+	d3.select('#playSpeedDown').on('click',function(d){
+		let facteur = 0.2;
+		let newDurationTransitionTS = durationTransitionTS + (durationTransitionTS*facteur);
+		if(newDurationTransitionTS>=playSpeedRange[0] && newDurationTransitionTS <=playSpeedRange[1]){
+			durationTransitionTS = newDurationTransitionTS;
+			durationTransitionMap = durationTransitionMap + (durationTransitionMap*facteur);
+		}
+	});
 
 	if(!optsContext.showContext){
 		context.style({
 			"opacity":0,
 			"display":"none"
 		});
-
 	}
 	
 	setMainTitleVisVisibility(false);
-	
 	
 	let calcule = calculateRangeFocus(optsMultistream.facteurNor, optsMultistream.facteurDis, optsMultistream.facteurZoom);
 	totalito(calcule);
@@ -758,8 +881,8 @@ function loadMultiresolutionVis(){
 }
 
 function createSvg(){
-	let multiresolutionHeighProportion = 9/10*0.5;
-	let contextHeightProportion = 1/10;
+	let multiresolutionHeighProportion = 0.45;
+	let contextHeightProportion = 0.1;
 	//multiresolution top
 	var alturaMultiresolutionTop = multistreamVisHeight*multiresolutionHeighProportion;
 	//multiresolution bottom
@@ -894,9 +1017,6 @@ function createSvg(){
 
 	multiresolutionBottom.append("g").attr("id","x_axis_focus-bottom");
 
-	// createGradientArrays(key_bottom_list);
-
-	// multiresolutionBottom.append("g").attr("id","flowsInFocus-bottom");
 	multiresolutionBottom.append("g").attr("id","flowsInFocus");
 
 	multiresolutionBottom.append("g")
@@ -938,6 +1058,62 @@ function createSvg(){
 			.attr("class","x axis label")
 			.attr("transform","translate(" + (widthIntern/2) + " ," + (heightContext+20) + ")")
 			.text("");
+
+
+	//CREATE PLAY BUTTON ANIMATION
+	let animationButtonSize = 40;
+	animationButton = context.append("image")
+								.attr({
+									"id":"animationButton",
+									"class":"consin", //to init in play state
+									"xlink:href": pathAnimationPlay,
+									"x": -80,
+									"y": heightContext/2-animationButtonSize/2,
+									"width": animationButtonSize,
+									"height": animationButtonSize
+								})
+								.style({
+									"pointer-events":"none",
+									"cursor":"hand",
+									"display":"none"
+								});
+
+
+
+	let playSpeedButtonSize = 17;
+	playSpeedUp = context.append("image")
+							.attr({
+								"id":"playSpeedUp",
+								// "class":"consin", //to init in play state
+								"xlink:href": pathAnimationPlaySpeedUp,
+								"x": -45,
+								"y": heightContext/2-playSpeedButtonSize/2+animationButtonSize/2,
+								"width": playSpeedButtonSize,
+								"height": playSpeedButtonSize
+							})
+							.style({
+								"pointer-events":"none",
+								"cursor":"hand",
+								"display":"none"
+							});
+
+	playSpeedDown = context.append("image")
+							.attr({
+								"id":"playSpeedDown",
+								// "class":"consin", //to init in play state
+								"xlink:href": pathAnimationPlaySpeedDown,
+								"x": -45 - animationButtonSize-playSpeedButtonSize/2,
+								"y": heightContext/2-playSpeedButtonSize/2+animationButtonSize/2,
+								"width": playSpeedButtonSize,
+								"height": playSpeedButtonSize
+							})
+							.style({
+								"pointer-events":"none",
+								"cursor":"hand",
+								"display":"none"
+							});							
+
+
 
 	context.append("g").attr("id","flowsInContext");			
 
@@ -1073,12 +1249,57 @@ function updateMainTitle (data, fromDate, toDate){
 	let joinData = data.filter(d=>d.date>=fromDate && d.date<=toDate);
 	let sumValue = getAgregatedValue(joinData);
 	
-	// updateMainTitleVis(fromDate + " - " + customTimeFormatTitle(toDate),customNumberFormat(sumValue),dataType);
+}
+
+function rankArray(arrayCurr, arrayCompare){
+
+	arrayCurr.forEach((d,indexCurr)=>{
+		let indexCompare = arrayCompare.map(c=>c.key).indexOf(d.key);	
+		let pathImgRank = "img/ranking/";
+		let rank = "";
+		//new//up//down//equal
+		if(indexCompare==-1){
+			rank = "new";
+		}else if(indexCurr==indexCompare){
+			rank = "equal";
+		}else if(indexCurr<indexCompare){
+			rank="up";
+		}else {
+			rank="down";
+		}
+		d.rank = rank;
+		d.rankPath = pathImgRank+rank+".png";
+	});
+
+	return arrayCurr;
+	
+}
+
+function getWhereIsPointer(date){
+	if(brushContextNorLeft.extent()[0] <= date && date <=brushContextNorLeft.extent()[1]){
+		return "NL";
+	}else if(brushContextDisLeft.extent()[0] < date && date <= brushContextDisLeft.extent()[1]){
+		return "FL";
+	}else if(brushContext.extent()[0] <= date && date <= brushContext.extent()[1]){
+		return "Z";
+	}else if(brushContextDisRight.extent()[0] <= date && date < brushContextDisRight.extent()[1]){
+		return "FR";
+	}else{
+		return "NR";
+	}
+}
+
+function getDataByIndex(theData, index){
+	let dataInIndex = [];
+	theData.forEach(function(d){
+		let currData = d.values[index];
+		dataInIndex.push(currData);
+	});
+	return dataInIndex;
 }
 
 
-
-function getDataInFocus(dataInFocus, dateLimMin, dateLimMax){
+function getSubSetOfData(theData, dateLimMin, dateLimMax){
 
 	let lim = getTimeOffset(dateMaxRange, -2, polarityTemporal);
 	if(dateLimMax > lim){
@@ -1086,7 +1307,7 @@ function getDataInFocus(dataInFocus, dateLimMin, dateLimMax){
 	}
 
 	let result = [];
-	dataInFocus.forEach(function(element,index){
+	theData.forEach(function(element,index){
 		//add the color propertie to the all values for an element
 		element.values.forEach(d=>{d.color = element.color;});
 		let filterValues = element.values.filter(function(obj){return (obj.date>=dateLimMin && obj.date<=dateLimMax );});
@@ -1104,83 +1325,6 @@ function getDataInFocus(dataInFocus, dateLimMin, dateLimMax){
 
 function getEventsByCategory(category){
 		return events.filter((d)=>{return d.category==category});
-}
-
-
-function tomarEventos(dataInZoomArea){
-	let aryPointDetection = [];
-
-
-	dataInZoomArea.forEach(function(layerInZoom){
-
-		let eventsByCategory = getEventsByCategory(layerInZoom.category);
-
-		let dataPointDetection = [];
-		for (let i = 0; i < timeWindow.length; i++) {
-			if((i+1) < timeWindow.length){
-				let sinceDate = timeWindow[i];
-				let untilDate = timeWindow[i+1];
-				eventsByCategory.forEach(function(event){
-					if(sinceDate <= event.date  && event.date < untilDate){
-						event.date = sinceDate;
-						dataPointDetection.push(event);
-					}
-				});
-			}
-		}
-
-
-		layerInZoom.values.forEach(function(element){
-			let currMatchPointDetection = dataPointDetection.filter(d=>{return d.date.getTime() === element.date.getTime();});
-			currMatchPointDetection.forEach(function(d){
-				let nuevoElemento = {
-					"category":element.category,
-					"date":element.date,
-					"key":element.key,
-					"value":element.value,
-					"y":element.y,
-					"y0":element.y0,
-					"what":d.what,
-					"who":d.who,
-					"media":d.media
-				};
-				aryPointDetection.push(nuevoElemento);
-			});
-		});
-
-
-		let points = multiresolutionTop.select("#gPointChanges").selectAll(".point-detection")
-						.data(aryPointDetection,function(d){return (d.key+"-"+d.date+"-"+d.who+"-"+d.what);});
-		
-		//exit
-		points.exit().remove();
-
-		//update
-		points.attr("x", function(d) {return scalesMultiresolution[selectAxisFocus(d.date)](d.date)-getPxFromRem(eventWidthSizeLabelScale/2); })
-				.attr("y", function(d) {return yScaleMultiresolution(d.y0 + d.value/2)-getPxFromRem(eventHeightSizeLabelScale/2); });
-
-		//enter
-		points.enter()
-					// .append("a")
-					// 	.attr("target","_blank")
-						// .attr("xlink:href", function(d){
-						// 	let queryText = "what+happened+in+" + d.category + "+in+" + d.date.getFullYear();
-						// 	return "https://www.google.com/search?q=" + queryText;})
-				.append("image")
-						.attr("class","point-detection")
-						.attr("x", function(d) {return scalesMultiresolution[selectAxisFocus(d.date)](d.date)-getPxFromRem(eventWidthSizeLabelScale/2); })
-						.attr("y", function(d) {return yScaleMultiresolution(d.y0 + d.value/2)-getPxFromRem(eventHeightSizeLabelScale/2); })
-						// .attr("xlink:href",d=>{return (d.relationRelative==1)?pathArrowUp:pathArrowDown;})
-						.attr("xlink:href","img/ballon.png")
-						.attr("width",getPxFromRem(eventWidthSizeLabelScale))
-						.attr("height",getPxFromRem(eventHeightSizeLabelScale))
-						.on("mouseover",pointChangeMouseOver)
-						.on("mouseout", function(d, i) {
-							ratonOutMultiresolution();
-							ratonOutFlow();
-					});
-
-	});
 }
 
 
@@ -1275,6 +1419,7 @@ function getFlowLabelWithoutOverlapping(data){
 	
 	//Ordering descending this array to get the maximun and minimun
 	datesForTextLabel.sort(function(a,b){return a.value-b.value;});
+	// console.log(datesForTextLabel)
 	
 	const minValueTextLabel = 0; //datesForTextLabel[0].valueNormal;
 	const maxValueTextLabel = datesForTextLabel[datesForTextLabel.length-1].value;
@@ -1307,6 +1452,7 @@ function getFlowLabelWithoutOverlapping(data){
 		var x2 = (x1+objectWidth);
 		var y2 = (y1+objectHeight);
 		
+		element.keyOverlap = element.category;
 		element.coordinates = {"x1":x1,"y1":y1,"x2":x2,"y2":y2};
 		element.overlaping = false;
 	});
@@ -1479,12 +1625,11 @@ function execAlgosInZoomArea(){
 	//get the focusArea data
 	let dataInFocusTop = [];
 	if(dataCurrentlyMultiresolutionTop==null){
-		dataInFocusTop = data_focus_level;
+		dataInFocusTop = data_focus_level_top;
 	}else{
 		dataInFocusTop = dataCurrentlyMultiresolutionTop;
 	}
-
-	let dataInZoomAreaOrigin = getDataInFocus(dataInFocusTop, brushContext.extent()[0],brushContext.extent()[1]);	
+	let dataInZoomAreaOrigin = getSubSetOfData(dataInFocusTop, brushContext.extent()[0],brushContext.extent()[1]);	
 	//and pass to the algos
 
 	//flow labels
@@ -1493,12 +1638,12 @@ function execAlgosInZoomArea(){
 
 	let dataInFocusBottom = [];
 	if(dataCurrentlyMultiresolutionBottom==null){
-		dataInFocusBottom = data_focus_level_destino;
+		dataInFocusBottom = data_focus_level_bottom;
 	}else{
 		dataInFocusBottom = dataCurrentlyMultiresolutionBottom;
 	}
 
-	dataInZoomAreaDestino = getDataInFocus(dataInFocusBottom, brushContext.extent()[0],brushContext.extent()[1]);
+	dataInZoomAreaDestino = getSubSetOfData(dataInFocusBottom, brushContext.extent()[0],brushContext.extent()[1]);
 
 	//flow labels
 	flowLabel(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom);
@@ -1555,13 +1700,45 @@ function ratonOverFlow(selectedFlow,multi){
 
 }
 
-
 function ratonOutFlow(multi){
+	ratonOutMultiresolutionView();
+	ratonOutLine();
+	setFullOpacityInCurrMulti(multi);
+
+	//MAP behaivor
+	clearFeaturesLayerMap();
+	landLabel();
+	setMainTitleVisVisibility(false);
+	setMapBarchartVisibility(false);
+	setMapLegendVisibility(false);
+}
+
+function ratonClickFlow(mouseX,d,verticalRuler,orientation){
+
+	animationButton.style({
+		"pointer-events":isFlowBloqued?"auto":"none",
+		"display":isFlowBloqued?"inline":"none",
+		"opacity":isFlowBloqued?1:0
+	});
+
+	if(isFlowBloqued){
+		let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
+
+		objSelectedFlowAnimation = {
+			"d":d,
+			"dateSelected":dateSelected,
+			"verticalRuler":verticalRuler,
+			"orientation":orientation
+		};
+	}
+
+}
+
+
+function setFullOpacityInCurrMulti(multi){
 	
 	tooltipFlag = new Date();
 	
-	//ratonOutTree();
-
 	multi.select("#flowsInFocus").selectAll(".focus") 	
 						.style({
 								"fill-opacity" : 1,
@@ -1582,73 +1759,254 @@ function ratonOutFlow(multi){
 }
 
 
+function getCountryFromGeoJson(theCountry){
+	theCountry = theCountry.toLowerCase();
+	return geoJson.features.filter(d=>d.properties.name == theCountry)[0];
+}
 
+
+
+function getFatherFromList(child, fatherList,callback){
+	let theFather = null;
+	fatherList.forEach(function(aPapa){
+		isBDownOfA(aPapa,child,function(result){
+			if(result){
+				theFather = aPapa;
+			}
+		});
+	});
+	callback(theFather);
+}
+
+function getUnified(currLevelOfHierarchy, destinations){
+
+	let resultado = [];
+
+	destinations.forEach(destination=>{
+
+		getFatherFromList(destination,currLevelOfHierarchy,(answer)=>{
+
+			if(answer!=null){
+
+				let i = resultado.map(d=>d.name).indexOf(answer.name);
+				if(i===-1){
+					let c = getCountryFromGeoJson(answer.name);
+					answer.centroid=c.centroid;
+					answer.coordinates=c.coordinates;
+					answer.geometry=c.geometry;
+					answer.overlaping=c.overlaping;
+					answer.properties=c.properties;
+					answer.refCenterPoint=c.refCenterPoint;
+					answer.type=c.type;
+
+					answer.value = destination.value;
+
+					resultado.push(answer);
+				}else{
+					let val = resultado[i].value;
+					resultado[i].value = val + destination.value;
+				}
+
+			}else{
+				let i = resultado.map(d=>d.name).indexOf(destination.name);
+
+				let c = getCountryFromGeoJson(destination.name);
+				destination.centroid=c.centroid;
+				destination.coordinates=c.coordinates;
+				destination.geometry=c.geometry;
+				destination.overlaping=c.overlaping;
+				destination.properties=c.properties;
+				destination.refCenterPoint=c.refCenterPoint;
+				destination.type=c.type;
+
+				if(i===-1){
+					resultado.push(destination);
+				}
+			}
+		});
+	});
+
+	return resultado;
+
+}
 
 var isFlowBloqued = false;
 
+
+
+function visualMap(aCategory,orientation,durationAnimation){
+
+	//Adding geoJson attr in the selectedCategory
+	let selectedCategoryInGeoJson = getCountryFromGeoJson(aCategory.category);
+	aCategory.centroid = selectedCategoryInGeoJson.centroid;
+	aCategory.properties = selectedCategoryInGeoJson.properties;
+
+	//destinations countries
+	let arrayDestinations = aCategory.components.filter(d=>d.arraray[0]>0).map(d=>{
+
+		let aDestination = jerarquiaOutflow.getNodeByName(d.name);
+		aDestination.value =  d.arraray[0];
+		return aDestination;
+	});
+
+	let currBottomHierarchy = jerarquiaOutflow.getBottomLevelNodes();
+	let dest = getUnified(currBottomHierarchy,arrayDestinations);
+
+	//filter the SelectedCategory from Dest
+	let destFilter = dest.filter(function(d){
+		if(d.name!=aCategory.category.toLowerCase()){
+			return d;
+		}
+	});
+
+	coloring(aCategory,destFilter,orientation,durationAnimation);
+
+}	
+
+function flowByDateSelected(d,dateSelected,currVerticalRuler,orientation,durationAnimation){
+	
+	let mouseDateIndex = timeWindow.map(Number).indexOf(+dateSelected); //To get the index of the date in array
+	
+	//If date existe in the array
+	if(mouseDateIndex!=-1 && (dateSelected.getTime() != tooltipFlag.getTime())){
+
+		selectedCategory ="";
+		selectedCategory = d.values[mouseDateIndex];
+
+		//ensemble
+		dataArraySelected = [];
+		
+		//points for vertical ruler
+		let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
+		let y1 = yScaleMultiresolution(selectedCategory.y0);
+		let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
+		let y2 = yScaleMultiresolution((selectedCategory.y0 + selectedCategory.y));
+		
+		showVerticalRuler(x1,y1,x2,y2,currVerticalRuler);
+//		showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],false,"Click to PIN this flow",dataType_outflow,d3.event.pageX ,d3.event.pageY);
+		
+		let dataType = "";
+		if(orientation==="out"){
+			dataType = dataType_outflow;
+		}else if(orientation==="in"){
+			dataType = dataType_inflow;
+		}
+		updateMainTitleVis(dateSelected,selectedCategory,dataType);
+			
+		visualMap(selectedCategory,orientation,durationAnimation);
+
+		// d3.select("#multiresolutionBackground").attr("class","backgroundHighlight");						
+		// d3.select("#multiresolutionBackground-bottom").attr("class","backgroundHighlight");
+		tooltipFlag = dateSelected;
+	}
+}
+
+function setVisibleButtonSpeed(visible){
+	playSpeedUp.style({
+		"pointer-events":visible?"auto":"none",
+		"display":visible?"inline":"none",
+		"opacity":visible?1:0
+	});
+	playSpeedDown.style({
+		"pointer-events":visible?"auto":"none",
+		"display":visible?"inline":"none",
+		"opacity":visible?1:0
+	});
+}
+
+async function playAnimation(d,currVerticalRuler,orientation) {
+	while(isPlayAnimation){
+		setVisibleButtonSpeed(true);
+		objSelectedFlowAnimation.dateSelected = getTimeOffset(objSelectedFlowAnimation.dateSelected, stepTemporal, polarityTemporal);
+
+		if(objSelectedFlowAnimation.dateSelected.getTime()>brushContextDisRight.extent()[1].getTime()){
+			objSelectedFlowAnimation.dateSelected = brushContextDisLeft.extent()[0];
+		}
+		await sleep(d,objSelectedFlowAnimation.dateSelected,durationTransitionTS,currVerticalRuler,orientation);
+	}
+}
+
+function sleep(d,fecha,sleepMs,currVerticalRuler,orientation) {
+	flowByDateSelected(d,fecha,currVerticalRuler,orientation,durationTransitionMap);
+	return new Promise(resolve => setTimeout(resolve,sleepMs));
+}
+
+
 function createTooltip(){
 	
-	var dataArraySelected;
-	var selectedCategory;
-
 	multiresolutionTop.select("#multiresolutionBackground")
 					.on("mousemove",function(d){
 						if(!isFlowBloqued){			
 							mousex = d3.mouse(this);
 							mousex = mousex[0];// + 5;
-							let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mousex)].invert(mousex)); //invert: get the domain, return range and viceversa
+							let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mousex)].invert(mousex),mousex); //invert: get the domain, return range and viceversa
 							var mouseDateIndex = timeWindow.map(Number).indexOf(+dateSelected); //To get the index of the date in array
 							
-							//If date existe in the array
 							if(mouseDateIndex!=-1 && (dateSelected.getTime() != tooltipFlag.getTime())){
-								let dataInFocusTop = [];
-								if(dataCurrentlyMultiresolutionTop==null){
-									dataInFocusTop = data_focus_level;
-								}else{
-									dataInFocusTop = dataCurrentlyMultiresolutionTop;
-								}
-								let dataInFocus = getDataInFocus(dataInFocusTop,timeWindow[0], timeWindow[timeWindow.length-1]);
-
-								let dataOverMouse = [];
-								dataInFocus.forEach(function(d){
-									let currData = d.values[mouseDateIndex];
-									dataOverMouse.push(currData);
-								});
-
-								//order descending
-								dataOverMouse.sort(function(a,b){return b.value-a.value;});
-
-								let categoriesArray = [];
-								for(let i = 0; i < Math.min(topKCategoriesTooltip,dataInFocus.length); i++){
-									try {
-											let currVal = dataOverMouse[i];
-											categoriesArray.push(currVal);
-										}
-										catch(err) {
-										}
-								}
-
-								let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-								let y1 = 0;
-								let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-								let y2 = heightMultiresolutionTop;
-
-								showVerticalRuler(x1,y1,x2,y2,verticalRulerTop);
-								showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",categoriesArray,"",dataType_outflow,d3.event.pageX ,d3.event.pageY);
-								// clearFeaturesLayerMap();
 								
-								//updateMainTitleVis(customTimeFormatTitle(dateSelected),customNumberFormat(valueAgregated), dataType);	
-								tooltipFlag = dateSelected;
-							}	
+								if((getWhereIsPointer(dateSelected) === "Z" || getWhereIsPointer(dateSelected) === "FL" || getWhereIsPointer(dateSelected) === "FR") ){
+
+									let dataInFocusTop = [];
+									if(dataCurrentlyMultiresolutionTop==null){
+										dataInFocusTop = data_focus_level_top;
+									}else{
+										dataInFocusTop = dataCurrentlyMultiresolutionTop;
+									}
+									let dataInFocus = getSubSetOfData(dataInFocusTop,timeWindow[0], timeWindow[timeWindow.length-1]);
+	
+									//From all the layer in the Focus area, get only the timelapse where the mouse is over/before
+									let dataOverMouse = getDataByIndex(dataInFocus, mouseDateIndex);
+									let dataBeforeOverMouse = getDataByIndex(dataInFocus, (mouseDateIndex-1));
+	
+									//order descending
+									dataOverMouse.sort(function(a,b){return b.value-a.value;});
+									dataBeforeOverMouse.sort(function(a,b){return b.value-a.value;});
+	
+									//getting topK elements
+									let categoriesArray = getTopKFromArray(topKCategoriesTooltip,dataOverMouse);
+									let categoriesBeforeArray = getTopKFromArray(topKCategoriesTooltip,dataBeforeOverMouse);
+	
+									//ranking the categoriesArray
+									rankArray(categoriesArray,categoriesBeforeArray);
+	
+									let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
+									let y1 = 0;
+									let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
+									let y2 = heightMultiresolutionTop;
+	
+									showVerticalRuler(x1,y1,x2,y2,verticalRulerTop);
+									showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",categoriesArray,true,"",dataType_outflow,d3.event.pageX ,d3.event.pageY);
+
+									tooltipFlag = dateSelected;
+								}else{
+									ratonOutMultiresolutionView();
+								}
+							}
 						}
-					})
-					
+					})	
 					.on("mouseout",function(d){
 						if(!isFlowBloqued){
-							ratonOutMultiresolution();
+							ratonOutMultiresolutionView();
 							// updateMainTitle(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 							// drawDataIntoMap(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 						}
+					})
+					.on("click",function(d){
+
+						isFlowBloqued = false;
+
+						animationButton.style({
+							"pointer-events":isFlowBloqued?"auto":"none",
+							"display":isFlowBloqued?"inline":"none",
+							"opacity":isFlowBloqued?1:0
+						});
+						setVisibleButtonSpeed(false);
+						isPlayAnimation = false;
+						document.getElementById("animationButton").classList.toggle("consin")
+						animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
+
+						ratonOutFlow(multiresolutionTop);
+						ratonOutFlow(multiresolutionBottom);
 					});
 
 					
@@ -1658,232 +2016,44 @@ function createTooltip(){
 					ratonOverFlow(d,multiresolutionTop);
 				}
 			})
-			// .on("mouseover",ratonOverFlow)
 			.on("mousemove",function(d, i) {
-				
 				if(!isFlowBloqued){
-
-					mousex = d3.mouse(this);
-					mousex = mousex[0];// + 5;
-					
-					let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mousex)].invert(mousex)); //invert: get the domain, return range and viceversa
-					let mouseDateIndex = timeWindow.map(Number).indexOf(+dateSelected); //To get the index of the date in array
-					
-					//If date existe in the array
-					if(mouseDateIndex!=-1 && (dateSelected.getTime() != tooltipFlag.getTime())){
-
-						selectedCategory ="";
-						selectedCategory = d.values[mouseDateIndex];
-						textsArraySelected = selectedCategory.text; //ARRAY
-						linkArraySelected = selectedCategory.link; //ARRAY link
-
-						// console.log(selectedCategory)
-
-						//ensemble
-						dataArraySelected = [];
-						if(textsArraySelected.length!=0){
-							for(let i=0;i<textsArraySelected.length;i++){
-								dataArraySelected[i] = {"text":textsArraySelected[i],"link":linkArraySelected[i]};
-							}
-						}
-						
-						//points for vertical ruler
-						let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-						let y1 = yScaleMultiresolution(selectedCategory.y0);
-						let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-						let y2 = yScaleMultiresolution((selectedCategory.y0 + selectedCategory.y));
-						
-						showVerticalRuler(x1,y1,x2,y2,verticalRulerTop);
-						
-						showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],"Click to PIN this flow",dataType_outflow,d3.event.pageX ,d3.event.pageY);
-						
-
-						updateMainTitleVis(dateSelected,selectedCategory,dataType_outflow);
-							
-						//MAP BEHAIVOR
-						let destinations = selectedCategory.components.filter(d=>(d.value>0));
-						coloring(selectedCategory.item,destinations,"out");
-
-						// //isDateBetweenInclus(brushContextDisLeft.extent()[1], brushContext.extent()[1],dateSelected)
-						// if(jerarquiaOutflow.getLeafNodes().indexOf(d.key)!=-1){
-						// 	updateMainTitleVis(dateSelected,selectedCategory,dataType_outflow);
-							
-						// 	//MAP BEHAIVOR
-						// 	let destinations = selectedCategory.components.filter(d=>(d.value>0));
-						// 	coloring(selectedCategory.item,destinations,"out");
-						// }else {
-						// 	//map behaivor
-						// 	clearFeaturesLayerMap();
-						// 	landLabel();
-						// 	setMainTitleVisVisibility(false);
-						// 	setMapBarchartVisibility(false);
-						// 	setMapLegendVisibility(false);
-						// }
-
-
-						d3.select("#multiresolutionBackground").attr("class","backgroundHighlight");						
-
-
-						// let nuevito = [];
-						// dataInZoomAreaDestino.forEach(d=>{
-						// 	let indexDestination= destinationsName.indexOf(d.category);
-						// 	if(indexDestination != -1){
-						// 		let categoryMatch = d.values.filter(v=>{
-						// 			return v.date.getTime()===dateSelected.getTime();
-						// 		});
-						// 		if(typeof categoryMatch[0] !='undefined'){
-						// 			categoryMatch[0].value = destinations[indexDestination].value;
-						// 			nuevito.push(categoryMatch[0]);
-						// 		}
-						// 	}
-						// });
-
-						// let escobas = multiresolutionBottom.select("#flowsInFocus").selectAll(".vertical-ruler").data(nuevito,d=>d.key);
-
-						// //exit
-						// escobas.exit().remove();
-
-						// //update
-						// escobas.attr("x1", x1 + "px")
-						// 		.attr("y1", d=>yScaleMultiresolutionBottom(d.y0))
-						// 		.attr("x2", x2 + "px")
-						// 		.attr("y2", d=>yScaleMultiresolutionBottom((d.y0 + d.value)))
-						// 		.style({
-						// 			"stroke":"white",
-						// 			"stroke-width":"5px",
-						// 			"display":"inline"
-						// 			// "stroke-linecap":"round"
-						// 		});
-
-						// //create
-						// escobas.enter().append("line")
-						// 					.attr("class","vertical-ruler")
-						// 					.attr("x1", x1 + "px")
-						// 					.attr("y1", d=>yScaleMultiresolutionBottom(d.y0))
-						// 					.attr("x2", x2 + "px")
-						// 					.attr("y2", d=>yScaleMultiresolutionBottom((d.y0 + d.value)))
-						// 					.style({
-						// 						"stroke":"white",//;function(d){console.log(d.color); return d.color;},
-						// 						"stroke-width":"5px",
-						// 						"display":"inline"
-						// 						// "stroke-linecap":"round"
-						// 					});
-
-
-						// let escobasTwo = multiresolutionBottom.select("#flowsInFocus").selectAll(".vertical-ruler-to").data(nuevito,d=>d.key);
-
-						// //exit
-						// escobasTwo.exit().remove();
-
-						// //update
-						// escobasTwo.attr("x1", x1 + "px")
-						// 			.attr("y1", d=>yScaleMultiresolutionBottom(d.y0)-1)
-						// 			.attr("x2", x2 + "px")
-						// 			.attr("y2", d=>yScaleMultiresolutionBottom((d.y0 + d.value))+1)
-						// 			.style({
-						// 				"stroke":"black",
-						// 				"stroke-width":"3px",
-						// 				"display":"inline",
-						// 				// "stroke-linecap":"round"
-						// 			});
-
-						// //create
-						// escobasTwo.enter().append("line")
-						// 					.attr("class","vertical-ruler-to")
-						// 					.attr("x1", x1 + "px")
-						// 					.attr("y1", d=>yScaleMultiresolutionBottom(d.y0)-1)
-						// 					.attr("x2", x2 + "px")
-						// 					.attr("y2", d=>yScaleMultiresolutionBottom((d.y0 + d.value)+1))
-						// 					.style({
-						// 						"stroke":"black",//;function(d){console.log(d.color); return d.color;},
-						// 						"stroke-width":"3px",
-						// 						"display":"inline",
-						// 						// "stroke-linecap":"round"
-						// 					});
-						
-
-
-						// //formar un nuevo NUEVITO
-						// let otroNuevito = [];
-						// // console.log(nuevito)
-						// nuevito.forEach(d=>{
-						// 	let v =[];
-						// 	v.push(d);
-						// 	let a = {
-						// 		"category":d.category,
-						// 		"color":d.color,
-						// 		"key":d.key,
-						// 		"values":v
-						// 	};
-						// 	otroNuevito.push(a);
-						// });
-
-						// // console.log(otroNuevito)
-						// flowLabel(otroNuevito,multiresolutionBottom,yScaleMultiresolutionBottom);
-
-						// multiresolutionBottom.select("#flowsInFocus").selectAll(".focus") 	
-						// .style({
-						// 		"fill-opacity":function(d){
-						// 			return (destinationsName.indexOf(d.category) != -1 ) ? layersOpacitySelected : layersOpacityNotSelected;
-						// 			// return (selectedCategory.key == d.key || selectedCategory.key == getFatherKey(d.key) ) ? layersOpacitySelected : layersOpacityNotSelected;
-						// 		},
-						// 		"stroke-opacity":function(d){
-						// 			return (destinationsName.indexOf(d.category) != -1 ) ? layersOpacitySelected : 0;
-						// 			// return (selectedCategory.key == d.key || selectedCategory.key == getFatherKey(d.key) ) ? layersOpacitySelected : 0;
-						// 		}
-						// });	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-						tooltipFlag = dateSelected;
+					let mouseX = d3.mouse(this)[0];
+					let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
+					if(getWhereIsPointer(dateSelected) === "Z" || getWhereIsPointer(dateSelected) === "FL" || getWhereIsPointer(dateSelected) === "FR"){
+						flowByDateSelected(d,dateSelected,verticalRulerTop,"out",0);
 					}
 				}
 			})
-			.on("mouseout", function(d, i) {
+			.on("mouseout", function() {
 				if(!isFlowBloqued){
-
-					ratonOutMultiresolution();
 					ratonOutFlow(multiresolutionTop);
-					ratonOutLine();
-					//map behaivor
-					clearFeaturesLayerMap();
-					landLabel();
-					setMainTitleVisVisibility(false);
-					setMapBarchartVisibility(false);
-					setMapLegendVisibility(false);
 				}
-					// drawDataIntoMap(nivel_bajo,brushContext.extent()[0],brushContext.extent()[1]);
 			})
 			.on('contextmenu', function(d){
 				updateGraphComparision(d);
 				 //stop showing browser menu
 				d3.event.preventDefault();
-			} )
+			})
 			.on("click",function(d){
-				
 				isFlowBloqued = !isFlowBloqued;
-				
-				// updateGraphComparision(d);
-				// d3.select(this).attr("data-toggle", "modal");
-				// d3.select(this).attr("data-target", "#comparisonModal");
-			 
-				// if(dataArraySelected.length!=0){
-				// 	ratonOutMultiresolution();
-				// 	showDataModal(customTimeFormatTitle(selectedCategory.date),selectedCategory.category, selectedCategory.value, dataArraySelected, "footnoteModal");
-				// 	d3.select(this).attr("data-toggle", "modal");
-				// 	d3.select(this).attr("data-target", "#data-modal");
-				// }
+				let mouseX = d3.mouse(this)[0];
+
+				if(isFlowBloqued){
+					ratonClickFlow(mouseX,d,verticalRulerTop,"out");
+				}else{
+					animationButton.style({
+						"pointer-events":isFlowBloqued?"auto":"none",
+						"display":isFlowBloqued?"inline":"none",
+						"opacity":isFlowBloqued?1:0
+					});
+					setVisibleButtonSpeed(false);
+					isPlayAnimation = false;
+					document.getElementById("animationButton").classList.toggle("consin")
+					animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
+					ratonOutFlow(multiresolutionTop);
+					ratonOutFlow(multiresolutionBottom);
+				}
 			});
 
 
@@ -1900,58 +2070,79 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 					if(!isFlowBloqued){			
 						mousex = d3.mouse(this);
 						mousex = mousex[0];// + 5;
-						let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mousex)].invert(mousex)); //invert: get the domain, return range and viceversa
+						let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mousex)].invert(mousex),mousex); //invert: get the domain, return range and viceversa
 						var mouseDateIndex = timeWindow.map(Number).indexOf(+dateSelected); //To get the index of the date in array
 						
 						//If date existe in the array
 						if(mouseDateIndex!=-1 && (dateSelected.getTime() != tooltipFlag.getTime())){
-							let dataInFocusBottom = [];
-							if(dataCurrentlyMultiresolutionBottom==null){
-								dataInFocusBottom = data_focus_level_destino;
-							}else{
-								dataInFocusBottom = dataCurrentlyMultiresolutionBottom;
-							}
-							let dataInFocus = getDataInFocus(dataInFocusBottom,timeWindow[0], timeWindow[timeWindow.length-1]);
 
-							let dataOverMouse = [];
-							dataInFocus.forEach(function(d){
-								let currData = d.values[mouseDateIndex];
-								dataOverMouse.push(currData);
-							});
+							if((getWhereIsPointer(dateSelected) === "Z" || getWhereIsPointer(dateSelected) === "FL" || getWhereIsPointer(dateSelected) === "FR") ){
 
-							//order descending
-							dataOverMouse.sort(function(a,b){return b.value-a.value;});
+								let dataInFocusBottom = [];
+								if(dataCurrentlyMultiresolutionBottom==null){
+									dataInFocusBottom = data_focus_level_bottom;
+								}else{
+									dataInFocusBottom = dataCurrentlyMultiresolutionBottom;
+								}
+
+								let dataInFocus = getSubSetOfData(dataInFocusBottom,timeWindow[0], timeWindow[timeWindow.length-1]);
+
+								//From all the layer in the Focus area, get only the timelapse where the mouse is over/before
+								let dataOverMouse = getDataByIndex(dataInFocus, mouseDateIndex);
+								let dataBeforeOverMouse = getDataByIndex(dataInFocus, (mouseDateIndex-1));
+
+								//order descending
+								dataOverMouse.sort(function(a,b){return b.value-a.value;});
+								dataBeforeOverMouse.sort(function(a,b){return b.value-a.value;});
+
+								//getting topK elements
+								let categoriesArray = getTopKFromArray(topKCategoriesTooltip,dataOverMouse);
+								let categoriesBeforeArray = getTopKFromArray(topKCategoriesTooltip,dataBeforeOverMouse);
+
+								//ranking the categoriesArray
+								rankArray(categoriesArray,categoriesBeforeArray);
+
 							
-							let categoriesArray = [];
-							for(let i = 0; i < Math.min(topKCategoriesTooltip,dataInFocus.length); i++){
-								try {
-										let currVal = dataOverMouse[i];
-										categoriesArray.push(currVal);
-									}
-									catch(err) {
-									}
+								let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
+								let y1 = 0;
+								let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
+								let y2 = heightMultiresolutionBottom;
+
+
+								showVerticalRuler(x1,y1,x2,y2,verticalRulerBottom);
+								showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",categoriesArray,true,"",dataType_inflow,d3.event.pageX ,d3.event.pageY);
+								// clearFeaturesLayerMap();
+								tooltipFlag = dateSelected;
+							}else{
+								ratonOutMultiresolutionView();
 							}
-
-							let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-							let y1 = 0;
-							let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-							let y2 = heightMultiresolutionBottom;
-
-
-							showVerticalRuler(x1,y1,x2,y2,verticalRulerBottom);
-							showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",categoriesArray,"",dataType_inflow,d3.event.pageX ,d3.event.pageY);
-							// clearFeaturesLayerMap();
-							tooltipFlag = dateSelected;
 						}	
 					}
 				})
 
 				.on("mouseout",function(d){
 					if(!isFlowBloqued){
-						ratonOutMultiresolution();
+						ratonOutMultiresolutionView();
 						// updateMainTitle(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 						// drawDataIntoMap(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 					}
+				})
+				.on("click",function(d){
+
+					isFlowBloqued = false;
+
+					animationButton.style({
+						"pointer-events":isFlowBloqued?"auto":"none",
+						"display":isFlowBloqued?"inline":"none",
+						"opacity":isFlowBloqued?1:0
+					});
+					setVisibleButtonSpeed(false);
+					isPlayAnimation = false;
+					document.getElementById("animationButton").classList.toggle("consin")
+					animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
+
+					ratonOutFlow(multiresolutionTop);
+					ratonOutFlow(multiresolutionBottom);
 				});
 
 
@@ -1963,106 +2154,43 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 					}
 				})
 				.on("mousemove",function(d, i) {
-
 					if(!isFlowBloqued){
-					
-						mousex = d3.mouse(this);
-						mousex = mousex[0];// + 5;
-						
-						let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mousex)].invert(mousex)); //invert: get the domain, return range and viceversa
-						let mouseDateIndex = timeWindow.map(Number).indexOf(+dateSelected); //To get the index of the date in array
-						
-						//If date existe in the array
-						if(mouseDateIndex!=-1 && (dateSelected.getTime() != tooltipFlag.getTime())){
-		
-							selectedCategory ="";
-							selectedCategory = d.values[mouseDateIndex];
-							textsArraySelected = selectedCategory.text; //ARRAY
-							linkArraySelected = selectedCategory.link; //ARRAY link
-		
-							//ensemble
-							dataArraySelected = [];
-							if(textsArraySelected.length!=0){
-								for(let i=0;i<textsArraySelected.length;i++){
-									dataArraySelected[i] = {"text":textsArraySelected[i],"link":linkArraySelected[i]};
-								}
-							}
-							
-							
-							
-							//points for vertical ruler
-							let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-							let y1 = yScaleMultiresolutionBottom(selectedCategory.y0);
-							let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-							let y2 = yScaleMultiresolutionBottom((selectedCategory.y0 + selectedCategory.y));
-							
-							showVerticalRuler(x1,y1,x2,y2,verticalRulerBottom);
-							
-							showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],"Click to PIN this flow",dataType_inflow,d3.event.pageX ,d3.event.pageY);
-							
-
-							updateMainTitleVis(dateSelected,selectedCategory,dataType_inflow);
-								
-							//MAP BEHAIVOR
-							let origins = selectedCategory.components.filter(d=>(d.value>0));
-							coloring(selectedCategory.item,origins,"in");
-
-							// if(jerarquiaInflow.getLeafNodes().indexOf(d.key)!=-1){
-							// 	updateMainTitleVis(dateSelected,selectedCategory,dataType_inflow);
-								
-							// 	//MAP BEHAIVOR
-							// 	let origins = selectedCategory.components.filter(d=>(d.value>0));
-							// 	coloring(selectedCategory.item,origins,"in");
-							// }else {
-							// 	//map behaivor
-							// 	clearFeaturesLayerMap();
-							// 	landLabel();
-							// 	setMainTitleVisVisibility(false);
-							// 	setMapBarchartVisibility(false);
-							// 	setMapLegendVisibility(false);
-							// }
-	
-
-
-
-
-
-
-
-
-
-							d3.select("#multiresolutionBackground-bottom").attr("class","backgroundHighlight");
-						
-		
-							tooltipFlag = dateSelected;
+						let mouseX = d3.mouse(this)[0];
+						let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
+						if(getWhereIsPointer(dateSelected) === "Z" || getWhereIsPointer(dateSelected) === "FL" || getWhereIsPointer(dateSelected) === "FR"){
+							flowByDateSelected(d,dateSelected,verticalRulerBottom,"in",0);
 						}
-					
 					}
-
 				})
-				.on("mouseout", function(d, i) {
+				.on("mouseout", function() {
 					if(!isFlowBloqued){
-						ratonOutMultiresolution();
 						ratonOutFlow(multiresolutionBottom);
-						clearFeaturesLayerMap();
-						landLabel();
-						setMainTitleVisVisibility(false);
-						setMapBarchartVisibility(false);
-						setMapLegendVisibility(false);
 					}
-					// drawDataIntoMap(nivel_bajo,brushContext.extent()[0],brushContext.extent()[1]);
-				})
-				.on("mouseleave",function(d){
-					// console.log("leave...")
 				})
 				.on('contextmenu', (d)=>{
 					console.log("click right;");
 				} )
 				.on("click",function(d){
 					isFlowBloqued = !isFlowBloqued;
+					let mouseX = d3.mouse(this)[0];
+
+					if(isFlowBloqued){
+						ratonClickFlow(mouseX,d,verticalRulerBottom,"in");
+					}else{
+						animationButton.style({
+							"pointer-events":isFlowBloqued?"auto":"none",
+							"display":isFlowBloqued?"inline":"none",
+							"opacity":isFlowBloqued?1:0
+						});
+						setVisibleButtonSpeed(false);
+						isPlayAnimation = false;
+						document.getElementById("animationButton").classList.toggle("consin")
+						animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
+						ratonOutFlow(multiresolutionTop);
+						ratonOutFlow(multiresolutionBottom);
+					}
+
 				});
-
-
 }
 
 
@@ -2102,51 +2230,60 @@ function showDataModal(titleModal,subtitle1Modal, subtitle2Modal, dataModal, foo
 }
 
 function showToolTipEvents(htmlText, tooltipTopPosition){
-		tooltipEvents.style({
-			"opacity":1,
-			"display":"inline"
-		});
+	tooltipEvents.style({
+		"opacity":1,
+		"display":"inline"
+	});
 
-		tooltipEvents.html(htmlText)
-			.style("left",(getTooltipLeftPosition()+ 10) + "px")
-			.style("top",(d3.event.pageY + tooltipTopPosition) + "px");
+	tooltipEvents.html(htmlText).style({
+		"left":(getTooltipLeftPosition()+ 10) + "px",
+		"top":(d3.event.pageY + tooltipTopPosition) + "px"
+	});
 }
 
 
 function showVerticalRuler(x1,y1,x2,y2,verticalRuler){
-
-	verticalRuler.attr("x1", x1 + "px")
-								.attr("y1", y1 + "px")
-								.attr("x2", x2 + "px")
-								.attr("y2", y2 + "px")
-								.style({
-									"left": (mousex) + "px",
-									"opacity": 1,
-									"display":"inline"
-								});
+	verticalRuler.attr({
+			"x1":x1+"px",
+			"y1":y1+"px",
+			"x2":x2+"px",
+			"y2":y2+"px",
+		})
+		.style({
+			"opacity": 1,
+			"display":"inline"
+		});
 }
 
 
-
-
-function showToolTipMultiresolution(title,subtitle1, subtitle2,categoriesArray,footnote,dataOrientation,leftPositionTooltip,topPositionTooltip){
+function showToolTipMultiresolution(title,subtitle1, subtitle2,categoriesArray,showRanking,footnote,dataOrientation,leftPositionTooltip,topPositionTooltip){
 
 	let title_line = "<h6>" + title  + "</h6>";
 	let subtitle1_line = "<p class='subtitle1'>" + subtitle1  + "</p>";
 	let subtitle2_line = "<p class='caption'>" + subtitle2  + "</p>";
 	let categories_lines = "";
+
 	for(let i=0;i<categoriesArray.length;i++){
 		let currVal = categoriesArray[i];
+
+		let htmlRank ="";
+		if(showRanking && typeof currVal.rankPath !='undefined'){
+			htmlRank = "<img class='category-rank-img' src='"+ currVal.rankPath +"'>";
+		}
+		let htmlColor = "<div class='category-color-wrapper' style='background-color:"+ currVal.color + ";'></div>";
+		let htmlCategory = "<div class='category-wrapper subtitle2'>" + getCapitalize(currVal.category) + ":&nbsp;"+"</div>";
+		let htmlValue = "<div class='value-wrapper'>"+
+							" <span class='quantitative-value subtitle2'>" + customNumberFormat(currVal.value) + "</span> "+
+							"<span class='overline'>" + dataType +" " + dataOrientation +  "</span>"+
+						"</div>";
+
 		categories_lines = categories_lines + 
-		"<div class='category-entry-wrapper'>"+
-			"<div class='category-color-wrapper' style='background-color:"+ currVal.color + ";'></div>"+
-			"<div class='category-wrapper subtitle2'>" + getCapitalize(currVal.category) + ":&nbsp;"+"</div>"+
-			"<div class='value-wrapper'>"+
-				" <span class='quantitative-value subtitle2'>" + customNumberFormat(currVal.value) + "</span> "+
-				"<span class='overline'>" + dataType +" " + dataOrientation +  "</span>"+
-			"</div>"+
-			// "<div class='text-wrapper caption'>" + " "+  dataOrientation + "</div>"+
-		"</div>";
+					"<div class='category-entry-wrapper'>"+
+						htmlRank+
+						htmlColor+
+						htmlCategory+
+						htmlValue+
+					"</div>";
 	}
 	
 	let footnote_line = "<p class='caption foot'>" + footnote  + "</p>";
@@ -2180,10 +2317,11 @@ function updateMainTitleVis(timePeriod,selectedCategory,dataTypeOrientation){
 
 	let quantitative  = selectedCategory.value;
 	let category = selectedCategory.category;
-	let date_title = jsCapitalize(category) + "-"+customTimeFormatTitle(timePeriod);
+	// let date_title = jsCapitalize(category) + "-"+customTimeFormatTitle(timePeriod);
+	let date_title = customTimeFormatTitle(timePeriod);
 	document.getElementById("date-title").innerHTML = date_title;
 	document.getElementById("quantitative-value").innerHTML = customNumberFormat(quantitative);
-	document.getElementById("label-value").innerHTML = dataType + " " + dataTypeOrientation;
+	document.getElementById("label-value").innerHTML = dataType + " " + "<u>"+dataTypeOrientation+"</u>" +"<br><b>"+jsCapitalize(category)+"</b>";
 
 	selectedDate = timePeriod;
 	typeOrientation = dataTypeOrientation;
@@ -2768,7 +2906,6 @@ function createGradientArrays(bottom_list) {
 		var father_key = getFatherKey(key_bottom);
 		var hierarchy_father_node = jerarquiaOutflow.getNodeByKey(father_key);
 		var hierarchy_hijo_node = jerarquiaOutflow.getNodeByKey(key_bottom);
-
 		if(optsMultiresolution.layersFadingColors){
 			colorBegin = hierarchy_father_node.color.desaturate().brighten(layersFadingColorsFactor);	
 		}else{
@@ -3149,7 +3286,7 @@ function loadExtent1(extent0) {
 	return extent1;
 }
 
-function timeTooltip(time){
+function timeTooltip(time,mousex){
 	let subHalf;
 	let addHalf;
 	let moyenne;
@@ -3181,13 +3318,13 @@ function timeParser(time) {
 
 function brushContextMove(jj) {
 
-	ratonOutMultiresolution();
+	ratonOutMultiresolutionView();
 
 	let extent1 = loadExtent1(jj);	
 	context.select(".brushZoom").call(brushContext.extent(extent1));
 
 	if(brushContextFlag[0].getTime() != extent1[0].getTime() || brushContextFlag[1].getTime() != extent1[1].getTime()){
-		// console.log("ACTUALIZAR;;;;;;;;;;;;")	
+		console.log("ACTUALIZAR;;;;;;;;;;;;")	
 		// Distortion Areas
 		let facteurBrusDisLeft = getTimeWindow(brushContextDisLeft.extent()[0],brushContextDisLeft.extent()[1], polarityTemporal,stepTemporal).length;
 		let facteurBrusDisRight =  getTimeWindow(brushContextDisRight.extent()[0],brushContextDisRight.extent()[1], polarityTemporal,stepTemporal).length; 
@@ -3864,7 +4001,7 @@ function calculeExtent(brushExtent, index) {
 }
 
 
-function ratonOutMultiresolution(){
+function ratonOutMultiresolutionView(){
 
 	tooltipFlag = new Date();
 
@@ -3886,40 +4023,21 @@ function ratonOutMultiresolution(){
 		"display":"none"
 	});
 
-	$( "#myFrame" ).remove();
-	
 	d3.select("#multiresolutionBackground").attr("class","background");
 	d3.select("#multiresolutionBackground-bottom").attr("class","background");
-	
-	// multiresolutionTop.selectAll(".x.grid").style({
-	// 	"stroke-opacity":0.3,
-	// 	"stroke-width": 1,
-	// 	"stroke":"#636363"
-	// });
-
-	// multiresolutionBottom.selectAll(".x.grid").style({
-	// 	"stroke-opacity":0.3,
-	// 	"stroke-width": 1,
-	// 	"stroke":"#636363"
-	// });
-
-
 }
 
 
 function brushStart(){
-
-	
-	ratonOutMultiresolution();
+	ratonOutMultiresolutionView();
 	blocage = true;
 }
 
 
 function brushEnd(){
-	ratonOutMultiresolution();
+	ratonOutMultiresolutionView();
 	blocage = false;
 	if (!animation) {
-		// console.log("call totalito")
 		let calcule = calculateRangeFocus(optsMultistream.facteurNor, optsMultistream.facteurDis, optsMultistream.facteurZoom);
 		totalito(calcule);
 	}
@@ -4115,7 +4233,6 @@ function validatorBrushes(){
 	let limitDisRight = brushContextDisRight.extent()[1];
 	let limitNorRight = brushContextNorRight.extent()[1];
 
-	
 	if(limitNorLeft<limitDisLeft 
 		&& limitDisLeft<limitZoomLeft 
 		&& limitZoomRight<limitDisRight
@@ -4125,35 +4242,20 @@ function validatorBrushes(){
 	return false;
 }
 
-// function llamame(cuantosPasosTemporales){
+// function moveContextByKeyboard(cuantosPasosTemporal, blockLeft, blockRight){
 
-// 	let updateTimeExtent = getNewTimeExtent(brushContext.extent(),cuantosPasosTemporal)
-// 	brushContextMove(updateTimeExtent);
-// }
-
-// function getNewTimeExtent(timeExtent,howManySteps){
-
-// 	let newTimeLeft = getTimeOffset(timeExtent[0],howManySteps*stepTemporal,polarityTemporal);
-// 	let newTimeRight = getTimeOffset(timeExtent[1],howManySteps*stepTemporal,polarityTemporal);
-// 	let newTimeExtent = [newTimeLeft,newTimeRight]
+// 	let currLeftTimeStep = brushContext.extent()[0];
+// 	let newTimeExtentLeft = blockLeft? currLeftTimeStep : getNewTimeStep(currLeftTimeStep,cuantosPasosTemporal);
 	
-// 	return newTimeExtent;
+// 	let currRightTimeStep = brushContext.extent()[1];
+// 	let newTimeExtentRight = blockRight? currRightTimeStep : getNewTimeStep(currRightTimeStep,cuantosPasosTemporal);
 
+// 	brushContextMove([newTimeExtentLeft,newTimeExtentRight]);
+// 	brushEnd();
 // }
-//mover hacia ese lugar
 
-function moveToTimeStepZoomContext(){
-
+function getNewTimeStep(aTimeStep,howManySteps){
+	return getTimeOffset(aTimeStep,howManySteps*stepTemporal,polarityTemporal);
 }
-
-function moveForwardZoomContext(){
-
-}
-
-function moveBackwardZoomContext(){
-
-}
-
-
 
 

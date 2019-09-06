@@ -452,39 +452,41 @@ div {
 
 /*  */
 #msg-title-wrapper{
-	background:rgba(255, 255, 255, 0.8);
-	text-align: left;
+	background:rgba(255, 255, 255, 0.6);
 	vertical-align: middle;
 	display:inline-block;
 	position:absolute;
 	margin-top:4.5em;
-	padding-right: 2em;
+	right: 2%;
 }
 
 #msg-title-wrapper .date-title-wrapper{
+	width: auto;
 	vertical-align: middle;
-	display:block;
+	display:inline-block;
+	text-align: right;
+	padding-right:0.5em;
+	letter-spacing: 0.3em
 }
 #msg-title-wrapper #date-title{
 	margin:0;
 }
 #msg-title-wrapper .value-title-wrapper{
+	width: auto;
 	vertical-align: middle;
-	/* text-align: start; */
 	display:inline-block;
-	/* border:1px solid red; */
+	padding-right: 2em;
+	padding-left:1em;
+	text-align: left;
 }
 
 #msg-title-wrapper .quantitative-value{
 	display:inline-block;
-	/* padding:0em;
-	margin:0em; */
 }
 
 #msg-title-wrapper .quantitative-label{
 	display:inline-block;
-	width: 2em;
-	height: 10px;
+	/* width: auto; */
 }
 
 #msg-title-wrapper .label-value{

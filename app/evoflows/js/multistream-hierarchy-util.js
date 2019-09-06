@@ -1,4 +1,3 @@
-
 let children_bottom_list_nuevo = [];
 
 function Jerarquia(hierarchy) {
@@ -20,7 +19,7 @@ function Jerarquia(hierarchy) {
 		}else{
 			return null;
 		}
-	}
+	};
 
 	this.getLeafNodes = function (){
 		let nodes_leaf = [];
@@ -68,7 +67,6 @@ function Jerarquia(hierarchy) {
 	};
 
 	this.hijos = function (){
-			// bottom_nodes.reverse();
 			let nivel_bajo = [];
 			this.key_bottom_list.forEach((bottom_node)=>{
 					let ds_child = this.my_leaf_level.filter(function(leaf){
@@ -108,7 +106,6 @@ function Jerarquia(hierarchy) {
 	
 	//llena el key_bottom_list
 	this.setBottomNodes = function (arreglo){
-		// var key_bottom_list = [];
 		this.key_bottom_list = [];
 		arreglo.forEach((bottom_node)=>{
 				this.key_bottom_list.push(bottom_node);
@@ -130,6 +127,16 @@ function Jerarquia(hierarchy) {
 	// 		hierarchy_node.level = "";
 	// 		hierarchy_node.visible = false;
 	// };
+
+	this.getBottomLevelNodes = function (){
+		let result = [];
+		this.hierarchy.forEach((node)=>{          
+				if(node.level == "bottom"){
+						result.push(node);
+				}
+		});
+		return result;
+	};
 
 	this.getVisibleBottomLevelNodes = function (){
 			let result = [];
@@ -223,23 +230,37 @@ function Jerarquia(hierarchy) {
 		}
 	};
 
-
+	
 
 }
 
 
-function isDownInHierarchy (i,j){
-	if(i.children){
-		if(i.children.map(d=>d.name).indexOf(j.name.toLowerCase())!=-1){
-			return true;
+function isBDownOfA (a,b,callback){
+	let result = false;
+	if(a.children){
+		if(a.children.map(d=>d.name).indexOf(b.name.toLowerCase())!=-1){
+			result = true;
 		}else{
-			i.children.forEach(function(d){
-				isDownInHierarchy(d,j);
+			a.children.forEach(function(d){
+				return isBDownOfA(d,b,callback);
 			});
 		}
 	}
-	return false;
+	callback(result);
 }
+
+
+
+// function isBUpOfA (a,b){
+// 	if(a.parent){
+// 		if(a.parent.name == b.name.toLowerCase()){
+// 			return true;
+// 		}else{
+// 			isBUpOfA(a.parent,b);
+// 		}
+// 	}
+// 	return false;
+// }
 
 
 function fillChildrenBottomListNuevo(node){
@@ -258,20 +279,15 @@ function fillChildrenBottomListNuevo(node){
 function mergingChildrenNuevo (father, children, my_leaf_level){
 	let fusion = [];
 
-	// console.log("========================")
-	// console.log("========================")
-	// console.log("========================");
-	// console.log("========================");
-	
-	let countryWithFeatures;
-	let encontro = geoJson.features.filter(d=>d.properties.name == father.name)
-	if(encontro.length!=0){
-		countryWithFeatures = encontro[0];
-	}
+	// let countryWithFeatures;
+	// let encontro = geoJson.features.filter(d=>d.properties.name == father.name)
+	// if(encontro.length!=0){
+	// 	countryWithFeatures = encontro[0];
+	// }
 	
 	children.forEach((child)=>{
 		let value = 0;
-		let text = [];
+		// let text = [];
 		let components = [];
 
 		
@@ -284,11 +300,11 @@ function mergingChildrenNuevo (father, children, my_leaf_level){
 			for(let indexDate = 0; indexDate < ds_child_by_date.length; indexDate++) {
 				if(!fusion[indexDate]){
 					value = ds_child_by_date[indexDate].value;
-					text = ds_child_by_date[indexDate].text;
+					// text = ds_child_by_date[indexDate].text;
 					components = ds_child_by_date[indexDate].components;
 				}else{
 					value = fusion[indexDate].value + ds_child_by_date[indexDate].value;
-					text = fusion[indexDate].text.concat(ds_child_by_date[indexDate].text);
+					// text = fusion[indexDate].text.concat(ds_child_by_date[indexDate].text);
 					components = fusion[indexDate].components.concat(ds_child_by_date[indexDate].components);
 				}
 				
@@ -299,10 +315,10 @@ function mergingChildrenNuevo (father, children, my_leaf_level){
 								//aqui hay que traer del GeoJson las coordenadas
 								//o pasarles en la firma de la funcion
 								// "item":ds_child_by_date[indexDate].item, //hay q gregar las coordenadas de los paises 
-								"item":countryWithFeatures, 
+								// "item":countryWithFeatures, 
 								"value":value,
-								"text":text,
-								"components":groupComponentIndicatorByName(components)
+								// "text":text,
+								"components":groupComponentTypeByName(components)
 							};	
 			}
 		}
@@ -312,26 +328,20 @@ function mergingChildrenNuevo (father, children, my_leaf_level){
 	
 }
 
-function kd(nodeA, nodeB){
-
-	
-
-	if(nodeA.children){
-		nodeA.children.forEach(function(item){
-			if(item.name===nodeB.name){
-				return true;
-			}
-		});
-	}
-
-	if(node.children){
-		node.children.forEach(function(d){
-			kd(d,nodeB);
-		});
-	}
-
-
-}
+// function kd(nodeA, nodeB){
+// 	if(nodeA.children){
+// 		nodeA.children.forEach(function(item){
+// 			if(item.name===nodeB.name){
+// 				return true;
+// 			}
+// 		});
+// 	}
+// 	if(node.children){
+// 		node.children.forEach(function(d){
+// 			kd(d,nodeB);
+// 		});
+// 	}
+// }
 
 function cambiarVisibilidadFalse(d){
 	if(d.level == "bottom"){

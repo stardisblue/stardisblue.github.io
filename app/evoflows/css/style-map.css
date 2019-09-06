@@ -45,7 +45,6 @@
 /* ==================== */
 /* LINE ARROW */
 .line-arrow-map{
-	opacity:0.6;
 	pointer-events: none;
 }
 
@@ -78,10 +77,12 @@
 	text-transform: capitalize;
 }
 
-
+.barchart .barsValuesTextTopK{
+	text-anchor:start;
+}
 
 .barchart .barsTopK{
-	fill:#74c476;
+	stroke:#bdbdbd;
 }
 
 .barchart .x.grid {

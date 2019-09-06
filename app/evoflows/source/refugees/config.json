@@ -27,7 +27,7 @@
 			}
 		},
 		"optsMap": {
-			"typeMapVisualization":"bubbles",
+			"typeMapVisualization":"points",
 			"outputRangeColorScaleMap": ["#feebe2", "#7a0177"],
 			"featuresOutputRangeLabelScale":[1.2,1.2]
 		},
