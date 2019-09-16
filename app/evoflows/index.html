@@ -24,10 +24,15 @@
 	<link rel="shortcut icon" type="image/png" href="img/evoflows.png" />
 
 	<!-- BOOTSTRAP CSS-->
-	<link rel="stylesheet"
+	<!-- <link rel="stylesheet"
 		href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 		integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-				crossorigin="anonymous">
+				crossorigin="anonymous"> -->
+
+	<!-- BOOTSTRAP CSS-->
+	<link rel="stylesheet"
+		href="js/bootstrap-4.2.1-dist/css/bootstrap.min.css" 
+		>
 
 	<!-- STYLE MAIN CSS -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -70,7 +75,17 @@
 		crossorigin="anonymous">
 
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="js/jquery-3.4.1/jquery.min.js"></script>
+	<!-- <script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+		crossorigin="anonymous"></script> -->
+	<script
+		src="js/bootstrap-4.2.1-dist/js/bootstrap.min.js"
+		crossorigin="anonymous"></script>
+
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
 		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
@@ -78,7 +93,7 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
 		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-		crossorigin="anonymous"></script>
+		crossorigin="anonymous"></script> -->
 </head>
 
 <body>
@@ -119,7 +134,17 @@
 									<div id="multistream-vis-wrapper" class="vis-subwrapper">
 										<div class="vis-header-wrapper">
 											<div class="btn-toolbar float-right vis-header" role="toolbar" aria-label="Toolbar with button groups">
-												<div class="btn-group" role="group" aria-label="Third group">
+												<div class="btn-group" role="group" aria-label="First group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<img class="icon" alt="increase" src="img/events/arrow_up.svg">
+															<img class="icon" alt="increase" src="img/events/arrow_down.svg">&nbsp;% Variation
+														</span>
+													</div>
+													<input type="number" id="porcentageVariation" name="porcentage" title="% Variation">
+												</div>	
+														
+												<div class="btn-group input-group" role="group" aria-label="Third group">
 													<button id="btnTreeNav" type="button" class="btn vis-menu-btn" onclick="openTreeNav()"
 														data-toggle="tooltip" data-placement="bottom" title="Regions" >
 														<img class="icon" src="img/icon_hierarchy_menu.png" alt="" />
@@ -142,7 +167,8 @@
 											</div>
 										</div>
 										<div id="multistream-vis">
-											<svg id="svg-multistream-vis"></svg>
+											<svg id="svg-multistream-vis">
+											</svg>
 										</div>
 									</div>
 								</div>
@@ -164,10 +190,10 @@
 															<input type="radio" name="map-type-options" 
 															autocomplete="off" value="choropleth"> <img
 															class="icon" alt="Choropleth" src="img/choropleth.png">
-														</label> <label title="Bubbles" id="bubbles" class="button btn vis-menu-btn"> <input
+														<!-- </label> <label title="Bubbles" id="bubbles" class="button btn vis-menu-btn"> <input
 															type="radio" name="map-type-options"  autocomplete="off"
 															value="bubbles"> <img class="icon" alt="Bubble"
-															src="img/bubble.png">
+															src="img/bubble.png"> -->
 														</label> <label title="Points" id="points" class="button btn vis-menu-btn"> <input
 															type="radio" name="map-type-options"  autocomplete="off"
 															value="points"> <img class="icon" alt="Bubble"
@@ -180,9 +206,6 @@
 										<div id="map-vis">
 											<div>
 												<div id="msg-title-wrapper">
-													<!-- <div class="date-title-wrapper">
-														<h4 id="date-title"></h4>
-													</div> -->
 													<div class="value-title-wrapper">
 														<h2 id="quantitative-value" class='quantitative-value'></h2>
 														<div class='quantitative-label'>
@@ -207,7 +230,10 @@
 								<div class="vis-header-wrapper">
 									<div class="btn-toolbar vis-header" role="toolbar" aria-label="Toolbar with button groups">
 										<div class="btn-group mr-2" role="group" aria-label="Second group">
-											<button type="button" class="btn btn-primary button" data-toggle="modal" data-target="#addStateModal"><span class="plus">+</span> State</button>				
+											<button type="button" class="btn btn-primary button" data-toggle="modal" data-target="#addStateModal"><span class="plus">+</span> State</button>
+											
+											<!-- <input type="number" id="porcentageVariation" name="porcentage" title="detailed-area"> -->
+											
 										</div>
 									</div>
 								</div>
@@ -445,7 +471,7 @@
 	<script src="js/point-change.js"></script>
 	<script src="js/compare.js"></script>
 	
-	<script src="js/graph.js"></script> 
+	<script src="js/graph.js"></script>
 
 	<!--  -->
 	

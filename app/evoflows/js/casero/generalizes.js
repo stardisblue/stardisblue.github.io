@@ -831,7 +831,7 @@ function getRadiansFromDegrees(degrees){
 }
 
 
-function getNewEndArrowAccordingStartArrowInclination(startArrowCenter, endArrowCenter, endArrowLabelWidth, endArrowLabelHeight, radiusEndArrow){
+function getNewEndArrowAccordingStartArrowInclination(startArrowCenter, endArrowCenter, endArrowLabelHeight, radiusEndArrow){
 
 	let destX = endArrowCenter[0];
 	let destY = endArrowCenter[1];
@@ -891,3 +891,27 @@ function getTopKFromArray(topK,array){
 	return kElements;
 }
 
+function getMeanArray(array){
+	let sum = 0;
+	for (let i=0; i<array.length;i++){
+		sum += array[i];
+	}
+	let mean = sum/array.length;
+	return mean;
+}
+
+
+function getEuclideanDistanceOfTwoPoints(pointA, pointB){
+
+	let x_pointA = pointA[0];
+	let y_pointA = pointA[1];
+	let x_pointB = pointB[0];
+	let y_pointB = pointB[1];
+
+	let dif_x = x_pointA - x_pointB;
+	let dif_y = y_pointA - y_pointB;
+
+	let euclideanDistance = Math.sqrt(Math.pow(dif_x,2)+Math.pow(dif_y,2));
+
+	return euclideanDistance;
+}

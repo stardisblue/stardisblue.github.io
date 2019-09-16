@@ -88,10 +88,10 @@ var durationTransitionTS = 1000; //Multistream Time Series
 var durationTransitionMap = 750; //alwas < than durationTransitionTS
 //FLOWMAP
 var pointRadiusBackground = 10;
-var pointRadius = 5;
-var fmLineExtent = [1,8]; //line extend of the flowmap
-var fmArrowHeight = 13; //height has to be more than fmLineExtent maximium
-var fmArrowWidth = 13;
+var pointRadius = 7;
+// var fmLineExtent = [1,8]; //line extend of the flowmap
+var fmArrowHeight = 9; 
+var fmArrowWidth = 9;
 
 //BARCHART
 let topKBarchart = 5;
@@ -313,20 +313,6 @@ function initOptsVariables(list){
 
 
 function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
-
-	let asia = new Vertex(1,"Asia");
-	let europa = new Vertex(2,"Europa");
-	let america = new Vertex(3,"America");
-	let africa = new Vertex(4,"Africa");
-	
-	let listVertex = [asia,europa,america];
-	let listMultiedges = [];
-
-	let graph = new Graph(listVertex,listMultiedges);
-	// console.log(graph.isAlreadyVertexByLabel("Asia"));
-	//console.log(tangentPoints2Circles(10,10,5,50,10,5));
-	// return;
-
 
 	if (error){
 		alert(error);
@@ -752,8 +738,6 @@ function load_d3(configurationPathFile) {
 		let myGeoJSONPath = "source/refugees/geojson.json";
 		let myHierarchyJSONPath = "source/refugees/hierarchy.json";
 		let myRawDataPath = "source/refugees/data.json";
-
-		//let myConfiguration = "source/refugees/config.json";
 		if(configurationPathFile==null){
 			myConfiguration = "source/refugees/config.json";
 		}else{

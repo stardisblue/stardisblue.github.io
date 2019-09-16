@@ -49,6 +49,13 @@ var stack = d3.layout.stack()
 				.y(function(d) {return d.value;})
 				;
 
+
+//
+//
+var percentageVariation = 500;
+//
+//				
+
 //Keyboard funtionality
 var isBrushLockLeft = false;
 var isBrushLockRight = false;
@@ -587,7 +594,6 @@ function addKeyboardFunctionality(){
 
 		switch(e.keyCode){
 			case 39: // ->
-				// stampTemporal = stampTemporal;
 				moving=true;
 				break;
 			case 37: // <-
@@ -597,8 +603,6 @@ function addKeyboardFunctionality(){
 		}
 
 		if(moving){
-			//moveContextByKeyboard(stampTemporal,isBrushLockLeft,isBrushLockRight);		
-
 			let currLeftTimeStep = brushContext.extent()[0];
 			let newTimeExtentLeft = isBrushLockLeft? currLeftTimeStep : getNewTimeStep(currLeftTimeStep,stampTemporal);
 			
@@ -707,6 +711,26 @@ function loadMultiresolutionVis(){
 		
 	});
 	
+
+	//
+	//
+	//PORCENTAGE
+	//
+	//
+	d3.select("#porcentageVariation").attr({
+		"min":100,
+		"max":100000,
+		"step":100,
+		"value":percentageVariation
+	});
+
+
+	d3.select("#porcentageVariation").on("input", function() {
+		percentageVariation = +this.value;
+		execAlgosInZoomArea();
+		// let calcule = calculateRangeFocus(optsMultistream.facteurNor, optsMultistream.facteurDis, optsMultistream.facteurZoom);	
+		// updateFocus(calcule);
+	});
 
 	//
 	//
@@ -1213,7 +1237,8 @@ function createEventLegend(){
 			.style({
 				"alignment-baseline":"central" //only for text
 			});
-	
+
+
 }
 
 // function timeout() {
@@ -1327,15 +1352,12 @@ function getEventsByCategory(category){
 		return events.filter((d)=>{return d.category==category});
 }
 
-
-function getPointChanges(dataInZoomArea,multiresolutionType,yScale, threshold){
+function getPointChanges(dataInZoomArea,multiresolutionType,yScale, percentageVariation){
 	
 	let aryPointDetection = [];
 	dataInZoomArea.forEach(function(layerInZoom){
 		
-		// let threshold = 500000;
-		
-		let dataPointDetection = getPointDetection(layerInZoom.values, threshold);
+		let dataPointDetection = getPointAnomalyBy(layerInZoom.values,percentageVariation);
 				
 		layerInZoom.values.forEach(function(element){
 			
@@ -1359,8 +1381,17 @@ function getPointChanges(dataInZoomArea,multiresolutionType,yScale, threshold){
 	let points = multiresolutionType.select("#gPointChanges").selectAll(".point-detection")
 					.data(aryPointDetection,function(d){return (d.key+"-"+d.date);});
 	
+	let dura = 1;
+
 	//exit
-	points.exit().remove();
+	points.exit()
+		.style({
+			"opacity":1
+		})
+	.transition().duration(dura)
+		.style({
+			"opacity":0
+		}).remove();
 
 	//update
 	points.attr("x", function(d) {return scalesMultiresolution[selectAxisFocus(d.date)](d.date)-getPxFromRem(eventWidthSizeLabelScale/2); })
@@ -1380,9 +1411,14 @@ function getPointChanges(dataInZoomArea,multiresolutionType,yScale, threshold){
 					.attr("width",getPxFromRem(eventWidthSizeLabelScale))
 					.attr("height",getPxFromRem(eventHeightSizeLabelScale))
 					.style({
-						"pointer-events":"none"
+						"pointer-events":"none",
+						"opacity":0
 					})
-					.on("mouseover",pointChangeMouseOver);
+					.on("mouseover",pointChangeMouseOver)
+				.transition().duration(dura)
+					.style({
+						"opacity":1
+					});
 
 
 }
@@ -1650,9 +1686,8 @@ function execAlgosInZoomArea(){
 
 
 	// //point detections
-	let pointChangeThershold = 500000;
-	getPointChanges(dataInZoomAreaOrigin,multiresolutionTop,yScaleMultiresolution,pointChangeThershold);
-	getPointChanges(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom,pointChangeThershold);
+	getPointChanges(dataInZoomAreaOrigin,multiresolutionTop,yScaleMultiresolution,percentageVariation);
+	getPointChanges(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom,percentageVariation);
 }
 
 function flowLabel(dataInZoomArea,multiresolutionType,yScale){
@@ -1843,7 +1878,6 @@ function visualMap(aCategory,orientation,durationAnimation){
 
 	//destinations countries
 	let arrayDestinations = aCategory.components.filter(d=>d.arraray[0]>0).map(d=>{
-
 		let aDestination = jerarquiaOutflow.getNodeByName(d.name);
 		aDestination.value =  d.arraray[0];
 		return aDestination;
@@ -1854,7 +1888,7 @@ function visualMap(aCategory,orientation,durationAnimation){
 
 	//filter the SelectedCategory from Dest
 	let destFilter = dest.filter(function(d){
-		if(d.name!=aCategory.category.toLowerCase()){
+		if(d.name.toLowerCase()!=aCategory.category.toLowerCase()){
 			return d;
 		}
 	});
@@ -1877,20 +1911,16 @@ function flowByDateSelected(d,dateSelected,currVerticalRuler,orientation,duratio
 		dataArraySelected = [];
 		
 		//points for vertical ruler
-		let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-		let y1 = yScaleMultiresolution(selectedCategory.y0);
+		let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected); 
+		let y1 = orientation==="out"?yScaleMultiresolution(selectedCategory.y0):yScaleMultiresolutionBottom(selectedCategory.y0);
 		let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
-		let y2 = yScaleMultiresolution((selectedCategory.y0 + selectedCategory.y));
+		let y2 = orientation==="out"?yScaleMultiresolution(selectedCategory.y0 + selectedCategory.y):yScaleMultiresolutionBottom(selectedCategory.y0 + selectedCategory.y);
 		
 		showVerticalRuler(x1,y1,x2,y2,currVerticalRuler);
 //		showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],false,"Click to PIN this flow",dataType_outflow,d3.event.pageX ,d3.event.pageY);
 		
-		let dataType = "";
-		if(orientation==="out"){
-			dataType = dataType_outflow;
-		}else if(orientation==="in"){
-			dataType = dataType_inflow;
-		}
+		let dataType = orientation==="out"?dataType_outflow:dataType_inflow;
+		
 		updateMainTitleVis(dateSelected,selectedCategory,dataType);
 			
 		visualMap(selectedCategory,orientation,durationAnimation);
@@ -2062,8 +2092,6 @@ function createTooltip(){
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-
-
 
 multiresolutionBottom.select("#multiresolutionBackground-bottom")
 				.on("mousemove",function(d){

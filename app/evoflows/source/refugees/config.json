@@ -21,7 +21,7 @@
 				"layersLabelType": "flowLabelText"
 			},
 			"optsContext": {
-				"numTimeStepBrushZoom": 2,
+				"numTimeStepBrushZoom": 13,
 				"numTimeStepBrushDistortion": 2,
 				"numTimeStepBrushNormal": 1
 			}
@@ -29,7 +29,7 @@
 		"optsMap": {
 			"typeMapVisualization":"points",
 			"outputRangeColorScaleMap": ["#feebe2", "#7a0177"],
-			"featuresOutputRangeLabelScale":[1.2,1.2]
+			"featuresOutputRangeLabelScale":[1,1]
 		},
 		"optsEvents": {
 			"eventWidthSizeLabelScale": 0.8,

@@ -24,7 +24,7 @@ var xScaleBarchartBefore = d3.scale.linear();
 function createTopKBarchart(){
 
 	let barchart_wrapper_width = mapVisWidth*0.7;
-	let barchart_wrapper_height = mapVisHeight*0.3;
+	let barchart_wrapper_height = mapVisHeight*0.4;
 	
 	gBarchartMap.attr("class","smallMultiple")
 			.attr("transform","translate("+ 0 +","+ (mapVisHeight - barchart_wrapper_height) + ")");
@@ -181,7 +181,8 @@ function updateTopKBarsInChart(currData,durationAnimation){
 			"width": d=> xScaleBarchartBefore(d.valueBefore),
 		})
 		.style({
-			"fill":d=>d.color,	
+			// "fill":d=>d.color,
+			"fill":d=>scaleMapChoroplethBefore(d.valueBefore),
 			"fill-opacity":1
 		})
 	  .transition().duration(durationAnimation)
@@ -193,7 +194,8 @@ function updateTopKBarsInChart(currData,durationAnimation){
 			"height": yScaleBarchart.rangeBand()
 		})
 		.style({
-			"fill":d=>d.color,	
+			// "fill":d=>d.color,
+			"fill":d=>scaleMapChoropleth(d.value),
 			"fill-opacity": 1
 		});
 
@@ -207,12 +209,14 @@ function updateTopKBarsInChart(currData,durationAnimation){
 			"height":yScaleBarchart.rangeBand()
 		})
 		.style({
-			"fill":d=>d.color,	
+			// "fill":d=>d.color,
+			"fill":d=>scaleMapChoropleth(d.value),
 			"fill-opacity": 1e-6,
 		})
 	  .transition().duration(durationAnimation)
 		.style({
-			"fill":d=>d.color,
+			// "fill":d=>d.color,
+			"fill":d=>scaleMapChoropleth(d.value),
 			"fill-opacity": 1
 		});
 		   
@@ -236,7 +240,7 @@ function updateTopKBarsInChart(currData,durationAnimation){
 
 	//update
 	barsValuesText.attr({
-			"x": d=> xScaleBarchartBefore(d.valueBefore),
+			"x": d=> xScaleBarchartBefore(d.valueBefore)
 		})
 		.style({
 			"fill-opacity":d=>fill_opacity_value_bars(d),

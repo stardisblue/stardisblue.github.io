@@ -91,6 +91,21 @@ div {
 	/* user-select: none; Standard syntax */
 }
 
+
+.text-truncate{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.text-uppercase{
+	text-transform: uppercase;
+}
+
+.text-bold{
+	font-weight: 700;
+}
+
 /*  */
 /*  */
 /* BUTTONS */

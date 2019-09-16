@@ -9,16 +9,19 @@ var zoomMap = d3.behavior.zoom()
 					.on("zoom", zoomed);
 
 var scaleMapChoropleth = d3.scale.log()
-								.clamp(true);			
-					
-var scaleMapBubbles = d3.scale.sqrt()
-						.range([8,25]);
+								.clamp(true);
 
-var scaleMapPoints = d3.scale.linear()
-						.range(fmLineExtent);
+var scaleMapChoroplethBefore = d3.scale.log()
+								.clamp(true);
 
-var scaleMapPointsBefore = d3.scale.linear()
-						.range(fmLineExtent);						
+// var scaleMapBubbles = d3.scale.sqrt()
+// 						.range([8,25]);
+
+// var scaleMapFlowLines = d3.scale.linear()
+// 						.range(fmLineExtent);
+
+// var scaleMapFlowLinesBefore = d3.scale.linear()
+// 						.range(fmLineExtent);						
 
 var scaleFeatureMapLabel = d3.scale.sqrt();					
 					
@@ -81,7 +84,7 @@ function createMapSvg(){
 	//Group for the land layer on the map
 	gLandMap = gMapZoomable.append("g").attr("id","groupLand");
 	
-	//Group for the features (bubbles, choropleth, etc) on map
+	//Group for the features (points, choropleth, etc) on map
 	gFeatures = gMapZoomable.append("g").attr("id","groupFeatures");
 
 	//Group for lines arrows on map
@@ -102,6 +105,13 @@ function createMapSvg(){
 									.attr("class","tooltip tooltip-map");
 
 
+
+									
+	// CHOROPLETH MAP
+	scaleMapChoropleth.range([d3.rgb(outputRangeColorScaleMap[0]),d3.rgb(outputRangeColorScaleMap[1])]);
+	scaleMapChoroplethBefore.range([d3.rgb(outputRangeColorScaleMap[0]),d3.rgb(outputRangeColorScaleMap[1])]);
+
+
 	//Def for arrows
 	let defs = gLineArrows.append("defs");
 
@@ -114,17 +124,17 @@ function createMapSvg(){
 				"refY":fmArrowHeight/2, //to put in the middle of the parent line
 				"orient":"auto",
 				// "viewBox":"0 0 10 10",
-				"markerUnits":"userSpaceOnUse" //prevent to inherith stroke from parent as strokeWidth 
+				// "markerUnits":"userSpaceOnUse" //prevent to inherith stroke from parent as strokeWidth 
 			})
 			.append("path")
 				.attr("d", "M0,0 L0,"+fmArrowHeight+" L"+fmArrowWidth+","+fmArrowHeight/2+" z") //triangle
 				.attr("class","arrowHead");
 
-//<defs>
-//   <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
-//    <path d="M0,0 L0,6 L9,3 z" fill="#f00" />
-// </marker>
-//</defs>				
+	//<defs>
+	//   <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+	//    <path d="M0,0 L0,6 L9,3 z" fill="#f00" />
+	// </marker>
+	//</defs>				
 								
 }
 
@@ -147,7 +157,7 @@ function loadMapVis(rawGeoJson){
 	
 	
 	$("#map-type-visualization :input").change(function() {
-		//value can be : choropleth or bubbles
+		//value can be : choropleth or points..
 		typeMapVisualization = this.value;
 		
 		//remove the path and circles of Features
@@ -176,35 +186,18 @@ function loadMapVis(rawGeoJson){
 }
 
 
-// function updateMapLands(){
-
-// 	let dataInFocusTop = [];
-// 	if(dataCurrentlyMultiresolutionTop==null){
-// 		dataInFocusTop = data_focus_level_top;
-// 	}else{
-// 		dataInFocusTop = dataCurrentlyMultiresolutionTop;
-// 	}
-
-// 	let dataInZoomAreaOrigin = getSubSetOfData(dataInFocusTop, brushContext.extent()[0],brushContext.extent()[1]);	
-
-// 	//SOLO NECEITO LOS NOMBRES THINK 
-// 	console.log(dataInZoomAreaOrigin)
-
-// }
-
-
 function updateMapTypeRepresentation(typeRepresentation){
 
 	document.getElementById("choropleth").classList.remove("active");
-	document.getElementById("bubbles").classList.remove("active");
+	// document.getElementById("bubbles").classList.remove("active");
 	document.getElementById("points").classList.remove("active");
 
 	if(typeRepresentation==="choropleth"){
 		document.getElementById("choropleth").classList.add("active");
 	}
-	if(typeRepresentation==="bubbles"){
-		document.getElementById("bubbles").classList.add("active");
-	}
+	// if(typeRepresentation==="bubbles"){
+	// 	document.getElementById("bubbles").classList.add("active");
+	// }
 	if(typeRepresentation==="points"){
 		document.getElementById("points").classList.add("active");
 	}
@@ -387,8 +380,9 @@ function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem,durationAnim
 			let objectHeight = getPxFromRem(heightValueInRem); 
 			let refCenterPoint = [dataGeoJsonElement.centroid[0],dataGeoJsonElement.centroid[1]];
 			
-			if(selectedItem!=""){
-				refCenterPoint = getNewEndArrowAccordingStartArrowInclination(selectedItem.centroid,refCenterPoint,objectWidth, objectHeight, pointRadius);
+			if(selectedItem!=""){                                            
+				//origen, destination
+				refCenterPoint = getNewEndArrowAccordingStartArrowInclination(selectedItem.centroid,refCenterPoint,objectHeight, pointRadius/currMapScale);
 			}
 
 			let x1 = refCenterPoint[0] - objectWidth/2;
@@ -473,7 +467,6 @@ function zoomed() {
 		updateFeaturesLandLabel(currGroupedData,currSelectedItem,0);
 		updateLinesIntoMap(currGroupedData,currSelectedItem,currOrientation,0);
 		updatePointIntoMap(currGroupedData,0);
-		// updateLinesIntoMap(currGroupedData,currSelectedItem,currOrientation);
 	}
 
 	//update land labels
@@ -600,100 +593,97 @@ function coloring(selectedItem,otherItems,orientation,durationAnimation){
 			updateLinesIntoMap(currGroupedData,selectedItem,orientation);
 			break;
 			
-		case "bubbles":
+		// case "bubbles":
 
-			scaleMapBubbles.domain([extentData[0],extentData[1]]);//sino max 5e7
+		// 	scaleMapBubbles.domain([extentData[0],extentData[1]]);//sino max 5e7
 
-			features = gFeatures.selectAll(".feature-map")
-									.data(currGroupedData,d=>d.properties.name);
+		// 	features = gFeatures.selectAll(".feature-map")
+		// 							.data(currGroupedData,d=>d.properties.name);
 			
-			//exit
-			// features.exit().remove();	
+		// 	//exit
+		// 	// features.exit().remove();	
 
-			//update
-			features.attr("r", d=>scaleMapBubbles(d.value))
-					.style({
-						"stroke-width": (1/currMapScale)+"px"
-					});
+		// 	//update
+		// 	features.attr("r", d=>scaleMapBubbles(d.value))
+		// 			.style({
+		// 				"stroke-width": (1/currMapScale)+"px"
+		// 			});
 
-			//enter
-			features.enter()
-				.append("circle")
-					.attr("class","feature-map")
-					.attr("r", 0)
-					.on("mousemove",featureMouseMove)
-					.on("mouseout",featureMouseOut)
-					.attr("transform", (d)=>{return "translate(" + d.centroid + ")"; })
-					.attr("r", d=>scaleMapBubbles(d.value))
-					.style({
-						"fill":"#0069c0", //#2196f3 #6baed6
-						"fill-opacity":"0.7",
-						"stroke":"#2196f3",
-						"stroke-width": (1/currMapScale)+"px"
-					});
+		// 	//enter
+		// 	features.enter()
+		// 		.append("circle")
+		// 			.attr("class","feature-map")
+		// 			.attr("r", 0)
+		// 			.on("mousemove",featureMouseMove)
+		// 			.on("mouseout",featureMouseOut)
+		// 			.attr("transform", (d)=>{return "translate(" + d.centroid + ")"; })
+		// 			.attr("r", d=>scaleMapBubbles(d.value))
+		// 			.style({
+		// 				"fill":"#0069c0", //#2196f3 #6baed6
+		// 				"fill-opacity":"0.7",
+		// 				"stroke":"#2196f3",
+		// 				"stroke-width": (1/currMapScale)+"px"
+		// 			});
 
-			updateLegendMapPoint(extentData);
-			updateLinesIntoMap(currGroupedData,selectedItem,orientation);
-			break;
+		// 	updateLegendMapPoint(extentData);
+		// 	updateLinesIntoMap(currGroupedData,selectedItem,orientation);
+		// 	break;
 
 		case "points":
-			
-			
-			updatePointIntoMap(currGroupedData,durationAnimation);
 
-			//CREATE LINES
-			scaleMapPoints.domain([extentData[0],extentData[1]]);
-			scaleMapPointsBefore.domain([extentDataBefore[0],extentDataBefore[1]]);//sino max 5e7
+			//CHOROPLETH SCALE
+			scaleMapChoropleth.domain(extentData);
+			scaleMapChoroplethBefore.domain(extentDataBefore);
+			
+			// FLOW MAP LINES
+			// scaleMapFlowLines.domain([extentData[0],extentData[1]]);
+			// scaleMapFlowLinesBefore.domain([extentDataBefore[0],extentDataBefore[1]]);
+
+			updatePointIntoMap(currGroupedData,durationAnimation);
 
 			updateLinesIntoMap(currGroupedData,selectedItem,orientation,durationAnimation);
 
-			//updateLegendMapPoint(extentData);
-
 			break;					
 	}
-
-
 	
 	updateFeaturesLandLabel(currGroupedData,selectedItem,durationAnimation);
 	updateBarchart(currGroupedData,topKBarchart,durationAnimation);
 
-
 	ancienData = currGroupedData.filter(d=>isNaN(d.properties.name));
 }
 
-function updateLegendMapPoint(extent){
+// function updateLegendMapPoint(extent){
 
+// 	let xRefPosition = margingLegendMap.left;
+// 	let yRefPosition = margingLegendMap.top + 20;
 
-	let xRefPosition = margingLegendMap.left;
-	let yRefPosition = margingLegendMap.top + 20;
+// 	legendItemsChoropleth.style({"opacity":0});
+// 	legendItemsPoint.style({"opacity":1});
 
-	legendItemsChoropleth.style({"opacity":0});
-	legendItemsPoint.style({"opacity":1});
+// 	legendItemsPoint.selectAll("circle").remove();
+// 	legendItemsPoint.selectAll("text").remove();
 
-	legendItemsPoint.selectAll("circle").remove();
-	legendItemsPoint.selectAll("text").remove();
-
-	let legend_items = legendItemsPoint.selectAll("circle").data(extent);
+// 	let legend_items = legendItemsPoint.selectAll("circle").data(extent);
 	
-	//append circles
-	legend_items.enter().append("circle")
-					.attr("cy", d=> -scaleMapBubbles(d))
-					.attr("transform","translate(" + xRefPosition + "," + yRefPosition + ")")
-					.attr("r", d=>scaleMapBubbles(d))
-					.style({
-						"fill":"none",
-						"stroke":"#2196f3"
-					});
+// 	//append circles
+// 	legend_items.enter().append("circle")
+// 					.attr("cy", d=> -scaleMapBubbles(d))
+// 					.attr("transform","translate(" + xRefPosition + "," + yRefPosition + ")")
+// 					.attr("r", d=>scaleMapBubbles(d))
+// 					.style({
+// 						"fill":"none",
+// 						"stroke":"#2196f3"
+// 					});
 
-	//append text
-	legend_items.enter().append("text")
-					.attr("class","legendText")
-					.attr("y",d=>-2*scaleMapBubbles(d))
-					.attr("transform","translate(" + xRefPosition + "," + yRefPosition + ")")
-					.attr("dy","-0.1em")
-					.text(customNumberFormat);
+// 	//append text
+// 	legend_items.enter().append("text")
+// 					.attr("class","legendText")
+// 					.attr("y",d=>-2*scaleMapBubbles(d))
+// 					.attr("transform","translate(" + xRefPosition + "," + yRefPosition + ")")
+// 					.attr("dy","-0.1em")
+// 					.text(customNumberFormat);
 
-}
+// }
 
 function updateLegendMapChoropleth(extent){
 
@@ -765,6 +755,7 @@ function updatePointIntoMap(groupedData,durationAnimation){
 	//************* */
 	//CREATE POINTS
 	//************* */
+
 	features = gFeatures.selectAll(".feature-map")
 							.data(groupedData,d=>d.properties.name);
 
@@ -782,7 +773,15 @@ function updatePointIntoMap(groupedData,durationAnimation){
 	features.attr({
 				"r":pointRadius/currMapScale+"px"
 			}).style({
-				"stroke-width": (1/currMapScale)+"px"
+				"fill":d=>scaleMapChoroplethBefore(d.valueBefore), 
+				"stroke-width": (1/currMapScale)+"px",
+				"opacity": 1,
+			})
+		.transition().duration(durationAnimation)
+			.style({
+				"fill":d=>scaleMapChoropleth(d.value),
+				"stroke-width": (1/currMapScale)+"px",
+				"opacity": 1,
 			});
 
 	//enter
@@ -793,14 +792,16 @@ function updatePointIntoMap(groupedData,durationAnimation){
 			.attr("transform", (d)=>{return "translate(" + d.centroid + ")"; })
 			.attr("r", pointRadius/currMapScale+"px")
 			.style({
-				"fill": d=>d.color,
+				"fill":d=>scaleMapChoropleth(d.value),
+				// "fill": d=>d.color,
 				"opacity": 1e-6,
 				"stroke":"#bdbdbd", 
 				"stroke-width": (1/currMapScale)+"px"
 			})
 		.transition().duration(durationAnimation)
 			.style({
-				"fill": d=>d.color,
+				"fill":d=>scaleMapChoropleth(d.value),
+				// "fill": d=>d.color,
 				"opacity": 1,
 				"stroke":"#bdbdbd",
 				"stroke-width": (1/currMapScale)+"px"
@@ -817,7 +818,6 @@ function updateLinesIntoMap(groupedData,selectedItem,orientation,durationAnimati
 
 		let startArrow;
 		let endArrow;
-
 		
 		if(orientation ==="in") {
 			startArrow = getNewPointAlongPointA(
@@ -829,24 +829,26 @@ function updateLinesIntoMap(groupedData,selectedItem,orientation,durationAnimati
 			endArrow = getNewPointAlongPointA(
 				{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
 				{x:otherItem.centroid[0],y:otherItem.centroid[1]},
-				pointRadiusBackground + fmArrowWidth
+				pointRadiusBackground/currMapScale + fmArrowWidth/currMapScale
 			);
 		}else if(orientation ==="out"){
 			startArrow = getNewPointAlongPointA(
 				{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
 				{x:otherItem.centroid[0],y:otherItem.centroid[1]},
-				pointRadiusBackground
+				pointRadiusBackground/currMapScale
 			);
 			endArrow = getNewPointAlongPointA(
 				{x:otherItem.centroid[0],y:otherItem.centroid[1]},
 				{x:selectedItem.centroid[0],y:selectedItem.centroid[1]},
-				pointRadiusBackground + fmArrowWidth
+				pointRadiusBackground/currMapScale + fmArrowWidth/currMapScale
 			);
+
 		}else{
 			console.log("THERE IS NOT ORIENTATION");
 		}
 		odmatrix.push({
 			"key":selectedItem.id + "-" + otherItem.id + "-" + orientation,
+			"name":otherItem.properties.name,
 			"origin": startArrow, 
 			"destination": endArrow,
 			"value":otherItem.value,
@@ -867,25 +869,43 @@ function updateLinesIntoMap(groupedData,selectedItem,orientation,durationAnimati
 				"opacity":1e-6
 			}).remove();
 
+
 	//Update
 	lineWithArrows.attr({
-						"d":pathMap
+						"d":pathMap,
+						"x1":(d)=>{return d.origin[0];},
+						"y1":(d)=>{return d.origin[1];},
+						"x2":(d)=>{return d.destination[0];},
+						"y2":(d)=>{return d.destination[1];},
+						"marker-end":"url(#arrow)"
 					})
 					.style({
 						"opacity":0.6 ,
-						"stroke-width": (d)=>{
-							return scaleMapPointsBefore(d.valueBefore)/currMapScale+"px";
-						}
+						"stroke-width": 1/currMapScale+"px",
+						// "stroke-width": (d)=>{return scaleMapFlowLinesBefore(d.valueBefore)/currMapScale+"px";}
 					})
 				.transition().duration(durationAnimation)
 					.style({
 						"opacity":0.6 ,
-						"stroke-width": (d)=>{
-							return scaleMapPoints(d.value)/currMapScale+"px";
-						}
+						"stroke-width": 1/currMapScale+"px",
+						// "stroke-width": (d)=>{return scaleMapFlowLines(d.value)/currMapScale+"px";}
 					});
 	//Enter
 	lineWithArrows.enter().append("line")
+			.attr({
+				"class":"line-arrow-map",
+				"x1":(d)=>{return d.origin[0];},
+				"y1":(d)=>{return d.origin[1];},
+				"x2":(d)=>{return d.origin[0];},
+				"y2":(d)=>{return d.origin[1];},
+			})
+			.style({
+				"fill":"none",
+				"stroke":"black",
+				"stroke-width": 0,
+				"opacity":1e-6
+			})
+		.transition().duration(durationAnimation)
 			.attr({
 				"class":"line-arrow-map",
 				"x1":(d)=>{return d.origin[0];},
@@ -897,18 +917,11 @@ function updateLinesIntoMap(groupedData,selectedItem,orientation,durationAnimati
 			.style({
 				"fill":"none",
 				"stroke":"black",
-				"stroke-width": 0,
-				"opacity":1e-6
-			})
-		.transition().duration(durationAnimation)
-			.style({
-				"fill":"none",
-				"stroke":"black",
-				"stroke-width": (d)=>{return scaleMapPoints(d.value)/currMapScale+"px";},
+				"stroke-width": 1/currMapScale+"px",
+				// "stroke-width": (d)=>{return scaleMapFlowLines(d.value)/currMapScale+"px";},
 				"opacity":0.6 
 			});	
 
-	
 }
 
 
@@ -937,8 +950,8 @@ function drawDataIntoMap (data, fromDate, toDate){
 
 function createMapLegend(){
 
-	legend_wrapper_width = 80// mapVisWidth/6;
-	legend_wrapper_height = 100;// mapVisHeight/7;
+	legend_wrapper_width = mapVisWidth*0.15;
+	legend_wrapper_height = mapVisHeight*0.18;
 	margingLegendMap = {top:30,right:50,bottom:20,left:20};
 
 	let rectChoroplethHeight = legend_wrapper_height - margingLegendMap.top - margingLegendMap.bottom;

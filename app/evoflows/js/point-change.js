@@ -1,6 +1,43 @@
+function getPercentajeVariation(curr,prev){
+	let variation = Math.abs(curr-prev);
+	let x = ((variation*100)/prev);
+	return x;
+}
 
 
-function getPointDetection(timeSerieValues, threshold){
+function getPointAnomalyBy(timeSerieValues,percentaje){
+
+	let aryResult = [];
+	for (let i=1;i<timeSerieValues.length;i++){
+
+		let currTS = timeSerieValues[i];
+		let prevTS = timeSerieValues[(i-1)];
+
+		let currTSValue = currTS.value;
+		let prevTSValue = prevTS.value;
+
+		let currVariation = getPercentajeVariation(currTSValue,prevTSValue);
+
+		if(isFinite(currVariation) && currTSValue>0 && prevTSValue>0){
+
+			if(currVariation>=percentaje){
+				// console.log(currVariation,currTSValue,prevTSValue)
+				aryResult.push({
+					"date":currTS.date,
+					"relationRelative":(currTSValue>prevTSValue)?1:0
+				});
+			}
+		}
+		
+	}
+
+	// }
+
+	return aryResult;
+
+}
+
+function getPointDetectionByThreshold(timeSerieValues, threshold){
 	let aryResult = [];
 
 	// singleTimeSerieValues.forEach(){
@@ -24,14 +61,15 @@ function getPointDetection(timeSerieValues, threshold){
 		let absRelationReference = Math.abs(relativeValue);
 		
 		if(absRelationReference>threshold){
-			// console.log(currTS.category, currTS.date, currTS.value);
 			aryResult.push({
 				"date":currTS.date,
-				"relationRelative":(relativeValue>0)?1:0 //1 up; 0 down	
+				"relationRelative":(relativeValue>0)?1:0 //1 up; 0 down
 			});
 		}
+
 	}
 	
 	return aryResult;
+
 }
 

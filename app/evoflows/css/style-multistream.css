@@ -367,3 +367,9 @@ text.textLabel {
 #data-modal-msg table tr td a{
 	text-decoration: none;
 }
+
+
+#porcentageVariation{
+	width: 6em;
+	text-align: right;
+}
