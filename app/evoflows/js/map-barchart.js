@@ -18,8 +18,19 @@ var xAxisBarchart = d3.svg.axis().scale(xScaleBarchart)
 						.tickFormat(customNumberFormat)
 						.orient("bottom");
 
-//test para la animacion
+
 var xScaleBarchartBefore = d3.scale.linear();		
+
+var ancienData = [];
+
+// X Axis Candado
+var candadoXAxis;
+var isLockedXAxis;
+// Y Axis PIN
+var pinYAxis;
+var isPinned;
+//
+
 
 function createTopKBarchart(){
 
@@ -37,7 +48,7 @@ function createTopKBarchart(){
 				.attr("height",barchart_wrapper_height); 
  
 
-	marginBarchartMap = {top:55,right:45,bottom:55,left:barchart_wrapper_width*0.25};
+	marginBarchartMap = {top:70,right:55,bottom:60,left:barchart_wrapper_width*0.25};
 	heightBarchartMap = barchart_wrapper_height - marginBarchartMap.top - marginBarchartMap.bottom;
 	widthBarchartMap = barchart_wrapper_width - marginBarchartMap.left - marginBarchartMap.right;
 
@@ -45,8 +56,8 @@ function createTopKBarchart(){
 	gBarchartMap.append("text")
 			.attr("id","barchart-map-title")
 			.attr("class","title")
-			.attr("dy","0.5em")	
-			.attr("x",barchart_wrapper_width / 2)
+			.attr("dy","-0.5em")	
+			.attr("x", barchart_wrapper_width / 2)
 			.attr("y", marginBarchartMap.top/2);
 	
 	//y axis label
@@ -97,11 +108,65 @@ function createTopKBarchart(){
 				.attr("class","y axis")
 				.attr("transform","translate(0,0)");
 
+
+	
+	let widthIcon = 16;
+	let heightIcon = 16;
+
+	// create locked for x axis
+	// CANDADO
+	candadoXAxis = gBarchartMap.selectAll("#candadoXAxis").data([1]);
+		
+	//create candado
+	candadoXAxis.enter().append("image")
+			.attr("id","candadoXAxis")
+			.attr({
+				'xlink:href': pathCandadoOpen,
+				x: barchart_wrapper_width-marginBarchartMap.right+ heightIcon/2,
+				y: barchart_wrapper_height-marginBarchartMap.bottom - heightIcon/2,
+				width: widthIcon,
+				height: heightIcon
+			})
+			.style("cursor","hand");
+
+
+	//click action on candado barchart x axis
+	d3.select("#candadoXAxis").on("click",function(d){
+		document.getElementById("candadoXAxis").classList.toggle("consin");		
+		if(document.getElementById("candadoXAxis").classList.contains("consin")){
+			d3.select("#candadoXAxis").attr('xlink:href',pathCandadoClose);
+			isLockedXAxis = true;
+		}else{
+			d3.select("#candadoXAxis").attr('xlink:href',pathCandadoOpen);
+			isLockedXAxis = false;
+		}
+	});				
+
+// 	//var isPinned;
+	// create pin for y Axis
+	// PIN
+	pinYAxis = gBarchartMap.selectAll("#pinYAxis").data([1]);
+		
+	//create pin
+	pinYAxis.enter().append("image")
+			.attr("id","candadoXAxis")
+			.attr({
+				'xlink:href': pathPin,
+				x: marginBarchartMap.left-widthIcon/2,
+				y: marginBarchartMap.top-heightIcon-widthIcon/2,
+				width: widthIcon,
+				height: heightIcon
+			})
+			.on("click",pinRegionsOnMap)
+			.style("cursor","hand");
+
+
+
 	setMapBarchartVisibility(false);
 
 }
 
-var ancienData = [];
+
 
 
 //if value === 0 then opacity 0; otherwise 1
@@ -129,11 +194,30 @@ function updateTopKBarsInChart(currData,durationAnimation){
 
 	currData.sort(function(a,b){return a.value-b.value;});
 
+
+	//update the input domain on the xScale
+
+	let extentData;
+	let extentDataBefore;
+
+	if(isLockedXAxis){
+		extentData = objSelectedFlowAnimation.maxInputDomain;
+		extentDataBefore = objSelectedFlowAnimation.maxInputDomain;
+	}else{
+		extentData = [0,d3.max(currData,d=>d.value)];
+
+		extentDataBefore = [0,d3.max(ancienData,d=>d.value)];
+	}
+
 	//Update the input domain on the xScale
-	xScaleBarchart.domain([0,d3.max(currData,d=>d.value)]);
+	
+	xScaleBarchart.domain(extentData);
+	// xScaleBarchart.domain([0,d3.max(currData,d=>d.value)]); 
 	//para animacion
-	xScaleBarchartBefore.domain([0,d3.max(ancienData,d=>d.value)]);
-	//
+	// xScaleBarchartBefore.domain(inputDomain);
+	xScaleBarchartBefore.domain(extentDataBefore);
+	// xScaleBarchartBefore.domain([0,d3.max(ancienData,d=>d.value)]);
+	
 	barchartTopK.select(".x.axis").transition().duration(durationAnimation).call(xAxisBarchart);
 	
 	let axisGridDivisionBottom = d3.svg.axis().scale(xScaleBarchart)
@@ -149,9 +233,7 @@ function updateTopKBarsInChart(currData,durationAnimation){
 			.transition().duration(durationAnimation).call(yAxisBarchart)
 					.selectAll("text")
 					.attr("dx", "-0.5em")
-					// .attr("dy", getRemFromPx(yScaleBarchart.rangeBand()))
 					.style({
-						"text-anchor": "end",
 						"fill-opacity": (d)=>{
 							if(!isNaN(d)){
 								return 1e-6;
@@ -205,7 +287,7 @@ function updateTopKBarsInChart(currData,durationAnimation){
 			"class":'barsTopK',
 			'y': d => yScaleBarchart(d.properties.name),
 			'x': 0,
-			'width': d => xScaleBarchart(d.value),
+			'width': 0,
 			"height":yScaleBarchart.rangeBand()
 		})
 		.style({
@@ -214,6 +296,12 @@ function updateTopKBarsInChart(currData,durationAnimation){
 			"fill-opacity": 1e-6,
 		})
 	  .transition().duration(durationAnimation)
+		.attr({
+				'y': d => yScaleBarchart(d.properties.name),
+				'x': 0,
+				'width': d => xScaleBarchart(d.value),
+				"height":yScaleBarchart.rangeBand()
+			})
 		.style({
 			// "fill":d=>d.color,
 			"fill":d=>scaleMapChoropleth(d.value),
@@ -225,7 +313,7 @@ function updateTopKBarsInChart(currData,durationAnimation){
 	//TEXT
 	//****
 	let barsValuesText = barchartTopK.select("#barsInBarchart")
-							.selectAll(".barsValuesTextTopK")
+							.selectAll(".text-values")
 							.data(currData,d=>d.properties.name);
 	//exit
 	barsValuesText.exit()
@@ -248,9 +336,7 @@ function updateTopKBarsInChart(currData,durationAnimation){
 		})
 	  .transition().duration(durationAnimation)
 		.attr({
-			"y": (d)=>{
-				return yScaleBarchart(d.properties.name)+yScaleBarchart.rangeBand()/2;
-			},
+			"y": d => {return yScaleBarchart(d.properties.name)+yScaleBarchart.rangeBand()/2;},
 			"x": d => xScaleBarchart(d.value)
 		})
 		.text(d=>customNumberFormat(d.value))
@@ -261,17 +347,21 @@ function updateTopKBarsInChart(currData,durationAnimation){
 
 	//enter
 	barsValuesText.enter().append('text')
-		.attr("class",'barsValuesTextTopK')
-		.attr("y", (d)=>{
-			return yScaleBarchart(d.properties.name)+yScaleBarchart.rangeBand()/2;
+		.attr({
+			"class":"text-values",
+			"y": d =>{return yScaleBarchart(d.properties.name)+yScaleBarchart.rangeBand()/2;},
+			"x": 0,
+			"dx":"0.2em"
 		})
-		.attr('x', d => xScaleBarchart(d.value))
 		.text(d=>customNumberFormat(d.value))
 		.style({
-			"fill-opacity":d=>fill_opacity_value_bars(d),
+			"fill-opacity":0,
 			"alignment-baseline": "central"
 		})
 	  .transition().duration(durationAnimation)
+		.attr({
+			"x": d => xScaleBarchart(d.value)
+		})
 	  	.style({
 			"fill-opacity":d=>fill_opacity_value_bars(d),
 			"alignment-baseline": "central"
@@ -282,3 +372,46 @@ function updateTopKBarsInChart(currData,durationAnimation){
 }
 
 
+
+function pinRegionsOnMap() {
+	
+	// Build the table with the elements of the bottom hierarchy
+	let currBottomHierarchy = jerarquiaOutflow.getBottomLevelNodes();
+	let msgDataModal = "<table id='regiones' class='table' style=width:'100%'>";
+	//adding titles
+	msgDataModal = msgDataModal + "<tr><th></th><th>Region Name</th></tr>";
+
+	for(var i = 0; i<currBottomHierarchy.length;i++){
+		
+		let currItem = currBottomHierarchy[i];
+		let label = currItem.name;
+
+		let activeClass = '';
+		let indexInRegionesPinned = arrayRegionesPinned.indexOf(label);
+		if(indexInRegionesPinned!=-1){
+			//this item is Pinned
+			activeClass = "active";
+		}
+
+		let pinBtn = "<button id = button_"+ i +" type='button' class='btn vis-menu-btn "+activeClass+"' title='"+ currItem.name +"' onclick='pinThis(this);'><img class='icon' src='img/pin.png'/></button>";
+		let line = "<tr><td id="+ i +">" + pinBtn + "</td><td>"+ label + "</td></tr>";
+		msgDataModal = msgDataModal + line;
+	}
+	msgDataModal = msgDataModal + "</table>";
+	
+	// d3.select("#data-modal-title").html(titleDataModal)
+	d3.select("#pinMap-data-modal-msg").html(msgDataModal);
+	d3.select(this).attr("data-toggle", "modal");
+	d3.select(this).attr("data-target", "#pinMap");
+}
+
+function pinThis(element){
+	document.getElementById(element.id).classList.toggle("active");
+}
+
+let arrayRegionesPinned = [];
+
+function validateFilterMap(){	
+	let hijosActivos = getHijosFromPadreId("regiones","button");
+	arrayRegionesPinned = hijosActivos.map(d=>d.title);
+}

@@ -81,9 +81,17 @@ input[type=number] {
 	text-align: center;
 }
 
+.vertical-ruler-background{
+	stroke-width: 0.3em;
+	stroke: rgba(255,255, 255, 1);
+	pointer-events: none;
+	display:none;
+}
+
 .vertical-ruler {
 	stroke-width: 0.2em;
-	stroke: #14171a;
+	stroke: rgba(0,0, 0, 0.9);
+	stroke-dasharray: 5,5;
 	pointer-events: none;
 	display:none;
 }

@@ -12,16 +12,22 @@
 }
   
 .legend .text{
-	font-size:0.75em;
-	fill:black;
+	font-size:0.7rem;
+	fill: rgba(0,0,0,0.8);
 	pointer-events:none;
+}
+
+.legend .text-centered{
+	text-anchor: middle;
+}
+
+.legend .text-left{
 	text-anchor: start;
 }
 
-.legendText{
-	font-size:0.85em;
-	fill:black;
+.legend .title{
+	fill: rgba(0,0,0,0.8);
+	font-size:0.75rem;
 	pointer-events:none;
 	text-anchor: middle;
-	text-align: center;
 }

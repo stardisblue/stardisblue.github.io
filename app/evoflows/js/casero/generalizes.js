@@ -599,10 +599,10 @@ function getCurrConfiguration(){
 
 
 function removeAllChildrenOfAList(idList){
-let list = document.getElementById(idList);
-while (list.hasChildNodes()) {
-	list.removeChild(list.firstChild);
-}
+	let list = document.getElementById(idList);
+	while (list.hasChildNodes()) {
+		list.removeChild(list.firstChild);
+	}
 }
 
 

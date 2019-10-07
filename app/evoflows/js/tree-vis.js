@@ -487,30 +487,19 @@ function setNodeColor(){
 //used in assignGlobalVariablesFromOpts
 function updateHierarchy(key_focus_list_outflow,key_context_list_outflow, key_focus_list_inflow,key_context_list_inflow){
 
-	// voidHierarchyLevel();
-
-	// setBottomNodes(bottom);
-	// setVisibleNodes(key_focus_list_origin);
-	// key_focus_list_origin.reverse(); 
-	// hijos(key_focus_list_origin);
-	
-	// setTopNodes(top);
-	// setVisibleNodes(key_context_list_origin);
-	// key_context_list_origin.reverse();
-	// papas(key_context_list_origin);
-
 	// OUTFLOW
 	jerarquiaOutflow.voidHierarchy();
+
 	jerarquiaOutflow.setBottomNodes(key_focus_list_outflow);
 	jerarquiaOutflow.setTopNodes(key_context_list_outflow);
 	nivel_focus_outflow = jerarquiaOutflow.hijos();
-
 	key_focus_list_outflow = jerarquiaOutflow.key_bottom_list;
 	nivel_context_outflow = jerarquiaOutflow.papa();
 	key_context_list_outflow = jerarquiaOutflow.key_top_list;
 
 	//INFLOW
 	jerarquiaInflow.voidHierarchy();
+
 	jerarquiaInflow.setBottomNodes(key_focus_list_inflow);
 	jerarquiaInflow.setTopNodes(key_context_list_inflow);
 	nivel_focus_inflow = jerarquiaInflow.hijos();
@@ -523,6 +512,8 @@ function updateHierarchy(key_focus_list_outflow,key_context_list_outflow, key_fo
 	lineTopAndBottomHierarchy(links);
 		
 	setNodeColor();
+
+	landMap();
 }
 
 

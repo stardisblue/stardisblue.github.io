@@ -17,7 +17,7 @@
 				"layersBorderlineColor": "#585858",
 				"layersOpacitySelected": 1,
 				"layersOpacityNotSelected": 0.10,
-				"layersOutputRangeLabelScale": [0.8,1.6],
+				"layersOutputRangeLabelScale": [0.8,1],
 				"layersLabelType": "flowLabelText"
 			},
 			"optsContext": {
@@ -28,7 +28,7 @@
 		},
 		"optsMap": {
 			"typeMapVisualization":"points",
-			"outputRangeColorScaleMap": ["#feebe2", "#7a0177"],
+			"outputRangeColorScaleMap": ["#f0f9e8", "#1b73b2"],
 			"featuresOutputRangeLabelScale":[1,1]
 		},
 		"optsEvents": {

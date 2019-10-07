@@ -84,6 +84,7 @@ let projectionMap = d3.geo.equirectangular() ////mercator();
 
 var pathMap = d3.geo.path()
 					.projection(projectionMap);
+					
 var durationTransitionTS = 1000; //Multistream Time Series
 var durationTransitionMap = 750; //alwas < than durationTransitionTS
 //FLOWMAP
@@ -137,7 +138,7 @@ var num_initial_color;
 var color_range_children;
 var num_leaf_children;
 var node_radius = 10; // px
-var node_gap = 20; // px
+var node_gap = 5;//20; // px
 var tree = d3.layout.tree();
 
 ///
@@ -472,106 +473,6 @@ function setLoader(display){
 	}
 }
 
-// function kaka(timeWindow, indexIndicator, subArrayIndicators, filtroDeNose, jerarquiaInstance){
-
-// 	console.log("")
-// 	console.log("kakakakakak")
-// 	//indexIndicator (0: origin, 1: destination)
-// 	//subArrayIndicators (refugees, asylum, internally)
-// 	let result_leaf_level = [];
-
-// 	dateExtRange = d3.extent(timeWindow); // max and min date
-// 	dateMinRange = dateExtRange[0]; // min date
-// 	dateMaxRange = dateExtRange[1]; // max date
-
-// 	// for each time step in the time window
-// 	for (let i = 0; i < timeWindow.length; i++) {
-// 		if((i+1) < timeWindow.length){
-// 			let start = timeWindow[i];
-// 			let stop = timeWindow[i+1];
-			
-// 			// [)
-// 			let dataPeriod = dataset.filter(d=>d.date>=start && d.date<stop);
-
-// 			jerarquiaInstance.hierarchy.forEach(function(node){
-
-// 				if(!node.children && filtroDeNose==="" || !node.children && node.name.toLowerCase()===filtroDeNose.toLowerCase()){// && node.name==="iran" //&& (node.name==="belgium" || node.name==="germany")
-// 					//If node has not children => is leaf
-// 					let dataInPeriod = dataPeriod.filter(d=>d.category.properties.name===node.name);
-
-// 					let valueIndicator = 0;
-// 					let text = [];
-// 					let compo = [];
-// 					let dataGeoJsonFeature = "";
-
-// 					if(dataInPeriod.length>0){
-	
-// 						let agregatedByIndicator = fusionValues(dataInPeriod);
-// 						let selectedIndicator = agregatedByIndicator[indexIndicator];
-
-// 						// 1 
-// 						// sumar por cada pais los indicadores a mostrar
-// 						selectedIndicator.componentIndicator.forEach(function(d){
-// 							// Sacar la suma solo de los subArrayIndicators (arraray) deseados por pais
-// 							let sumByArrayComponent = 0;
-// 							subArrayIndicators.forEach(function(index){
-// 								sumByArrayComponent = sumByArrayComponent + d.arraray[index].value;
-// 							});
-// 							d.value = sumByArrayComponent; //valueByCountry
-// 						});
-						
-// 						//
-// 						// 2 la suma total de la suma anterior (anteior por pais)
-// 						selectedIndicator.componentIndicator.forEach(function(d){
-// 							valueIndicator = valueIndicator + d.value; //valueByCountry
-// 						});
-// 						selectedIndicator.valueIndicator = valueIndicator;
-						
-// 						dataGeoJsonFeature = dataInPeriod[0].category;
-// 						compo = selectedIndicator.componentIndicator;
-
-					
-// 					}else {
-// 						// console.log("NO HAY DATOS DE:",node.name);
-// 					}
-
-// 					//NUEVO ATTRIBUTO
-// 					result_leaf_level.push({
-// 						"date":start,
-// 						"key":node.key,
-// 						"category":node.name,
-// 						"item":dataGeoJsonFeature,
-// 						"value":valueIndicator,
-// 						"components":compo,
-// 						"text":text
-// 					});
-// 				}
-// 			});
-// 		}
-// 	}
-	
-// 	// BUILDING leaf_level for superior levels
-// 	jerarquiaInstance.hierarchy.forEach(function(node){
-// 		if(node.children){
-// 			// console.log("merging:",node.name);
-// 			var fusion = mergingChildrenNuevo(node, node.children, result_leaf_level);
-// 			result_leaf_level = result_leaf_level.concat(fusion);
-
-// 			if(!node.color){
-// 				if(node.children.length == 1){
-// 					node.color = node.children[0].color;
-// 				}else{
-// 					for(var i=0;i<node.children.length-1;i++){
-// 						node.color = chroma.blend(node.children[i].color, node.children[(i+1)].color, 'darken');	
-// 					}
-// 				}
-// 			}
-// 		}
-// 	});
-
-// 	return result_leaf_level;
-
-// }
 
 
 
@@ -772,8 +673,7 @@ function mono(jsonConfig) {
 
 
 function myFunction(){
-	
-	let selectedPopulations = getCheckedPopulationType();
+	let selectedPopulations = getHijosFromPadreId();
 	let variable = getVariableOption();
 	kaka(timeWindow, variable, selectedPopulations);
 	updateFlows();
@@ -784,21 +684,16 @@ function getVariableOption(){
 	return document.getElementById("variables").value;
 }
 
-function getCheckedPopulationType() {
-	let padre = document.getElementById("populationType");
+function getHijosFromPadreId(idPadre, hijosTagName) {
+	let padre = document.getElementById(idPadre);
+
+	let hijos = padre.getElementsByTagName(hijosTagName);
+
 	let ary = [];
-	for(let i = 0; i<padre.getElementsByTagName("button").length;i++){
-		let currElem = padre.getElementsByTagName("button")[i];
-		let currElemText = currElem.innerHTML;
-		if (!currElem.classList.contains("clicked")) {
-			// console.log(currElem.getElementsByTagName("i").length);
-			// let element = currElem.getElementsByTagName("i")[0];
-			// element.parentNode.removeChild(element);
-			// currElem.innerHTML = currElemText;
-			ary.push(i);
-		}else{
-			//
-			// currElem.innerHTML = " <i class='far fa-check-circle'></i> " + currElemText;
+	for(let i = 0; i<hijos.length;i++){
+		let currElem = hijos[i];
+		if (currElem.classList.contains("active")) {
+			ary.push(currElem);
 		}
 	}
 	return ary;

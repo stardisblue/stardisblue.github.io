@@ -3,6 +3,7 @@ var offsetType;
 
 var pathCandadoOpen =  "./img/icon_lock_open.svg";
 var pathCandadoClose = "./img/icon_lock_close.svg";
+var pathPin = "./img/pin.png";
 
 var pathAnimationPlay = "./img/play.png";
 var pathAnimationPause = "./img/pause.png";
@@ -29,7 +30,9 @@ var stepInputValue= 1;
 
 var svg_multistream_vis; 
 var blocage = false;
+var verticalRulerTopBackground;
 var verticalRulerTop;
+var verticalRulerBottomBackground;
 var verticalRulerBottom;
 
 var tooltipEvents;
@@ -52,7 +55,8 @@ var stack = d3.layout.stack()
 
 //
 //
-var percentageVariation = 500;
+var percentageVariationIncrease = 600;
+var percentageVariationDecrease = 80;
 //
 //				
 
@@ -183,8 +187,15 @@ var animationButton;
 var playSpeedUp;
 var playSpeedDown;
 var objSelectedFlowAnimation = {};
-var playSpeedRange = [100,2000];
+var playSpeedRange = [100,3000]; //ms
 
+//
+var isFlowBloqued = false;
+
+//
+var isMaximumContiguousSubArrayActive = false;
+var isPorcentageVariationActive = true;
+//
 
 function updateFlows(){
 
@@ -717,19 +728,47 @@ function loadMultiresolutionVis(){
 	//PORCENTAGE
 	//
 	//
-	d3.select("#porcentageVariation").attr({
+	d3.select("#porcentageVariationIncrease").attr({
 		"min":100,
 		"max":100000,
 		"step":100,
-		"value":percentageVariation
+		"value":percentageVariationIncrease
+	});
+	//
+	//
+	d3.select("#porcentageVariationDecrease").attr({
+		"min":10,
+		"max":1000,
+		"step":10,
+		"value":percentageVariationDecrease
+	});
+	//
+	//
+
+	d3.select("#porcentageVariationIncrease").on("input", function() {
+		percentageVariationIncrease = +this.value;
+
+		isPorcentageVariationActive = true;
+		isMaximumContiguousSubArrayActive = false;
+
+		execAlgosInZoomArea();
 	});
 
+	d3.select("#porcentageVariationDecrease").on("input", function() {
+		percentageVariationDecrease = +this.value;
 
-	d3.select("#porcentageVariation").on("input", function() {
-		percentageVariation = +this.value;
+		isPorcentageVariationActive = true;
+		isMaximumContiguousSubArrayActive = false;
+
 		execAlgosInZoomArea();
-		// let calcule = calculateRangeFocus(optsMultistream.facteurNor, optsMultistream.facteurDis, optsMultistream.facteurZoom);	
-		// updateFocus(calcule);
+	});
+
+	d3.select("#btnMCS").on("click", function() {
+		
+		isPorcentageVariationActive = false;
+		isMaximumContiguousSubArrayActive = true;
+
+		execAlgosInZoomArea();
 	});
 
 	//
@@ -868,7 +907,7 @@ function loadMultiresolutionVis(){
 		}else{
 			animationButton.attr('xlink:href',pathAnimationPause); //set the PAUSE Icon
 			isPlayAnimation = true;
-			playAnimation(objSelectedFlowAnimation.d,objSelectedFlowAnimation.verticalRuler,objSelectedFlowAnimation.orientation);
+			playAnimation(objSelectedFlowAnimation.d,objSelectedFlowAnimation.orientation);
 		}
 	});
 
@@ -1175,10 +1214,11 @@ function createSvg(){
 												"display":"none"
 											});
 
-
+	verticalRulerTopBackground = multiresolutionTop.append("line").attr("class","vertical-ruler-background");
 	verticalRulerTop = multiresolutionTop.append("line")
 												.attr("class","vertical-ruler");											
 
+	verticalRulerBottomBackground = multiresolutionBottom.append("line").attr("class","vertical-ruler-background");
 	verticalRulerBottom = multiresolutionBottom.append("line")
 												.attr("class","vertical-ruler");											
 	
@@ -1324,18 +1364,26 @@ function getDataByIndex(theData, index){
 }
 
 
-function getSubSetOfData(theData, dateLimMin, dateLimMax){
-
-	let lim = getTimeOffset(dateMaxRange, -2, polarityTemporal);
-	if(dateLimMax > lim){
-		dateLimMax = lim;
+function getSubSetOfData(theData, sinceDate, untilDate, categoryKey){
+	
+	let result = [];
+	let maxDateLim = getTimeOffset(dateMaxRange, -2, polarityTemporal);
+	if(untilDate > maxDateLim){
+		untilDate = maxDateLim;
 	}
 
-	let result = [];
-	theData.forEach(function(element,index){
-		//add the color propertie to the all values for an element
+
+	//to get only the data from a specific KEY
+	if(categoryKey!=null){
+		theData = theData.filter(d=>d.key==categoryKey);
+	}
+
+	theData.forEach(function(element){
+		
+		//add the color property to the all values for an element
 		element.values.forEach(d=>{d.color = element.color;});
-		let filterValues = element.values.filter(function(obj){return (obj.date>=dateLimMin && obj.date<=dateLimMax );});
+		let filterValues = element.values.filter(obj=>{return (obj.date>=sinceDate && obj.date<=untilDate );});
+
 		result.push({
 			"key":element.key,
 			"color":element.color,
@@ -1347,18 +1395,26 @@ function getSubSetOfData(theData, dateLimMin, dateLimMax){
 }
 
 
-
 function getEventsByCategory(category){
 		return events.filter((d)=>{return d.category==category});
 }
 
-function getPointChanges(dataInZoomArea,multiresolutionType,yScale, percentageVariation){
+function getPointChanges(dataInZoomArea,multiresolutionType,yScale){
 	
 	let aryPointDetection = [];
 	dataInZoomArea.forEach(function(layerInZoom){
 		
-		let dataPointDetection = getPointAnomalyBy(layerInZoom.values,percentageVariation);
-				
+
+		// DataPoint comes from?
+		let dataPointDetection;
+		// % Variation 
+		if(isPorcentageVariationActive){
+			dataPointDetection = getPointAnomalyByPercentage(layerInZoom.values,percentageVariationIncrease,percentageVariationDecrease);
+		}else if(isMaximumContiguousSubArrayActive){
+			// or MCS
+			dataPointDetection = getLargestSubarray(layerInZoom.values);
+		}
+
 		layerInZoom.values.forEach(function(element){
 			
 			var currMatchPointDetection = dataPointDetection.filter(d=>{return d.date == element.date;});
@@ -1686,8 +1742,8 @@ function execAlgosInZoomArea(){
 
 
 	// //point detections
-	getPointChanges(dataInZoomAreaOrigin,multiresolutionTop,yScaleMultiresolution,percentageVariation);
-	getPointChanges(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom,percentageVariation);
+	getPointChanges(dataInZoomAreaOrigin,multiresolutionTop,yScaleMultiresolution);
+	getPointChanges(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom);
 }
 
 function flowLabel(dataInZoomArea,multiresolutionType,yScale){
@@ -1741,14 +1797,14 @@ function ratonOutFlow(multi){
 	setFullOpacityInCurrMulti(multi);
 
 	//MAP behaivor
-	clearFeaturesLayerMap();
+	clearFeaturesFromLayerMap();
 	landLabel();
 	setMainTitleVisVisibility(false);
 	setMapBarchartVisibility(false);
 	setMapLegendVisibility(false);
 }
 
-function ratonClickFlow(mouseX,d,verticalRuler,orientation){
+function ratonClickFlow(mouseX,d,orientation){
 
 	animationButton.style({
 		"pointer-events":isFlowBloqued?"auto":"none",
@@ -1757,13 +1813,46 @@ function ratonClickFlow(mouseX,d,verticalRuler,orientation){
 	});
 
 	if(isFlowBloqued){
-		let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
+		
+		//
+		// GET THE MAX INPUT DOMAIN IN THE FOCUS AREA TIME WINDOW
+		//
+		// Filtering the focus data between dates
+		let sinceDate = brushContextDisLeft.extent()[0];
+		let untilDate = brushContextDisRight.extent()[1];
+		let selectedValuesByDates = d.values.filter(obj=>{return (obj.date>=sinceDate && obj.date<=untilDate);});
 
+		// Calcule 
+		let arrayResultValues = [];
+		selectedValuesByDates.forEach(function(aCategory){
+			//Get the hierarchy attributes of components 
+			let arrayComponents = getComponentsOfCategory(aCategory);
+			//Unified level according to the hierarchy
+			let unifiedComponents = getUnifiedLevel(jerarquiaOutflow.getBottomLevelNodes(),arrayComponents);
+			//Filtering the selected category from the array
+			let componentsSansSelectedCategory = unifiedComponents.filter(function(aComponent){
+				if(aComponent.name.toLowerCase()!=d.category.toLowerCase()){
+					return d;
+				}
+			});
+			//adding to the result array
+			componentsSansSelectedCategory.forEach(d=>{
+				arrayResultValues.push({"value":d.value});
+			});
+		});
+		//Getting the max value
+		let minInputDomainValue = 1;
+		let maxInputDomainValue = Math.max.apply(null,arrayResultValues.map(d=>d.value));
+		//ERROR -INFINITY  elMax
+		//
+		//
+
+		let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
 		objSelectedFlowAnimation = {
 			"d":d,
 			"dateSelected":dateSelected,
-			"verticalRuler":verticalRuler,
-			"orientation":orientation
+			"orientation":orientation,
+			"maxInputDomain":[minInputDomainValue,maxInputDomainValue]
 		};
 	}
 
@@ -1806,58 +1895,95 @@ function getFatherFromList(child, fatherList,callback){
 	fatherList.forEach(function(aPapa){
 		isBDownOfA(aPapa,child,function(result){
 			if(result){
-				theFather = aPapa;
+				// theFather = aPapa;
+				// console.log(aPapa)
+				theFather = {
+					"id":aPapa.id,
+					"key":aPapa.key,
+					"name":aPapa.name,
+					"centroid": aPapa.centroid,
+					"coordinates": aPapa.coordinates,
+					"geometry": aPapa.geometry,
+					"overlaping": aPapa.overlaping,
+					"properties": aPapa.properties,
+					"refCenterPoint": aPapa.refCenterPoint,
+					"type": aPapa.type
+				};
+
+				// centroid: (2) [408.13286802302616, 379.9046499039466]
+				// children: (17) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+				// color: Color {_rgb: Array(4)}
+				// coordinates: {x1: 373.84385129939335, y1: 374.3046499039466, x2: 442.421884746659, y2: 385.5046499039466}
+				// depth: 2
+				// geometry: {type: "MultiPolygon", coordinates: Array(9)}
+				// id: 196
+				// key: "R0_4_1"
+				// level: "bottom"
+				// name: "eastern africa"
+				// overlaping: false
+				// parent: {name: "africa", children: Array(5), parent: {…}, depth: 1, x: 1090, …}
+				// properties: {name: "eastern africa", STATE: "africa"}
+				// refCenterPoint: (2) [408.13286802302616, 379.9046499039466]
+				// type: "Feature"
+				// value: 139510
+				// visible: true
+				// x: 680
+				// x0: 680
+				// y: 220
+				// y0: 220
+
 			}
 		});
 	});
 	callback(theFather);
 }
 
-function getUnified(currLevelOfHierarchy, destinations){
+function getUnifiedLevel(currLevelOfHierarchy, components){
 
 	let resultado = [];
 
-	destinations.forEach(destination=>{
+	components.forEach(component=>{
 
-		getFatherFromList(destination,currLevelOfHierarchy,(answer)=>{
+		getFatherFromList(component,currLevelOfHierarchy,(theFather)=>{
 
-			if(answer!=null){
+				if(theFather!=null){
 
-				let i = resultado.map(d=>d.name).indexOf(answer.name);
-				if(i===-1){
-					let c = getCountryFromGeoJson(answer.name);
-					answer.centroid=c.centroid;
-					answer.coordinates=c.coordinates;
-					answer.geometry=c.geometry;
-					answer.overlaping=c.overlaping;
-					answer.properties=c.properties;
-					answer.refCenterPoint=c.refCenterPoint;
-					answer.type=c.type;
+					let indexFather = resultado.map(d=>d.name).indexOf(theFather.name);
 
-					answer.value = destination.value;
+					if(indexFather===-1){
+						let countryFatherGeoJson = getCountryFromGeoJson(theFather.name);
+						theFather.centroid = countryFatherGeoJson.centroid;
+						theFather.coordinates = countryFatherGeoJson.coordinates;
+						theFather.geometry = countryFatherGeoJson.geometry;
+						theFather.overlaping = countryFatherGeoJson.overlaping;
+						theFather.properties = countryFatherGeoJson.properties;
+						theFather.refCenterPoint = countryFatherGeoJson.refCenterPoint;
+						theFather.type = countryFatherGeoJson.type;
+						theFather.value = component.value;
 
-					resultado.push(answer);
-				}else{
-					let val = resultado[i].value;
-					resultado[i].value = val + destination.value;
+						resultado.push(theFather);
+					}else{
+						let val = resultado[indexFather].value;
+						resultado[indexFather].value = val + component.value;
+					}
+
+				}else
+				{
+					let indexComponent = resultado.map(d=>d.name).indexOf(component.name);
+					let countryComponentGeoJson = getCountryFromGeoJson(component.name);
+
+					component.centroid = countryComponentGeoJson.centroid;
+					component.coordinates = countryComponentGeoJson.coordinates;
+					component.geometry = countryComponentGeoJson.geometry;
+					component.overlaping = countryComponentGeoJson.overlaping;
+					component.properties = countryComponentGeoJson.properties;
+					component.refCenterPoint = countryComponentGeoJson.refCenterPoint;
+					component.type = countryComponentGeoJson.type;
+
+					if(indexComponent===-1){
+						resultado.push(component);
+					}
 				}
-
-			}else{
-				let i = resultado.map(d=>d.name).indexOf(destination.name);
-
-				let c = getCountryFromGeoJson(destination.name);
-				destination.centroid=c.centroid;
-				destination.coordinates=c.coordinates;
-				destination.geometry=c.geometry;
-				destination.overlaping=c.overlaping;
-				destination.properties=c.properties;
-				destination.refCenterPoint=c.refCenterPoint;
-				destination.type=c.type;
-
-				if(i===-1){
-					resultado.push(destination);
-				}
-			}
 		});
 	});
 
@@ -1865,71 +1991,111 @@ function getUnified(currLevelOfHierarchy, destinations){
 
 }
 
-var isFlowBloqued = false;
 
 
-
-function visualMap(aCategory,orientation,durationAnimation){
-
-	//Adding geoJson attr in the selectedCategory
-	let selectedCategoryInGeoJson = getCountryFromGeoJson(aCategory.category);
-	aCategory.centroid = selectedCategoryInGeoJson.centroid;
-	aCategory.properties = selectedCategoryInGeoJson.properties;
-
-	//destinations countries
-	let arrayDestinations = aCategory.components.filter(d=>d.arraray[0]>0).map(d=>{
-		let aDestination = jerarquiaOutflow.getNodeByName(d.name);
-		aDestination.value =  d.arraray[0];
-		return aDestination;
+function getComponentsOfCategory(theCategory){
+	let arrayComponents = theCategory.components.filter(d=>d.arraray[0]>0).map(d=>{
+		let aComponent = jerarquiaOutflow.getNodeByName(d.name);
+		aComponent.value =  d.arraray[0];
+		return aComponent;
 	});
+	return arrayComponents;
+}
 
-	let currBottomHierarchy = jerarquiaOutflow.getBottomLevelNodes();
-	let dest = getUnified(currBottomHierarchy,arrayDestinations);
 
-	//filter the SelectedCategory from Dest
-	let destFilter = dest.filter(function(d){
-		if(d.name.toLowerCase()!=aCategory.category.toLowerCase()){
-			return d;
-		}
-	});
 
-	coloring(aCategory,destFilter,orientation,durationAnimation);
-
-}	
-
-function flowByDateSelected(d,dateSelected,currVerticalRuler,orientation,durationAnimation){
+function flowByDateSelected(d,dateSelected,orientation,durationAnimation){
 	
-	let mouseDateIndex = timeWindow.map(Number).indexOf(+dateSelected); //To get the index of the date in array
+	let mouseSelectedDateIndex = timeWindow.map(Number).indexOf(+dateSelected); //To get the index of the date in array
 	
 	//If date existe in the array
-	if(mouseDateIndex!=-1 && (dateSelected.getTime() != tooltipFlag.getTime())){
+	if(mouseSelectedDateIndex!=-1 && (dateSelected.getTime() != tooltipFlag.getTime())){
 
-		selectedCategory ="";
-		selectedCategory = d.values[mouseDateIndex];
-
-		//ensemble
-		dataArraySelected = [];
+		let selectedCategory = d.values[mouseSelectedDateIndex];
+		let selectedCategoryAllValue = d.values;
 		
 		//points for vertical ruler
 		let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected); 
 		let y1 = orientation==="out"?yScaleMultiresolution(selectedCategory.y0):yScaleMultiresolutionBottom(selectedCategory.y0);
 		let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
 		let y2 = orientation==="out"?yScaleMultiresolution(selectedCategory.y0 + selectedCategory.y):yScaleMultiresolutionBottom(selectedCategory.y0 + selectedCategory.y);
-		
-		showVerticalRuler(x1,y1,x2,y2,currVerticalRuler);
+	
+		showVerticalRuler(x1,y1,x2,y2,orientation);
+
 //		showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",[selectedCategory],false,"Click to PIN this flow",dataType_outflow,d3.event.pageX ,d3.event.pageY);
 		
 		let dataType = orientation==="out"?dataType_outflow:dataType_inflow;
 		
 		updateMainTitleVis(dateSelected,selectedCategory,dataType);
-			
-		visualMap(selectedCategory,orientation,durationAnimation);
+		
+
+
+		//Adding geoJson attr in the selectedCategory
+		let selectedCategoryInGeoJson = getCountryFromGeoJson(selectedCategory.category);
+		selectedCategory.centroid = selectedCategoryInGeoJson.centroid;
+		selectedCategory.properties = selectedCategoryInGeoJson.properties;
+		selectedCategory.type = selectedCategoryInGeoJson.type;
+		selectedCategory.geometry = selectedCategoryInGeoJson.geometry;
+
+		//destinations/origins regions
+		let arrayComponents = getComponentsOfCategory(selectedCategory);
+
+		let components = getUnifiedLevel(jerarquiaOutflow.getBottomLevelNodes(),arrayComponents);
+
+		//filter the SelectedCategory from Dest
+		//
+		let namesToFilter = [selectedCategory.category.toLowerCase()];
+
+		let namesOfBottomHierarchy = jerarquiaOutflow.getBottomLevelNodes().map(d=>d.name);
+
+		// let noEstanPineado = [];
+		if(arrayRegionesPinned.length>0){
+			namesOfBottomHierarchy.forEach(d=>{
+				let indexInRegionPinned = arrayRegionesPinned.indexOf(d);
+				if(indexInRegionPinned==-1){
+					namesToFilter.push(d);
+				}
+			});
+		}
+
+
+		let componentSansSelectedCategory = getComponentsWithoutNamesToFilter(components,namesToFilter);
+
+		coloring(selectedCategory,componentSansSelectedCategory,orientation,durationAnimation);		
 
 		// d3.select("#multiresolutionBackground").attr("class","backgroundHighlight");						
 		// d3.select("#multiresolutionBackground-bottom").attr("class","backgroundHighlight");
+
 		tooltipFlag = dateSelected;
 	}
 }
+
+//Get the components list without the namesToFilter
+function getComponentsWithoutNamesToFilter(components, namesToFilter){
+	let componentsSansNamesFiltered = components.filter(function(d){
+		let indexInNamesToFilter = namesToFilter.indexOf(d.name.toLowerCase());
+		if(indexInNamesToFilter==-1){
+			return d;
+		}
+	});
+
+	return componentsSansNamesFiltered;
+}
+
+
+function getMaxValueOfFlowByTimeWindow(d,sinceDate,untilDate){
+
+	let filterValuesByDates = d.values.filter(obj=>{return (obj.date>=sinceDate && obj.date<=untilDate);}).map(val=>val.value);
+	
+	let elMax = Math.max.apply(null,filterValuesByDates);
+
+	console.log(d.category,elMax)
+
+	return elMax;
+
+}
+
+
 
 function setVisibleButtonSpeed(visible){
 	playSpeedUp.style({
@@ -1944,7 +2110,7 @@ function setVisibleButtonSpeed(visible){
 	});
 }
 
-async function playAnimation(d,currVerticalRuler,orientation) {
+async function playAnimation(d,orientation) {
 	while(isPlayAnimation){
 		setVisibleButtonSpeed(true);
 		objSelectedFlowAnimation.dateSelected = getTimeOffset(objSelectedFlowAnimation.dateSelected, stepTemporal, polarityTemporal);
@@ -1952,12 +2118,12 @@ async function playAnimation(d,currVerticalRuler,orientation) {
 		if(objSelectedFlowAnimation.dateSelected.getTime()>brushContextDisRight.extent()[1].getTime()){
 			objSelectedFlowAnimation.dateSelected = brushContextDisLeft.extent()[0];
 		}
-		await sleep(d,objSelectedFlowAnimation.dateSelected,durationTransitionTS,currVerticalRuler,orientation);
+		await sleep(d,objSelectedFlowAnimation.dateSelected,orientation,durationTransitionTS);
 	}
 }
 
-function sleep(d,fecha,sleepMs,currVerticalRuler,orientation) {
-	flowByDateSelected(d,fecha,currVerticalRuler,orientation,durationTransitionMap);
+function sleep(d,fecha,orientation,sleepMs) {
+	flowByDateSelected(d,fecha,orientation,durationTransitionMap);
 	return new Promise(resolve => setTimeout(resolve,sleepMs));
 }
 
@@ -1982,12 +2148,16 @@ function createTooltip(){
 									}else{
 										dataInFocusTop = dataCurrentlyMultiresolutionTop;
 									}
-									let dataInFocus = getSubSetOfData(dataInFocusTop,timeWindow[0], timeWindow[timeWindow.length-1]);
-	
+									
+									
+									let focusTimeWindow = getTimeWindow(brushContextDisLeft.extent()[0],brushContextDisRight.extent()[1],polarityTemporal,stepTemporal);
+									let dataInFocus = getSubSetOfData(dataInFocusTop,focusTimeWindow[0], focusTimeWindow[focusTimeWindow.length-1]);
+									
 									//From all the layer in the Focus area, get only the timelapse where the mouse is over/before
-									let dataOverMouse = getDataByIndex(dataInFocus, mouseDateIndex);
-									let dataBeforeOverMouse = getDataByIndex(dataInFocus, (mouseDateIndex-1));
-	
+									let mouseIndexInFocusWindows = focusTimeWindow.map(Number).indexOf(+dateSelected);
+									let dataOverMouse = getDataByIndex(dataInFocus, mouseIndexInFocusWindows);
+									let dataBeforeOverMouse = getDataByIndex(dataInFocus, (mouseIndexInFocusWindows-1));
+
 									//order descending
 									dataOverMouse.sort(function(a,b){return b.value-a.value;});
 									dataBeforeOverMouse.sort(function(a,b){return b.value-a.value;});
@@ -2004,7 +2174,7 @@ function createTooltip(){
 									let x2 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected);  
 									let y2 = heightMultiresolutionTop;
 	
-									showVerticalRuler(x1,y1,x2,y2,verticalRulerTop);
+									showVerticalRuler(x1,y1,x2,y2,"out");
 									showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",categoriesArray,true,"",dataType_outflow,d3.event.pageX ,d3.event.pageY);
 
 									tooltipFlag = dateSelected;
@@ -2017,8 +2187,6 @@ function createTooltip(){
 					.on("mouseout",function(d){
 						if(!isFlowBloqued){
 							ratonOutMultiresolutionView();
-							// updateMainTitle(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
-							// drawDataIntoMap(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 						}
 					})
 					.on("click",function(d){
@@ -2032,6 +2200,7 @@ function createTooltip(){
 						});
 						setVisibleButtonSpeed(false);
 						isPlayAnimation = false;
+						isLockedXAxis =  false;
 						document.getElementById("animationButton").classList.toggle("consin")
 						animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
 
@@ -2051,7 +2220,8 @@ function createTooltip(){
 					let mouseX = d3.mouse(this)[0];
 					let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
 					if(getWhereIsPointer(dateSelected) === "Z" || getWhereIsPointer(dateSelected) === "FL" || getWhereIsPointer(dateSelected) === "FR"){
-						flowByDateSelected(d,dateSelected,verticalRulerTop,"out",0);
+
+						flowByDateSelected(d,dateSelected,"out",0);
 					}
 				}
 			})
@@ -2070,7 +2240,7 @@ function createTooltip(){
 				let mouseX = d3.mouse(this)[0];
 
 				if(isFlowBloqued){
-					ratonClickFlow(mouseX,d,verticalRulerTop,"out");
+					ratonClickFlow(mouseX,d,"out");
 				}else{
 					animationButton.style({
 						"pointer-events":isFlowBloqued?"auto":"none",
@@ -2079,6 +2249,7 @@ function createTooltip(){
 					});
 					setVisibleButtonSpeed(false);
 					isPlayAnimation = false;
+					isLockedXAxis = false;
 					document.getElementById("animationButton").classList.toggle("consin")
 					animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
 					ratonOutFlow(multiresolutionTop);
@@ -2113,11 +2284,13 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 									dataInFocusBottom = dataCurrentlyMultiresolutionBottom;
 								}
 
-								let dataInFocus = getSubSetOfData(dataInFocusBottom,timeWindow[0], timeWindow[timeWindow.length-1]);
-
+								let focusTimeWindow = getTimeWindow(brushContextDisLeft.extent()[0],brushContextDisRight.extent()[1],polarityTemporal,stepTemporal);
+								let dataInFocus = getSubSetOfData(dataInFocusBottom,focusTimeWindow[0], focusTimeWindow[focusTimeWindow.length-1]);
+								
 								//From all the layer in the Focus area, get only the timelapse where the mouse is over/before
-								let dataOverMouse = getDataByIndex(dataInFocus, mouseDateIndex);
-								let dataBeforeOverMouse = getDataByIndex(dataInFocus, (mouseDateIndex-1));
+								let mouseIndexInFocusWindows = focusTimeWindow.map(Number).indexOf(+dateSelected);
+								let dataOverMouse = getDataByIndex(dataInFocus, mouseIndexInFocusWindows);
+								let dataBeforeOverMouse = getDataByIndex(dataInFocus, (mouseIndexInFocusWindows-1));
 
 								//order descending
 								dataOverMouse.sort(function(a,b){return b.value-a.value;});
@@ -2137,7 +2310,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 								let y2 = heightMultiresolutionBottom;
 
 
-								showVerticalRuler(x1,y1,x2,y2,verticalRulerBottom);
+								showVerticalRuler(x1,y1,x2,y2,"in");
 								showToolTipMultiresolution(customTimeFormatTitle(dateSelected),"","",categoriesArray,true,"",dataType_inflow,d3.event.pageX ,d3.event.pageY);
 								// clearFeaturesLayerMap();
 								tooltipFlag = dateSelected;
@@ -2151,8 +2324,6 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 				.on("mouseout",function(d){
 					if(!isFlowBloqued){
 						ratonOutMultiresolutionView();
-						// updateMainTitle(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
-						// drawDataIntoMap(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 					}
 				})
 				.on("click",function(d){
@@ -2166,6 +2337,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 					});
 					setVisibleButtonSpeed(false);
 					isPlayAnimation = false;
+					isLockedXAxis =  false;
 					document.getElementById("animationButton").classList.toggle("consin")
 					animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
 
@@ -2186,16 +2358,16 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 						let mouseX = d3.mouse(this)[0];
 						let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
 						if(getWhereIsPointer(dateSelected) === "Z" || getWhereIsPointer(dateSelected) === "FL" || getWhereIsPointer(dateSelected) === "FR"){
-							flowByDateSelected(d,dateSelected,verticalRulerBottom,"in",0);
+							flowByDateSelected(d,dateSelected,"in",0);
 						}
 					}
 				})
-				.on("mouseout", function() {
+				.on("mouseout", ()=> {
 					if(!isFlowBloqued){
 						ratonOutFlow(multiresolutionBottom);
 					}
 				})
-				.on('contextmenu', (d)=>{
+				.on('contextmenu', ()=>{
 					console.log("click right;");
 				} )
 				.on("click",function(d){
@@ -2203,7 +2375,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 					let mouseX = d3.mouse(this)[0];
 
 					if(isFlowBloqued){
-						ratonClickFlow(mouseX,d,verticalRulerBottom,"in");
+						ratonClickFlow(mouseX,d,"in");
 					}else{
 						animationButton.style({
 							"pointer-events":isFlowBloqued?"auto":"none",
@@ -2212,6 +2384,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 						});
 						setVisibleButtonSpeed(false);
 						isPlayAnimation = false;
+						isLockedXAxis =  false;
 						document.getElementById("animationButton").classList.toggle("consin")
 						animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
 						ratonOutFlow(multiresolutionTop);
@@ -2269,18 +2442,28 @@ function showToolTipEvents(htmlText, tooltipTopPosition){
 	});
 }
 
+function showVerticalRuler(x1,y1,x2,y2,orientation){
+	
+	let currVerticalRuler = orientation==="out"? verticalRulerTop : verticalRulerBottom;
+	let currVerticalRulerBackground = orientation==="out"? verticalRulerTopBackground : verticalRulerBottomBackground;
 
-function showVerticalRuler(x1,y1,x2,y2,verticalRuler){
-	verticalRuler.attr({
-			"x1":x1+"px",
-			"y1":y1+"px",
-			"x2":x2+"px",
-			"y2":y2+"px",
-		})
-		.style({
-			"opacity": 1,
-			"display":"inline"
-		});
+	let attributs = {
+		"x1":x1+"px",
+		"y1":y1+"px",
+		"x2":x2+"px",
+		"y2":y2+"px",
+	};
+
+	let styles = {
+		"opacity": 1,
+		"display":"inline"
+	};
+
+	currVerticalRulerBackground.attr(attributs)
+							.style(styles);
+
+	currVerticalRuler.attr(attributs)
+				.style(styles);
 }
 
 
@@ -3280,7 +3463,6 @@ function backContext() {
 function totalito(calcule){	
 	updateFocus(calcule);
 	updateRectanglesAndLinksInFocus();
-	//drawDataIntoMap(nivel_focus_outflow,brushContext.extent()[0],brushContext.extent()[1]);
 	//getAgregatedData(nivel_bajo,brushContext.extent()[0],brushContext.extent()[1])
 	execAlgosInZoomArea();
 
@@ -4033,23 +4215,19 @@ function ratonOutMultiresolutionView(){
 
 	tooltipFlag = new Date();
 
-	verticalRulerTop.style({
+	let styles = {
 		"opacity":0,
 		"display":"none"
-	});
-	verticalRulerBottom.style({
-		"opacity":0,
-		"display":"none"
-	});
+	};
 
-	tooltip.style({
-		"opacity":0,
-		"display":"none"
-	});
-	tooltipEvents.style({
-		"opacity":0,
-		"display":"none"
-	});
+	verticalRulerTopBackground.style(styles);
+	verticalRulerTop.style(styles);
+
+	verticalRulerBottomBackground.style(styles);
+	verticalRulerBottom.style(styles);
+
+	tooltip.style(styles);
+	tooltipEvents.style(styles);
 
 	d3.select("#multiresolutionBackground").attr("class","background");
 	d3.select("#multiresolutionBackground-bottom").attr("class","background");
