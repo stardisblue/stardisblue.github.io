@@ -377,7 +377,30 @@ text.textLabel {
 }
 
 
-#porcentageVariation{
-	width: 6em;
-	text-align: right;
+/* Locked multistream */
+#candadoLeft:hover, #candadoRight:hover {
+	opacity:0.7;
 }
+  
+#candadoLeft:active, #candadoRight:active {
+	opacity:1;
+}
+
+/* Animation button multistream */
+#animationButton:hover, #playSpeedUp:hover, #playSpeedDown:hover{
+	opacity:0.7;
+}
+
+#animationButton:active, #playSpeedUp:active, #playSpeedDown:active{
+	opacity:1;
+}
+
+/* Svg button map-barchart */
+#pinYAxis:hover, #candadoXAxis:hover{
+	opacity:0.7;
+}
+
+#pinYAxis:active, #candadoXAxis:active{
+	opacity:1;
+}
+

@@ -25,10 +25,10 @@ var ancienData = [];
 
 // X Axis Candado
 var candadoXAxis;
-var isLockedXAxis;
+var isLockedXAxisBarChart;
 // Y Axis PIN
 var pinYAxis;
-var isPinned;
+var isPinnedBarChart;
 //
 
 
@@ -135,10 +135,10 @@ function createTopKBarchart(){
 		document.getElementById("candadoXAxis").classList.toggle("consin");		
 		if(document.getElementById("candadoXAxis").classList.contains("consin")){
 			d3.select("#candadoXAxis").attr('xlink:href',pathCandadoClose);
-			isLockedXAxis = true;
+			isLockedXAxisBarChart = true;
 		}else{
 			d3.select("#candadoXAxis").attr('xlink:href',pathCandadoOpen);
-			isLockedXAxis = false;
+			isLockedXAxisBarChart = false;
 		}
 	});				
 
@@ -149,18 +149,16 @@ function createTopKBarchart(){
 		
 	//create pin
 	pinYAxis.enter().append("image")
-			.attr("id","candadoXAxis")
+			.attr("id","pinYAxis")
 			.attr({
 				'xlink:href': pathPin,
 				x: marginBarchartMap.left-widthIcon/2,
 				y: marginBarchartMap.top-heightIcon-widthIcon/2,
-				width: widthIcon,
-				height: heightIcon
+				// width: widthIcon,
+				// height: heightIcon
 			})
 			.on("click",pinRegionsOnMap)
 			.style("cursor","hand");
-
-
 
 	setMapBarchartVisibility(false);
 
@@ -200,7 +198,7 @@ function updateTopKBarsInChart(currData,durationAnimation){
 	let extentData;
 	let extentDataBefore;
 
-	if(isLockedXAxis){
+	if(isLockedXAxisBarChart){
 		extentData = objSelectedFlowAnimation.maxInputDomain;
 		extentDataBefore = objSelectedFlowAnimation.maxInputDomain;
 	}else{
@@ -393,7 +391,7 @@ function pinRegionsOnMap() {
 			activeClass = "active";
 		}
 
-		let pinBtn = "<button id = button_"+ i +" type='button' class='btn vis-menu-btn "+activeClass+"' title='"+ currItem.name +"' onclick='pinThis(this);'><img class='icon' src='img/pin.png'/></button>";
+		let pinBtn = "<button id = button_"+ i +" type='button' class='btn vis-menu-btn "+activeClass+"' title='"+ currItem.name +"' onclick='pinThis(this);'><img class='icon' src='"+ pathPin +"'/></button>";
 		let line = "<tr><td id="+ i +">" + pinBtn + "</td><td>"+ label + "</td></tr>";
 		msgDataModal = msgDataModal + line;
 	}
@@ -414,4 +412,28 @@ let arrayRegionesPinned = [];
 function validateFilterMap(){	
 	let hijosActivos = getHijosFromPadreId("regiones","button");
 	arrayRegionesPinned = hijosActivos.map(d=>d.title);
+
+	//update the minMaxInputValue according to the pinned items
+	if(arrayRegionesPinned.length>0){
+		let namesOfBottomHierarchy = jerarquiaOutflow.getBottomLevelNodes().map(d=>d.name);
+		let namesToFilter = [objSelectedFlowAnimation.d.category.toLowerCase()];
+		namesOfBottomHierarchy.forEach(d=>{
+			let indexInRegionPinned = arrayRegionesPinned.indexOf(d);
+			if(indexInRegionPinned==-1){
+				namesToFilter.push(d);
+			}
+		});
+
+		let minMaxInputDomain= getMinMaxInputDomain(objSelectedFlowAnimation.values,namesToFilter);
+		objSelectedFlowAnimation.maxInputDomain = minMaxInputDomain;
+	}else{
+		let minMaxInputDomain= getMinMaxInputDomain(objSelectedFlowAnimation.values,[objSelectedFlowAnimation.d.category.toLowerCase()]);
+		objSelectedFlowAnimation.maxInputDomain = minMaxInputDomain;
+	}
+
+
+	
+	
+	
+
 }

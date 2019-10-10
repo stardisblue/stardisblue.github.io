@@ -550,6 +550,8 @@ function callUpdate(){
 	nodeOut();
 	
 	landMap();
+
+	releaseFlowClick();
 }
 
 

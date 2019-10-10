@@ -175,29 +175,29 @@ div {
 #appHeaderWrapper {
 	background: #2e7d32!important;
 	z-index: 1;
+	padding: 0.3em 0.5em 0.1em 0.7em;
 }
 
 .navbar-brand{
-	/* margin:0; */
 	padding: 0;
+
 }
 
-#appTitle {
+.navbar-brand .title {
 	vertical-align: middle;
-	font-size: 1em;
+	font-size: 0.9em;
 	font-weight: 700;
 	letter-spacing: 0.15em;
-	color:white;
-	margin-bottom: 0;
-	margin-top: 0;
+	color:rgba(255, 255, 255, 0.9);
+	margin: 0em 0em 0em 0.3em;
 }
 
-#appSubTitle {
+.navbar-brand .subTitle {
 	vertical-align: middle;
 	font-size: 0.7em;
 	font-weight: 500;
-	color:rgba(238, 238, 238, 0.7);
-	margin:0;
+	color:rgba(242, 242, 242, 0.7);
+	margin: 0em 0em 0em 0.3em;
 	display:inline-block;
 }
 
@@ -217,7 +217,7 @@ div {
 
 #mainWrapper{
 	/* padding: 70px 22px 0px 22px; */
-	padding: 4.3em 0.1em 0em 0.1em;
+	padding: 3.4em 0.0em 0em 0.0em;
 }
 
 /* ========================== */
@@ -273,6 +273,7 @@ div {
  #vistas{
 	margin-top: 1em;
 	opacity:0 !important;
+	
 }
 
 
@@ -280,8 +281,8 @@ div {
 /* ========================== */
 /* EACH VIS */
 .col-wrapper{
-	padding-left:0.5em;
-	padding-right:0.5em;
+	padding-left:0.4em;
+	padding-right:0.4em;
 }
 
 /* ========================== */
@@ -510,7 +511,11 @@ div {
 }
 
 
-
+#porcentageVariationDecrease, #porcentageVariationIncrease{
+	padding: 0;
+	margin: 0;
+	width: 3.5em;
+}
 
 
 

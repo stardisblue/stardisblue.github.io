@@ -454,7 +454,10 @@ function zoomed() {
 		let instantAnimationDuration = 0;
 		
 		updateFeaturesLandLabel(currGroupedData,currSelectedItem,instantAnimationDuration);
-		updateLinesOverMap(currGroupedData,currSelectedItem,currOrientation,instantAnimationDuration);
+
+		if(showMapArrow){
+			updateLinesOverMap(currGroupedData,currSelectedItem,currOrientation,instantAnimationDuration);
+		}
 		
 		switch(typeMapVisualization.toLowerCase()){
 			case "choropleth":
@@ -546,7 +549,7 @@ function coloring(selectedItem, otherItems,orientation,durationAnimation){
 	let extentData;
 	let extentDataBefore;
 
-	if(isLockedXAxis){
+	if(isLockedXAxisBarChart){
 		extentData = objSelectedFlowAnimation.maxInputDomain;
 		extentDataBefore = objSelectedFlowAnimation.maxInputDomain;
 	}else{

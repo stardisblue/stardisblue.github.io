@@ -3,12 +3,12 @@ var offsetType;
 
 var pathCandadoOpen =  "./img/icon_lock_open.svg";
 var pathCandadoClose = "./img/icon_lock_close.svg";
-var pathPin = "./img/pin.png";
+var pathPin = "./img/icon_pin.svg";
 
-var pathAnimationPlay = "./img/play.png";
-var pathAnimationPause = "./img/pause.png";
-var pathAnimationPlaySpeedUp = "./img/speed_up.png";
-var pathAnimationPlaySpeedDown = "./img/speed_down.png";
+var pathAnimationPlay = "./img/icon_play.svg";
+var pathAnimationPause = "./img/icon_pause.svg";
+var pathAnimationPlaySpeedUp = "./img/icon_speed_up.svg";
+var pathAnimationPlaySpeedDown = "./img/icon_speed_down.svg";
 
 
 var candadoRight;
@@ -215,44 +215,7 @@ function updateFlows(){
 	
 	xScaleContext.domain(dateExtRange);
 
-	//Update Axis
-	// yScaleContext.domain([ 0, d3.max(nivel_context_outflow, function(d) {return d.y0 + d.y;})]);
-	
-	// //Flows in OVERVIEW
-	// var fContext = context.select("#flowsInContext").selectAll(".area") //just for 4 flow, 1 level
-	// 					.data(dataCurrentlyContextTop,function (d){return d.key;});
-
-	// //UPDATE Context
-	// fContext.transition()
-	// 		.duration(durationTransition)
-	// 			.attr("d",  function(d) {return areaContext(d.values);})
-	// 			.style({
-	// 					"fill" : function(d) {return d.color;},
-	// 					"stroke" : function(d) {return d.color;},
-	// 					"opacity":1
-	// 			});
-	
-	// //ENTER Context
-	// fContext.enter()
-	// 		.append("path")
-	// 		.attr("id", function(d){return "area_" + d.key;})
-	// 		.attr("class", "area")
-	// 		.style("opacity",0)
-	// 	.transition()
-	// 	.duration(durationTransition)
-	// 		.attr("d", function(d) {return areaContext(d.values);})
-	// 		.style({
-	// 				"fill" : function(d) {return d.color;},
-	// 				"stroke" : function(d) {return d.color;},
-	// 				"opacity":1
-	// 		});
-	
-	// //EXIT Context
-	// fContext.exit().transition()
-	// 			.duration(durationTransition)
-	// 				.style("opacity", 0)
-	// 				.remove();	
-	
+		
 	context.select(".x.axis.context").call(xAxisContext);	
 	
 	//--MULTIRESOLUTION---
@@ -573,19 +536,17 @@ function updateOpts(){
 }
 
 
-function addPlayFuntionality(){
-
-}
-
-
-
-
 function addKeyboardFunctionality(){
 
 	document.onkeydown = (e)=>{
 
 		let stampTemporal = 1; //same time-step for left and right
 		let moving=false;
+
+
+		if(e.keyCode==27){//Esc
+			releaseFlowClick();
+		}
 
 		//where is the pointer selected
 		//     ___|c|focus_area|v|____
@@ -594,20 +555,16 @@ function addKeyboardFunctionality(){
 		}else if(e.keyCode == 86){ //V
 			isBrushLockLeft = true;
 		}
-
-
-		// if (e.keyCode == 17){ //Ctrl
-		// 	isPressedCtrl = true;
-		// }
-		// if (e.keyCode == 16){ //Shift
-		// 	isPressedShift = true;
-		// }
+		
+		//(e.keyCode == 27){ //Esc
+		//(e.keyCode == 17){ //Ctrl
+		//(e.keyCode == 16){ //Shift
 
 		switch(e.keyCode){
-			case 39: // ->
+			case 39: // -->
 				moving=true;
 				break;
-			case 37: // <-
+			case 37: // <--
 				stampTemporal = -stampTemporal;
 				moving=true;
 				break;
@@ -623,32 +580,25 @@ function addKeyboardFunctionality(){
 			brushContextMove([newTimeExtentLeft,newTimeExtentRight]);
 			brushEnd();
 		}
+
+
+
+
 	};
 
 	document.onkeyup = (e)=>{
-		//e.ctrlKey the same
-		// if (e.keyCode == 17){
-		// 	isPressedCtrl = false;
-		// }
-		// if (e.keyCode == 16){
-		// 	isPressedShift = false;
-		// }
-
 		if (e.keyCode == 67){ //C
 			isBrushLockRight = false;
 		}
-
 		if (e.keyCode == 86){ //V
 			isBrushLockLeft = false;
 		}
-
 	};
 
 }
 
 
 function loadMultiresolutionVis(){
-
 
 	//
 	updateOpts();
@@ -897,19 +847,22 @@ function loadMultiresolutionVis(){
 		}
 	});
 
+	
 	d3.select("#animationButton").on("click",function(d){
 		document.getElementById("animationButton").classList.toggle("consin");
 		if(document.getElementById("animationButton").classList.contains("consin")){
-			//ESTO PONER EN FUNCITON XQ ES IGUAL AL OTRO EN CREATETOOLTIP
-			animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
-			setVisibleButtonSpeed(false);
-			isPlayAnimation = false;
-		}else{
+			//IS PLAYING....
 			animationButton.attr('xlink:href',pathAnimationPause); //set the PAUSE Icon
 			isPlayAnimation = true;
 			playAnimation(objSelectedFlowAnimation.d,objSelectedFlowAnimation.orientation);
+		}else{
+			//IS PAUSE
+			animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
+			isPlayAnimation = false;
+			setVisibleButtonSpeed(false);
 		}
 	});
+
 
 	d3.select('#playSpeedUp').on('click',function(d){
 		let facteur = 0.2;
@@ -944,8 +897,8 @@ function loadMultiresolutionVis(){
 }
 
 function createSvg(){
-	let multiresolutionHeighProportion = 0.45;
-	let contextHeightProportion = 0.1;
+	let multiresolutionHeighProportion = 0.44;
+	let contextHeightProportion = 0.09;
 	//multiresolution top
 	var alturaMultiresolutionTop = multistreamVisHeight*multiresolutionHeighProportion;
 	//multiresolution bottom
@@ -963,10 +916,10 @@ function createSvg(){
 	marginMultiresolutionBottom = {top : alturaMultiresolutionTop + 20, right : 20, bottom : 20, left : 120};
 	heightMultiresolutionBottom = (alturaMultiresolutionBottom) - 20 - 20;
 
-	heightGapFocusContext = 40;
 	/* Creation margin Context */
-	marginContext = {top : alturaMultiresolutionTop + alturaMultiresolutionBottom + 20, right :  20, bottom : 20, left : 120};
+	marginContext = {top : alturaMultiresolutionTop + alturaMultiresolutionBottom + 25, right :  20, bottom : 20, left : 120};
 	heightContext = alturaContext - 20 - 20;
+	heightGapFocusContext = 45;
 	widthIntern = multistreamVisWidth - marginMultiresolutionTop.left - marginMultiresolutionTop.right;
 	
 	/* SVG */
@@ -1132,11 +1085,10 @@ function createSvg(){
 									"xlink:href": pathAnimationPlay,
 									"x": -80,
 									"y": heightContext/2-animationButtonSize/2,
-									"width": animationButtonSize,
-									"height": animationButtonSize
+									// "width": animationButtonSize,
+									// "height": animationButtonSize
 								})
 								.style({
-									"pointer-events":"none",
 									"cursor":"hand",
 									"display":"none"
 								});
@@ -1155,7 +1107,6 @@ function createSvg(){
 								"height": playSpeedButtonSize
 							})
 							.style({
-								"pointer-events":"none",
 								"cursor":"hand",
 								"display":"none"
 							});
@@ -1171,7 +1122,6 @@ function createSvg(){
 								"height": playSpeedButtonSize
 							})
 							.style({
-								"pointer-events":"none",
 								"cursor":"hand",
 								"display":"none"
 							});							
@@ -1222,6 +1172,13 @@ function createSvg(){
 	verticalRulerBottom = multiresolutionBottom.append("line")
 												.attr("class","vertical-ruler");											
 	
+
+
+	if(isMobileDevice()){
+		document.getElementById("multistream-offsetType").style.display = "none";
+	}
+
+
 	createEventLegend();												
 
 }
@@ -1805,11 +1762,12 @@ function ratonOutFlow(multi){
 }
 
 function ratonClickFlow(mouseX,d,orientation){
+	//INIT THE OBJSELECTEDFLOWANIMATION
+
+	document.getElementById("animationButton").classList.remove("consin");
 
 	animationButton.style({
-		"pointer-events":isFlowBloqued?"auto":"none",
 		"display":isFlowBloqued?"inline":"none",
-		"opacity":isFlowBloqued?1:0
 	});
 
 	if(isFlowBloqued){
@@ -1823,39 +1781,46 @@ function ratonClickFlow(mouseX,d,orientation){
 		let selectedValuesByDates = d.values.filter(obj=>{return (obj.date>=sinceDate && obj.date<=untilDate);});
 
 		// Calcule 
-		let arrayResultValues = [];
-		selectedValuesByDates.forEach(function(aCategory){
-			//Get the hierarchy attributes of components 
-			let arrayComponents = getComponentsOfCategory(aCategory);
-			//Unified level according to the hierarchy
-			let unifiedComponents = getUnifiedLevel(jerarquiaOutflow.getBottomLevelNodes(),arrayComponents);
-			//Filtering the selected category from the array
-			let componentsSansSelectedCategory = unifiedComponents.filter(function(aComponent){
-				if(aComponent.name.toLowerCase()!=d.category.toLowerCase()){
-					return d;
-				}
-			});
-			//adding to the result array
-			componentsSansSelectedCategory.forEach(d=>{
-				arrayResultValues.push({"value":d.value});
-			});
-		});
-		//Getting the max value
-		let minInputDomainValue = 1;
-		let maxInputDomainValue = Math.max.apply(null,arrayResultValues.map(d=>d.value));
-		//ERROR -INFINITY  elMax
-		//
-		//
-
+		let minMaxInputDomain= getMinMaxInputDomain(selectedValuesByDates,[d.category.toLowerCase()]);
+	
 		let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
 		objSelectedFlowAnimation = {
 			"d":d,
+			"values":selectedValuesByDates,
 			"dateSelected":dateSelected,
 			"orientation":orientation,
-			"maxInputDomain":[minInputDomainValue,maxInputDomainValue]
+			"maxInputDomain":minMaxInputDomain
 		};
 	}
 
+}
+
+
+function getMinMaxInputDomain(selectedValuesByDates, namesToFilter){
+	let arrayResultValues = [];
+	selectedValuesByDates.forEach(function(aCategory){
+		//Get the hierarchy attributes of components 
+		let arrayComponents = getComponentsOfCategory(aCategory);
+		//Unified level according to the hierarchy
+		let unifiedComponents = getUnifiedLevel(jerarquiaOutflow.getBottomLevelNodes(),arrayComponents);
+		//Filtering the selected category from the array
+		let componentsSansSelectedCategory = unifiedComponents.filter(function(aComponent){
+			let indexInNamesToFilter = namesToFilter.indexOf(aComponent.name.toLowerCase());
+			if(indexInNamesToFilter==-1){
+				return aComponent;
+			}
+		});
+		//adding to the result array
+		componentsSansSelectedCategory.forEach(d=>{
+			arrayResultValues.push({"value":d.value});
+		});
+	});
+
+	let minInputDomainValue = 1;
+	//apply is a convenient way to pass an array to Math.max
+	let maxInputDomainValue = Math.max.apply(null,arrayResultValues.map(d=>d.value));
+
+	return [minInputDomainValue,maxInputDomainValue];
 }
 
 
@@ -2048,7 +2013,7 @@ function flowByDateSelected(d,dateSelected,orientation,durationAnimation){
 
 		let namesOfBottomHierarchy = jerarquiaOutflow.getBottomLevelNodes().map(d=>d.name);
 
-		// let noEstanPineado = [];
+		
 		if(arrayRegionesPinned.length>0){
 			namesOfBottomHierarchy.forEach(d=>{
 				let indexInRegionPinned = arrayRegionesPinned.indexOf(d);
@@ -2056,6 +2021,7 @@ function flowByDateSelected(d,dateSelected,orientation,durationAnimation){
 					namesToFilter.push(d);
 				}
 			});
+
 		}
 
 
@@ -2099,14 +2065,12 @@ function getMaxValueOfFlowByTimeWindow(d,sinceDate,untilDate){
 
 function setVisibleButtonSpeed(visible){
 	playSpeedUp.style({
-		"pointer-events":visible?"auto":"none",
 		"display":visible?"inline":"none",
-		"opacity":visible?1:0
+		
 	});
 	playSpeedDown.style({
-		"pointer-events":visible?"auto":"none",
 		"display":visible?"inline":"none",
-		"opacity":visible?1:0
+		
 	});
 }
 
@@ -2127,6 +2091,25 @@ function sleep(d,fecha,orientation,sleepMs) {
 	return new Promise(resolve => setTimeout(resolve,sleepMs));
 }
 
+function releaseFlowClick(){
+	isFlowBloqued = false;
+	animationButton.style({
+		"display":"none"
+	});
+	setVisibleButtonSpeed(false);
+	isPlayAnimation = false;
+
+	//
+	isLockedXAxisBarChart = false;
+	document.getElementById("candadoXAxis").classList.remove("consin");
+	candadoXAxis.attr('xlink:href',pathCandadoOpen);
+	//
+
+	document.getElementById("animationButton").classList.remove("consin");
+	animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
+	ratonOutFlow(multiresolutionTop);
+	ratonOutFlow(multiresolutionBottom);
+}
 
 function createTooltip(){
 	
@@ -2190,22 +2173,8 @@ function createTooltip(){
 						}
 					})
 					.on("click",function(d){
-
 						isFlowBloqued = false;
-
-						animationButton.style({
-							"pointer-events":isFlowBloqued?"auto":"none",
-							"display":isFlowBloqued?"inline":"none",
-							"opacity":isFlowBloqued?1:0
-						});
-						setVisibleButtonSpeed(false);
-						isPlayAnimation = false;
-						isLockedXAxis =  false;
-						document.getElementById("animationButton").classList.toggle("consin")
-						animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
-
-						ratonOutFlow(multiresolutionTop);
-						ratonOutFlow(multiresolutionBottom);
+						releaseFlowClick();
 					});
 
 					
@@ -2220,7 +2189,6 @@ function createTooltip(){
 					let mouseX = d3.mouse(this)[0];
 					let dateSelected = timeTooltip(scalesMultiresolution[selectScaleFocusPixel(mouseX)].invert(mouseX),mouseX); //invert: get the domain, return range and viceversa
 					if(getWhereIsPointer(dateSelected) === "Z" || getWhereIsPointer(dateSelected) === "FL" || getWhereIsPointer(dateSelected) === "FR"){
-
 						flowByDateSelected(d,dateSelected,"out",0);
 					}
 				}
@@ -2242,18 +2210,7 @@ function createTooltip(){
 				if(isFlowBloqued){
 					ratonClickFlow(mouseX,d,"out");
 				}else{
-					animationButton.style({
-						"pointer-events":isFlowBloqued?"auto":"none",
-						"display":isFlowBloqued?"inline":"none",
-						"opacity":isFlowBloqued?1:0
-					});
-					setVisibleButtonSpeed(false);
-					isPlayAnimation = false;
-					isLockedXAxis = false;
-					document.getElementById("animationButton").classList.toggle("consin")
-					animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
-					ratonOutFlow(multiresolutionTop);
-					ratonOutFlow(multiresolutionBottom);
+					releaseFlowClick();
 				}
 			});
 
@@ -2330,19 +2287,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 
 					isFlowBloqued = false;
 
-					animationButton.style({
-						"pointer-events":isFlowBloqued?"auto":"none",
-						"display":isFlowBloqued?"inline":"none",
-						"opacity":isFlowBloqued?1:0
-					});
-					setVisibleButtonSpeed(false);
-					isPlayAnimation = false;
-					isLockedXAxis =  false;
-					document.getElementById("animationButton").classList.toggle("consin")
-					animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
-
-					ratonOutFlow(multiresolutionTop);
-					ratonOutFlow(multiresolutionBottom);
+					releaseFlowClick();
 				});
 
 
@@ -2377,18 +2322,7 @@ multiresolutionBottom.select("#multiresolutionBackground-bottom")
 					if(isFlowBloqued){
 						ratonClickFlow(mouseX,d,"in");
 					}else{
-						animationButton.style({
-							"pointer-events":isFlowBloqued?"auto":"none",
-							"display":isFlowBloqued?"inline":"none",
-							"opacity":isFlowBloqued?1:0
-						});
-						setVisibleButtonSpeed(false);
-						isPlayAnimation = false;
-						isLockedXAxis =  false;
-						document.getElementById("animationButton").classList.toggle("consin")
-						animationButton.attr('xlink:href',pathAnimationPlay); //set the Play Icon
-						ratonOutFlow(multiresolutionTop);
-						ratonOutFlow(multiresolutionBottom);
+						releaseFlowClick();
 					}
 
 				});
