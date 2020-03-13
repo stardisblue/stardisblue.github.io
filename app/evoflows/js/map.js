@@ -233,6 +233,7 @@ function clearFeaturesFromLayerMap(){
 	gFeatures.selectAll("path").remove();
 	gFeatures.selectAll("circle").remove();
 	gFeaturesMapLabels.selectAll(".land-label").remove();
+	gFeaturesMapLabels.selectAll(".land-label-border").remove();
 	gFeatures.selectAll(".feature-map").remove();
 	gFeatures.selectAll(".feature-map-selected").remove();
 	gLineArrows.selectAll(".line-arrow-map").remove();
@@ -241,8 +242,6 @@ function clearFeaturesFromLayerMap(){
 
 //Create the land layers on the map
 function landMap(){
-
-	console.log("landmap...")
 
 	// gLandMap.selectAll(".land")
 	// 		.data(dataGeoJson.features,d=>d.properties.name)
@@ -312,6 +311,31 @@ function landLabel(){
 
 	let aryWithOutOverlapping = removeOverlapping(dataLand);			
 
+
+	//Create LAND BORDERS
+	let land_label_borders = gLandMap.selectAll(".land-label-border")
+									.data(aryWithOutOverlapping,d=>d.properties.name.toLowerCase());
+	//exit
+	land_label_borders.exit().remove();
+
+	//update
+	land_label_borders.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
+				.style({
+					"font-size":d=> {return 0.7/currMapScale + "rem";}
+				}); 
+
+	//create
+	land_label_borders.enter().append("text")
+			.attr("class","land-label-border")
+			// .attr("transform", d=> { return "translate(" + d.centroid + ")"; })
+			.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
+			.attr("dy",".35em")
+			.text(d=>{return d.properties.name;})
+			.style({
+				"font-size":()=>{return 0.7/currMapScale + "rem";}
+			}); 
+
+	
 	//Create LAND LABELS	
 	let land_label = gLandMap.selectAll(".land-label")
 							.data(aryWithOutOverlapping,d=>d.properties.name.toLowerCase());
@@ -383,7 +407,49 @@ function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem,durationAnim
 			dataGeoJsonElement.refCenterPoint = refCenterPoint;
 		});
 		
+			
 		let aryWithOutOverlapping = removeOverlapping(noEmptyDataFeatures);
+
+		
+		//Create LAND LABELS BORDERS
+		let features_land_label_borders = gFeaturesMapLabels.selectAll(".land-label-border")
+												.data(aryWithOutOverlapping,d=>d.keyOverlap);
+		//exit
+		features_land_label_borders.exit().style({
+										"opacity":"1"
+									})
+								.transition().duration(durationAnimation)
+									.style({
+										"opacity":"0"
+									})
+									.remove();
+
+		//update
+		features_land_label_borders.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
+									// .text(d=>d.properties.name)	
+									.style({
+										"font-size":d=> {return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
+									});
+
+		//create
+		features_land_label_borders.enter().append("text")
+								.attr({
+									"class":"land-label-border",
+									"transform": d=> {return "translate(" + d.refCenterPoint + ")"; },
+									"dy":".35em"
+								})
+								.text(d=>d.properties.name)	
+								.style({
+									"opacity":1e-6,
+									"font-size":0
+								})
+							.transition().duration(durationAnimation)
+								.style({
+									"opacity":1,
+									"font-size":d=>{return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
+								}); 
+
+
 
 		//Create LAND LABELS	
 		let features_land_label = gFeaturesMapLabels.selectAll(".land-label")
@@ -401,7 +467,7 @@ function updateFeaturesLandLabel(dataForFeaturesLabels,selectedItem,durationAnim
 
 		//update
 		features_land_label.attr("transform", d=> { return "translate(" + d.refCenterPoint + ")"; })
-					.text(d=>d.properties.name)	
+					//.text(d=>d.properties.name)	
 					.style({
 						"font-size":d=> {return scaleFeatureMapLabel(d.value)/currMapScale + "rem";}
 					});
@@ -680,8 +746,7 @@ function updateChoroplethOverMap(groupedData,durationAnimation){
 			}).remove();
 
 	//update
-	features.selectAll(".choropleth-map")
-				.attr("d", pathMap)
+	features.attr("d", pathMap)
 				.style({
 					"fill":d=>scaleMapChoroplethBefore(d.valueBefore), 
 					"stroke-width": 1/currMapScale+"px",
@@ -1030,7 +1095,7 @@ function updateLinesOverMap(groupedData,selectedItem,orientation,durationAnimati
 function createMapLegend(){
 
 	legend_wrapper_width = mapVisWidth*0.13;
-	legend_wrapper_height = mapVisHeight*0.18;
+	legend_wrapper_height = mapVisHeight*0.25;
 
 	margingLegendMap = {top:50,right:25,bottom:25,left:25};
 
@@ -1090,7 +1155,7 @@ function createMapLegend(){
 			.attr("x",legend_wrapper_width/2)
 			.attr("y",margingLegendMap.top/2)
 			.attr("dy","-0.5em")	
-			.text("Num. Refugees")
+			.text("Refugees")
 			.style({
 				"alignment-baseline":"central", //only for text
 			});
@@ -1124,36 +1189,7 @@ function createMapLegend(){
 
 //SVG MOUSE BEHAIVOR
 function initMap(){
-	return;
-	clearFeaturesFromLayerMap();
-	// let variable = getVariableOption();
-	// let selectedPopulations = getCheckedPopulationType();
-
-	jerarquiaOutflow.my_leaf_level = kaka(timeWindow, 0, arraySubIndicators, "", jerarquiaOutflow);
-	jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getLeafNodes());
-	jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getNodesByDepth(1));
-		
-	nivel_focus_outflow = jerarquiaOutflow.hijos();
-	key_focus_list_outflow = jerarquiaOutflow.key_bottom_list;
-
-	nivel_context_outflow = jerarquiaOutflow.papa();
-	key_context_list_outflow = jerarquiaOutflow.key_top_list;
-
-	//-------------------------------
-
-	jerarquiaInflow.my_leaf_level = kaka(timeWindow, 1, arraySubIndicators, "", jerarquiaInflow);
-	jerarquiaInflow.setBottomNodes(jerarquiaInflow.getLeafNodes());
-	jerarquiaInflow.setTopNodes(jerarquiaInflow.getNodesByDepth(1));
-
-	nivel_focus_inflow = jerarquiaInflow.hijos();
-	key_focus_list_inflow = jerarquiaInflow.key_bottom_list;
-
-	nivel_context_inflow = jerarquiaInflow.papa();
-	key_context_list_inflow = jerarquiaInflow.key_top_list;
-
-	updateFlows();
-
-	
+	return;	
 }
 
 //LAND LAYER MOUSE BEHAIVOR
@@ -1217,8 +1253,6 @@ function mapLandMouseClick(d){
 //===============================================
 //FEATURE MOUSE BEHAIVOR
 function featureMouseMove(d){
-
-	console.log("mouse move")
 
 	if(typeof selectedDate!="undefined" && typeOrientation!='undefined'){
 	

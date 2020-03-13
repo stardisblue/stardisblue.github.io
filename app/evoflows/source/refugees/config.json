@@ -21,9 +21,9 @@
 				"layersLabelType": "flowLabelText"
 			},
 			"optsContext": {
-				"numTimeStepBrushZoom": 13,
-				"numTimeStepBrushDistortion": 2,
-				"numTimeStepBrushNormal": 1
+				"numTimeStepBrushZoom": 10,
+				"numTimeStepBrushDistortion": 1,
+				"numTimeStepBrushNormal": 2
 			}
 		},
 		"optsMap": {
@@ -42,7 +42,7 @@
 			"generate_date": ""
 		},
 		"optsMultistream": {
-			"facteurZoom": 4,
+			"facteurZoom": 5,
 			"facteurDis": 2,
 			"facteurNor": 1,
 			"offsetType": "zero",

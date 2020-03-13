@@ -67,10 +67,10 @@ function Jerarquia(hierarchy) {
 	};
 
 	this.hijos = function (){
-			let nivel_bajo = [];
-			this.key_bottom_list.forEach((bottom_node)=>{
-					let ds_child = this.my_leaf_level.filter(function(leaf){
-							return leaf.key == bottom_node;
+			let nivel_bajo = [];			
+			this.key_bottom_list.filter(d=>d.visible==true).forEach((bottom_node)=>{
+						let ds_child = this.my_leaf_level.filter(function(leaf){
+							return leaf.key == bottom_node.name;
 					});
 					nivel_bajo = nivel_bajo.concat(ds_child);
 			});
@@ -103,15 +103,16 @@ function Jerarquia(hierarchy) {
 					hierarchy_node.visible = true;
 			});
 	};
-	
+
 	//llena el key_bottom_list
 	this.setBottomNodes = function (arreglo){
 		this.key_bottom_list = [];
 		arreglo.forEach((bottom_node)=>{
-				this.key_bottom_list.push(bottom_node);
-				let hierarchy_node = this.getNodeByKey(bottom_node);
+				// this.key_bottom_list.push(bottom_node.name);
+				this.key_bottom_list.push({"name":bottom_node.name,"visible":bottom_node.visible});
+				let hierarchy_node = this.getNodeByKey(bottom_node.name);
 				hierarchy_node.level = "bottom";
-				hierarchy_node.visible = true;
+				hierarchy_node.visible = bottom_node.visible;
 		});
 	};
 
@@ -135,8 +136,19 @@ function Jerarquia(hierarchy) {
 						result.push(node);
 				}
 		});
+		
 		return result;
 	};
+
+	this.getKeyBottomLevelNodes = function (){
+		let result = [];
+		this.hierarchy.forEach((node)=>{          
+				if(node.level == "bottom"){
+						result.push({"name":node.key,"visible":node.visible});
+				}
+		});
+		return result;
+	};	
 
 	this.getVisibleBottomLevelNodes = function (){
 			let result = [];
@@ -146,6 +158,16 @@ function Jerarquia(hierarchy) {
 					}
 			});
 			return result;
+	};
+
+	this.getKeyTopLevelNodes = function (){
+		let result = [];
+		this.hierarchy.forEach((node)=>{
+				if(node.level == "top"){
+					result.push({"name":node.key,"visible":node.visible});
+				}
+		});
+		return result;
 	};
 
 	this.getVisibleTopLevelNodes = function (){
@@ -162,20 +184,14 @@ function Jerarquia(hierarchy) {
 	this.setTopNodes = function (arreglo){
 			this.key_top_list = [];
 			arreglo.forEach((top_node)=>{
-					this.key_top_list.push(top_node);
-					let hierarchy_node = this.getNodeByKey(top_node);
+					this.key_top_list.push({"name":top_node.name,"visible":top_node.visible});
+					let hierarchy_node = this.getNodeByKey(top_node.name);
 					hierarchy_node.level = "top";
-					hierarchy_node.visible = true;
+					hierarchy_node.visible = top_node.visible;
 			});
 	};
 
-	this.voidHierarchyLevel = function (){
-			this.hierarchy.forEach(function(node){
-					node.level = "";
-					node.visible = false;
-			});
-	};
-
+	
 	this.splitFather = function (father){
 			let split = [];
 			father.children.forEach((child)=>{
@@ -204,8 +220,8 @@ function Jerarquia(hierarchy) {
 	this.papa = function (){
 			let nivel_alto = [];
 			// top_nodes.reverse();
-			this.key_top_list.forEach((top_node)=>{
-					var hierarchy_node = this.getNodeByKey(top_node);								
+			this.key_top_list.filter(d=>d.visible==true).forEach((top_node)=>{
+					var hierarchy_node = this.getNodeByKey(top_node.name);								
 					if(hierarchy_node.children){
 						children_bottom_list_nuevo = [];
 						
@@ -217,6 +233,7 @@ function Jerarquia(hierarchy) {
 			});
 			return nivel_alto;
 	};
+
 
 
 	this.changeNodeVisibilityRecursive = function(node_key, isVisible){

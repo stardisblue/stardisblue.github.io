@@ -7,54 +7,69 @@ body {
 }
 
 
-h4{
-	font-size: 1.02rem;
+h1 {
+    font-size: 3.5rem;
+}
+
+h2 {
+    font-size: 2.25rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+h4 {
+	font-size: 1.75rem;
 	font-weight: 400;
-	font-style:normal;
 	letter-spacing: 0.07em;
 	color:#252525;
 }
 
-h5{
-	font-size: 0.72rem;
+h5 {
+	font-size: 1.5rem;
 	font-weight: 400;
-	font-style:normal;
 	letter-spacing: 0.0em;
 	color:#252525;
 }
 
-h6{
-	font-size: 0.6rem;
+h6 {
+	font-size: 1.25rem;
 	font-weight: 500;
-	font-style:normal;
 	letter-spacing: 0.05em;
 	color:#525252;
 }
 
+p {
+    font-size: 1rem;
+}
+
+
+.title1{font-size:1.20rem;}
 
 .subtitle1{
-	font-size: 0.48rem;
+	font-size: 1.10rem;
 	font-weight: 400;
 	font-style:normal;
 	letter-spacing: 0.05em;
 }
 
 .subtitle2{
-	font-size: 0.42rem;
+	font-size: 0.9rem;
 	font-weight: 500;
 	font-style:normal;
 	letter-spacing: 0.03em;
 }
 
 .body1{
-	font-size: 0.48rem;
+	font-size: 0.9rem;
 	font-weight: 400;
 	font-style:normal;
 	letter-spacing: 0.04em;
 }
 
 .body2{
-	font-size: 0.42rem;
+	font-size: 0.8rem;
 	font-weight: 400;
 	font-style:normal;
 	letter-spacing: 0.02em;
@@ -62,7 +77,7 @@ h6{
 
 
 .button{
-	font-size: 0.42rem;
+	font-size: 0.8rem;
 	font-weight: 500;
 	font-style:normal;
 	letter-spacing:0.05em;
@@ -70,19 +85,22 @@ h6{
 }
 
 .caption{
-	font-size: 0.36rem;
+	font-size: 0.6rem;
 	font-weight: 400;
 	font-style:normal;
 	letter-spacing: 0.01em;
 }
 
 .overline{
-	font-size: 0.3rem;
+	font-size: 0.5rem;
 	font-weight: 400;
 	font-style:normal;
 	letter-spacing: 0.03em;
 	text-transform: uppercase;	
 }
+
+
+
 
 div {
 	-webkit-user-select: none; /* Chrome, Opera, Safari */
@@ -238,8 +256,18 @@ div {
 	margin:10px 0px 10px 0px;
 }
 
+.dropdown-menu{
+	min-width: 90px !important;
+	max-width: 90px !important;
+	width: 90px !important;
+}
+
 .dropdown-item{
 	border-bottom: 1px solid#bdbdbd;
+	padding-left: 5px;
+	padding-right: 0;
+	/* max-width: 50px !important;
+	width: 50px !important; */
 }
 
 /* ========================== */
@@ -533,92 +561,30 @@ Bootstrap 4 breakpoints
 */
 /* Small devices (landscape phones. 544px and up) */
 @media (min-width: 544px) {  
-	h1{font-size:3.66rem;}
-	h2{font-size:2.2875rem;}
-	h3{font-size:1.83rem;}
-	h4{font-size:1.29625rem;}
-	h5{font-size:0.915rem;}
-	h6{font-size:0.7625rem;}
-	.title1{font-size:3.66rem;}
-	.title2{font-size:2.2875rem;}
-	.title3{font-size:1.83rem;}
-	.title4{font-size:1.29625rem;}
-	.title5{font-size:0.915rem;}
-	.title6{font-size:0.7625rem;}
-	.subtitle1{font-size:0.61rem;}
-	.subtitle2{font-size:0.53375rem;}
-	.body1{font-size:0.61rem;}
-	.body2{font-size:0.53375rem;}
-	.button{font-size:0.33375rem;}
-	.caption{font-size:0.4575rem;}
-	.overline{font-size:0.38125rem;}
+	html {
+        font-size: 14px;
+    }
 }
 
 /* Medium devices (tablets. 768px and up) The navbar toggle appears at this breakpoint */
 @media (min-width: 768px) {  
-	h1{font-size:4.44rem;}
-	h2{font-size:2.775rem;}
-	h3{font-size:2.22rem;}
-	h4{font-size:1.5725rem;}
-	h5{font-size:1.11rem;}
-	h6{font-size:0.925rem;}
-	.title1{font-size:4.44rem;}
-	.title2{font-size:2.775rem;}
-	.title3{font-size:2.22rem;}
-	.title4{font-size:1.5725rem;}
-	.title5{font-size:1.11rem;}
-	.title6{font-size:0.925rem;}
-	.subtitle1{font-size:0.74rem;}
-	.subtitle2{font-size:0.6475rem;}
-	.body1{font-size:0.74rem;}
-	.body2{font-size:0.6475rem;}
-	.button{font-size:0.4475rem;}
-	.caption{font-size:0.555rem;}
-	.overline{font-size:0.4625rem;}	
+	html {
+        font-size: 14.5px;
+    }
 }
 
 /* Large devices (desktops. 992px and up) */
 @media (min-width: 992px) { 
-	h1{font-size:5.22rem;}
-	h2{font-size:3.2625rem;}
-	h3{font-size:2.61rem;}
-	h4{font-size:1.84875rem;}
-	h5{font-size:1.305rem;}
-	h6{font-size:1.0875rem;}
-	.title1{font-size:5.22rem;}
-	.title2{font-size:3.2625rem;}
-	.title3{font-size:2.61rem;}
-	.title4{font-size:1.84875rem;}
-	.title5{font-size:1.305rem;}
-	.title6{font-size:1.0875rem;}
-	.subtitle1{font-size:0.87rem;}
-	.subtitle2{font-size:0.76125rem;}
-	.body1{font-size:0.87rem;}
-	.body2{font-size:0.76125rem;}
-	.button{font-size:0.56125rem;}
-	.caption{font-size:0.6525rem;}
-	.overline{font-size:0.54375rem;}
+	html {
+        font-size: 15px;
+    }
+
 }
 
 /* Extra large devices (large desktops. 1200px and up) */
 @media (min-width: 1200px) {  
-	h1{font-size:6rem;}
-	h2{font-size:3.75rem;}
-	h3{font-size:3rem;}
-	h4{font-size:2.125rem;}
-	h5{font-size:1.5rem;}
-	h6{font-size:1.25rem;}
-	.title1{font-size:6rem;}
-	.title2{font-size:3.75rem;}
-	.title3{font-size:3rem;}
-	.title4{font-size:2.125rem;}
-	.title5{font-size:1.5rem;}
-	.title6{font-size:1.25rem;}
-	.subtitle1{font-size:1rem;}
-	.subtitle2{font-size:0.875rem;}
-	.body1{font-size:1rem;}
-	.body2{font-size:0.875rem;}
-	.button{font-size:0.65rem;}
-	.caption{font-size:0.75rem;}
-	.overline{font-size:0.625rem;}
+	html {
+        font-size: 15.5px;
+    }
+	
 }

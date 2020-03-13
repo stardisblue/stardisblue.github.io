@@ -91,7 +91,7 @@ function getLargestSubarray(timeSerieValues){
 
 	let aryResult = [];
 	aryResult.push({
-		"date":timeSerieValues[subArray.start_index].date,
+		"dateStart":timeSerieValues[subArray.start_index].date,
 		"relationRelative":1
 	});
 	

@@ -2,18 +2,6 @@
 <html lang="en">
 
 <head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<!-- <script async
-	src="https://www.googletagmanager.com/gtag/js?id=UA-129272585-1"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag() {
-		dataLayer.push(arguments);
-	}
-	gtag('js', new Date());
-
-	gtag('config', 'UA-129272585-1');
-</script> -->
 	
 	<title>EvoFlows</title>
 
@@ -75,16 +63,6 @@
 	<script src="js/popper.js/popper.min.js"></script>
 	<script src="js/bootstrap-4.2.1-dist/js/bootstrap.min.js"></script>
 
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-		crossorigin="anonymous"></script> -->
 </head>
 
 <body>
@@ -220,13 +198,13 @@
 											<div>
 												<div id="msg-title-wrapper">
 													<div class="value-title-wrapper">
-														<h2 id="quantitative-value" class='quantitative-value'></h2>
+														<h1 id="quantitative-value" class='quantitative-value'></h1>
 														<div class='quantitative-label'>
 															<h6 id="label-value" class='label-value'></h6>
 														</div>
 													</div>
 													<div class="date-title-wrapper">
-														<h1 id="date-title"></h1>
+														<h2 id="date-title"></h2>
 													</div>
 												</div>
 											</div>
@@ -247,18 +225,19 @@
 										<div class="btn-group mr-2" role="group" aria-label="Second group">
 											<div class="input-group-prepend">
 												<button type="button" class="btn btn-primary button" data-toggle="modal" data-target="#addStateModal">State</button>
-												<!-- <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 													<span class="sr-only">Toggle Dropdown</span>
 												</button>
 												<div class="dropdown-menu">
-													<a class="dropdown-item" href="#">Get events</a>
-												</div> -->
+													<a class="dropdown-item" href="#" onclick="eventsToSnapshots()">Get events</a>
+													<a class="dropdown-item" href="#" onclick="clearAllSnapshots()">Clear all</a>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div id="snapshot-vis">
-									<ul id="col-list-states" class="list-group" style="overflow: auto;">
+									<ul id="col-list-states" class="list-group">
 									</ul>	
 								</div>
 							</div>
@@ -314,7 +293,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick=addCurrConfiguration()>Add</button>
+					<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick=addSnapshot()>Add</button>
 				</div>
 			</div>
 		</div>
@@ -340,30 +319,6 @@
 		</div>	
 
 
-	<!-- Modal Comparison -->
-	<div class="modal fade" id="comparisonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog-centered modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Compare</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div id="comparison-vis">
-						<svg id="svg-comparison-vis"></svg>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
 	<script type="text/javascript">
 
 
@@ -378,13 +333,15 @@
 		//MULTISTREAM-VIS WIDTH HEIGHT
 		var multistreamVisWidth= document.querySelector('#multistream-vis-wrapper').getBoundingClientRect().width;
 		var multistreamVisHeight = windowsHeight - gapWindowsTop;
+		// console.log('screen height',windowsHeight)
 		//MAP-VIS WIDTH HEIGHT
 		var mapVisWidth = document.querySelector('#map-vis-wrapper').getBoundingClientRect().width;
 		var mapVisHeight = windowsHeight - gapWindowsTop;
 		//TREE-VIS WIDTH HEIGHT
 		var treeVisWidth = 600;
 		var treeVisHeight;// according to the hierarchy;
-		
+		//SNAPSHOT-VIS MAX HEIGHT
+		document.getElementById("snapshot-vis").style.maxHeight = windowsHeight - gapWindowsTop + "px";
 
 		function openTreeNav() {
 			let openCloseBtnNav = document.getElementById("btnTreeNav");
@@ -400,77 +357,18 @@
 			}
 			openCloseBtnNav.classList.toggle("active");
 		}
-				
-		// Adding event listener
-		// document.getElementById("fileElem").addEventListener("change", handleFiles,false);
-		// document.getElementById("btnVisualize").addEventListener("click", visualize, false); 
-
-		var confList = [];
-		function addCurrConfiguration(){
-			let currConfig = getCurrConfiguration(optsGeneral);
-
-			let title = document.getElementById("titleAddState").value;			
-			currConfig.optsGeneral.title = title;
-			confList.unshift(currConfig);	
-			updateConfListView("col-list-states", confList);
-			document.getElementById("titleAddState").value = "";
-		}
-
-		function removeAConfiguration(element){
-			removeItemInList(element.id,confList)
-			updateConfListView("col-list-states", confList);
-		}
-
-
-		function updateConfListView(idConfigList, confList){
-			let dateFormat = d3.time.format("%Y-%m-%d %H:%M");
-			removeAllChildrenOfAList(idConfigList);
-			for(var i=0;i<confList.length;i++){
-				let config = confList[i];
-
-				let removeBtn = "<a id="+ i +" class='snapshot-remove' onclick='event.stopPropagation();  removeAConfiguration(this);'><i class='fas fa-times-circle'></i></a>"
-				let htmlText = "<div>"+
-									"<p class='body2 snapshot-detail'>" + config.optsGeneral.title + "</p>"+
-									"<span class='overline snapshot-date'>" +dateFormat(config.optsGeneral.generate_date) + "</span>"+
-									removeBtn+
-								"</div>";
-				let element = addElement(idConfigList, "button", "button"+i, htmlText);
-				element.classList.add("btn");
-				element.classList.add("btn-outline-info");
-				element.classList.add("snapshot-entry");				
-				element.setAttribute("type", "button");
-
-				element.addEventListener("click",function(){
-					event.stopPropagation(); 
-					assignGlobalVariablesFromOpts(config); 
-				})
-
-			}
-		}
 
 
 		$(document).ready(function() {
 			load_d3();
 		});
 
-		//EVENT LISTENER
-		// const fileSelect = document.getElementById("fileSelect"),
-		// 	fileElem = document.getElementById("fileElem");
-		// fileSelect.addEventListener("click", function (e) {
-		// 	if (fileElem) {
-		// 		fileElem.click();
-		// 	}
-		// }, false);
-
-		
+	
 	</script>
 
 
 	<!-- D3 library -->
 	<script src="js/d3/d3.v3.min.js"></script>	
-	<!-- D3 time format -->
-	<script src="js/d3/d3-time.v1.min.js"></script>
-	<script src="js/d3/d3-time-format.v2.min.js"></script>
 	<!-- D3 Queue Async -->
 	<script src="js/d3/d3-queue.js"></script>
 	<!-- Colors -->
@@ -482,7 +380,6 @@
 
 	<!-- General functions -->
 	<script src="js/casero/generalizes.js"></script>
-	<script src="js/files.js"></script>
 	<script src="js/global.js"></script>
 	<script src="js/multistream-vis.js"></script>
 	<script src="js/multistream-hierarchy-util.js"></script>
@@ -490,9 +387,7 @@
 	<script src="js/map.js"></script>
 	<script src="js/map-barchart.js"></script>
 	<script src="js/point-change.js"></script>
-	<script src="js/compare.js"></script>
-	
-	<script src="js/graph.js"></script>
+	<script src="js/snapshot-vis.js"></script>
 
 </body>
 

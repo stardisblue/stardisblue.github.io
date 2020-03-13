@@ -1,3 +1,9 @@
+
+
+#snapshot-vis{
+	overflow:auto;
+}
+
 .snapshot-entry{
 	position: relative;
 	text-align: left;

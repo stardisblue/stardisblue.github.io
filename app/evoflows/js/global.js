@@ -72,6 +72,8 @@ var layersLabelType;
 var numTimeStepBrushZoom;
 var numTimeStepBrushDistortion;
 var numTimeStepBrushNormal;
+//DATA POINT DETECTION
+var pointEventDetections = [];
 //Map
 var outputRangeColorScaleMap;
 var featuresOutputRangeLabelScale;
@@ -210,13 +212,19 @@ function addingKeyNuevo(d,index){
 	}
 }
 
+function formatDate(date) {
+	return date.getFullYear() + '/' + 
+	  (date.getMonth() + 1) + '/' + 
+	  date.getDate() + ' ' + 
+	  '00:00:00';
+  }
 
 function preProcessingRawData(rawData){
 	rawData.inflows.forEach(function(d){
-		d.date = new Date(d.date);
+		d.date = new Date(formatDate(new Date(d.date)))
 	});
 	rawData.outflows.forEach(function(d){
-		d.date = new Date(d.date);
+		d.date = new Date(formatDate(new Date(d.date)))
 	});
 }
 
@@ -299,19 +307,6 @@ function initOptsVariables(list){
 	});
 
 }
-
-// var jerar = [];
-// function imprimir(node){
-// 	//tomar los hijos que estan en el array de bottom list
-// 	if(!node.children){
-// 		jerar.push(node.name);
-// 	}
-// 	if(node.children){
-// 		node.children.forEach(imprimir);
-// 	}
-// }
-
-
 
 function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 
@@ -407,26 +402,26 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 
 	// =======================================================================
 	// BUILDING dataset
-	// get years
 	timerStart = Date.now();
 	let yearsExtent = d3.extent(rawData.inflows,d=>d.date);
 	
-	
-	var start = new Date(yearsExtent[0]);// new Date(years[0],0);
+	var start = new Date(yearsExtent[0]);
 	var stop = getTimeOffset(new Date(yearsExtent[1]), 2*stepTemporal, polarityTemporal);
 	timeWindow = getTimeWindow(start,stop,polarityTemporal,stepTemporal);
-	
+
 
 	dateExtRange = d3.extent(timeWindow); // max and min date
 	dateMinRange = dateExtRange[0]; // min date
 	dateMaxRange = dateExtRange[1]; // max date
 
 	jerarquiaOutflow = new Jerarquia(hierarchyOrigen);
-	jerarquiaOutflow.my_leaf_level = rawData.outflows;// kaka(timeWindow, 0, arraySubIndicators, "", jerarquiaOutflow);
+	jerarquiaOutflow.my_leaf_level = rawData.outflows;
 	// jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getLeafNodes());
 	// jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getNodesByDepth(1));
-	jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getNodesByDepth(2));
-	jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getNodesByDepth(0));
+	
+	//name:"",visible:true
+	jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getNodesByDepth(2).map(d=>{return {"name":d,"visible":true};}));
+	jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getNodesByDepth(0).map(d=>{return {"name":d,"visible":true};}));
 		
 
 	nivel_focus_outflow = jerarquiaOutflow.hijos();
@@ -438,11 +433,11 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 	//-------------------------------
 
 	jerarquiaInflow = new Jerarquia(hierarchyDestino);
-	jerarquiaInflow.my_leaf_level = rawData.inflows; // kaka(timeWindow, 1, arraySubIndicators, "", jerarquiaInflow);
+	jerarquiaInflow.my_leaf_level = rawData.inflows; 
 	// jerarquiaInflow.setBottomNodes(jerarquiaInflow.getLeafNodes());
 	// jerarquiaInflow.setTopNodes(jerarquiaInflow.getNodesByDepth(1));
-	jerarquiaInflow.setBottomNodes(jerarquiaInflow.getNodesByDepth(2));
-	jerarquiaInflow.setTopNodes(jerarquiaInflow.getNodesByDepth(0));
+	jerarquiaInflow.setBottomNodes(jerarquiaInflow.getNodesByDepth(2).map(d=>{return {"name":d,"visible":true};}));
+	jerarquiaInflow.setTopNodes(jerarquiaInflow.getNodesByDepth(0).map(d=>{return {"name":d,"visible":true};}));
 
 	nivel_focus_inflow = jerarquiaInflow.hijos();
 	key_focus_list_inflow = jerarquiaInflow.key_bottom_list;
@@ -455,7 +450,6 @@ function ready(error, rawHierarchy, rawGeoJson, rawData, rawConfiguration){
 	loadMultiresolutionVis();
 	loadTreeVis();
 	loadMapVis(rawGeoJson);
-	loadCompareVis();
 	//
 
 	setLoader(false);
@@ -472,10 +466,6 @@ function setLoader(display){
 		document.getElementById("vistas").setAttribute( 'style', 'opacity: 1 !important' );
 	}
 }
-
-
-
-
 
 
 
@@ -521,8 +511,6 @@ function updateConfigMultistream(optsMultistream){
 	updateFlows();
 	
 }
-
-
 
 
 function groupComponentTypeByName(arrayComponents){
@@ -652,36 +640,8 @@ function load_d3(configurationPathFile) {
 			.defer(d3.json,myConfiguration)
 			.await(ready);
 		
-	},100);
+	},50);
 	
-}
-
-
-function mono(jsonConfig) {
-
-	//LOAD OPTS
-	optsGeneral = jsonConfig.optsGeneral;
-	optsMultistream = jsonConfig.optsMultistream;
-	optsMultiresolution = jsonConfig.optsMultistream.optsMultiresolution;
-	optsContext = jsonConfig.optsMultistream.optsContext;
-
-	optsMap = jsonConfig.optsMap;
-	optsTree = jsonConfig.optsTree;
-
-	updateFlows();
-}
-
-
-function myFunction(){
-	let selectedPopulations = getHijosFromPadreId();
-	let variable = getVariableOption();
-	kaka(timeWindow, variable, selectedPopulations);
-	updateFlows();
-}
-
-
-function getVariableOption(){
-	return document.getElementById("variables").value;
 }
 
 function getHijosFromPadreId(idPadre, hijosTagName) {

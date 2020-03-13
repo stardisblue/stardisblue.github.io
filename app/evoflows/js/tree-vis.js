@@ -199,8 +199,6 @@ function fillTopBottomArray(links){
 		var source = element.source;
 		var target = element.target;
 
-		
-
 		// top
 		if(source.level == "top"){
 			var contains = nivelTop.find( function( ele ) { 
@@ -222,7 +220,8 @@ function fillTopBottomArray(links){
 		//bottom
 		if(target.level == "bottom"){
 			var contains = nivelBottom.find( function( ele ) { 
-			    return ele.key == source.key;
+				// return ele.key == source.key;
+				return ele.key == target.key;
 			} );
 			if(!contains){
 				nivelBottom.push({
@@ -276,7 +275,7 @@ function fillTopBottomArray(links){
 					"y2":t.y
 				})
 	}
-	
+
 }
 
 function lineTopAndBottomHierarchy(links){
@@ -323,7 +322,6 @@ function lineTopAndBottomHierarchy(links){
 				.duration(durationTransition)
 					.style("opacity", 0)
 					.remove();
-	
 	
 	var bottomH = svg_tree_vis.selectAll(".lineBottomHierarchy").data(linkNivelBottom,function(d) { return d.key; });
 	
@@ -446,6 +444,7 @@ function downInTheHierarchy(element){
 
 //Toggle children on click.
 function nodeClick(d) {
+
 	switch (d.level) {
 		case "bottom":
 				jerarquiaOutflow.changeNodeVisibility(d.key);
@@ -522,16 +521,18 @@ function callUpdate(){
 	console.log("calling update from hierarchy")
 
 	// OUTFLOW
-	jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getVisibleBottomLevelNodes());
-	jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getVisibleTopLevelNodes());
+	// jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getVisibleBottomLevelNodes());
+	jerarquiaOutflow.setBottomNodes(jerarquiaOutflow.getKeyBottomLevelNodes());
+	jerarquiaOutflow.setTopNodes(jerarquiaOutflow.getKeyTopLevelNodes());
 	nivel_focus_outflow = jerarquiaOutflow.hijos();
 	key_focus_list_outflow = jerarquiaOutflow.key_bottom_list;
 	nivel_context_outflow = jerarquiaOutflow.papa();
 	key_context_list_outflow = jerarquiaOutflow.key_top_list;
 
 	//INFLOW
-	jerarquiaInflow.setBottomNodes(jerarquiaOutflow.getVisibleBottomLevelNodes());
-	jerarquiaInflow.setTopNodes(jerarquiaOutflow.getVisibleTopLevelNodes());
+	// jerarquiaInflow.setBottomNodes(jerarquiaOutflow.getVisibleBottomLevelNodes());
+	jerarquiaInflow.setBottomNodes(jerarquiaOutflow.getKeyBottomLevelNodes());
+	jerarquiaInflow.setTopNodes(jerarquiaOutflow.getKeyTopLevelNodes());
 	nivel_focus_inflow = jerarquiaInflow.hijos();
 	key_focus_list_inflow = jerarquiaInflow.key_bottom_list;
 	nivel_context_inflow = jerarquiaInflow.papa();

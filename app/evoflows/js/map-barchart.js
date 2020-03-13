@@ -35,7 +35,17 @@ var isPinnedBarChart;
 function createTopKBarchart(){
 
 	let barchart_wrapper_width = mapVisWidth*0.7;
-	let barchart_wrapper_height = mapVisHeight*0.4;
+
+	let barchart_wrapper_height;
+	if (windowsHeight >= 1440){
+		barchart_wrapper_height = mapVisHeight*0.35
+	}else if (windowsHeight >= 1080 ){
+		barchart_wrapper_height = mapVisHeight*0.40
+	} else{
+		barchart_wrapper_height = mapVisHeight*0.47
+	}
+
+
 	
 	gBarchartMap.attr("class","smallMultiple")
 			.attr("transform","translate("+ 0 +","+ (mapVisHeight - barchart_wrapper_height) + ")");
@@ -55,7 +65,7 @@ function createTopKBarchart(){
 	//title
 	gBarchartMap.append("text")
 			.attr("id","barchart-map-title")
-			.attr("class","title")
+			.attr("class","titulo")
 			.attr("dy","-0.5em")	
 			.attr("x", barchart_wrapper_width / 2)
 			.attr("y", marginBarchartMap.top/2);

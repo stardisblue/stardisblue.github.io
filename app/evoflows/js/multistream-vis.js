@@ -897,8 +897,24 @@ function loadMultiresolutionVis(){
 }
 
 function createSvg(){
-	let multiresolutionHeighProportion = 0.44;
-	let contextHeightProportion = 0.09;
+	// screen.availHeight
+	
+	let multiresolutionHeighProportion;
+	let contextHeightProportion;
+	
+	if (windowsHeight >= 1440){
+		multiresolutionHeighProportion = 0.42
+		contextHeightProportion = 0.13
+	}else if (windowsHeight >= 1080 ){
+		multiresolutionHeighProportion = 0.42
+		contextHeightProportion = 0.13
+	} else{
+		multiresolutionHeighProportion = 0.4;
+		contextHeightProportion = 0.15;
+	}
+
+
+
 	//multiresolution top
 	var alturaMultiresolutionTop = multistreamVisHeight*multiresolutionHeighProportion;
 	//multiresolution bottom
@@ -944,7 +960,7 @@ function createSvg(){
 				.attr("transform","translate(" + (marginMultiresolutionTop.left) + "," + marginMultiresolutionTop.top + ")");
 
 	multiresolutionTop.append("text")
-			.attr("class", "y axis label legend title4")
+			.attr("class", "y axis label legend title1")
 			.attr("x",0 - heightMultiresolutionTop / 2)
 			.attr("y", -marginMultiresolutionTop.left)
 			.attr("dy","1.3em")	
@@ -1003,7 +1019,7 @@ function createSvg(){
 		.attr("transform","translate(" + (marginMultiresolutionBottom.left) + "," + marginMultiresolutionBottom.top + ")");
 
 	multiresolutionBottom.append("text")
-		.attr("class", "y axis label legend title4")
+		.attr("class", "y axis label legend title1")
 		.attr("x",0 - heightMultiresolutionBottom / 2)
 		.attr("y", -marginMultiresolutionBottom.left)
 		.attr("dy","1.3em")
@@ -1356,11 +1372,12 @@ function getEventsByCategory(category){
 		return events.filter((d)=>{return d.category==category});
 }
 
-function getPointChanges(dataInZoomArea,multiresolutionType,yScale){
+function getPointChanges(dataInZoomArea,multiresolutionType,yScale,dataType){
+	
+	// console.log(dataInZoomArea)
 	
 	let aryPointDetection = [];
 	dataInZoomArea.forEach(function(layerInZoom){
-		
 
 		// DataPoint comes from?
 		let dataPointDetection;
@@ -1384,24 +1401,27 @@ function getPointChanges(dataInZoomArea,multiresolutionType,yScale){
 					"y":element.y,
 					"y0":element.y0,
 					"relationRelative":currMatchPointDetection[0].relationRelative,
-					"pathImg":currMatchPointDetection[0].relationRelative == 1 ? dataForEventLegend.find(d=>d.label==='increase').pathImg:dataForEventLegend.find(d=>d.label==='decrease').pathImg
+					"pathImg":currMatchPointDetection[0].relationRelative == 1 ? dataForEventLegend.find(d=>d.label==='increase').pathImg:dataForEventLegend.find(d=>d.label==='decrease').pathImg,
+					"dataType":dataType
 				};
 				aryPointDetection.push(nuevoElemento);
 			}
 		});
 	});
 
+	pointEventDetections.push(aryPointDetection);
+
 	let points = multiresolutionType.select("#gPointChanges").selectAll(".point-detection")
 					.data(aryPointDetection,function(d){return (d.key+"-"+d.date);});
 	
-	let dura = 1;
+	let durationAnima = 1;
 
 	//exit
 	points.exit()
 		.style({
 			"opacity":1
 		})
-	.transition().duration(dura)
+	.transition().duration(durationAnima)
 		.style({
 			"opacity":0
 		}).remove();
@@ -1428,7 +1448,7 @@ function getPointChanges(dataInZoomArea,multiresolutionType,yScale){
 						"opacity":0
 					})
 					.on("mouseover",pointChangeMouseOver)
-				.transition().duration(dura)
+				.transition().duration(durationAnima)
 					.style({
 						"opacity":1
 					});
@@ -1460,6 +1480,7 @@ function getFlowLabelWithoutOverlapping(data){
 	let datesForTextLabel = []; 
 	
 	data.forEach(function(element){
+		
 		const max = element.values.reduce(function(prev, current) {
 		    return (prev.value > current.value) ? prev : current;
 		},{});
@@ -1680,10 +1701,8 @@ function execAlgosInZoomArea(){
 	}
 	let dataInZoomAreaOrigin = getSubSetOfData(dataInFocusTop, brushContext.extent()[0],brushContext.extent()[1]);	
 	//and pass to the algos
-
 	//flow labels
 	flowLabel(dataInZoomAreaOrigin,multiresolutionTop,yScaleMultiresolution);
-
 
 	let dataInFocusBottom = [];
 	if(dataCurrentlyMultiresolutionBottom==null){
@@ -1693,14 +1712,16 @@ function execAlgosInZoomArea(){
 	}
 
 	dataInZoomAreaDestino = getSubSetOfData(dataInFocusBottom, brushContext.extent()[0],brushContext.extent()[1]);
+	
 
 	//flow labels
 	flowLabel(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom);
 
 
 	// //point detections
-	getPointChanges(dataInZoomAreaOrigin,multiresolutionTop,yScaleMultiresolution);
-	getPointChanges(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom);
+	pointEventDetections = [];
+	getPointChanges(dataInZoomAreaOrigin,multiresolutionTop,yScaleMultiresolution,"outflow");
+	getPointChanges(dataInZoomAreaDestino,multiresolutionBottom,yScaleMultiresolutionBottom,"inflow");
 }
 
 function flowLabel(dataInZoomArea,multiresolutionType,yScale){
@@ -1750,7 +1771,6 @@ function ratonOverFlow(selectedFlow,multi){
 
 function ratonOutFlow(multi){
 	ratonOutMultiresolutionView();
-	ratonOutLine();
 	setFullOpacityInCurrMulti(multi);
 
 	//MAP behaivor
@@ -1769,6 +1789,8 @@ function ratonClickFlow(mouseX,d,orientation){
 	animationButton.style({
 		"display":isFlowBloqued?"inline":"none",
 	});
+
+	durationTransitionTS = 1000;
 
 	if(isFlowBloqued){
 		
@@ -1977,7 +1999,6 @@ function flowByDateSelected(d,dateSelected,orientation,durationAnimation){
 	if(mouseSelectedDateIndex!=-1 && (dateSelected.getTime() != tooltipFlag.getTime())){
 
 		let selectedCategory = d.values[mouseSelectedDateIndex];
-		let selectedCategoryAllValue = d.values;
 		
 		//points for vertical ruler
 		let x1 = scalesMultiresolution[selectAxisFocus(dateSelected)](dateSelected); 
@@ -2199,9 +2220,9 @@ function createTooltip(){
 				}
 			})
 			.on('contextmenu', function(d){
-				updateGraphComparision(d);
+				// updateGraphComparision(d);
 				 //stop showing browser menu
-				d3.event.preventDefault();
+				// d3.event.preventDefault();
 			})
 			.on("click",function(d){
 				isFlowBloqued = !isFlowBloqued;
@@ -3048,9 +3069,11 @@ function createGradientArrays(bottom_list) {
 	}
 
 	bottom_list.forEach(function(key_bottom){
-		var father_key = getFatherKey(key_bottom);
-		var hierarchy_father_node = jerarquiaOutflow.getNodeByKey(father_key);
-		var hierarchy_hijo_node = jerarquiaOutflow.getNodeByKey(key_bottom);
+		var father_key = getFatherKey(key_bottom.name);
+		var hierarchy_father_node = jerarquiaOutflow.getNodeByKey(father_key.name);
+		var hierarchy_hijo_node = jerarquiaOutflow.getNodeByKey(key_bottom.name);
+
+
 		if(optsMultiresolution.layersFadingColors){
 			colorBegin = hierarchy_father_node.color.desaturate().brighten(layersFadingColorsFactor);	
 		}else{
@@ -3072,7 +3095,7 @@ function createGradientArrays(bottom_list) {
 function getFatherKey(node_key){
 	for(var i = 0; i < key_context_list_outflow.length; i++){
 		var top_key = key_context_list_outflow[i];
-		if(node_key.indexOf(top_key)!==-1){
+		if(node_key.indexOf(top_key.name)!==-1){
 			return top_key;
 		}
 	}
@@ -3401,7 +3424,6 @@ function totalito(calcule){
 	execAlgosInZoomArea();
 
 	//updateLineFlows
-	updateGraphComparision()
 }
 
 function callAnimation() {
@@ -3460,15 +3482,14 @@ function timeParser(time) {
 }
 
 
-function brushContextMove(jj) {
+function brushContextMove(brushExtent) {
 
 	ratonOutMultiresolutionView();
 
-	let extent1 = loadExtent1(jj);	
+	let extent1 = loadExtent1(brushExtent);	
 	context.select(".brushZoom").call(brushContext.extent(extent1));
 
 	if(brushContextFlag[0].getTime() != extent1[0].getTime() || brushContextFlag[1].getTime() != extent1[1].getTime()){
-		console.log("ACTUALIZAR;;;;;;;;;;;;")	
 		// Distortion Areas
 		let facteurBrusDisLeft = getTimeWindow(brushContextDisLeft.extent()[0],brushContextDisLeft.extent()[1], polarityTemporal,stepTemporal).length;
 		let facteurBrusDisRight =  getTimeWindow(brushContextDisRight.extent()[0],brushContextDisRight.extent()[1], polarityTemporal,stepTemporal).length; 
@@ -4045,7 +4066,7 @@ function areaFocus(d, index,yCurrScale) {
 							return d.date >= (var3) && d.date <= (var4);
 						}else if(interpolationRight1 > dateMaxRange && interpolationRight2 > dateMaxRange){
 							return d.date >= (var1) && d.date <= (var2);
-						} else{						
+						} else{		
 							return (d.date >= (var1) && d.date <= (var2))
 							||     
 							(d.date >= (var3) && d.date <= (var4))
@@ -4097,8 +4118,8 @@ function areaFocus(d, index,yCurrScale) {
 				let var1 = getTimeOffset(brushContextDisRight.extent()[0],-stepTemporal,polarityTemporal);
 				let var2 = getTimeOffset(brushContextDisRight.extent()[1], stepTemporal,polarityTemporal);
 				//
-				let interpolationRight1 = getTimeOffset(brushContextDisRight.extent()[0],+2*stepTemporal,polarityTemporal);
-				let interpolationRight2 = getTimeOffset(brushContextDisRight.extent()[1],+2*stepTemporal,polarityTemporal);
+				let interpolationRight1 = getTimeOffset(brushContextDisRight.extent()[0],+4*stepTemporal,polarityTemporal);
+				let interpolationRight2 = getTimeOffset(brushContextDisRight.extent()[1],+4*stepTemporal,polarityTemporal);
 				
 				if(interpolationRight1 >= dateMaxRange && interpolationRight2 >= dateMaxRange ){
 					return false;
@@ -4323,8 +4344,11 @@ function createBrushInContext(){
 
 	brushContext.x(xScaleContext)
 							.on("brushstart",brushStart)
-							.on("brush",function(d){
-									brushContextMove(brushContext.extent())
+							// .on("brush",()=>{
+							// 	!isFlowBloqued?brushContextMove(brushContext.extent()):backContext();
+							// })
+							.on("brush",()=>{
+								brushContextMove(brushContext.extent());
 							})
 							.on("brushend", brushEnd);			
 
@@ -4373,12 +4397,16 @@ function validatorBrushes(){
 	let limitDisRight = brushContextDisRight.extent()[1];
 	let limitNorRight = brushContextNorRight.extent()[1];
 
-	if(limitNorLeft<limitDisLeft 
+	let timeWindowInFocus = getTimeWindow(limitZoomLeft, limitZoomRight, polarityTemporal,stepTemporal);
+	
+	if(timeWindowInFocus.length >0 
+		&& limitNorLeft<limitDisLeft 
 		&& limitDisLeft<limitZoomLeft 
 		&& limitZoomRight<limitDisRight
 		&& limitDisRight<limitNorRight){
 			return true;
 		}
+
 	return false;
 }
 

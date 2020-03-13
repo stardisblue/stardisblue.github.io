@@ -20,13 +20,23 @@
 }  
 
 .land-label{
-	fill: rgba(0, 0, 0, 0.7);
+	fill: rgba(0, 0, 0, 0.8);
 	fill-opacity: 1;
-	font-weight: 550;
+	font-weight: 600;
 	text-anchor: middle;
 	text-transform: capitalize;
 	pointer-events: none;
-	text-shadow: 2px 0 10px rgba(255, 255, 255, 1	);
+	/* text-shadow: 2px 0 10px rgba(255, 255, 255, 1	); */
+}
+
+.land-label-border{
+	fill: rgba(255, 255, 255, 1);
+	fill-opacity: 1;
+	font-weight: 900;
+	text-anchor: middle;
+	text-transform: capitalize;
+	pointer-events: none;
+	/* text-shadow: 2px 0 10px rgba(255, 255, 255, 1	); */
 }
 
 .land-rect{
@@ -92,6 +102,13 @@
 /* ==================== */
 /* SMALL MULTIPLE */
 /* Barchart */
+
+
+.smallMultiple .titulo{
+	font-size: 0.8rem;
+	text-anchor: middle;
+}
+
 /* Axis in Barchart */
 .barchart .x.axis path, 
 .barchart .y.axis path{

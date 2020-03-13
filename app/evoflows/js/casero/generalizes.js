@@ -552,10 +552,14 @@ function importConfiguration(){
 
 function getCurrConfiguration(){
 
+	let dateFormat = d3.time.format("%Y-%m-%d %H:%M");
+	
+	console.log(brushContext.extent())
+
 	let jsonCurrConfiguration = {
 		"optsGeneral": {
 			"active":true,
-			"generate_date":new Date(),
+			"date":dateFormat(new Date()),
 		},
 		"optsMultistream": {
 			"facteurZoom": 4,
@@ -619,13 +623,13 @@ function addElement(parentId, elementTag, elementId, html) {
 }
 
 function removeElement(idElement){
-try {
-	let element = document.getElementById(idElement);
-	element.parentNode.removeChild(element);
-}
-catch(err){
-	console.log("il ny pas encore cet element :)");
-}
+	try {
+		let element = document.getElementById(idElement);
+		element.parentNode.removeChild(element);
+	}
+	catch(err){
+		console.log("il ny pas encore cet element :)");
+	}
 }
 
 function removeClass(parentId, className){
