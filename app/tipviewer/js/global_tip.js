@@ -57,11 +57,9 @@ function ready(error, rawGeoJson, rawData){
 	preProcessingRawData(rawData)
 
 	data = rawData
-	// current_data = rawData
 	dataGeoJson = rawGeoJson
 
 	stream_x_scale_extent = d3.extent(data, function(d) { return d.date; })
-
 	
 	data.forEach(function(d){
 		let fecha = String(d.date)
@@ -73,8 +71,8 @@ function ready(error, rawGeoJson, rawData){
 	stream_total_time_window = stream_total_time_window.map(d=>new Date(d)).map(Number)
 	
 
-	load_stream()
-	load_mapa()
+	load_stream();
+	load_mapa();
 }
 
 
@@ -85,6 +83,12 @@ function update_time_period(){
 
 
 function remove_all_vis(){
+
+	stream_x_scale_extent = []
+	data = []
+	dataGeoJson = []
+	stream_total_time_window = []
+	
 
 	d3.select("#svg_stream").selectAll("g").remove();
 	d3.select("#svg_stream").selectAll("text").remove();
@@ -109,7 +113,7 @@ function load_d3(path){
     let myRawDataPath = path+"data.json";
 
     setTimeout(function(){ 
-		d3.queue(1)
+		d3.queue(2)
 				.defer(d3.json,myGeoJSONPath)
 				.defer(d3.json,myRawDataPath)
 				.await(ready);
