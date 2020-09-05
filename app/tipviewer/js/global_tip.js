@@ -87,7 +87,7 @@ function update_time_period(){
 function remove_all_vis(){
 
 	d3.select("#svg_stream").selectAll("g").remove();
-	d3.select("#svg_stream").selectAll("text").remo
+	d3.select("#svg_stream").selectAll("text").remove();
 	d3.select("#svg_mapa").selectAll("g").remove();
 	d3.select("#svg_tempo").selectAll("g").remove();	
 	removeElement("tooltip");
