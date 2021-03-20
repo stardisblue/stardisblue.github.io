@@ -1,792 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Fati CHEN</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" type="image/png" href="favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-<head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async
-	src="https://www.googletagmanager.com/gtag/js?id=UA-129272585-2"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag() {
-		dataLayer.push(arguments);
-	}
-	gtag('js', new Date());
+  <body>
+    <div class="main">
+      <!-- Hello source code inspector, this is very disappointing right ? I had a functional website : https://stardis.blue which was based on the highly unstable github.com/stardisblue/resume-vuejs which I abandoned because Ph.D. So now this is a really simple, but content rich myself presentation.
+        
+      -->
+      <div class="header-wrapper">
+        <!-- header -->
+        <div class="header">
+          <div class="info">
+            <div class="title">Fati CHEN</div>
+            <div class="tagline">Ph.D. Student in Visual Analytics</div>
+            <div class="coordinates">
+              <a href="mailto:fati.chen@lirmm.fr">fati.chen@lirmm.fr</a>
+              |
+              <a href="https://twitter.com/stardisblue" target="_blank"
+                ><i class="fab fa-twitter"></i>
+              </a>
+              |
+              <a href="https://www.linkedin.com/in/fati-chen/" target="_blank"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+              |
+              <a href="https://github.com/stardisblue/" target="_blank"
+                ><i class="fab fa-github"></i
+              ></a>
+              |
+              <a href="https://observablehq.com/@stardisblue" target="_blank">
+                <i class="fab observablehq">
+                  <svg
+                    role="image"
+                    aria-label="Observable"
+                    fill="currentColor"
+                    viewBox="0 0 25 28"
+                    width="12"
+                    height="13"
+                  >
+                    <path
+                      d="M12.5 22.667c-1.154 0-2.154-.252-3-.754a5.091 5.091 0 01-1.945-2.048 10.801 10.801 0 01-.991-2.741A14.747 14.747 0 016.25 14c0-.83.054-1.624.164-2.382.108-.758.309-1.529.602-2.31a7.37 7.37 0 011.129-2.035 5.118 5.118 0 011.807-1.401c.746-.36 1.594-.539 2.548-.539 1.154 0 2.154.252 3 .754.843.501 1.517 1.21 1.945 2.048.452.861.782 1.775.991 2.741.209.965.314 2.007.314 3.124a16.7 16.7 0 01-.163 2.382 10.63 10.63 0 01-.615 2.31c-.302.782-.677 1.46-1.13 2.035-.451.575-1.05 1.042-1.794 1.401-.745.36-1.594.539-2.548.539zm2.206-6.373c.598-.6.93-1.43.919-2.294 0-.893-.299-1.658-.896-2.294-.598-.637-1.34-.956-2.229-.956s-1.631.319-2.23.956A3.236 3.236 0 009.376 14c0 .893.299 1.658.896 2.294.598.637 1.34.956 2.229.956s1.624-.319 2.206-.956zM12.5 27C19.403 27 25 21.18 25 14S19.403 1 12.5 1 0 6.82 0 14s5.597 13 12.5 13z"
+                    />
+                  </svg>
+                </i>
+              </a>
+            </div>
+          </div>
 
-	gtag('config', 'UA-129272585-2');
-</script>
-<title>Erick Cuenca</title>
-<meta charset="utf-8">
-<link rel="shortcut icon" type="image/png" href="favicon.png" />
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-	integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-	crossorigin="anonymous">
-<link rel="stylesheet" href="css/style.css">
+          <div class="navbar">
+            <a href="#publications">Publications</a> |
+            <a href="#presentations">Presentations</a> |
+            <a href="#services">Services</a> |
+            <a href="#experiences">Experiences</a> |
+            <a href="#">[top &uarr;]</a>
+          </div>
+        </div>
+      </div>
 
+      <!-- content -->
+      <div class="content-wrapper">
+        <div class="content">
+          <section>
+            <div class="section-title">
+              <h2>About me</h2>
+              <hr />
+            </div>
+            <div class="about">
+              <!-- <div class="portrait">
+            <img alt="Erick Cuenca" src="img/portraits/erick_cuenca_2018.png">
+          </div> -->
+              <div class="bibliography">
+                <p>
+                  Fati is a Ph.D. Student at
+                  <a href="http://www.umontpellier.fr/" target="_blank">
+                    University of Montpellier</a
+                  >, France. Where he is a member of the
+                  <a href="http://advanse.lirmm.fr/" target="_blank">ADVANSE</a>
+                  team at the
+                  <a href="https://www.lirmm.fr/" target="_blank">LIRMM</a>
+                  laboratory. His thesis work focuses on reducing visual
+                  cluttering of spatio-temporal historical data.
+                </p>
+                <p>
+                  He is interested in web technologies, security, algorithmics,
+                  science, equality, philosophy. Speaks English, French and
+                  Russian fluently. Has a passion for bouldering and Origami.
+                  <br />
+                  Played chess and won prizes during highschool.
+                </p>
+                <p>
+                  He also created several micro websites for his friends, a
+                  partition
+                  <a
+                    href="https://calioppe.github.io/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >repository</a
+                  >
+                  for the association EVS Callioppe. A printable student
+                  <a
+                    href="https://stardisblue.github.io/chansonnier/#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >songs lyrics</a
+                  >
+                  for a student association and a
+                  <a
+                    href="https://stardisblue.github.io/cesar/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >cesar</a
+                  >
+                  code encoder-decoder.
+                </p>
+              </div>
+            </div>
+          </section>
 
-</head>
+          <span id="education" class="anchor"></span>
+          <section>
+            <div class="section-title">
+              <h2>Education</h2>
+              <hr />
+            </div>
 
-<body>
-	<div class="main">
+            <div class="section-wrapper">
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    M.Sc. in Software Architecture, Computer Science, 2018
+                  </div>
+                </div>
+                <div class="detalle">
+                  <p>
+                    <a href="http://www.umontpellier.fr/" target="_blank">
+                      University of Montpellier </a
+                    >, France.
+                  </p>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    B.Sc. in Software Architecture, Computer Science, 2016
+                  </div>
+                </div>
+                <div class="detalle">
+                  <p>
+                    <a href="http://www.umontpellier.fr/" target="_blank">
+                      University of Montpellier </a
+                    >, France.
+                  </p>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    Technical degree in Business Computing, 2015
+                  </div>
+                </div>
+                <div class="detalle">
+                  <p>
+                    <a
+                      href="https://iut-montpellier-sete.edu.umontpellier.fr/"
+                      target="_blank"
+                    >
+                      University Institute of Technology, Montpellier</a
+                    >, France.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
 
-		<!-- header-wrapper -->
-		<div class="header-wrapper">
+          <span id="publications" class="anchor"></span>
+          <section>
+            <div class="section-title">
+              <h2>Publications</h2>
+              <hr />
+            </div>
+            <div class="section-wrapper">
+              <div class="fila">
+                <div class="titulo">
+                  <a href="https://agorajs.github.io" target="_blank"
+                    >Node Overlap Removal Algorithms: an Extended Comparative
+                    Study.</a
+                  >
+                </div>
+                <div class="texto-2-column">
+                  <div class="column-left">
+                    <img alt="AGORAjs" src="img/agorajs.gif" />
+                  </div>
+                  <div class="column-right">
+                    <p>
+                      <strong>Fati CHEN</strong>, Laurent Piccinini, Pascal
+                      Poncelet, Arnaud Sallaberry.
+                      <i>Journal of Graph Algorithms and Applications (JGAA)</i
+                      >, 24(4): 683-706. 2020.
+                      <a
+                        href="https://doi.org/10.7155/jgaa.00532"
+                        target="_blank"
+                        >doi:10.7155/jgaa.00532</a
+                      >
+                    </p>
+                    <p>
+                      <a
+                        href="https://hal.archives-ouvertes.fr/lirmm-02879677/"
+                        target="_blank"
+                        ><i class="far fa-file-pdf"></i
+                      ></a>
+                      |
+                      <a href="https://github.com/agorajs" target="_blank"
+                        ><i class="fab fa-github"></i
+                      ></a>
+                      |
+                      <a href="https://agorajs.github.io" target="_blank"
+                        ><i class="fas fa-desktop"></i
+                      ></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <a
+                    href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617"
+                    target="_blank"
+                    >Node Overlap Removal Algorithms: A Comparative Study.</a
+                  >
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p>
+                      <strong>Fati CHEN</strong>, Laurent Piccinini, Pascal
+                      Poncelet, Arnaud Sallaberry.In
+                      <i
+                        >Proceedings of the 27th International Symposium on
+                        Graph Drawing and Network Visualization</i
+                      >, Průhonice/Prague, Czech Republic, September 2019.
+                      <a
+                        href="https://doi.org/10.1007/978-3-030-35802-0_14"
+                        target="_blank"
+                        >doi:10.1007/978-3-030-35802-0_14</a
+                      >
+                    </p>
+                    <p>
+                      <a
+                        href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617"
+                        target="_blank"
+                        ><i class="far fa-file-pdf"></i
+                      ></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <a
+                    href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577"
+                    target="_blank"
+                    >JGetMove: Mining Multiple Movement Patterns
+                  </a>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p>
+                      <strong>Fati CHEN</strong>, Nhat Hai Phan, Pascal
+                      Poncelet, Maguelonne Teisseire.
+                    </p>
+                    <p>
+                      <a
+                        href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577"
+                        target="_blank"
+                        ><i class="far fa-file-pdf"></i
+                      ></a>
+                      |
+                      <a
+                        href="https://github.com/jGetMove/jGetMove"
+                        target="_blank"
+                        ><i class="fab fa-github"></i
+                      ></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-			<!-- header -->
-			<div class="header">
-				<div class="info">
-					<div class="title">Erick Cuenca</div>
-					<div class="tagline">Professor Researcher in Data Visualization</div>
-					<div class="coordinates">
-						<a href="mailto:ecuenca@yachaytech.edu.ec">ecuenca@yachaytech.edu.ec</a>
-						| <a href="https://twitter.com/erickedu85" target="_blank"><i
-							class="fab fa-twitter"></i> </a> | <a
-							href="https://www.linkedin.com/in/erickcuenca/" target="_blank"><i
-							class="fab fa-linkedin-in"></i></a> | <a
-							href="https://github.com/erickedu85/" target="_blank"><i
-							class="fab fa-github"></i></a>
-					</div>
+          <span id="presentations" class="anchor"></span>
+          <section>
+            <div class="section-title">
+              <h2>Presentations</h2>
+              <hr />
+            </div>
+            <div class="section-wrapper">
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    Node Overlap Removal Algorithms: A Comparative Study.
+                  </div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p>
+                      <i
+                        >27th International Symposium on Graph Drawing and
+                        Network Visualization</i
+                      >, Průhonice/Prague, Czech Republic, September 2019.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-				</div>
+          <span id="services" class="anchor"></span>
+          <section>
+            <div class="section-title">
+              <h2>Academic Services</h2>
+              <hr />
+            </div>
 
-				<div class="navbar">
-					<a href="#projects">Projects</a> | <a href="#publications">Publications</a>
-					| <a href="#presentations">Presentations</a> | <a href="#services">Services</a>
-					| <a href="#experiences">Experiences</a>
-				</div>
-			</div>
+            <div class="section-wrapper">
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">Organization Committee</div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p>
+                      <a href="https://egc2021.sciencesconf.org" target="_blank"
+                        >EGC 2021</a
+                      >, Extraction et Gestion des Connaissances 2021.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">Teachings</div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p>
+                      <strong>Web Oriented Architecture</strong>, DevOps (DO3) &
+                      C.S. (IG3) 3rd year students.
+                      <a
+                        href="https://www.polytech.umontpellier.fr/"
+                        target="_blank"
+                        >POLYTECH Montpellier</a
+                      >, France. 2020-2021
+                    </p>
+                  </div>
+                  <div class="detalle">
+                    <p>
+                      <strong>Web Oriented Architecture</strong>, C.S. 4th year
+                      students (IG4).
+                      <a
+                        href="https://www.polytech.umontpellier.fr/"
+                        target="_blank"
+                        >POLYTECH Montpellier</a
+                      >, France. 2019-2020
+                    </p>
+                  </div>
+                  <div class="detalle">
+                    <p>
+                      <strong>Introduction to Web</strong>, C.S. 2nd year
+                      students.
+                      <a href="https://www.iutbeziers.fr/" target="_blank"
+                        >University Institute of Technology, Béziers</a
+                      >, France. 2019-2020
+                    </p>
+                  </div>
+                  <div class="detalle">
+                    <p>
+                      <strong>Data Science</strong>, M.Sc. 1st year students.
+                      <a href="https://www.umontpellier.fr/" target="_blank"
+                        >University of Montpellier</a
+                      >, France. 2018-2019
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-		</div>
+          <span id="experiences" class="anchor"></span>
+          <section>
+            <div class="section-title">
+              <h2>Professional and research experiences</h2>
+              <hr />
+            </div>
 
-		<!-- content -->
-		<div class="content-wrapper">
+            <div class="section-wrapper">
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    Visual Analytics Ph.D. Student at
+                    <a href="http://www.umontpellier.fr/" target="_blank"
+                      >University of Montpellier</a
+                    >
+                    (Montpellier, France)
+                  </div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p>
+                      <i>Jul. 2018 - present</i>
+                    </p>
+                    <p>
+                      Research on the data visual analysis domain. Development
+                      and implementation of web applications to analyze
+                      spatio-temporal dimensions of data and model its
+                      relations.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-			<div class="content">
-
-				<div class="section-title">
-					<h1>About me</h1>
-					<hr>
-				</div>
-				<div class="about">
-					<div class="portrait">
-						<img alt="Erick Cuenca" src="img/portraits/erick_cuenca_2018.png">
-					</div>
-					<div class="bibliography">
-						<p>
-							Erick is a professor at <a
-							href="https://www.yachaytech.edu.ec/en/" target="_blank">
-							Yachay Tech University</a>, Ecuador in the Department of <a
-							href="https://www.yachaytech.edu.ec/en/msit/" target="_blank"> Computer Science</a>. 
-							He holds a Ph.D. in Computer Science with a focus on data analysis and visualization. 
-							He is especially interested in getting insight from time-space-oriented data, social media data, and graph model information.
-						</p>
-						<p>
-							In 2019, Erick was a postdoctoral researcher at <a
-							href="https://uclouvain.be/fr/index.html" target="_blank">
-							   UCLouvain University</a>, Belgium. 
-							Erick's research focused on proposing several approaches to understand the temporal and 
-							spatial aspects of the data. He was a member of the <a
-							href="https://uclouvain.be/fr/instituts-recherche/icteam/ingi" target="_blank">
-							   INGI</a> department at the <a
-							   href="https://uclouvain.be/en/research-institutes/icteam" target="_blank">
-								  ICTEAM</a> institute.
-						</p>			  							
-						<p>
-							In 2018, Erick defended his Ph.D. thesis at the <a
-							href="http://www.umontpellier.fr/" target="_blank">
-							University of Montpellier</a>, France, 
-							where he was a member of the <a href="https://www.lirmm.fr/recherche/equipes/advanse"
-							target="_blank">ADVANSE</a> team at the <a
-							href="https://www.lirmm.fr/" target="_blank">LIRMM</a> laboratory. 
-							His thesis work focuses on dynamic and complex data modeled by time series and graphs, respectively.
-						
-						</p>
-					</div>
-				</div>
-
-				<div class="section-title">
-					<h1>News</h1>
-					<hr>
-				</div>
-				<div class="section-wrapper">
-
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Teaching</div>
-						</div>
-						<div class="detalle">
-							<p>
-								I am professor of <a href="https://www.yachaytech.edu.ec/en/academia-carrera/information-technology/" 
-								target="_blank">Algorithms</a> and <a href="https://www.yachaytech.edu.ec/en/academia-carrera/information-technology/" 
-								target="_blank">Operating Systems</a> courses.				
-							</p>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Current research projects
-							</div>
-						</div>
-						<div class="detalle">
-							<ul>
-								<li><b>2020-2021</b> Analysis of the economic impact of digital information disseminated by the Ecuadorian Army using big data techniques.</li>
-								<li><b>2019-2023</b> New approaches to understanding and modelling global migration trends.</li>
-							  </ul>	  
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Ms.C. students
-							</div>
-						</div>
-						<div class="detalle">
-							<ul>
-								<li><b>2020</b> Yacine Morakeb. National High School Of Informatic ESI, Algeria. La visualisation de trajectoires spatio-temporelles sur Twitter. (together with <a href="https://dblp.org/pid/209/2743.html" target="_blank">Samiha Fadloun</a>, ESI)</li>
-							  </ul>	  
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Undergraduate students
-							</div>
-						</div>
-						<div class="detalle">
-							<ul>
-								<li><b>2020</b> Brian Corella. Yachay Tech University, Ecuador. Using big data techniques to measure the performance of professional basketball teams.</li>
-								<li><b>2020</b> Steven Brito. Yachay Tech University, Ecuador. Mobile application to buy-sell products and food on the YachayTech campus.</li>
-							  </ul>	  
-						</div>
-					</div>
-
-
-				</div>
-
-				<span id="education" class="anchor"></span>				
-				<div class="section-title">
-					<h1>Education</h1>
-					<hr>
-				</div>
-
-				<div class="section-wrapper">
-
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Ph.D. in Computer Science, 2018
-							</div>
-						</div>
-						<div class="detalle">
-							<p>
-								<a href="http://www.umontpellier.fr/" target="_blank">
-									University of Montpellier</a>, France. (Manuscript: <a
-									href="download/Visualisation_données_dynamiques_et_complexes.pdf"
-									target="_blank"><i class="far fa-file-pdf"></i> </a>)
-							</p>
-						</div>
-					</div>
-
-
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">M.Sc. in Computer Science, 2015
-							</div>
-
-						</div>
-						<div class="detalle">
-							<p>
-								<a href="http://www.umontpellier.fr/" target="_blank">
-									University of Montpellier</a>, France. (Mémoire: <a
-									href="download/Visualization_sentiments_twitter.pdf"
-									target="_blank"><i class="far fa-file-pdf"></i> </a>)
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<span id="projects" class="anchor"></span>
-				<div class="section-title">
-					<h1>Projects</h1>
-					<hr>
-				</div>
-				<div class="section-wrapper">
-
-					<div class="fila">
-						<div class="titulo">
-							<a href="http://advanse.lirmm.fr/multistream/" target="_blank">MultiStream</a>
-							| <a href="http://advanse.lirmm.fr/multistream/" target="_blank"><i
-								class="fas fa-desktop"></i></a>
-						</div>
-						<div class="texto-2-column">
-							<div class="column-left">
-								<img alt="MultiStream" src="img/multistream_gif.gif">
-							</div>
-							<div class="column-right">
-								<p>MultiStream is a visual platform developed to facilitate
-									the analysis of multiple time series. This approach facilitates
-									the exploration and comparison of time series evolution at
-									different levels of granularity through interactive visual
-									components.</p>
-								<p>
-									<strong>Case uses:</strong> Sentiment analysis in tweets, music
-									genre evolution.
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<a href="https://goo.gl/86c9G7" target="_blank">VERTIGo</a>
-						</div>
-						<div class="texto-2-column">
-							<div class="column-left">
-								<img alt="VERTIGo" src="img/vertigo_png.png">
-							</div>
-							<div class="column-right">
-								<p>VERTIGo is a visual platform for the analysis of complex
-									data containing different types of relations and modeled in the
-									form of multilayer graphs. VERTIGo allows define a multilayer
-									graph, and then interactively search and explore all
-									occurrences of that graph in a large dataset.</p>
-								<strong>Case uses:</strong> Analysis in the DBLP author network.
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<a href="http://udaviz.com/usports/" target="_blank">USports</a>
-							| <a href="https://twitter.com/udaviz_" target="_blank"><i class="fab fa-twitter"></i></a>
-							| <a href="https://www.youtube.com/channel/UCmFPW2jOiiUzbE_TP0nzukA/" target="_blank"><i class="fab fa-youtube"></i></a>
-						</div>
-						<div class="texto-2-column">
-							<div class="column-left">
-								<img alt="USports" src="img/usports_gif.gif">
-							</div>
-							<div class="column-right">
-								<p>USports is an interactive application allowing to navigate 
-									and highlight the most relevant information at sports events,
-									such as the total number of tweets, popular hashtags,
-									users interactions, and stats (e.g., goals, attacks, offside, yellow/red cards, etc.).</p>
-								<strong>Case uses:</strong> Champions League 2019, Copa America 2019, and more.
-							</div>
-						</div>
-					</div>
-
-
-				</div>
-
-				<span id="publications" class="anchor"></span>
-				<div class="section-title">
-					<h1>Publications</h1>
-					<hr>
-				</div>
-				<div class="section-wrapper">
-					<div class="fila">
-						<div class="titulo">
-							<a href="http://advanse.lirmm.fr/multistream/" target="_blank">MultiStream:
-								A Multiresolution Streamgraph Approach to Explore Hierarchical
-								Time Series</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<strong>Erick Cuenca</strong>, Arnaud Sallaberry, Florence Ying
-									Wang, and Pascal Poncelet. <i>IEEE Transactions on
-										Visualization and Computer Graphics (TVCG)</i>, 24(12): 3160-3173.
-									2018. doi: <a href="https://doi.org/10.1109/TVCG.2018.2796591" target="_blank">10.1109/TVCG.2018.2796591</a>
-								</p>
-
-								<p>
-									<a href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-01693077v1"
-										target="_blank"><i class="far fa-file-pdf"></i></a> | <a
-										href="presentations/ecuenca_multistream_vis_2018.pdf"
-										target="_blank"><i class="fas fa-file-powerpoint"></i></a> | <a
-										href="https://youtu.be/T-Nrwif7dss" target="_blank"><i
-										class="fab fa-youtube"></i></a> | <a
-										href="https://vimeo.com/289789365" target="_blank"><i
-										class="fab fa-vimeo"></i></a> | <a
-										href="http://advanse.lirmm.fr/multistream/" target="_blank"><i
-										class="fas fa-desktop"></i></a>
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<a href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-01847422v1"
-								target="_blank">Visual Querying of Large Multilayer Graphs</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<strong>Erick Cuenca</strong>, Arnaud Sallaberry, Dino Ienco,
-									and Pascal Poncelet. In <i>Proceedings of the 30th ACM
-										International Conference on Scientific and Statistical
-										Data Base Management (SSDBM)</i>, Bolzano-Bozen, Italy,
-									July 2018. doi: <a href="https://doi.org/10.1145/3221269.3223027" target="_blank">10.1145/3221269.3223027</a>
-								</p>
-								<p>
-									<a href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-01847422v1"
-										target="_blank"><i class="far fa-file-pdf"></i></a> | <a
-										href="https://drive.google.com/open?id=1zurIuV7saTwRShyyyf7RDcb7xp-mjiSD"
-										target="_blank"><i class="fab fa-youtube"></i></a>
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<a href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-01912384v1"
-								target="_blank">Visual Querying and Exploring of Large
-								Multilayer Graphs</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<strong>Erick Cuenca</strong>, Arnaud Sallaberry, Dino Ienco,
-									and Pascal Poncelet. In<i> Poster session of the IEEE
-										Information Visualization Conference (IEEE VIS)</i>, Berlin,
-									Germany, October 2018.
-								</p>
-								<p>
-									<a href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-01912384v1"
-										target="_blank"><i class="far fa-file-pdf"></i></a> | <a
-										href="publications/infovis/cuenca_et_al_2018p.pdf"
-										target="_blank"><i class="fas fa-file-powerpoint"></i></a> | <a
-										href="https://vimeo.com/290330761" target="_blank"><i
-										class="fab fa-vimeo"></i></a>
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<a href="https://hal-lirmm.ccsd.cnrs.fr/hal-01839552v1"
-								target="_blank">#AIDS Analyse Information Dangers
-								Sexualit&#233; : caract&#233;riser les discours &#224; propos du
-								VIH dans les m&#233;dias sociaux</a>
-
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									Yves Mercadier, Jérôme Az&#233;, Sandra Bringay, Viviane
-									Clavier, <strong>Erick Cuenca</strong>, Cécille Paganelli,
-									Pascal Poncelet, and Arnaud Sallaberry. <i> Actes des 29es
-										Journ&#233;es Francophones d'Ing&#233;nierie des Connaissances
-										(IC)</i>, pages 71-86, Nancy, France, July 2018.
-								</p>
-								<p>
-									<a href="https://hal-lirmm.ccsd.cnrs.fr/hal-01839552v1"
-										target="_blank"><i class="far fa-file-pdf"></i></a>| <a
-										href="http://advanse.lirmm.fr/multistream/" target="_blank"><i
-										class="fas fa-desktop"></i></a>
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<a href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-01592614v1"
-								target="_blank">Visualizing Hierarchical Time Series with a
-								Focus+Context Approach</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<strong>Erick Cuenca</strong>, Arnaud Sallaberry, Florence Ying
-									Wang, and Pascal Poncelet. In<i> Poster session of the IEEE
-										Information Visualization Conference (IEEE VIS)</i>, Phoenix,
-									Arizona, USA, October 2017.
-								</p>
-								<p>
-									<a href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-01592614v1"
-										target="_blank"><i class="far fa-file-pdf"></i></a> | <a
-										href="publications/infovis/cuenca_et_al_2017p.pdf"
-										target="_blank"><i class="fas fa-file-powerpoint"></i></a> |<a
-										href="https://youtu.be/xxTSJR90pQA" target="_blank"><i
-										class="fab fa-youtube"></i></a> | <a
-										href="https://vimeo.com/230838484" target="_blank"><i
-										class="fab fa-vimeo"></i></a>
-									<!-- | <a
-								href="http://advanse.lirmm.fr/hierarchical/" target="_blank">URL</a> -->
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<span id="presentations" class="anchor"></span>
-				<div class="section-title">
-					<h1>Presentations</h1>
-					<hr>
-				</div>
-				<div class="section-wrapper">
-
-					<div class="fila">
-						<div class="titulo">
-							<a href="https://1drv.ms/p/s!AiL6RlGf_tAFn0CPB3akshU4G-KI?e=vyJGZu" target="_blank">Exploring Temporal and Spatial 
-								Dimensions in Origin-Destination Data</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Yachay Tech Seminar's</i>, Urcuquí, Ecuador, February 2020.
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<a href="http://goo.gl/Nw6VFJ" target="_blank">Visualization
-								of Dynamic and Complex Data</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>ICTEAM-INGI Seminar's</i>, Louvain-la-Neuve, Belgium, February 2019.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<a href="presentations/ecuenca_thesis_2018.pptx" target="_blank">Visualisation
-								de Données Dynamiques et Complexes: des Séries Temporelles
-								Hiérarchiques aux Graphes Multicouches</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Thesis dissertation</i>, Montpellier, France, November 2018.
-								</p>
-
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<a href="presentations/ecuenca_multistream_vis_2018.pdf"
-								target="_blank">MultiStream: A Multiresolution Streamgraph
-								Approach to Explore Hierarchical Time Series</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>IEEE VIS</i>, Berlin, Germany, October 2018.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<a href="presentations/ecuenca_amis_2018.pdf" target="_blank">Diagramme
-								en Flot Multi-R&#233;solution pour Explorer les S&#233;ries
-								Temporelles Hi&#233;rarchiques</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Presentation session of the AMIS research group</i>,
-									Montpellier, France, February 2018.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">Visualizing Hierarchical Time Series
-							with a Focus+Context Approach</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Les Hivernales Pro du Num&#233;rique</i>, Montpellier,
-									France, January 2018.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<a href="presentations/ecuenca_gtnh_2009.pdf" target="_blank">Desde
-								el Campo a la Base de Datos</a>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Sesi&oacute;n de capacitaci&oacute;n del VIII Encuentro
-										Internacional de Investigadores del Grupo de Trabajo Nieves y
-										Hielos (GTNH) de Am&#233;rica Latina del PHI-UNESCO</i>, Quito,
-									Ecuador, September 2009.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo"></div>
-						<div class="texto-1-column">
-							<div class="detalle"></div>
-						</div>
-					</div>
-				</div>
-
-				<span id="services" class="anchor"></span>
-				<div class="section-title">
-					<h1>Academic Services</h1>
-					<hr>
-				</div>
-
-				<div class="section-wrapper">
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Conference Reviewer</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<a href="http://www.dslab.it.aoyama.ac.jp/dsaa2017/"
-										target="_blank">DSAA 2017</a>, 4th IEEE International
-									Conference on Data Science and Advanced Analytics, 1 paper.
-								</p>
-								<p>
-									<a href="http://congreso.fafi.utb.edu.ec/" target="_blank">CITT
-										2017</a>, 3rd International Conference on Technology Trends, 3
-									papers.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Book Reviewer</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<a href="https://tecnologiasparainvestigar.risei.org/wp-content/uploads/2019/05/book-tai-v09.pdf?fbclid=IwAR2TR4suynv80mRK8yXNrpSzhKDuPqOvAQ2olRuLsuQfbrzTl6OCGYL_SDE"
-										target="_blank">Tecnologías Aplicadas a la Investigación</a>, Red Internacional sobre
-										enseñanza de la investigación (RISEI).
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Program Committee</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<a href="https://ticec.cedia.edu.ec/en/ticec2018"
-										target="_blank">TIC.EC 2018</a>, VI Ecuadorian Congress of
-									Information Technologies and Communication.
-								</p>
-								<p>
-									<a href="http://citt.utb.edu.ec/" target="_blank">CITT 2018</a>,
-									4th International Conference on Technology Trends.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">Organization Committee</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<a href="http://icat-conferences.org/" target="_blank">ICAT 2019
-									</a>, 1st International Conference on Applied Technologies.
-								</p>
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<a href="https://ic2016.sciencesconf.org/" target="_blank">IC
-										2016</a>, 27es Journe&eacute;s francophones d'Ing&eacute;nierie
-									des Connaissances.
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<span id="experiences" class="anchor"></span>
-				<div class="section-title">
-					<h1>Professional and research experiences</h1>
-					<hr>
-				</div>
-
-
-				<div class="section-wrapper">
-
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">
-								Postdoctoral Researcher at <a
-									href="https://uclouvain.be/fr/index.html" target="_blank">UCLouvain University</a>
-								(Louvain-la-Neuve, Belgium)
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Dec. 2018 - Dec. 2019</i>
-								</p>
-								<p>Researcher of new analytic tools that help to understand migratory trends. 
-									Development of interactive visual applications that exploit the multidimensional aspects of the data.</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">
-								Assistant Lecturer at <a
-									href="https://uclouvain.be/fr/index.html" target="_blank">UCLouvain University</a>
-								(Louvain-la-Neuve, Belgium)
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Dec. 2018 - Dec. 2019</i>
-								</p>
-								<p><a href="https://uclouvain.be/cours-2019-lsinf1212" target="_blank">
-									Information Technology</a> course. In charge of practical workshops on the development of multilayer web projects.</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">
-								Visual Analytics Researcher at <a
-									href="http://www.umontpellier.fr/" target="_blank">University of Montpellier</a>
-								(Montpellier, France)
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Jul. 2015 - Nov. 2018</i>
-								</p>
-								<p>Research on the data visual analysis domain. 
-									Development and implementation of web and desktop applications to 
-									analyze the temporal dimension of data and model its complex relations in graphs.</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">
-								Data Science Researcher at <a
-									href="http://www.lirmm.fr/" target="_blank">LIRMM</a>
-								(Montpellier, France)
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Feb. 2015 - Jun. 2015</i>
-								</p>
-								<p>Research, development, and implementation of a web application 
-									for the visual analysis of information extracted from twitter.</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">
-								Senior Web Developer at <a
-									href="http://www.irstea.fr/en/accueil" target="_blank">IRSTEA</a>
-								(Montpellier, France)
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>2014</i>
-								</p>
-								<p>
-									Development of improvements in the performance and services of the <a
-										href="http://games.montpellier.cemagref.fr/interwag/"
-										target="_blank">INTER-WAG</a> application.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">
-								Information Technology Engineer at <a
-									href="https://www.tcs.com/" target="_blank">TCS</a> (Quito,
-								Ecuador)
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Jan. 2012 - Aug. 2013</i>
-								</p>
-								<p>Development of distributed applications in several technological projects (IESS, BIESS, and Movistar). 
-									Implementation of technologies and database migrations.</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">
-								Public Officer at <a
-									href="http://www.serviciometeorologico.gob.ec/" target="_blank">INAMHI</a>
-								(Quito, Ecuador)
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Oct. 2009 - Dec. 2011</i>
-								</p>
-								<p>Development of applications and databases to automate processes in meteorological stations. 
-									Digitization of meteorological records.</p>
-							</div>
-						</div>
-					</div>
-					<div class="fila">
-						<div class="titulo">
-							<div class="titulo-no-link">
-								Information Technology Analyst at <a href="https://en.ird.fr/"
-									target="_blank">IRD/GreatIce</a> (Quito, Ecuador)
-							</div>
-						</div>
-						<div class="texto-1-column">
-							<div class="detalle">
-								<p>
-									<i>Mar. 2005 - Sept. 2009</i>
-								</p>
-								<p>Head of the IT department. In charge of data processing, database creation, 
-									software development/adaptation. Development of the NIEVE and BALACCESS 
-									platforms for the analysis of meteorological and glaciological data.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-
-
-	</div>
-
-
-</body>
-
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    Visualization Algorithms Researcher at
+                    <a href="http://www.lirmm.fr/" target="_blank">LIRMM</a>
+                    (Montpellier, France)
+                  </div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p><i>Feb. 2018 - Jun. 2018</i> &mdash; Internship</p>
+                    <p>
+                      Research, development, and implementation of algorithms
+                      for visual cluttering reduction, applied to graph
+                      visualization.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    Pattern Mining Researcher at
+                    <a href="http://www.lirmm.fr/" target="_blank">LIRMM</a>
+                    (Montpellier, France)
+                  </div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p><i>Jan. 2017 - Jul. 2017</i> &mdash; Internship</p>
+                    <p>
+                      Development of
+                      <a
+                        href="http://github.com/jgetmove/jgetmove"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >jGetMove</a
+                      >
+                      an efficient and unifying spatio-temporal pattern mining
+                      system for moving objects.<br />
+                      Refactoring from C++ and improving the algorithm.
+                    </p>
+                    <a
+                      href="https://github.com/jGetMove/jGetMove"
+                      target="_blank"
+                      ><i class="fab fa-github"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    Constraint Programming Researcher at
+                    <a href="http://www.lirmm.fr/" target="_blank">LIRMM</a>
+                    (Montpellier, France)
+                  </div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p><i>Oct. 2015 - Jul. 2016</i> &mdash; Internship</p>
+                    <p>
+                      Development of a solver for a combinatorial puzzle game
+                      <a
+                        href="https://github.com/EternityII"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >EternityII</a
+                      >. Analysis and setup of various solving strategies, some
+                      based on pre-calculation of simplified instances.
+                    </p>
+                    <a
+                      href="https://github.com/EternityII/EternityII"
+                      target="_blank"
+                      ><i class="fab fa-github"></i
+                    ></a>
+                    |
+                    <a
+                      href="https://github.com/EternityII/EternityII-report/blob/master/main.pdf"
+                      target="_blank"
+                      ><i class="fas fa-file-pdf"></i
+                    ></a>
+                    |
+                    <a
+                      href="https://github.com/EternityII/EternityII-presentation/blob/master/main.pdf"
+                      target="_blank"
+                      ><i class="fas fa-file-powerpoint"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    Web Developper at WBS (Montpellier, France)
+                  </div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p><i>Mar. 2015 - Jul. 2015</i> &mdash; Internship</p>
+                    <p>Online PGI software development.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    Freelancer :
+                    <span style="font-weight: normal"
+                      >Data Analyst, Web Developer, Computer Builder</span
+                    >
+                  </div>
+                </div>
+                <div class="texto-1-column">
+                  <div class="detalle">
+                    <p>
+                      <i>Jan 2012 - Jan 2018</i>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="fila">
+                <div class="titulo">
+                  <div class="titulo-no-link">
+                    ECI : Computer Science Club (Highschool - Lycée Daudet -
+                    Nîmes, France)
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
