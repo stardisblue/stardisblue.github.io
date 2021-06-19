@@ -8,7 +8,7 @@ import { Experiences } from '../components/Experiences';
 import { Header } from '../components/Header';
 import { Presentations } from '../components/Presentations';
 import { Publications } from '../components/Publications';
-import { GH } from '../components/GH';
+import { GH } from '../components/URL';
 import { Navigation } from '../components/Navigation';
 
 const IndexPage: React.FC = () => (

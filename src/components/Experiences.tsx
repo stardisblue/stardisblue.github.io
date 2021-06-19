@@ -5,10 +5,7 @@ import PDF from './icons/PDF';
 import PPT from './icons/PPT';
 import { Links } from './ui/Links';
 import Section from './ui/Section';
-import { GH } from './GH';
-import { GitHub } from './GitHub';
-import { LIRMM } from './Lirmm';
-import { UM } from './UM';
+import { GH, GitHub, LIRMM, UM } from './URL';
 
 export const Experiences: React.FC = () => (
   <Section title="💼 PROFESSIONAL AND RESEARCH EXPERIENCES">

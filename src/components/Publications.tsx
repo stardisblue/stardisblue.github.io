@@ -1,11 +1,9 @@
 import React from 'react';
-import { A } from './ui/A';
+import A from './ui/A';
 import Section from './ui/Section';
 import { Article } from './ui/Article';
 import { Collapsible } from './ui/Collapsible';
-import { DOI } from './DOI';
-import { GH } from './GH';
-import { HAL } from './HAL';
+import { DOI, GH, HAL } from './URL';
 import { Links } from './ui/Links';
 import PDF from './icons/PDF';
 import { Globe2 } from 'react-bootstrap-icons';

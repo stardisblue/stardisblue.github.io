@@ -1,8 +1,7 @@
 import React from 'react';
 import Section from '../components/ui/Section';
-import { A } from './ui/A';
-import { UM } from './UM';
-import { LIRMM } from './Lirmm';
+import A from './ui/A';
+import { UM, LIRMM } from './URL';
 
 export const AboutMe: React.FC = () => (
   <Section title="👨‍💻 ABOUT ME">

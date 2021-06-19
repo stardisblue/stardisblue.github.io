@@ -1,9 +1,9 @@
 import React from 'react';
-import { A } from './ui/A';
+import A from './ui/A';
 import { Article } from './ui/Article';
 import Section from './ui/Section';
 import { Collapsible } from './ui/Collapsible';
-import { LIRMM } from './Lirmm';
+import { LIRMM } from './URL';
 import Observable from '../components/icons/Observable';
 import { Facebook } from 'react-bootstrap-icons';
 export const Presentations: React.FC = () => (
