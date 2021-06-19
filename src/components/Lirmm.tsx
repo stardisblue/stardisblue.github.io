@@ -1,5 +1,5 @@
 import React from 'react';
-import { A } from '../components/A';
+import { A } from '../components/ui/A';
 
 export const LIRMM: React.FC = ({ children }) => (
   <A

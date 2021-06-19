@@ -1,7 +1,7 @@
 import React from 'react';
-import { A } from '../components/A';
-import { Article } from '../components/Article';
-import Section from '../components/Section';
+import { A } from './ui/A';
+import { Article } from './ui/Article';
+import Section from './ui/Section';
 import { PT } from './PT';
 import { UM } from './UM';
 

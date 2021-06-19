@@ -1,5 +1,5 @@
 import React, { AnchorHTMLAttributes } from 'react';
-import { A } from '../components/A';
+import { A } from '../components/ui/A';
 
 export const HAL: React.FC<
   { hal: string } & AnchorHTMLAttributes<HTMLAnchorElement>

@@ -1,8 +1,8 @@
 import React from 'react';
-import { A } from '../components/A';
-import { Article } from '../components/Article';
-import Section from '../components/Section';
-import { Collapsible } from '../components/Collapsible';
+import { A } from './ui/A';
+import { Article } from './ui/Article';
+import Section from './ui/Section';
+import { Collapsible } from './ui/Collapsible';
 import { LIRMM } from './Lirmm';
 import Observable from '../components/icons/Observable';
 import { Facebook } from 'react-bootstrap-icons';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { A } from '../components/A';
+import { A } from '../components/ui/A';
 
 export const DOI: React.FC<{ doi: string }> = ({ doi }) => (
   <A href={'https://dx.doi.org/' + doi} title={'doi:' + doi}>

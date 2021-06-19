@@ -1,22 +1,15 @@
 import React from 'react';
 import 'tachyons/css/tachyons.min.css';
 import { Helmet } from 'react-helmet';
-import { AboutMe } from './AboutMe';
-import { Academic } from './Academic';
-import { Education } from './Education';
-import { Experiences } from './Experiences';
-import { Header } from './Header';
-import { Presentations } from './Presentations';
-import { Publications } from './Publications';
-import { TOC } from './TOC';
-import { GH } from './GH';
-
-const Navigation: React.FC = () => (
-  <div className="flex flex-wrap justify-end">
-    <em className="gray mr2">Navigation</em>
-    <TOC />
-  </div>
-);
+import { AboutMe } from '../components/AboutMe';
+import { Academic } from '../components/Academic';
+import { Education } from '../components/Education';
+import { Experiences } from '../components/Experiences';
+import { Header } from '../components/Header';
+import { Presentations } from '../components/Presentations';
+import { Publications } from '../components/Publications';
+import { GH } from '../components/GH';
+import { Navigation } from '../components/Navigation';
 
 const IndexPage: React.FC = () => (
   <main className="mw7 center georgia lh-title">

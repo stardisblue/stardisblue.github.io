@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapsible } from '../components/Collapsible';
+import { Collapsible } from '../components/ui/Collapsible';
 
 export const TOC: React.FC<{ show?: boolean }> = ({ show = true }) => (
   <div className="flex flex-wrap">

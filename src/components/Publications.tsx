@@ -1,13 +1,13 @@
 import React from 'react';
-import { A } from '../components/A';
-import Section from '../components/Section';
-import { Article } from '../components/Article';
-import { Collapsible } from '../components/Collapsible';
+import { A } from './ui/A';
+import Section from './ui/Section';
+import { Article } from './ui/Article';
+import { Collapsible } from './ui/Collapsible';
 import { DOI } from './DOI';
 import { GH } from './GH';
 import { HAL } from './HAL';
-import { Links } from '../components/Links';
-import PDF from '../components/icons/PDF';
+import { Links } from './ui/Links';
+import PDF from './icons/PDF';
 import { Globe2 } from 'react-bootstrap-icons';
 
 export const Publications: React.FC = () => (

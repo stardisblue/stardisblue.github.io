@@ -1,6 +1,6 @@
 import React from 'react';
-import Section from '../components/Section';
-import { A } from '../components/A';
+import Section from '../components/ui/Section';
+import { A } from './ui/A';
 import { UM } from './UM';
 import { LIRMM } from './Lirmm';
 

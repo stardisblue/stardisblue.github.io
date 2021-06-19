@@ -1,10 +1,10 @@
 import React from 'react';
-import { Links } from '../components/Links';
-import { A } from '../components/A';
+import { Links } from './ui/Links';
+import { A } from './ui/A';
 import { GH } from './GH';
 import { TOC } from './TOC';
-import { Collapsible } from '../components/Collapsible';
-import Observable from '../components/icons/Observable';
+import { Collapsible } from './ui/Collapsible';
+import Observable from './icons/Observable';
 
 export const Header: React.FC = () => (
   <header>
