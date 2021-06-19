@@ -1,5 +1,5 @@
 import React, { AnchorHTMLAttributes } from 'react';
-import { A } from '../components/A';
+import { A } from '../components/ui/A';
 
 export const GitHub: React.FC<
   { gh: string } & AnchorHTMLAttributes<HTMLAnchorElement>

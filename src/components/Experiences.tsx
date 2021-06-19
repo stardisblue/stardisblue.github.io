@@ -1,10 +1,10 @@
 import React from 'react';
-import { Article } from '../components/Article';
-import { Collapsible } from '../components/Collapsible';
-import PDF from '../components/icons/PDF';
-import PPT from '../components/icons/PPT';
-import { Links } from '../components/Links';
-import Section from '../components/Section';
+import { Article } from './ui/Article';
+import { Collapsible } from './ui/Collapsible';
+import PDF from './icons/PDF';
+import PPT from './icons/PPT';
+import { Links } from './ui/Links';
+import Section from './ui/Section';
 import { GH } from './GH';
 import { GitHub } from './GitHub';
 import { LIRMM } from './Lirmm';

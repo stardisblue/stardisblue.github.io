@@ -1,6 +1,6 @@
 import React, { AnchorHTMLAttributes } from 'react';
-import { A } from '../components/A';
-import { Collapsible } from '../components/Collapsible';
+import { A } from './ui/A';
+import { Collapsible } from './ui/Collapsible';
 import { Github } from 'react-bootstrap-icons';
 
 export const GH: React.FC<
