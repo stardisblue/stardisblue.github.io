@@ -1,7 +1,7 @@
 import React from 'react';
 import { Links } from './ui/Links';
-import { A } from './ui/A';
-import { GH } from './GH';
+import A from './ui/A';
+import { GH } from './URL';
 import { TOC } from './TOC';
 import { Collapsible } from './ui/Collapsible';
 import Observable from './icons/Observable';

@@ -1,9 +1,8 @@
 import React from 'react';
-import { A } from './ui/A';
+import A from './ui/A';
 import { Article } from './ui/Article';
 import Section from './ui/Section';
-import { PT } from './PT';
-import { UM } from './UM';
+import { PT, UM } from './URL';
 
 export const Academic: React.FC = () => (
   <Section title="👨‍🏫 ACADEMIC SERVICES">
