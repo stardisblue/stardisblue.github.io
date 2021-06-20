@@ -1,7 +1,9 @@
 import React from 'react';
 import { Collapsible } from './ui';
 
-export const TOC: React.FC<{ show?: boolean }> = ({ show = true }) => (
+export const TableOfContent: React.FC<{ show?: boolean }> = ({
+  show = true,
+}) => (
   <div className="flex flex-wrap">
     <a href="#sec--about-me" className="link">
       <Collapsible title="About me">👨‍💻</Collapsible>
@@ -31,8 +33,10 @@ export const TOC: React.FC<{ show?: boolean }> = ({ show = true }) => (
 export const Navigation: React.FC = () => (
   <>
     <div className="flex flex-wrap justify-end">
-      <em className="gray mr2">Navigation</em>
-      <TOC />
+      <span title="(joke) be careful when sailing ">
+        ⚓<em className="gray mr2">Navigation</em>
+      </span>
+      <TableOfContent />
     </div>
     <hr />
   </>

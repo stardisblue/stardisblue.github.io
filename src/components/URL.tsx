@@ -1,6 +1,6 @@
 import React, { AnchorHTMLAttributes } from 'react';
 import { A, Collapsible } from './ui';
-import { Github as GithubIcon } from './icons';
+import { Github as GithubIcon } from './ui/icons';
 
 export const UM: React.FC = ({ children }) => (
   <A href="https://www.umontpellier.fr/" title="Université de Montpellier">
@@ -40,7 +40,7 @@ export const DOI: React.FC<{ doi: string }> = ({ doi }) => (
   </A>
 );
 
-export const PT: React.FC = ({ children }) => (
+export const Polytech: React.FC = ({ children }) => (
   <A href="https://www.polytech.umontpellier.fr/" title="Polytech Montpellier">
     {children}
   </A>

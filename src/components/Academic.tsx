@@ -1,6 +1,6 @@
 import React from 'react';
 import { A, Article, Section } from './ui';
-import { PT, UM } from './URL';
+import { Polytech, UM } from './URL';
 
 export const Academic: React.FC = () => (
   <Section title="👨‍🏫 ACADEMIC SERVICES">
@@ -13,12 +13,12 @@ export const Academic: React.FC = () => (
     <Article title="Teachings">
       <p className="measure-wide">
         <strong>Web Oriented Architecture</strong>, DevOps (DO3) & C.S. (IG3)
-        3rd year students. <PT>POLYTECH Montpellier</PT>, France.{' '}
+        3rd year students. <Polytech>POLYTECH Montpellier</Polytech>, France.{' '}
         <time dateTime="2020">2020</time>-<time dateTime="2021">2021</time>
       </p>
       <p className="measure-wide">
         <strong>Web Oriented Architecture</strong>, C.S. 4th year students
-        (IG4). <PT>POLYTECH Montpellier</PT>, France.{' '}
+        (IG4). <Polytech>POLYTECH Montpellier</Polytech>, France.{' '}
         <time dateTime="2019">2019</time>-<time dateTime="2020">2020</time>
       </p>
       <p className="measure-wide">

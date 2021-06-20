@@ -9,19 +9,19 @@ import { Experiences } from '../components/Experiences';
 import { Header } from '../components/Header';
 import { Presentations } from '../components/Presentations';
 import { Publications } from '../components/Publications';
-import { Navigation } from '../components/TOC';
+import { Navigation } from '../components/TableOfContent';
 import { Footer } from '../components/Footer';
 import { News } from '../components/News';
 
 const IndexPage: React.FC = () => (
-  <main className="mw8 center georgia lh-title ph2">
+  <main className="mw8 center georgia lh-title ph2-m mb3">
     <Helmet>
       <title>Fati CHEN</title>
     </Helmet>
     <Header />
     <AboutMe />
-    <Navigation />
     <News />
+    <hr />
     <Education />
     <Navigation />
     <Publications />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Article, Collapsible, Links, Section } from './ui';
-import { PDF, PPT } from './icons';
+import { PDF, PPT } from './ui/icons';
 import { GH, GitHub, LIRMM, UM } from './URL';
 
 export const Experiences: React.FC = () => (
@@ -59,7 +59,7 @@ export const Experiences: React.FC = () => (
         </em>{' '}
         — Internship{' '}
         <Links className="inline-flex">
-          {(cls) => <GH gh="jGetMove/jGetMove" className={cls} />}
+          <GH gh="jGetMove/jGetMove" className="link" />
         </Links>
       </p>
       <p className="measure-wide">
@@ -85,27 +85,23 @@ export const Experiences: React.FC = () => (
         </em>{' '}
         — Internship{' '}
         <Links className="inline-flex">
-          {(cls) => (
-            <>
-              <GH gh="EternityII/EternityII" className={cls} />
-              <GitHub
-                gh="EternityII/EternityII-report/blob/master/main.pdf"
-                className={cls}
-              >
-                <Collapsible title="Report">
-                  <PDF />
-                </Collapsible>
-              </GitHub>
-              <GitHub
-                gh="EternityII/EternityII-presentation/blob/master/main.pdf"
-                className={cls}
-              >
-                <Collapsible title="Presentation">
-                  <PPT />
-                </Collapsible>
-              </GitHub>
-            </>
-          )}
+          <GH gh="EternityII/EternityII" className="link" />
+          <GitHub
+            gh="EternityII/EternityII-report/blob/master/main.pdf"
+            className="link ml2"
+          >
+            <Collapsible title="Report">
+              <PDF />
+            </Collapsible>
+          </GitHub>
+          <GitHub
+            gh="EternityII/EternityII-presentation/blob/master/main.pdf"
+            className="link ml2"
+          >
+            <Collapsible title="Presentation">
+              <PPT />
+            </Collapsible>
+          </GitHub>
         </Links>
       </p>
       <p className="measure-wide">
