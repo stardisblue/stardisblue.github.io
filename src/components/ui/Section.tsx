@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { HtmlHTMLAttributes } from 'react';
 
-export const Section: React.FC<{ title: any; attrs?: any }> = ({
-  title,
-  children = '',
-  attrs = {},
-}) => (
+export const Section: React.FC<{
+  title: string;
+  attrs?: HtmlHTMLAttributes<HTMLElement>;
+}> = ({ title, children = '', attrs = {} }) => (
   <section
-    id={`sec-${title.toLocaleLowerCase().replaceAll(/[^a-z]+/g, '-')}`}
+    id={`sec-${title.toLocaleLowerCase().replace(/[^a-z]+/g, '-')}`}
     {...attrs}
   >
     <h2 className="helvetica">{title}</h2>
