@@ -8,4 +8,5 @@ export const A: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
     {children}
   </a>
 );
+
 export default A;

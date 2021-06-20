@@ -1,7 +1,5 @@
 import React from 'react';
-import A from './ui/A';
-import { Article } from './ui/Article';
-import Section from './ui/Section';
+import { A, Article, Section } from './ui';
 import { PT, UM } from './URL';
 
 export const Academic: React.FC = () => (

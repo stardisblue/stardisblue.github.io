@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapsible } from '../components/ui/Collapsible';
+import { Collapsible } from './ui';
 
 export const TOC: React.FC<{ show?: boolean }> = ({ show = true }) => (
   <div className="flex flex-wrap">
@@ -26,4 +26,14 @@ export const TOC: React.FC<{ show?: boolean }> = ({ show = true }) => (
       </a>
     )}
   </div>
+);
+
+export const Navigation: React.FC = () => (
+  <>
+    <div className="flex flex-wrap justify-end">
+      <em className="gray mr2">Navigation</em>
+      <TOC />
+    </div>
+    <hr />
+  </>
 );

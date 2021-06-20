@@ -1,12 +1,7 @@
 import React from 'react';
-import A from './ui/A';
-import Section from './ui/Section';
-import { Article } from './ui/Article';
-import { Collapsible } from './ui/Collapsible';
+import { A, Article, Collapsible, Links, Section } from './ui';
 import { DOI, GH, HAL } from './URL';
-import { Links } from './ui/Links';
-import PDF from './icons/PDF';
-import { Globe2 } from 'react-bootstrap-icons';
+import { PDF, Globe } from './icons';
 
 export const Publications: React.FC = () => (
   <Section title="📄 PUBLICATIONS">
@@ -34,7 +29,7 @@ export const Publications: React.FC = () => (
             <GH gh="agorajs" className={className} />
             <A href="https://agorajs.github.io/" className={className}>
               <Collapsible title="agorajs.github.io">
-                <Globe2 />
+                <Globe />
               </Collapsible>
             </A>
           </>

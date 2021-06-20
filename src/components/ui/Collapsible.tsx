@@ -51,3 +51,5 @@ export const Collapsible: React.FC<
     </span>
   );
 };
+
+export default Collapsible;

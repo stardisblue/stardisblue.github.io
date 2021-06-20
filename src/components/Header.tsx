@@ -1,15 +1,13 @@
 import React from 'react';
-import { Links } from './ui/Links';
-import A from './ui/A';
 import { GH } from './URL';
 import { TOC } from './TOC';
-import { Collapsible } from './ui/Collapsible';
-import Observable from './icons/Observable';
+import { A, Collapsible, Links } from './ui';
+import { Observable } from './icons';
 
 export const Header: React.FC = () => (
   <header>
-    <h1>Fati CHEN</h1>
-    <h2 className="f4 i normal mb3">
+    <h1 className="helvetica mb0">Fati CHEN</h1>
+    <h2 className="f4 i normal mb3 mt0">
       Ph.D. Student in Visual Analytics <span className="fs-normal">📊</span>
     </h2>
 
@@ -39,5 +37,6 @@ export const Header: React.FC = () => (
       </Links>
       <TOC show={false} />
     </div>
+    <hr />
   </header>
 );

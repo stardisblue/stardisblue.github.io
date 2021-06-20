@@ -9,3 +9,5 @@ export const Links: React.FC<
     {children && children('link ml2')}
   </span>
 );
+
+export default Links;

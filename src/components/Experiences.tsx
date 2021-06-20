@@ -1,10 +1,6 @@
 import React from 'react';
-import { Article } from './ui/Article';
-import { Collapsible } from './ui/Collapsible';
-import PDF from './icons/PDF';
-import PPT from './icons/PPT';
-import { Links } from './ui/Links';
-import Section from './ui/Section';
+import { Article, Collapsible, Links, Section } from './ui';
+import { PDF, PPT } from './icons';
 import { GH, GitHub, LIRMM, UM } from './URL';
 
 export const Experiences: React.FC = () => (

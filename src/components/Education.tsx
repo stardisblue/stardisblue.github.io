@@ -1,8 +1,6 @@
 import React from 'react';
-import A from './ui/A';
-import Section from './ui/Section';
+import { A, Article, Section } from './ui';
 import { UM } from './URL';
-import { Article } from './ui/Article';
 
 export const Education: React.FC = () => (
   <Section title="🎓 EDUCATION">
