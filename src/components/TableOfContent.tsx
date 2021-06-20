@@ -12,7 +12,7 @@ export const TableOfContent: React.FC<{ show?: boolean }> = ({
       <Collapsible title="Publications">📄</Collapsible>
     </a>
     <a href="#sec--presentations" className="link">
-      <Collapsible title="Presentations">🖥</Collapsible>
+      <Collapsible title="Presentations">️🖥️</Collapsible>
     </a>
     <a href="#sec--academic-services" className="link">
       <Collapsible title="Academic Services">👨‍🏫</Collapsible>

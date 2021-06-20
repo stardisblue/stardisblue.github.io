@@ -3,7 +3,7 @@ import { A, Article, Collapsible, Section } from './ui';
 import { LIRMM } from './URL';
 import { Observable, Facebook } from './ui/icons';
 export const Presentations: React.FC = () => (
-  <Section title="🖥 PRESENTATIONS">
+  <Section title="🖥️ PRESENTATIONS">
     <Article title="Node Overlap Removal Algorithms: A Comparative Study">
       <p className="measure-wide">
         <em>
