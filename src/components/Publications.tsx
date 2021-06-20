@@ -1,7 +1,7 @@
 import React from 'react';
 import { A, Article, Collapsible, Links, Section } from './ui';
 import { DOI, GH, HAL } from './URL';
-import { PDF, Globe } from './icons';
+import { PDF, Globe } from './ui/icons';
 
 export const Publications: React.FC = () => (
   <Section title="📄 PUBLICATIONS">
@@ -19,21 +19,17 @@ export const Publications: React.FC = () => (
         <DOI doi="10.7155/jgaa.00532" />
       </p>
       <Links>
-        {(className) => (
-          <>
-            <HAL hal="lirmm-02879677" className={className}>
-              <Collapsible title="hal: lirmm-02879677">
-                <PDF />
-              </Collapsible>
-            </HAL>
-            <GH gh="agorajs" className={className} />
-            <A href="https://agorajs.github.io/" className={className}>
-              <Collapsible title="agorajs.github.io">
-                <Globe />
-              </Collapsible>
-            </A>
-          </>
-        )}
+        <HAL hal="lirmm-02879677" className="link">
+          <Collapsible title="hal: lirmm-02879677">
+            <PDF />
+          </Collapsible>
+        </HAL>
+        <GH gh="agorajs" className="link ml2" />
+        <A href="https://agorajs.github.io/" className="link ml2">
+          <Collapsible title="agorajs.github.io">
+            <Globe />
+          </Collapsible>
+        </A>
       </Links>
     </Article>
     <Article
@@ -55,13 +51,11 @@ export const Publications: React.FC = () => (
         <DOI doi="10.1007/978-3-030-35802-0_14" />
       </p>
       <Links>
-        {(className) => (
-          <HAL hal="hal-02302617" className={className}>
-            <Collapsible title="hal: hal-02302617">
-              <PDF />
-            </Collapsible>
-          </HAL>
-        )}
+        <HAL hal="hal-02302617" className="link">
+          <Collapsible title="hal: hal-02302617">
+            <PDF />
+          </Collapsible>
+        </HAL>
       </Links>
     </Article>
     <Article
@@ -76,16 +70,12 @@ export const Publications: React.FC = () => (
         Teisseire. <time dateTime="2019">2019</time>.
       </p>
       <Links>
-        {(cls) => (
-          <>
-            <HAL hal="lirmm-02137577" className={cls}>
-              <Collapsible title="hal: lirmm-02137577">
-                <PDF />
-              </Collapsible>
-            </HAL>
-            <GH gh="jGetMove/jGetMove" className={cls} />
-          </>
-        )}
+        <HAL hal="lirmm-02137577" className="link">
+          <Collapsible title="hal: lirmm-02137577">
+            <PDF />
+          </Collapsible>
+        </HAL>
+        <GH gh="jGetMove/jGetMove" className="link ml2" />
       </Links>
     </Article>
   </Section>

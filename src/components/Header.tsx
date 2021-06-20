@@ -1,8 +1,8 @@
 import React from 'react';
 import { GH } from './URL';
-import { TOC } from './TOC';
+import { TableOfContent } from './TableOfContent';
 import { A, Collapsible, Links } from './ui';
-import { Observable } from './icons';
+import { Observable } from './ui/icons';
 
 export const Header: React.FC = () => (
   <header>
@@ -13,29 +13,25 @@ export const Header: React.FC = () => (
 
     <div className="flex flex-wrap justify-between">
       <Links>
-        {(cls) => (
-          <>
-            <A
-              href="mailto:fati.chen@lirmm.fr"
-              title="fati.chen@lirmm.fr"
-              className={cls}
-            >
-              ✉ fati.chen@lirmm.fr
-            </A>
-            <GH gh="stardisblue" className={cls} />
-            <A
-              href="https://observablehq.com/@stardisblue"
-              title="@stardisblue"
-              className={cls}
-            >
-              <Collapsible title="@stardisblue" className="items-baseline">
-                <Observable />
-              </Collapsible>
-            </A>
-          </>
-        )}
+        <A
+          href="mailto:fati.chen@lirmm.fr"
+          title="fati.chen@lirmm.fr"
+          className="link"
+        >
+          ✉ fati.chen@lirmm.fr
+        </A>
+        <GH gh="stardisblue" className="link ml2" />
+        <A
+          href="https://observablehq.com/@stardisblue"
+          title="@stardisblue"
+          className="link ml2"
+        >
+          <Collapsible title="@stardisblue" className="items-baseline">
+            <Observable />
+          </Collapsible>
+        </A>
       </Links>
-      <TOC show={false} />
+      <TableOfContent show={false} />
     </div>
     <hr />
   </header>
