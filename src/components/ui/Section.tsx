@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Section: React.FC<{ title: any; attrs?: any }> = ({
+export const Section: React.FC<{ title: any; attrs?: any }> = ({
   title,
   children = '',
   attrs = {},
@@ -9,7 +9,6 @@ const Section: React.FC<{ title: any; attrs?: any }> = ({
     id={`sec-${title.toLocaleLowerCase().replaceAll(/[^a-z]+/g, '-')}`}
     {...attrs}
   >
-    <hr />
     <h2 className="helvetica">{title}</h2>
     {children}
   </section>

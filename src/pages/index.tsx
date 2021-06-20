@@ -1,5 +1,6 @@
 import React from 'react';
 import 'tachyons/css/tachyons.min.css';
+
 import { Helmet } from 'react-helmet';
 import { AboutMe } from '../components/AboutMe';
 import { Academic } from '../components/Academic';
@@ -8,17 +9,19 @@ import { Experiences } from '../components/Experiences';
 import { Header } from '../components/Header';
 import { Presentations } from '../components/Presentations';
 import { Publications } from '../components/Publications';
-import { GH } from '../components/URL';
-import { Navigation } from '../components/Navigation';
+import { Navigation } from '../components/TOC';
+import { Footer } from '../components/Footer';
+import { News } from '../components/News';
 
 const IndexPage: React.FC = () => (
-  <main className="mw7 center georgia lh-title">
+  <main className="mw8 center georgia lh-title ph2">
     <Helmet>
       <title>Fati CHEN</title>
     </Helmet>
     <Header />
     <AboutMe />
     <Navigation />
+    <News />
     <Education />
     <Navigation />
     <Publications />
@@ -29,10 +32,7 @@ const IndexPage: React.FC = () => (
     <Navigation />
     <Experiences />
     <Navigation />
-    <footer>
-      2021 &mdash; Made with 💖 with Gatsby{' '}
-      <GH gh="stardisblue/stardisblue.github.io" className="inline-flex" />
-    </footer>
+    <Footer />
   </main>
 );
 

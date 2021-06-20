@@ -1,7 +1,6 @@
 import React, { AnchorHTMLAttributes } from 'react';
-import { Github as GithubIcon } from 'react-bootstrap-icons';
-import A from './ui/A';
-import { Collapsible } from './ui/Collapsible';
+import { A, Collapsible } from './ui';
+import { Github as GithubIcon } from './icons';
 
 export const UM: React.FC = ({ children }) => (
   <A href="https://www.umontpellier.fr/" title="Université de Montpellier">

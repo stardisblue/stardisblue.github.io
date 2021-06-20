@@ -10,3 +10,4 @@ export const Article: React.FC<{ title: any; attrs?: any }> = ({
     {children}
   </article>
 );
+export default Article;

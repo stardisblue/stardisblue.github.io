@@ -1,6 +1,5 @@
 import React from 'react';
-import Section from '../components/ui/Section';
-import A from './ui/A';
+import { A, Section } from './ui';
 import { UM, LIRMM } from './URL';
 
 export const AboutMe: React.FC = () => (

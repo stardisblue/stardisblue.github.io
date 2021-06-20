@@ -1,11 +1,7 @@
 import React from 'react';
-import A from './ui/A';
-import { Article } from './ui/Article';
-import Section from './ui/Section';
-import { Collapsible } from './ui/Collapsible';
+import { A, Article, Collapsible, Section } from './ui';
 import { LIRMM } from './URL';
-import Observable from '../components/icons/Observable';
-import { Facebook } from 'react-bootstrap-icons';
+import { Observable, Facebook } from './icons';
 export const Presentations: React.FC = () => (
   <Section title="🖥 PRESENTATIONS">
     <Article title="Node Overlap Removal Algorithms: A Comparative Study">
