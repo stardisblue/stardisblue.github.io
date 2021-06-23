@@ -21,7 +21,7 @@ export const TableOfContent: React.FC<{ show?: boolean }> = ({
       <Collapsible title="Professional & Research Experiences">💼</Collapsible>
     </a>
     {show && (
-      <a href="#" className="link">
+      <a href="#FC" className="link">
         <Collapsible title="Back to Top" className="link">
           🔼
         </Collapsible>
