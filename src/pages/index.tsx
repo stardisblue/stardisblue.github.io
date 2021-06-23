@@ -14,7 +14,7 @@ import { Footer } from '../components/Footer';
 import { News } from '../components/News';
 
 const IndexPage: React.FC = () => (
-  <main className="mw8 center georgia lh-title ph2-m mb3">
+  <main id="FC" className="mw8 center georgia lh-title ph2-m mb3">
     <Helmet>
       <title>Fati CHEN</title>
     </Helmet>

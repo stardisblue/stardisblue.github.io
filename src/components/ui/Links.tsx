@@ -1,13 +1,5 @@
-import React, { HTMLAttributes } from 'react';
+import styled from 'styled-components/macro';
 
-export const Links: React.FC<HTMLAttributes<HTMLSpanElement>> = ({
-  className = '',
-  children,
-  ...props
-}) => (
-  <span className={`flex ${className}`} {...props}>
-    {children}
-  </span>
-);
+export const Links = styled.span.attrs({ className: 'flex' })``;
 
 export default Links;
