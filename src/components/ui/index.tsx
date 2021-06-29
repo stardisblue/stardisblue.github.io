@@ -3,3 +3,4 @@ export { Article } from './Article';
 export { Collapsible } from './Collapsible';
 export { Links } from './Links';
 export { Section } from './Section';
+export { HR } from './HR';

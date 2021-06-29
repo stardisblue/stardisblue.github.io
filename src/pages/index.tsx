@@ -12,28 +12,38 @@ import { Publications } from '../components/Publications';
 import { Navigation } from '../components/TableOfContent';
 import { Footer } from '../components/Footer';
 import { News } from '../components/News';
+import styled from 'styled-components/macro';
 
-const IndexPage: React.FC = () => (
-  <main id="FC" className="mw8 center georgia lh-title ph2-m mb3">
-    <Helmet>
-      <title>Fati CHEN</title>
-    </Helmet>
-    <Header />
-    <AboutMe />
-    <News />
-    <hr />
-    <Education />
-    <Navigation />
-    <Publications />
-    <Navigation />
-    <Presentations />
-    <Navigation />
-    <Academic />
-    <Navigation />
-    <Experiences />
-    <Navigation />
-    <Footer />
-  </main>
-);
+const Main = styled.main`
+  background-color: #f4f4f4;
+  color: #111;
+`;
+
+const IndexPage: React.FC = function () {
+  return (
+    <Main id="FC" className="georgia lh-title pv3">
+      <div className="ph2-m mw8 center ">
+        <Helmet>
+          <title>Fati CHEN</title>
+        </Helmet>
+        <Header />
+        <AboutMe />
+        <News />
+
+        <Education />
+        <Navigation />
+        <Publications />
+        <Navigation />
+        <Presentations />
+        <Navigation />
+        <Academic />
+        <Navigation />
+        <Experiences />
+        <Navigation />
+        <Footer />
+      </div>
+    </Main>
+  );
+};
 
 export default IndexPage;
