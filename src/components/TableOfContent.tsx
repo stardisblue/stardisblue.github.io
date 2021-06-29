@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapsible } from './ui';
+import { Collapsible, HR } from './ui';
 
 export const TableOfContent: React.FC<{ show?: boolean }> = ({
   show = true,
@@ -38,6 +38,6 @@ export const Navigation: React.FC = () => (
       </span>
       <TableOfContent />
     </div>
-    <hr />
+    <HR />
   </>
 );

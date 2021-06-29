@@ -1,12 +1,12 @@
 import React from 'react';
 import { GH } from './URL';
 import { TableOfContent } from './TableOfContent';
-import { A, Collapsible, Links } from './ui';
+import { A, Collapsible, Links, HR } from './ui';
 import { Observable } from './ui/icons';
 
 export const Header: React.FC = () => (
   <header>
-    <h1 className="helvetica mb0">Fati CHEN</h1>
+    <h1 className="helvetica">Fati CHEN</h1>
     <h2 className="f4 i normal mb3 mt0">
       Ph.D. Student in Visual Analytics <span className="fs-normal">📊</span>
     </h2>
@@ -33,6 +33,6 @@ export const Header: React.FC = () => (
       </Links>
       <TableOfContent show={false} />
     </div>
-    <hr />
+    <HR />
   </header>
 );
