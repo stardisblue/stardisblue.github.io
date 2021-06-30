@@ -1,15 +1,13 @@
 import React from 'react';
-import { Article, Collapsible, Links, Section } from './ui';
-import { PDF, PPT } from './ui/icons';
-import { GH, GitHub, LIRMM, UM } from './URL';
+import { Article, Link, Links, Section } from './ui';
+import { GH, LIRMM, UM } from './URL';
 
 export const Experiences: React.FC = () => (
   <Section title="💼 PROFESSIONAL AND RESEARCH EXPERIENCES">
     <Article
       title={
         <>
-          Visual Analytics Ph.D. Student at <UM>University of Montpellier</UM>{' '}
-          (Montpellier, France)
+          Visual Analytics Ph.D. Student at <UM /> (Montpellier, France)
         </>
       }
     >
@@ -27,8 +25,7 @@ export const Experiences: React.FC = () => (
     <Article
       title={
         <>
-          Visualization Algorithms Researcher at <LIRMM>LIRMM</LIRMM>{' '}
-          (Montpellier, France)
+          Visualization Algorithms Researcher at <LIRMM /> (Montpellier, France)
         </>
       }
     >
@@ -63,7 +60,8 @@ export const Experiences: React.FC = () => (
         </Links>
       </p>
       <p className="measure-wide">
-        Development of <GitHub gh="jgetmove/jgetmove">jGetMove</GitHub> an
+        Development of{' '}
+        <Link href="https://github.com/jgetmove/jgetmove">jGetMove</Link> an
         efficient and unifying spatio-temporal pattern mining system for moving
         objects.
         <br />
@@ -86,28 +84,27 @@ export const Experiences: React.FC = () => (
         — Internship{' '}
         <Links className="inline-flex">
           <GH gh="EternityII/EternityII" className="link" />
-          <GitHub
-            gh="EternityII/EternityII-report/blob/master/main.pdf"
+          <Link
             className="link ml2"
+            href="https://github.com/EternityII/EternityII-report/blob/master/main.pdf"
+            collapsible="PDF"
           >
-            <Collapsible title="Report">
-              <PDF />
-            </Collapsible>
-          </GitHub>
-          <GitHub
-            gh="EternityII/EternityII-presentation/blob/master/main.pdf"
+            Report
+          </Link>
+          <Link
             className="link ml2"
+            href="https://github.com/EternityII/EternityII-presentation/blob/master/main.pdf"
+            collapsible="PPT"
           >
-            <Collapsible title="Presentation">
-              <PPT />
-            </Collapsible>
-          </GitHub>
+            Presentation
+          </Link>
         </Links>
       </p>
       <p className="measure-wide">
         Development of a solver for a combinatorial puzzle game{' '}
-        <GitHub gh="EternityII" />. Analysis and setup of various solving
-        strategies, some based on pre-calculation of simplified instances.
+        <Link href="https://github.com/EternityII">EternityII</Link>. Analysis
+        and setup of various solving strategies, some based on pre-calculation
+        of simplified instances.
       </p>
     </Article>
     <Article title="Web Developper at WBS (Montpellier, France)">

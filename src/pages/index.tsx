@@ -22,14 +22,13 @@ const Main = styled.main`
 const IndexPage: React.FC = function () {
   return (
     <Main id="FC" className="georgia lh-title pv3">
+      <Helmet>
+        <title>Fati CHEN</title>
+      </Helmet>
       <div className="ph2-m mw8 center ">
-        <Helmet>
-          <title>Fati CHEN</title>
-        </Helmet>
         <Header />
         <AboutMe />
         <News />
-
         <Education />
         <Navigation />
         <Publications />
