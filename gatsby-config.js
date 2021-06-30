@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'stardisblue.github.io',
+    title: 'Fati CHEN',
   },
   plugins: [
     'gatsby-plugin-styled-components',

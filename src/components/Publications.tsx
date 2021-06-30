@@ -1,15 +1,14 @@
 import React from 'react';
-import { A, Article, Collapsible, Links, Section } from './ui';
-import { DOI, GH, HAL } from './URL';
-import { PDF, Globe } from './ui/icons';
+import { Article, Link, Links, Section } from './ui';
+import { DOI, GH } from './URL';
 
 export const Publications: React.FC = () => (
   <Section title="📄 PUBLICATIONS">
     <Article
       title={
-        <A href="https://agorajs.github.io/">
+        <Link href="https://agorajs.github.io/">
           Node Overlap Removal Algorithms: an Extended Comparative Study
-        </A>
+        </Link>
       }
     >
       <p className="measure-wide">
@@ -19,24 +18,27 @@ export const Publications: React.FC = () => (
         <DOI doi="10.7155/jgaa.00532" />
       </p>
       <Links>
-        <HAL hal="lirmm-02879677" className="link">
-          <Collapsible title="hal: lirmm-02879677">
-            <PDF />
-          </Collapsible>
-        </HAL>
+        <Link
+          className="link"
+          href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02879677"
+          collapsible="PDF"
+          children="hal: lirmm-02879677"
+        />
         <GH gh="agorajs" className="link ml2" />
-        <A href="https://agorajs.github.io/" className="link ml2">
-          <Collapsible title="agorajs.github.io">
-            <Globe />
-          </Collapsible>
-        </A>
+        <Link
+          href="https://agorajs.github.io/"
+          className="link ml2"
+          collapsible="Globe"
+        >
+          agorajs.github.io
+        </Link>
       </Links>
     </Article>
     <Article
       title={
-        <HAL hal="hal-02302617">
+        <Link href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617">
           Node Overlap Removal Algorithms: A Comparative Study
-        </HAL>
+        </Link>
       }
     >
       <p className="measure-wide">
@@ -51,18 +53,19 @@ export const Publications: React.FC = () => (
         <DOI doi="10.1007/978-3-030-35802-0_14" />
       </p>
       <Links>
-        <HAL hal="hal-02302617" className="link">
-          <Collapsible title="hal: hal-02302617">
-            <PDF />
-          </Collapsible>
-        </HAL>
+        <Link
+          className="link"
+          href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617"
+          collapsible="PDF"
+          children="hal: hal-02302617"
+        />
       </Links>
     </Article>
     <Article
       title={
-        <HAL hal="lirmm-02137577">
+        <Link href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577">
           JGetMove: Mining Multiple Movement Patterns
-        </HAL>
+        </Link>
       }
     >
       <p className="measure-wide">
@@ -70,11 +73,12 @@ export const Publications: React.FC = () => (
         Teisseire. <time dateTime="2019">2019</time>.
       </p>
       <Links>
-        <HAL hal="lirmm-02137577" className="link">
-          <Collapsible title="hal: lirmm-02137577">
-            <PDF />
-          </Collapsible>
-        </HAL>
+        <Link
+          className="link"
+          href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577"
+          collapsible="PDF"
+          children="hal: lirmm-02137577"
+        />
         <GH gh="jGetMove/jGetMove" className="link ml2" />
       </Links>
     </Article>

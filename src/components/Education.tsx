@@ -1,44 +1,45 @@
 import React from 'react';
-import { A, Article, Section } from './ui';
+import { Article, Link, Section } from './ui';
 import { UM } from './URL';
+
+export const EduArticle: React.FC<{ title: React.ReactNode; time: string }> = ({
+  title,
+  time,
+  children,
+}) => (
+  <Article
+    title={
+      <>
+        {title} — <time dateTime={time}>{time}</time>
+      </>
+    }
+  >
+    {children}
+  </Article>
+);
 
 export const Education: React.FC = () => (
   <Section title="🎓 EDUCATION">
-    <Article
-      title={
-        <>
-          M.Sc. in Software Architecture, Computer Science —{' '}
-          <time dateTime="2018">2018</time>
-        </>
-      }
+    <EduArticle
+      title="M.Sc. in Software Architecture, Computer Science"
+      time="2018"
     >
-      <UM>University of Montpellier</UM>, France.
-    </Article>
-    <Article
-      title={
-        <>
-          B.Sc. in Software Architecture, Computer Science —{' '}
-          <time dateTime="2016">2016</time>
-        </>
-      }
+      <UM />, France.
+    </EduArticle>
+    <EduArticle
+      title="B.Sc. in Software Architecture, Computer Science"
+      time="2016"
     >
-      <UM>University of Montpellier</UM>, France.
-    </Article>
-    <Article
-      title={
-        <>
-          Technical degree in Business Computing —{' '}
-          <time dateTime="2015">2015</time>
-        </>
-      }
-    >
-      <A
+      <UM />, France.
+    </EduArticle>
+    <EduArticle title="Technical degree in Business Computing" time="2015">
+      <Link
         href="https://iut-montpellier-sete.edu.umontpellier.fr/"
         title="IUT de Montpellier"
       >
         University Institute of Technology of Montpellier
-      </A>
+      </Link>
       , France.
-    </Article>
+    </EduArticle>
   </Section>
 );

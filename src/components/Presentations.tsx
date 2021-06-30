@@ -1,7 +1,7 @@
 import React from 'react';
-import { A, Article, Collapsible, Section } from './ui';
+import { Article, Section, Link } from './ui';
 import { LIRMM } from './URL';
-import { Observable, Facebook } from './ui/icons';
+
 export const Presentations: React.FC = () => (
   <Section title="🖥️ PRESENTATIONS">
     <Article title="Node Overlap Removal Algorithms: A Comparative Study">
@@ -18,36 +18,32 @@ export const Presentations: React.FC = () => (
       <p className="measure-wide">
         <em>
           Guest Presenter, séminar{' '}
-          <A href="https://anr.fr/Projet-ANR-17-CE38-0013">ANR DAPHNE</A>
+          <Link href="https://anr.fr/Projet-ANR-17-CE38-0013">ANR DAPHNE</Link>
         </em>
         , Visio,{' '}
-        <A
+        <Link
           href="http://larhra.ish-lyon.cnrs.fr/"
           title="Laboratoire de recherche historique Rhônes-Alpes"
-        >
-          LARHRA
-        </A>
+          children="LARHRA"
+        />
         ,{' '}
-        <A
+        <Link
           href="https://techne.labo.univ-poitiers.fr/"
           title="Laboratoire de recherche en TECHnologies Numériques pour l’Éducation"
-        >
-          TECHNÉ
-        </A>
+          children="TECHNÉ"
+        />
         ,{' '}
-        <A
+        <Link
           href="http://cedric.cnam.fr/"
           title="Centre d’études et de recherche en informatique et communications"
-        >
-          CÉDRIC
-        </A>
-        , <LIRMM>LIRMM</LIRMM>,{' '}
-        <A
+          children="CÉDRIC"
+        />
+        , <LIRMM />,{' '}
+        <Link
           href="https://lamop.pantheonsorbonne.fr/"
           title="Laboratoire de Médiévistique occidentale de Paris"
-        >
-          LAMOP
-        </A>
+          children="LAMOP"
+        />
         , <time dateTime="2021-04">April 2021</time>.
       </p>
     </Article>
@@ -55,25 +51,21 @@ export const Presentations: React.FC = () => (
       <p className="measure-wide">
         <em>
           Guest Presenter, séminar{' '}
-          <A
+          <Link
             href="https://www.labri.fr/"
             title="Laboratoire Bordelais de Recherche en Informatique"
-          >
-            LaBRi
-          </A>
+            children="LaBRi"
+          />
         </em>
         , Visio, <time dateTime="2021-05">May 2021</time>.{' '}
-        <A
+        <Link
           href="https://observablehq.com/@stardisblue/agora-presentation-labri"
           title="@stardisblue/agora-presentation-labri"
+          className="items-baseline inline-flex"
+          collapsible="Observable"
         >
-          <Collapsible
-            title="Presentation"
-            className="items-baseline inline-flex"
-          >
-            <Observable />
-          </Collapsible>
-        </A>
+          Presentation
+        </Link>
       </p>
     </Article>
     <Article title="ProsoVis: Prosopographic Data Exploration Interface">
@@ -83,18 +75,14 @@ export const Presentations: React.FC = () => (
           the Analysis of Urban Mobility Data
         </em>
         , Visio, <time dateTime="2021-04">June 2021</time>.{' '}
-        <A
+        <Link
+          className="items-baseline inline-flex"
           href="https://www.facebook.com/events/200843748562680/"
           title="Facebook Event - Club de Ciencias Computacionales Yachay Tech"
+          collapsible={'Facebook'}
         >
-          {' '}
-          <Collapsible
-            title="Facebook Event"
-            className="items-baseline inline-flex"
-          >
-            <Facebook />
-          </Collapsible>
-        </A>
+          Facebook Event
+        </Link>
       </p>
     </Article>
   </Section>

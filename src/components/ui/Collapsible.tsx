@@ -2,7 +2,10 @@ import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 
 export const Collapsible: React.FC<
-  HTMLAttributes<HTMLSpanElement> & { title: any; className?: string }
+  HTMLAttributes<HTMLSpanElement> & {
+    title: React.ReactNode;
+    className?: string;
+  }
 > = ({ title, children, className = '', ...props }) => {
   const $title = useRef<HTMLSpanElement>(null as any);
 
