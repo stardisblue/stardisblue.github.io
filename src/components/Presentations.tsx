@@ -1,5 +1,5 @@
 import React from 'react';
-import { Article, Section, Link } from './ui';
+import { Article, Section, A } from './ui';
 import { LIRMM } from './URL';
 
 export const Presentations: React.FC = () => (
@@ -18,28 +18,28 @@ export const Presentations: React.FC = () => (
       <p className="measure-wide">
         <em>
           Guest Presenter, séminar{' '}
-          <Link href="https://anr.fr/Projet-ANR-17-CE38-0013">ANR DAPHNE</Link>
+          <A href="https://anr.fr/Projet-ANR-17-CE38-0013">ANR DAPHNE</A>
         </em>
         , Visio,{' '}
-        <Link
+        <A
           href="http://larhra.ish-lyon.cnrs.fr/"
           title="Laboratoire de recherche historique Rhônes-Alpes"
           children="LARHRA"
         />
         ,{' '}
-        <Link
+        <A
           href="https://techne.labo.univ-poitiers.fr/"
           title="Laboratoire de recherche en TECHnologies Numériques pour l’Éducation"
           children="TECHNÉ"
         />
         ,{' '}
-        <Link
+        <A
           href="http://cedric.cnam.fr/"
           title="Centre d’études et de recherche en informatique et communications"
           children="CÉDRIC"
         />
         , <LIRMM />,{' '}
-        <Link
+        <A
           href="https://lamop.pantheonsorbonne.fr/"
           title="Laboratoire de Médiévistique occidentale de Paris"
           children="LAMOP"
@@ -51,21 +51,21 @@ export const Presentations: React.FC = () => (
       <p className="measure-wide">
         <em>
           Guest Presenter, séminar{' '}
-          <Link
+          <A
             href="https://www.labri.fr/"
             title="Laboratoire Bordelais de Recherche en Informatique"
             children="LaBRi"
           />
         </em>
         , Visio, <time dateTime="2021-05">May 2021</time>.{' '}
-        <Link
+        <A
           href="https://observablehq.com/@stardisblue/agora-presentation-labri"
           title="@stardisblue/agora-presentation-labri"
           className="items-baseline inline-flex"
           collapsible="Observable"
         >
           Presentation
-        </Link>
+        </A>
       </p>
     </Article>
     <Article title="ProsoVis: Prosopographic Data Exploration Interface">
@@ -75,14 +75,14 @@ export const Presentations: React.FC = () => (
           the Analysis of Urban Mobility Data
         </em>
         , Visio, <time dateTime="2021-04">June 2021</time>.{' '}
-        <Link
+        <A
           className="items-baseline inline-flex"
           href="https://www.facebook.com/events/200843748562680/"
           title="Facebook Event - Club de Ciencias Computacionales Yachay Tech"
           collapsible={'Facebook'}
         >
           Facebook Event
-        </Link>
+        </A>
       </p>
     </Article>
   </Section>

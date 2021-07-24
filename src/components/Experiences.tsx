@@ -1,5 +1,5 @@
 import React from 'react';
-import { Article, Link, Links, Section } from './ui';
+import { Article, A, Links, Section } from './ui';
 import { GH, LIRMM, UM } from './URL';
 
 export const Experiences: React.FC = () => (
@@ -61,9 +61,8 @@ export const Experiences: React.FC = () => (
       </p>
       <p className="measure-wide">
         Development of{' '}
-        <Link href="https://github.com/jgetmove/jgetmove">jGetMove</Link> an
-        efficient and unifying spatio-temporal pattern mining system for moving
-        objects.
+        <A href="https://github.com/jgetmove/jgetmove">jGetMove</A> an efficient
+        and unifying spatio-temporal pattern mining system for moving objects.
         <br />
         Refactoring from C++ and improving the algorithm.
       </p>
@@ -84,27 +83,27 @@ export const Experiences: React.FC = () => (
         — Internship{' '}
         <Links className="inline-flex">
           <GH gh="EternityII/EternityII" className="link" />
-          <Link
+          <A
             className="link ml2"
             href="https://github.com/EternityII/EternityII-report/blob/master/main.pdf"
             collapsible="PDF"
           >
             Report
-          </Link>
-          <Link
+          </A>
+          <A
             className="link ml2"
             href="https://github.com/EternityII/EternityII-presentation/blob/master/main.pdf"
             collapsible="PPT"
           >
             Presentation
-          </Link>
+          </A>
         </Links>
       </p>
       <p className="measure-wide">
         Development of a solver for a combinatorial puzzle game{' '}
-        <Link href="https://github.com/EternityII">EternityII</Link>. Analysis
-        and setup of various solving strategies, some based on pre-calculation
-        of simplified instances.
+        <A href="https://github.com/EternityII">EternityII</A>. Analysis and
+        setup of various solving strategies, some based on pre-calculation of
+        simplified instances.
       </p>
     </Article>
     <Article title="Web Developper at WBS (Montpellier, France)">

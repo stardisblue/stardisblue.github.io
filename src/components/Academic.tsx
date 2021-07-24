@@ -1,14 +1,13 @@
 import React from 'react';
-import { Article, Link, Section } from './ui';
+import { Article, A, Section } from './ui';
 import { Polytech, UM } from './URL';
 
 export const Academic: React.FC = () => (
   <Section title="👨‍🏫 ACADEMIC SERVICES">
     <Article title="Organization Committee">
       <p className="measure-wide">
-        <Link href="https://egc2021.sciencesconf.org/">EGC 2021</Link>,
-        Extraction et Gestion des Connaissances{' '}
-        <time dateTime="2021">2021</time>.
+        <A href="https://egc2021.sciencesconf.org/">EGC 2021</A>, Extraction et
+        Gestion des Connaissances <time dateTime="2021">2021</time>.
       </p>
     </Article>
     <Article title="Teachings">
@@ -24,9 +23,9 @@ export const Academic: React.FC = () => (
       </p>
       <p className="measure-wide">
         <strong>Introduction to Web</strong>, C.S. 2nd year students.{' '}
-        <Link href="https://www.iutbeziers.fr/">
+        <A href="https://www.iutbeziers.fr/">
           University Institute of Technology, Béziers
-        </Link>
+        </A>
         , France. <time dateTime="2019">2019</time>-
         <time dateTime="2021">2021</time>
       </p>

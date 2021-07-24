@@ -1,5 +1,5 @@
 import React from 'react';
-import { Article, Link, Section } from './ui';
+import { Article, A, Section } from './ui';
 import { UM } from './URL';
 
 export const EduArticle: React.FC<{ title: React.ReactNode; time: string }> = ({
@@ -33,12 +33,12 @@ export const Education: React.FC = () => (
       <UM />, France.
     </EduArticle>
     <EduArticle title="Technical degree in Business Computing" time="2015">
-      <Link
+      <A
         href="https://iut-montpellier-sete.edu.umontpellier.fr/"
         title="IUT de Montpellier"
       >
         University Institute of Technology of Montpellier
-      </Link>
+      </A>
       , France.
     </EduArticle>
   </Section>

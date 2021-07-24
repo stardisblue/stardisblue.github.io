@@ -1,14 +1,14 @@
 import React from 'react';
-import { Article, Link, Links, Section } from './ui';
+import { Article, A, Links, Section } from './ui';
 import { DOI, GH } from './URL';
 
 export const Publications: React.FC = () => (
   <Section title="📄 PUBLICATIONS">
     <Article
       title={
-        <Link href="https://agorajs.github.io/">
+        <A href="https://agorajs.github.io/">
           Node Overlap Removal Algorithms: an Extended Comparative Study
-        </Link>
+        </A>
       }
     >
       <p className="measure-wide">
@@ -18,27 +18,27 @@ export const Publications: React.FC = () => (
         <DOI doi="10.7155/jgaa.00532" />
       </p>
       <Links>
-        <Link
+        <A
           className="link"
           href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02879677"
           collapsible="PDF"
           children="hal: lirmm-02879677"
         />
         <GH gh="agorajs" className="link ml2" />
-        <Link
+        <A
           href="https://agorajs.github.io/"
           className="link ml2"
           collapsible="Globe"
         >
           agorajs.github.io
-        </Link>
+        </A>
       </Links>
     </Article>
     <Article
       title={
-        <Link href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617">
+        <A href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617">
           Node Overlap Removal Algorithms: A Comparative Study
-        </Link>
+        </A>
       }
     >
       <p className="measure-wide">
@@ -53,7 +53,7 @@ export const Publications: React.FC = () => (
         <DOI doi="10.1007/978-3-030-35802-0_14" />
       </p>
       <Links>
-        <Link
+        <A
           className="link"
           href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617"
           collapsible="PDF"
@@ -63,9 +63,9 @@ export const Publications: React.FC = () => (
     </Article>
     <Article
       title={
-        <Link href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577">
+        <A href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577">
           JGetMove: Mining Multiple Movement Patterns
-        </Link>
+        </A>
       }
     >
       <p className="measure-wide">
@@ -73,7 +73,7 @@ export const Publications: React.FC = () => (
         Teisseire. <time dateTime="2019">2019</time>.
       </p>
       <Links>
-        <Link
+        <A
           className="link"
           href="https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577"
           collapsible="PDF"

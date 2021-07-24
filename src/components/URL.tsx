@@ -1,10 +1,10 @@
 import React, { AnchorHTMLAttributes } from 'react';
-import { Link } from './ui';
+import { A } from './ui';
 
 export const UM: React.FC = ({ children }) => (
-  <Link href="https://www.umontpellier.fr/" title="Université de Montpellier">
+  <A href="https://www.umontpellier.fr/" title="Université de Montpellier">
     {children ?? 'University of Montpellier'}
-  </Link>
+  </A>
 );
 
 /**
@@ -13,52 +13,49 @@ export const UM: React.FC = ({ children }) => (
 export const GitHub: React.FC<
   { gh: string } & AnchorHTMLAttributes<HTMLAnchorElement>
 > = ({ gh, children, ...props }) => (
-  <Link {...props} href={'https://github.com/' + gh}>
+  <A {...props} href={'https://github.com/' + gh}>
     {children ?? gh}
-  </Link>
+  </A>
 );
 
 export const GH: React.FC<
   AnchorHTMLAttributes<HTMLAnchorElement> & { gh: string }
 > = ({ gh, ...props }) => (
-  <Link
+  <A
     href={'https://github.com/' + gh}
     title={gh}
     collapsible="Github"
     {...props}
   >
     {gh}
-  </Link>
+  </A>
 );
 
 export const HAL: React.FC<
   { hal: string } & AnchorHTMLAttributes<HTMLAnchorElement>
 > = ({ hal, children, ...props }) => (
-  <Link {...props} href={'https://hal-lirmm.ccsd.cnrs.fr/' + hal}>
+  <A {...props} href={'https://hal-lirmm.ccsd.cnrs.fr/' + hal}>
     {children}
-  </Link>
+  </A>
 );
 
 export const DOI: React.FC<{ doi: string }> = ({ doi }) => (
-  <Link href={'https://dx.doi.org/' + doi} title={'doi:' + doi}>
+  <A href={'https://dx.doi.org/' + doi} title={'doi:' + doi}>
     {doi}
-  </Link>
+  </A>
 );
 
 export const Polytech: React.FC = ({ children }) => (
-  <Link
-    href="https://www.polytech.umontpellier.fr/"
-    title="Polytech Montpellier"
-  >
+  <A href="https://www.polytech.umontpellier.fr/" title="Polytech Montpellier">
     {children ?? 'POLYTECH Montpellier'}
-  </Link>
+  </A>
 );
 
 export const LIRMM: React.FC = ({ children }) => (
-  <Link
+  <A
     href="https://www.lirmm.fr/"
     title="Laboratoire d'Informatique, de Robotique et de Microélectronique de Montpellier"
   >
     {children ?? 'LIRMM'}
-  </Link>
+  </A>
 );

@@ -1,15 +1,15 @@
 import React from 'react';
 import Collapsible from './Collapsible';
 import * as icons from './icons';
-type LinkProps = {
+type AProps = {
   className?: string;
   collapsible?: keyof typeof icons;
   title?: string;
   external?: boolean;
 };
 
-export const Link: React.FC<
-  LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>
+export const A: React.FC<
+  AProps & React.AnchorHTMLAttributes<HTMLAnchorElement>
 > = ({ external = true, collapsible = null, children, ...attrs }) => {
   let content = children;
   if (collapsible) {

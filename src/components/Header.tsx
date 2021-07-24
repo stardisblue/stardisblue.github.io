@@ -1,7 +1,7 @@
 import React from 'react';
 import { GH } from './URL';
 import { TableOfContent } from './TableOfContent';
-import { Link, Links, HR } from './ui';
+import { A, Links, HR } from './ui';
 
 export const Header: React.FC = () => (
   <header>
@@ -12,22 +12,22 @@ export const Header: React.FC = () => (
 
     <div className="flex flex-wrap justify-between">
       <Links>
-        <Link
+        <A
           href="mailto:fati.chen@lirmm.fr"
           title="fati.chen@lirmm.fr"
           className="link"
         >
           ✉ fati.chen@lirmm.fr
-        </Link>
+        </A>
         <GH gh="stardisblue" className="link ml2" />
-        <Link
+        <A
           href="https://observablehq.com/@stardisblue"
           title="@stardisblue"
           className="link ml2"
           collapsible="Observable"
         >
           @stardisblue
-        </Link>
+        </A>
       </Links>
       <TableOfContent show={false} />
     </div>
