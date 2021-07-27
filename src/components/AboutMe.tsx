@@ -5,20 +5,20 @@ import { UM, LIRMM } from './URL';
 export const AboutMe: React.FC = () => (
   <Section title="👨‍💻 ABOUT ME" className="noprint">
     <p className="measure-wide lh-copy">
-      Fati is a Ph.D. Student 👨‍🔬 at <UM>University of Montpellier</UM>, France.
-      Where he is a member of the <A href="http://advanse.lirmm.fr/">ADVANSE</A>{' '}
-      team at the <LIRMM /> laboratory. His thesis work focuses on reducing
+      I am a Ph.D. Student 👨‍🔬 at <UM>University of Montpellier</UM>, France.
+      Where I am a member of the <A href="http://advanse.lirmm.fr/">ADVANSE</A>{' '}
+      team at the <LIRMM /> laboratory. My thesis work focuses on reducing
       visual cluttering of spatio-temporal historical data.
     </p>
     <p className="measure-wide lh-copy">
-      He is interested in web technologies, security, algorithmics, science,
-      equality, philosophy. Speaks English, French and Russian fluently. Has a
+      I am interested in web technologies, security, algorithmics, science,
+      equality, philosophy. I speak English, French and Russian fluently. Have a
       passion for bouldering 🧗 and Origami.
       <br />
       Played chess♟ and won prizes🥇 during highschool.
     </p>
     <p className="measure-wide lh-copy">
-      He also created several micro websites for his friends, a partition{' '}
+      I also created several micro websites for my friends, a partition{' '}
       <A href="https://calioppe.github.io/">repository</A>🎼 for the association
       EVS Callioppe. A printable student{' '}
       <A href="https://stardisblue.github.io/chansonnier">songs lyrics</A>

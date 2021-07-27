@@ -16,7 +16,7 @@ export const Experiences: React.FC = () => (
           <time dateTime="2018-07">Jul. 2018</time> - present
         </em>
       </p>
-      <p className="measure-wide">
+      <p className="measure-wide lh-copy">
         Research on the data visual analysis domain. Development and
         implementation of web applications to analyze spatio-temporal dimensions
         of data and model its relations.
@@ -36,7 +36,7 @@ export const Experiences: React.FC = () => (
         </em>{' '}
         — Internship
       </p>
-      <p className="measure-wide">
+      <p className="measure-wide lh-copy">
         Research, development, and implementation of algorithms for visual
         cluttering reduction, applied to graph visualization.
       </p>
@@ -59,7 +59,7 @@ export const Experiences: React.FC = () => (
           <GH gh="jGetMove/jGetMove" className="link" />
         </Links>
       </p>
-      <p className="measure-wide">
+      <p className="measure-wide lh-copy">
         Development of{' '}
         <A href="https://github.com/jgetmove/jgetmove">jGetMove</A> an efficient
         and unifying spatio-temporal pattern mining system for moving objects.
@@ -99,7 +99,7 @@ export const Experiences: React.FC = () => (
           </A>
         </Links>
       </p>
-      <p className="measure-wide">
+      <p className="measure-wide lh-copy">
         Development of a solver for a combinatorial puzzle game{' '}
         <A href="https://github.com/EternityII">EternityII</A>. Analysis and
         setup of various solving strategies, some based on pre-calculation of
