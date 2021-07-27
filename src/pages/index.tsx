@@ -1,5 +1,6 @@
 import React from 'react';
 import 'tachyons/css/tachyons.min.css';
+import '../styles/global.scss';
 
 import { Helmet } from 'react-helmet';
 import { AboutMe } from '../components/AboutMe';
@@ -12,16 +13,12 @@ import { Publications } from '../components/Publications';
 import { Navigation } from '../components/TableOfContent';
 import { Footer } from '../components/Footer';
 import { News } from '../components/News';
-import styled from 'styled-components/macro';
+import { HR } from '../components/ui';
+import type { PageProps } from 'gatsby';
 
-const Main = styled.main`
-  background-color: #f4f4f4;
-  color: #111;
-`;
-
-const IndexPage: React.FC = function () {
+const IndexPage: React.FC<PageProps> = function ({ location }) {
   return (
-    <Main id="FC" className="georgia lh-title pv3">
+    <main id="FC" className="georgia lh-title">
       <Helmet>
         <title>Fati CHEN</title>
       </Helmet>
@@ -31,17 +28,22 @@ const IndexPage: React.FC = function () {
         <News />
         <Education />
         <Navigation />
+        <HR />
         <Publications />
         <Navigation />
+        <HR />
         <Presentations />
         <Navigation />
+        <HR />
         <Academic />
         <Navigation />
+        <HR />
         <Experiences />
         <Navigation />
+        <HR />
         <Footer />
       </div>
-    </Main>
+    </main>
   );
 };
 

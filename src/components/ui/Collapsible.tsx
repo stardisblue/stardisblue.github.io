@@ -1,5 +1,15 @@
 import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import styled from 'styled-components';
+
+const PrintableSpan = styled.span`
+  @media print {
+    width: initial !important;
+    opacity: initial !important;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+  }
+`;
 
 export const Collapsible: React.FC<
   HTMLAttributes<HTMLSpanElement> & {
@@ -48,9 +58,9 @@ export const Collapsible: React.FC<
   return (
     <span className={'flex ' + className} {...pointerEvents} {...props}>
       {children}
-      <span ref={$title} className="overflow-hidden nowrap">
+      <PrintableSpan ref={$title} className="overflow-hidden nowrap">
         {title}
-      </span>
+      </PrintableSpan>
     </span>
   );
 };

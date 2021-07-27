@@ -14,7 +14,7 @@ export const EduArticle: React.FC<{ title: React.ReactNode; time: string }> = ({
       </>
     }
   >
-    {children}
+    <p className="lh-copy mt0">{children}</p>
   </Article>
 );
 

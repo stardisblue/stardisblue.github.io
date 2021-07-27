@@ -1,10 +1,11 @@
 import React from 'react';
-import { Collapsible, HR } from './ui';
+import styled from 'styled-components/macro';
+import { Collapsible } from './ui';
 
 export const TableOfContent: React.FC<{ show?: boolean }> = ({
   show = true,
 }) => (
-  <div className="flex flex-wrap">
+  <div className="flex flex-wrap noprint">
     <a href="#sec--about-me" className="link">
       <Collapsible title="About me">👨‍💻</Collapsible>
     </a>
@@ -30,14 +31,19 @@ export const TableOfContent: React.FC<{ show?: boolean }> = ({
   </div>
 );
 
+const StyledNavigation = styled.div`
+  @media print {
+    display: none;
+  }
+`;
+
 export const Navigation: React.FC = () => (
   <>
-    <div className="flex flex-wrap justify-end">
+    <StyledNavigation className="flex flex-wrap justify-end">
       <span title="(joke) be careful when sailing ">
         ⚓<em className="gray mr2">Navigation</em>
       </span>
       <TableOfContent />
-    </div>
-    <HR />
+    </StyledNavigation>
   </>
 );

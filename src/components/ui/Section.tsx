@@ -1,16 +1,17 @@
 import React, { HtmlHTMLAttributes } from 'react';
+import styled from 'styled-components/macro';
 
-export const Section: React.FC<{
-  title: string;
-  attrs?: HtmlHTMLAttributes<HTMLElement>;
-}> = ({ title, children = '', attrs = {} }) => (
+export const Section: React.FC<HtmlHTMLAttributes<HTMLElement>> = ({
+  title,
+  children,
+  ...attrs
+}) => (
   <section
     id={`sec-${title.toLocaleLowerCase().replace(/[^a-z]+/g, '-')}`}
     {...attrs}
   >
-    <h2 className="helvetica">{title}</h2>
+    <h2 className="f3 helvetica">{title}</h2>
     {children}
   </section>
 );
-
 export default Section;

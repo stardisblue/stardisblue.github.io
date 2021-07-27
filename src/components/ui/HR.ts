@@ -4,5 +4,9 @@ export const HR = styled.hr.attrs({
 })`
   border-bottom-style: solid;
   border-bottom-width: 1px;
+
+  @media print {
+    display: none;
+  }
 `;
 export default HR;

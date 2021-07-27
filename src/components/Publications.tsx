@@ -11,7 +11,7 @@ export const Publications: React.FC = () => (
         </A>
       }
     >
-      <p className="measure-wide">
+      <p className="lh-copy measure-wide">
         <strong>Fati CHEN</strong>, Laurent Piccinini, Pascal Poncelet, Arnaud
         Sallaberry. <em>Journal of Graph Algorithms and Applications (JGAA)</em>
         , 24(4): 683-706. <time dateTime="2020">2020</time>. doi:
@@ -41,7 +41,7 @@ export const Publications: React.FC = () => (
         </A>
       }
     >
-      <p className="measure-wide">
+      <p className="lh-copy measure-wide">
         <strong>Fati CHEN</strong>, Laurent Piccinini, Pascal Poncelet, Arnaud
         Sallaberry.{' '}
         <em>
@@ -68,7 +68,7 @@ export const Publications: React.FC = () => (
         </A>
       }
     >
-      <p className="measure-wide">
+      <p className="lh-copy measure-wide">
         <strong>Fati CHEN</strong>, Nhat Hai Phan, Pascal Poncelet, Maguelonne
         Teisseire. <time dateTime="2019">2019</time>.
       </p>
