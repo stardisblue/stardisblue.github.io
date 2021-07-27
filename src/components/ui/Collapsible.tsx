@@ -1,4 +1,9 @@
-import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
+import React, {
+  HTMLAttributes,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import * as d3 from 'd3';
 import styled from 'styled-components';
 
@@ -24,7 +29,7 @@ export const Collapsible: React.FC<
     onPointerLeave: undefined,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const _text = d3.select($title.current).style('width', null);
     const size = $title.current.offsetWidth;
     _text
