@@ -4,17 +4,54 @@ import { LIRMM } from './URL';
 
 export const Presentations: React.FC = () => (
   <Section title="🖥️ PRESENTATIONS">
-    <Article title="Node Overlap Removal Algorithms: A Comparative Study">
+    <Article
+      title="ProsoVis: Prosopographic Data Exploration Interface"
+      titleSize="f5--print"
+    >
       <p className="measure-wide">
         <em>
-          27th International Symposium on Graph Drawing and Network
-          Visualization
+          Guest Presenter, Simposio Investigación Computational: Approaches for
+          the Analysis of Urban Mobility Data
         </em>
-        , Průhonice/Prague, Czech Republic,{' '}
-        <time dateTime="2019-09">September 2019</time>.
+        , Visio, <time dateTime="2021-04">June 2021</time>.{' '}
+        <A
+          className="items-baseline inline-flex"
+          href="https://www.facebook.com/events/200843748562680/"
+          title="Facebook Event - Club de Ciencias Computacionales Yachay Tech"
+          collapsible={'Facebook'}
+        >
+          Facebook Event
+        </A>
       </p>
     </Article>
-    <Article title="ProsoVis: Prosopographic Data Exploration Interface">
+    <Article
+      title="Node Overlap Removal Algorithms: an Extended Comparative Study"
+      titleSize="f5--print"
+    >
+      <p className="measure-wide">
+        <em>
+          Guest Presenter, séminar{' '}
+          <A
+            href="https://www.labri.fr/"
+            title="Laboratoire Bordelais de Recherche en Informatique"
+            children="LaBRi"
+          />
+        </em>
+        , Visio, <time dateTime="2021-05">May 2021</time>.{' '}
+        <A
+          href="https://observablehq.com/@stardisblue/agora-presentation-labri"
+          title="@stardisblue/agora-presentation-labri"
+          className="items-baseline inline-flex"
+          collapsible="Observable"
+        >
+          Presentation
+        </A>
+      </p>
+    </Article>
+    <Article
+      title="ProsoVis: Prosopographic Data Exploration Interface"
+      titleSize="f5--print"
+    >
       <p className="measure-wide">
         <em>
           Guest Presenter, séminar{' '}
@@ -47,42 +84,17 @@ export const Presentations: React.FC = () => (
         , <time dateTime="2021-04">April 2021</time>.
       </p>
     </Article>
-    <Article title="Node Overlap Removal Algorithms: an Extended Comparative Study">
+    <Article
+      title="Node Overlap Removal Algorithms: A Comparative Study"
+      titleSize="f5--print"
+    >
       <p className="measure-wide">
         <em>
-          Guest Presenter, séminar{' '}
-          <A
-            href="https://www.labri.fr/"
-            title="Laboratoire Bordelais de Recherche en Informatique"
-            children="LaBRi"
-          />
+          27th International Symposium on Graph Drawing and Network
+          Visualization
         </em>
-        , Visio, <time dateTime="2021-05">May 2021</time>.{' '}
-        <A
-          href="https://observablehq.com/@stardisblue/agora-presentation-labri"
-          title="@stardisblue/agora-presentation-labri"
-          className="items-baseline inline-flex"
-          collapsible="Observable"
-        >
-          Presentation
-        </A>
-      </p>
-    </Article>
-    <Article title="ProsoVis: Prosopographic Data Exploration Interface">
-      <p className="measure-wide">
-        <em>
-          Guest Presenter, Simposio Investigación Computational: Approaches for
-          the Analysis of Urban Mobility Data
-        </em>
-        , Visio, <time dateTime="2021-04">June 2021</time>.{' '}
-        <A
-          className="items-baseline inline-flex"
-          href="https://www.facebook.com/events/200843748562680/"
-          title="Facebook Event - Club de Ciencias Computacionales Yachay Tech"
-          collapsible={'Facebook'}
-        >
-          Facebook Event
-        </A>
+        , Průhonice/Prague, Czech Republic,{' '}
+        <time dateTime="2019-09">September 2019</time>.
       </p>
     </Article>
   </Section>

@@ -28,7 +28,7 @@ export const Header: React.FC = () => (
     <div className="flex flex-wrap justify-between">
       <Links>
         <A href="https://stardis.blue" className="link">
-          🔗 stardis.blue
+          🌐 stardis.blue
         </A>
         <A
           href="mailto:fati.chen@lirmm.fr"

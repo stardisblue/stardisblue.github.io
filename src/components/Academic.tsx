@@ -4,7 +4,7 @@ import { Polytech, UM } from './URL';
 
 export const Academic: React.FC = () => (
   <Section title="👨‍🏫 ACADEMIC SERVICES">
-    <Article title="Organization Committee">
+    <Article title="Organization Committee" attrs={{ className: 'noprint' }}>
       <p className="measure-wide">
         <A href="https://egc2021.sciencesconf.org/">EGC 2021</A>, Extraction et
         Gestion des Connaissances <time dateTime="2021">2021</time>.

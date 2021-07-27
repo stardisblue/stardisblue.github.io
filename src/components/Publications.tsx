@@ -2,6 +2,13 @@ import React from 'react';
 import { Article, A, Links, Section } from './ui';
 import { DOI, GH } from './URL';
 
+const Authors: React.FC = ({ children }) => (
+  <>
+    <em className="print"> et al</em>
+    <span className="noprint">{children}</span>
+  </>
+);
+
 export const Publications: React.FC = () => (
   <Section title="📄 PUBLICATIONS">
     <Article
@@ -10,11 +17,15 @@ export const Publications: React.FC = () => (
           Node Overlap Removal Algorithms: an Extended Comparative Study
         </A>
       }
+      titleSize="f5--print"
     >
       <p className="lh-copy measure-wide">
-        <strong>Fati CHEN</strong>, Laurent Piccinini, Pascal Poncelet, Arnaud
-        Sallaberry. <em>Journal of Graph Algorithms and Applications (JGAA)</em>
-        , 24(4): 683-706. <time dateTime="2020">2020</time>. doi:
+        <strong>Fati CHEN</strong>
+        <Authors>
+          , Laurent Piccinini, Pascal Poncelet, Arnaud Sallaberry
+        </Authors>
+        . In <em>Journal of Graph Algorithms and Applications (JGAA)</em>,
+        24(4): 683-706. <time dateTime="2020">2020</time>. doi:
         <DOI doi="10.7155/jgaa.00532" />
       </p>
       <Links>
@@ -40,13 +51,17 @@ export const Publications: React.FC = () => (
           Node Overlap Removal Algorithms: A Comparative Study
         </A>
       }
+      titleSize="f5--print"
     >
       <p className="lh-copy measure-wide">
-        <strong>Fati CHEN</strong>, Laurent Piccinini, Pascal Poncelet, Arnaud
-        Sallaberry.{' '}
+        <strong>Fati CHEN</strong>
+        <Authors>
+          , Laurent Piccinini, Pascal Poncelet, Arnaud Sallaberry
+        </Authors>
+        . In{' '}
         <em>
-          In Proceedings of the 27th International Symposium on Graph Drawing
-          and Network Visualization
+          Proceedings of the 27th International Symposium on Graph Drawing and
+          Network Visualization
         </em>
         , Průhonice/Prague, Czech Republic,{' '}
         <time dateTime="2019-09">September 2019</time>. doi:
@@ -67,10 +82,14 @@ export const Publications: React.FC = () => (
           JGetMove: Mining Multiple Movement Patterns
         </A>
       }
+      titleSize="f5--print"
     >
       <p className="lh-copy measure-wide">
-        <strong>Fati CHEN</strong>, Nhat Hai Phan, Pascal Poncelet, Maguelonne
-        Teisseire. <time dateTime="2019">2019</time>.
+        <strong>Fati CHEN</strong>
+        <Authors>
+          , Nhat Hai Phan, Pascal Poncelet, Maguelonne Teisseire
+        </Authors>
+        . <time dateTime="2019">2019</time>.
       </p>
       <Links>
         <A
