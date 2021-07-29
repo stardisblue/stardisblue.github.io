@@ -13,7 +13,6 @@ import { Publications } from '../components/Publications';
 import { Footer } from '../components/Footer';
 import { News } from '../components/News';
 import { PageProps } from 'gatsby';
-import { Keywords } from '../components/Keywords';
 
 const IndexPage: React.FC<PageProps> = function ({ location }) {
   return (
@@ -24,7 +23,6 @@ const IndexPage: React.FC<PageProps> = function ({ location }) {
       <div className="ph2-m mw8 center ">
         <Header />
         <AboutMe />
-        <Keywords />
         <News />
         <Experiences />
         <Education />
