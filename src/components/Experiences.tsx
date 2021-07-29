@@ -1,5 +1,6 @@
 import React from 'react';
-import { Article, A, Links, Section } from './ui';
+import { Navigation } from './TableOfContent';
+import { Article, A, Links, Section, HR, Paragraph } from './ui';
 import { GH, LIRMM, UM } from './URL';
 
 export const Experiences: React.FC = () => (
@@ -11,16 +12,16 @@ export const Experiences: React.FC = () => (
         </>
       }
     >
-      <p>
+      <Paragraph>
         <em>
           <time dateTime="2018-07">Jul. 2018</time> - present
         </em>
-      </p>
-      <p className="measure-wide lh-copy">
+      </Paragraph>
+      <Paragraph>
         Research on the data visual analysis domain. Development and
         implementation of web applications to analyze spatio-temporal dimensions
         of data and model its relations.
-      </p>
+      </Paragraph>
     </Article>
     <Article
       title={
@@ -29,17 +30,17 @@ export const Experiences: React.FC = () => (
         </>
       }
     >
-      <p>
+      <Paragraph>
         <em>
           <time dateTime="2018-02">Feb. 2018</time> -{' '}
           <time dateTime="2018-06">Jun. 2018</time>
         </em>{' '}
         — Internship
-      </p>
-      <p className="measure-wide lh-copy">
+      </Paragraph>
+      <Paragraph>
         Research, development, and implementation of algorithms for visual
         cluttering reduction, applied to graph visualization.
-      </p>
+      </Paragraph>
     </Article>
     <Article
       title={
@@ -49,7 +50,7 @@ export const Experiences: React.FC = () => (
         </>
       }
     >
-      <p>
+      <Paragraph>
         <em>
           <time dateTime="2017-01">Jan. 2017</time> -{' '}
           <time dateTime="2017">Jul. 2017</time>
@@ -58,14 +59,14 @@ export const Experiences: React.FC = () => (
         <Links className="inline-flex">
           <GH gh="jGetMove/jGetMove" className="link" />
         </Links>
-      </p>
-      <p className="measure-wide lh-copy">
+      </Paragraph>
+      <Paragraph>
         Development of{' '}
         <A href="https://github.com/jgetmove/jgetmove">jGetMove</A> an efficient
         and unifying spatio-temporal pattern mining system for moving objects.
         <br />
         Refactoring from C++ and improving the algorithm.
-      </p>
+      </Paragraph>
     </Article>
     <Article
       title={
@@ -75,7 +76,7 @@ export const Experiences: React.FC = () => (
         </>
       }
     >
-      <p>
+      <Paragraph>
         <em>
           <time dateTime="2015-10">Oct. 2015</time> -{' '}
           <time dateTime="2016-07">Jul. 2016</time>
@@ -98,33 +99,35 @@ export const Experiences: React.FC = () => (
             Presentation
           </A>
         </Links>
-      </p>
-      <p className="measure-wide lh-copy">
+      </Paragraph>
+      <Paragraph>
         Development of a solver for a combinatorial puzzle game{' '}
         <A href="https://github.com/EternityII">EternityII</A>. Analysis and
         setup of various solving strategies, some based on pre-calculation of
         simplified instances.
-      </p>
+      </Paragraph>
     </Article>
     <Article title="Web Developper at WBS (Montpellier, France)">
-      <p>
+      <Paragraph>
         <em>
           <time dateTime="2015-03">Mar. 2015</time> -{' '}
           <time dateTime="2015-07">Jul. 2015</time>
         </em>{' '}
         — Internship
-      </p>
-      <p>Online PGI software development.</p>
+      </Paragraph>
+      <Paragraph>Online PGI software development.</Paragraph>
     </Article>
     <Article title="Data Analyst, Web Developer, Computer Builder">
-      <p>
+      <Paragraph>
         <em>
           <time dateTime="2012-01">Jan. 2012</time> -{' '}
           <time dateTime="2018-01">Jan. 2018</time>
         </em>{' '}
         — Freelancer
-      </p>
+      </Paragraph>
     </Article>
     <Article title="ECI : Computer Science Club (Highschool - Lycée Daudet - Nîmes, France)" />
+    <Navigation />
+    <HR />
   </Section>
 );

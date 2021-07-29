@@ -1,5 +1,6 @@
 import React from 'react';
-import { Article, Section, A } from './ui';
+import { Navigation } from './TableOfContent';
+import { Article, Section, A, HR, Paragraph } from './ui';
 import { LIRMM } from './URL';
 
 export const Presentations: React.FC = () => (
@@ -8,7 +9,7 @@ export const Presentations: React.FC = () => (
       title="ProsoVis: Prosopographic Data Exploration Interface"
       titleSize="f5--print"
     >
-      <p className="measure-wide lh-copy">
+      <Paragraph>
         <em>
           Guest Presenter, Simposio Investigación Computational: Approaches for
           the Analysis of Urban Mobility Data
@@ -22,13 +23,13 @@ export const Presentations: React.FC = () => (
         >
           Facebook Event
         </A>
-      </p>
+      </Paragraph>
     </Article>
     <Article
       title="Node Overlap Removal Algorithms: an Extended Comparative Study"
       titleSize="f5--print"
     >
-      <p className="measure-wide lh-copy">
+      <Paragraph>
         <em>
           Guest Presenter, séminar{' '}
           <A
@@ -46,13 +47,13 @@ export const Presentations: React.FC = () => (
         >
           Presentation
         </A>
-      </p>
+      </Paragraph>
     </Article>
     <Article
       title="ProsoVis: Prosopographic Data Exploration Interface"
       titleSize="f5--print"
     >
-      <p className="measure-wide lh-copy">
+      <Paragraph>
         <em>
           Guest Presenter, séminar{' '}
           <A href="https://anr.fr/Projet-ANR-17-CE38-0013">ANR DAPHNE</A>
@@ -82,20 +83,22 @@ export const Presentations: React.FC = () => (
           children="LAMOP"
         />
         , <time dateTime="2021-04">April 2021</time>.
-      </p>
+      </Paragraph>
     </Article>
     <Article
       title="Node Overlap Removal Algorithms: A Comparative Study"
       titleSize="f5--print"
     >
-      <p className="measure-wide lh-copy">
+      <Paragraph>
         <em>
           27th International Symposium on Graph Drawing and Network
           Visualization
         </em>
         , Průhonice/Prague, Czech Republic,{' '}
         <time dateTime="2019-09">September 2019</time>.
-      </p>
+      </Paragraph>
     </Article>
+    <Navigation />
+    <HR />
   </Section>
 );

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Article, A, Links, Section } from './ui';
+import { Navigation } from './TableOfContent';
+import { Article, A, Links, Section, HR, Paragraph } from './ui';
 import { DOI, GH } from './URL';
 
 const Authors: React.FC = ({ children }) => (
@@ -19,7 +20,7 @@ export const Publications: React.FC = () => (
       }
       titleSize="f5--print"
     >
-      <p className="lh-copy measure-wide">
+      <Paragraph>
         <strong>Fati CHEN</strong>
         <Authors>
           , Laurent Piccinini, Pascal Poncelet, Arnaud Sallaberry
@@ -27,7 +28,7 @@ export const Publications: React.FC = () => (
         . In <em>Journal of Graph Algorithms and Applications (JGAA)</em>,
         24(4): 683-706. <time dateTime="2020">2020</time>. doi:
         <DOI doi="10.7155/jgaa.00532" />
-      </p>
+      </Paragraph>
       <Links>
         <A
           className="link"
@@ -53,7 +54,7 @@ export const Publications: React.FC = () => (
       }
       titleSize="f5--print"
     >
-      <p className="lh-copy measure-wide">
+      <Paragraph>
         <strong>Fati CHEN</strong>
         <Authors>
           , Laurent Piccinini, Pascal Poncelet, Arnaud Sallaberry
@@ -66,15 +67,15 @@ export const Publications: React.FC = () => (
         , Průhonice/Prague, Czech Republic,{' '}
         <time dateTime="2019-09">September 2019</time>. doi:
         <DOI doi="10.1007/978-3-030-35802-0_14" />
-      </p>
-      <Links>
-        <A
-          className="link"
-          href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617"
-          collapsible="PDF"
-          children="hal: hal-02302617"
-        />
-      </Links>
+        <Links className="flex">
+          <A
+            className="link"
+            href="https://hal-lirmm.ccsd.cnrs.fr/hal-02302617"
+            collapsible="PDF"
+            children="hal: hal-02302617"
+          />
+        </Links>
+      </Paragraph>
     </Article>
     <Article
       title={
@@ -84,13 +85,13 @@ export const Publications: React.FC = () => (
       }
       titleSize="f5--print"
     >
-      <p className="lh-copy measure-wide">
+      <Paragraph>
         <strong>Fati CHEN</strong>
         <Authors>
           , Nhat Hai Phan, Pascal Poncelet, Maguelonne Teisseire
         </Authors>
         . <time dateTime="2019">2019</time>.
-      </p>
+      </Paragraph>
       <Links>
         <A
           className="link"
@@ -101,5 +102,7 @@ export const Publications: React.FC = () => (
         <GH gh="jGetMove/jGetMove" className="link ml2" />
       </Links>
     </Article>
+    <Navigation />
+    <HR />
   </Section>
 );

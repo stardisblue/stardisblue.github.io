@@ -1,5 +1,4 @@
 import React, { HtmlHTMLAttributes } from 'react';
-import styled from 'styled-components/macro';
 
 export const Section: React.FC<HtmlHTMLAttributes<HTMLElement>> = ({
   title,

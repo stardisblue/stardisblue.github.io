@@ -1,5 +1,6 @@
 import React from 'react';
-import { Article, A, Section } from './ui';
+import { Navigation } from './TableOfContent';
+import { Article, A, Section, HR, Paragraph } from './ui';
 import { UM } from './URL';
 
 export const EduArticle: React.FC<{ title: React.ReactNode; time: string }> = ({
@@ -13,8 +14,9 @@ export const EduArticle: React.FC<{ title: React.ReactNode; time: string }> = ({
         {title} — <time dateTime={time}>{time}</time>
       </>
     }
+    titleSize="f5--print"
   >
-    <p className="lh-copy mt0">{children}</p>
+    <Paragraph>{children}</Paragraph>
   </Article>
 );
 
@@ -41,5 +43,7 @@ export const Education: React.FC = () => (
       </A>
       , France.
     </EduArticle>
+    <Navigation />
+    <HR />
   </Section>
 );

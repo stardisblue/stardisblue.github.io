@@ -1,8 +1,8 @@
+import classnames from 'classnames';
 import React from 'react';
-import styled from 'styled-components/macro';
 
 export const Links: React.FC<React.HTMLAttributes<HTMLSpanElement>> = ({
   className,
   ...props
-}) => <span {...props} className={`flex ${className}`} />;
+}) => <span {...props} className={classnames('flex', className)} />;
 export default Links;
