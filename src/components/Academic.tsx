@@ -4,7 +4,7 @@ import { Article, A, Section, HR, Paragraph } from './ui';
 import { Polytech, UM } from './URL';
 
 export const Academic: React.FC = () => (
-  <Section title="👨‍🏫 ACADEMIC SERVICES">
+  <Section emoji="👨‍🏫" title="ACADEMIC SERVICES">
     <Article title="Organization Committee" attrs={{ className: 'noprint' }}>
       <Paragraph>
         <A href="https://egc2021.sciencesconf.org/">EGC 2021</A>, Extraction et

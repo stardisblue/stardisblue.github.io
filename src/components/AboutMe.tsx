@@ -3,7 +3,7 @@ import { A, Paragraph, Section } from './ui';
 import { UM, LIRMM } from './URL';
 
 export const AboutMe: React.FC = () => (
-  <Section title="👨‍💻 ABOUT ME" className="noprint">
+  <Section emoji="👨‍💻" title="ABOUT ME" className="noprint">
     <Paragraph measure>
       I am a Ph.D. Student 👨‍🔬 at <UM>University of Montpellier</UM>, France.
       Where I am a member of the <A href="http://advanse.lirmm.fr/">ADVANSE</A>{' '}

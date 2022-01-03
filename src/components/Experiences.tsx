@@ -4,7 +4,7 @@ import { Article, A, Links, Section, HR, Paragraph } from './ui';
 import { GH, LIRMM, UM } from './URL';
 
 export const Experiences: React.FC = () => (
-  <Section title="💼 PROFESSIONAL AND RESEARCH EXPERIENCES">
+  <Section emoji="💼" title="PROFESSIONAL AND RESEARCH EXPERIENCES">
     <Article
       title={
         <>

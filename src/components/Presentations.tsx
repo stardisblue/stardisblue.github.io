@@ -4,7 +4,7 @@ import { Article, Section, A, HR, Paragraph } from './ui';
 import { LIRMM } from './URL';
 
 export const Presentations: React.FC = () => (
-  <Section title="🖥️ PRESENTATIONS">
+  <Section emoji="🖥️" title="PRESENTATIONS">
     <Article
       title="ProsoVis: Prosopographic Data Exploration Interface"
       titleSize="f5--print"

@@ -1,15 +1,15 @@
 import React, { HtmlHTMLAttributes } from 'react';
 
-export const Section: React.FC<HtmlHTMLAttributes<HTMLElement>> = ({
-  title,
-  children,
-  ...attrs
-}) => (
+export const Section: React.FC<
+  HtmlHTMLAttributes<HTMLElement> & { emoji?: string }
+> = ({ title, children, emoji, ...attrs }) => (
   <section
     id={`sec-${title.toLocaleLowerCase().replace(/[^a-z]+/g, '-')}`}
     {...attrs}
   >
-    <h2 className="f3 helvetica">{title}</h2>
+    <h2 className="f3 helvetica">
+      {emoji && <span className="normal">{emoji}</span>} {title}
+    </h2>
     {children}
   </section>
 );

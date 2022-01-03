@@ -11,7 +11,7 @@ const Authors: React.FC = ({ children }) => (
 );
 
 export const Publications: React.FC = () => (
-  <Section title="📄 PUBLICATIONS">
+  <Section emoji="📄" title="PUBLICATIONS">
     <Article
       title={
         <A href="https://agorajs.github.io/">

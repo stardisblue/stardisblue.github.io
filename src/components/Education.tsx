@@ -21,7 +21,7 @@ export const EduArticle: React.FC<{ title: React.ReactNode; time: string }> = ({
 );
 
 export const Education: React.FC = () => (
-  <Section title="🎓 EDUCATION">
+  <Section emoji="🎓" title="EDUCATION">
     <EduArticle
       title="M.Sc. in Software Architecture, Computer Science"
       time="2018"
