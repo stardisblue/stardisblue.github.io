@@ -1,20 +1,24 @@
-module.exports = {
+import type { GatsbyConfig } from 'gatsby';
+
+const config: GatsbyConfig = {
   siteMetadata: {
-    title: 'Fati CHEN',
+    title: `Fati Chen`,
+    siteUrl: `https://stardisblue.github.io`,
   },
   plugins: [
-    `gatsby-plugin-sass`,
+    'gatsby-plugin-sass',
     'gatsby-plugin-styled-components',
     'gatsby-plugin-image',
     'gatsby-plugin-react-helmet',
-    //"gatsby-plugin-sitemap",
+    'gatsby-plugin-sitemap',
+    'gatsby-plugin-i18n',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
         icon: 'src/images/icon.png',
       },
     },
-    'gatsby-transformer-remark',
+    'gatsby-plugin-mdx',
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     {
@@ -23,7 +27,7 @@ module.exports = {
         name: 'images',
         path: './src/images/',
       },
-      __key: 'images',
+      // __key: 'images',
     },
     {
       resolve: 'gatsby-source-filesystem',
@@ -31,7 +35,18 @@ module.exports = {
         name: 'pages',
         path: './src/pages/',
       },
-      __key: 'pages',
+      // __key: 'pages',
+    },
+
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'lang',
+        path: './src/lang/',
+      },
+      // __key: 'lang',
     },
   ],
 };
+
+export default config;
