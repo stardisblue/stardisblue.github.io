@@ -9,18 +9,22 @@ export const TableOfContent: React.FC<{ show?: boolean }> = ({
     <a href="#sec--about-me" className="link">
       <Collapsible title="About me">👨‍💻</Collapsible>
     </a>
-    <a href="#sec--publications" className="link">
-      <Collapsible title="Publications">📄</Collapsible>
-    </a>
-    <a href="#sec--presentations" className="link">
-      <Collapsible title="Presentations">️🖥️</Collapsible>
+    <a href="#sec--professional-and-research-experiences" className="link">
+      <Collapsible title="Professional & Research Experiences">💼</Collapsible>
     </a>
     <a href="#sec--academic-services" className="link">
       <Collapsible title="Academic Services">👨‍🏫</Collapsible>
     </a>
-    <a href="#sec--professional-and-research-experiences" className="link">
-      <Collapsible title="Professional & Research Experiences">💼</Collapsible>
+    <a href="#sec--education" className="link">
+      <Collapsible title="Education">🎓</Collapsible>
     </a>
+    <a href="#sec--presentations" className="link">
+      <Collapsible title="Presentations">️🖥️</Collapsible>
+    </a>
+    <a href="#sec--publications" className="link">
+      <Collapsible title="Publications">📄</Collapsible>
+    </a>
+
     {show && (
       <a href="#FC" className="link">
         <Collapsible title="Back to Top" className="link">

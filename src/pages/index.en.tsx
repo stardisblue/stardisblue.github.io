@@ -13,22 +13,33 @@ import { Publications } from '../components/Publications';
 import { Footer } from '../components/Footer';
 import { News } from '../components/News';
 import { PageProps } from 'gatsby';
+import _ from 'lodash';
+import {
+  subtitle,
+  aboutme,
+  experiences,
+  education,
+  academics,
+  presentations,
+  publications,
+} from '../lang/en';
 
-const IndexPage: React.FC<PageProps> = function ({ location }) {
+const IndexPage: React.FC = function () {
   return (
     <main id="FC" className="georgia lh-title">
       <Helmet>
         <title>Fati CHEN</title>
       </Helmet>
       <div className="ph2-m mw8 center ">
-        <Header />
-        <AboutMe />
+        <Header subtitle={subtitle} />
+        <AboutMe {...aboutme} />
+        {/* <Keywords /> */}
         <News />
-        <Experiences />
-        <Education />
-        <Academic />
-        <Presentations />
-        <Publications />
+        <Experiences {...experiences} />
+        <Academic {...academics} />
+        <Education {...education} />
+        <Presentations {...presentations} />
+        <Publications {...publications} />
         <Footer />
       </div>
     </main>

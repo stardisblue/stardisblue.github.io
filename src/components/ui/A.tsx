@@ -23,8 +23,8 @@ export const A: React.FC<
 
   return (
     <a
-      target={external ? '_blank' : null}
-      rel={external ? 'noopener noreferrer' : null}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
       {...attrs}
     >
       {content}

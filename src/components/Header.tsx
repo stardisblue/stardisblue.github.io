@@ -2,7 +2,7 @@ import React from 'react';
 import { GH } from './URL';
 import { TableOfContent } from './TableOfContent';
 import { A, Links, HR } from './ui';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const PrintableHeader = styled.header`
   @media print {
@@ -18,12 +18,10 @@ const PrintableHeader = styled.header`
   }
 `;
 
-export const Header: React.FC = () => (
+export const Header: React.FC<{ subtitle: JSX.Element }> = ({ subtitle }) => (
   <PrintableHeader>
     <h1 className="f1 helvetica mb0">Fati CHEN</h1>
-    <h2 className="f2 i normal mb3 mt0">
-      Ph.D. Student in Visual Analytics <span className="fs-normal">📊</span>
-    </h2>
+    <h2 className="f2 i normal mb3 mt0">{subtitle}</h2>
 
     <div className="flex flex-wrap justify-between">
       <Links>
