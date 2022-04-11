@@ -26,7 +26,7 @@ const publications: SectionType<PublicationsType> = {
           kind: 'PDF',
           name: 'hal: lirmm-02879677',
         },
-        { kind: 'Github', href: 'agorajs' },
+        { kind: 'Github', href: 'https://github.com/agorajs', name: 'AGORAjs' },
         {
           kind: 'Globe',
           href: 'https://agorajs.github.io/',
@@ -77,7 +77,11 @@ const publications: SectionType<PublicationsType> = {
           name: 'hal: lirmm-02137577',
           href: 'https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577',
         },
-        { kind: 'Github', href: 'jGetMove/jGetMove' },
+        {
+          kind: 'Github',
+          href: 'https://github.com/jGetMove/jGetMove',
+          name: 'jGetMove/jGetMove',
+        },
       ],
     },
   ],

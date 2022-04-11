@@ -17,7 +17,9 @@ const experiences: SectionType<ExperienceType> = {
       title: "Conception d'algorithmes de dessin de graphes",
       organisation: LIRMM,
       dates: [['2018-02', 'LLL'], '2018-06'],
-      links: [{ kind: 'Github', href: 'agorajs' }],
+      links: [
+        { kind: 'Github', href: 'https://github.com/agorajs', name: 'AGORAjs' },
+      ],
       content: `Recherche, conception et implémentation d'algorithmes de réduction d'encombrement visuels, appliqués à la visualisation de graphes.`,
       roles: 'Recherche, conception et implémentation',
       technologies: 'Typescript, nodejs, d3, observable',
@@ -27,7 +29,13 @@ const experiences: SectionType<ExperienceType> = {
       title: "Dév. d'algorithmes d'extraction de motifs spatio-temporels",
       organisation: LIRMM,
       dates: [['2017-01', 'LLL'], '2017-07'],
-      links: [{ kind: 'Github', href: 'jGetMove/jGetMove' }],
+      links: [
+        {
+          kind: 'Github',
+          name: 'jGetMove/jGetMove',
+          href: 'https://github.com/jGetMove/jGetMove',
+        },
+      ],
       content: `Conception et développement de jGetMove, un
         système performant et générique pour la détection de motifs 
         spatio-temporels sur des données de mobilité. Refactorisation du C++ et amélioration de l'algorithme.`,
@@ -40,7 +48,11 @@ const experiences: SectionType<ExperienceType> = {
       organisation: LIRMM,
       dates: ['2015-10', '2016-07'],
       links: [
-        { kind: 'Github', href: 'EternityII/EternityII' },
+        {
+          kind: 'Github',
+          name: 'EternityII/EternityII',
+          href: 'https://github.com/EternityII/EternityII',
+        },
         {
           kind: 'PDF',
           href: 'https://github.com/EternityII/EternityII-report/blob/master/main.pdf',

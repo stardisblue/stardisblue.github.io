@@ -17,7 +17,9 @@ export const experiences: SectionType<ExperienceType> = {
       title: 'Research on Algorithms Applied to Graph Drawing',
       organisation: LIRMM,
       dates: [['2018-02', 'MMM'], '2018-06'],
-      links: [{ kind: 'Github', href: 'agorajs' }],
+      links: [
+        { kind: 'Github', href: 'https://github.com/agorajs', name: 'AGORAjs' },
+      ],
       content: `Research, development, and implementation of algorithms for visual cluttering reduction, applied to graph visualization.`,
       roles: 'Research, development and implementation',
       technologies: 'Typescript, nodejs, d3, observable',
@@ -27,7 +29,13 @@ export const experiences: SectionType<ExperienceType> = {
       title: 'Research on Pattern Mining Algorithms for Timeseries',
       organisation: LIRMM,
       dates: [['2017-01', 'MMM'], '2017-07'],
-      links: [{ kind: 'Github', href: 'jGetMove/jGetMove' }],
+      links: [
+        {
+          kind: 'Github',
+          href: 'https://github.com/jGetMove/jGetMove',
+          name: 'jGetMove/jGetMove',
+        },
+      ],
       content: `Development of jGetMove, an
       efficient and unifying spatio-temporal pattern mining system for
       moving objects. Refactoring from C++ and improving the algorithm.`,
@@ -40,7 +48,11 @@ export const experiences: SectionType<ExperienceType> = {
       organisation: LIRMM,
       dates: ['2015-10', '2016-07'],
       links: [
-        { kind: 'Github', href: 'EternityII/EternityII' },
+        {
+          kind: 'Github',
+          href: 'https://github.com/EternityII/EternityII',
+          name: 'EternityII/EternityII',
+        },
         {
           kind: 'PDF',
           href: 'https://github.com/EternityII/EternityII-report/blob/master/main.pdf',

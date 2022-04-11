@@ -35,7 +35,11 @@ export const Header: React.FC<{ subtitle: JSX.Element; toc: TOC[] }> = ({
           title="chen.fati@gmail.com"
         />
 
-        <Link kind="Github" href="stardisblue" />
+        <Link
+          kind="Github"
+          href="https://github.com/stardisblue"
+          name="stardisblue"
+        />
         <Link
           kind="Observable"
           name="@stardisblue"
