@@ -1,5 +1,5 @@
 import React from 'react';
-import { Section, HR } from './ui';
+import { Section } from './ui';
 
 export const News: React.FC = () => (
   <Section className="noprint" emoji="📰" title="NEWS">
@@ -9,6 +9,6 @@ export const News: React.FC = () => (
       frameBorder="0"
       src="https://observablehq.com/embed/@stardisblue/showcase?cells=viewof+showcase"
     ></iframe>
-    <HR />
+    <hr />
   </Section>
 );

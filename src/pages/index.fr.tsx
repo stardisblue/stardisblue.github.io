@@ -15,18 +15,17 @@ import {
   Time,
   Times,
 } from '../components/ui';
+import { LIRMM, UM } from '../locales/fr/organisation';
 import { Authors } from '../components/Authors';
 import { News } from '../components/News';
-import { LIRMM, UM } from '../locales/en/organisation';
 import {
-  academics,
-  education,
   experiences,
+  academics,
+  teachings,
+  education,
   presentations,
   publications,
-  teachings,
-} from '../locales/en';
-import { enGB } from 'date-fns/locale';
+} from '../locales/fr';
 
 const toc = [
   { id: 'about-me', title: 'About me', emoji: '👨‍💻' },
@@ -41,7 +40,7 @@ const toc = [
   { id: 'publications', title: 'Publications', emoji: '📄' },
 ];
 
-const IndexPageEn: React.FC = function () {
+const IndexPageFr: React.FC = function () {
   return (
     <main id="FC" className="georgia lh-title">
       <Helmet>
@@ -60,30 +59,30 @@ const IndexPageEn: React.FC = function () {
         <main>
           <Section emoji="👨‍💻" title="A PROPOS" className="noprint">
             <p className="measure">
-              I am a Ph.D.Student 👨‍🔬 at <Org {...UM} />, France. Where I am a
-              member of the{' '}
-              <Org name="ADVANSE" url="http://advanse.lirmm.fr/" /> team at the{' '}
-              <Org {...LIRMM} /> laboratory. My thesis work focuses on reducing
-              visual cluttering of spatio-temporal historical data.
+              Je suis actuellement doctorant 👨‍🔬 à l'
+              <Org {...UM} />. Où je suis membre de l'équipe{' '}
+              <Org name="ADVANSE" url="http://advanse.lirmm.fr/" /> au{' '}
+              <Org {...LIRMM} />. Mon travail se focalise sur la réduction de
+              l'encombrement visuel appliquée aux données spatio-temporelles.
             </p>
             <p className="measure">
-              I am interested in web technologies, security, algorithmics,
-              science, equality, philosophy. I speak English, French and Russian
-              fluently. Have a passion for bouldering 🧗 and Origami.
-              <br />
-              Played chess♟ and won prizes🥇 during highschool.
+              Je suis intéressé par les technologies web, la sécurité,
+              l'algorithmique, les sciences, l'équité et la philosophie. Je
+              parle Français, Anglais et Russe couramment. Je suis passionné
+              d'escalade 🧗 et d'Origami. J'ai aussi longtemps joué aux échecs ♟
+              et gagné des prix 🥇 durant le lycée.
             </p>
             <p className="measure">
-              I also created several micro websites for my friends, a partition{' '}
-              <Link name="repository" href="https://calioppe.github.io/" />
-              🎼 for the association EVS Callioppe. A printable student{' '}
+              Philanthrope, j'ai créé plusieurs micro sites web pour mes amis,
+              un <Link name="répertoire" href="https://calioppe.github.io/" />{' '}
+              de partitions 🎼 pour l'association EVS Callioppe. Un{' '}
               <Link
-                name="songs lyrics"
+                name="chansonnier"
                 href="https://stardisblue.github.io/chansonnier"
               />
-              🎶 for a student association and a{' '}
-              <Link name="cesar" href="https://stardisblue.github.io/cesar/" />{' '}
-              code encoder-decoder.
+              🎶 imprimable pour une association d'étudiant et un
+              encodeur-décodeur de code{' '}
+              <Link name="césar" href="https://stardisblue.github.io/cesar/" />.
             </p>
           </Section>
           <News />
@@ -104,7 +103,7 @@ const IndexPageEn: React.FC = function () {
                 {exp.dates && (
                   <p>
                     <em>
-                      <Times dates={exp.dates} locale={enGB} />
+                      <Times dates={exp.dates} />
                     </em>{' '}
                     {exp.links && (
                       <Links className="inline-flex">
@@ -123,12 +122,12 @@ const IndexPageEn: React.FC = function () {
                     )}
                     {exp.roles && (
                       <>
-                        <em>Roles</em> : {exp.roles}.{' '}
+                        <em>Rôles</em> : {exp.roles}.{' '}
                       </>
                     )}
                     {exp.technologies && (
                       <>
-                        <em>Techs.</em> : {exp.technologies}.
+                        <em>Technos.</em> : {exp.technologies}.
                       </>
                     )}
                   </p>
@@ -136,7 +135,7 @@ const IndexPageEn: React.FC = function () {
               </article>
             ))}
           </NavSection>
-          <NavSection emoji="👨‍🏫" title="ACADEMIC SERVICES" toc={toc}>
+          <NavSection emoji="👨‍🏫" title="SERVICES ACADÉMIQUES" toc={toc}>
             <div>
               <h3>{academics.title}</h3>
               {academics.content.map((academic, i) => (
@@ -153,13 +152,8 @@ const IndexPageEn: React.FC = function () {
                 <article key={i}>
                   <p>
                     <strong>{teach.title}</strong>,{' '}
-                    <Times
-                      dates={teach.dates}
-                      form="Y"
-                      spaces={false}
-                      locale={enGB}
-                    />
-                    , {teach.cursus}. <AutoOrg>{teach.organisation}</AutoOrg>
+                    <Times dates={teach.dates} form="Y" spaces={false} />,{' '}
+                    {teach.cursus}. <AutoOrg>{teach.organisation}</AutoOrg>
                   </p>
                 </article>
               ))}{' '}
@@ -169,7 +163,7 @@ const IndexPageEn: React.FC = function () {
             {education.content.map((edu, i) => (
               <article key={i} className="flex items-baseline">
                 <h3>
-                  {edu.title} – <Time date={edu.date} form="Y" locale={enGB} />{' '}
+                  {edu.title} – <Time date={edu.date} form="Y" />{' '}
                   <small>
                     <AutoOrg>{edu.organisation}</AutoOrg>
                   </small>
@@ -196,7 +190,7 @@ const IndexPageEn: React.FC = function () {
                     edu.participation.map((org, i) => (
                       <AutoOrg join=", " key={i} children={org} />
                     ))}
-                  , <Time date={edu.date} locale={enGB} />.{' '}
+                  , <Time date={edu.date} />.{' '}
                   <Links className="inline-flex">
                     {edu.links &&
                       edu.links.map((l, i) => <AutoLink key={i}>{l}</AutoLink>)}
@@ -225,7 +219,7 @@ const IndexPageEn: React.FC = function () {
                       {publi.suffix && ` ${publi.suffix}`}.
                     </>
                   )}{' '}
-                  <Time date={publi.date} locale={enGB} />.
+                  <Time date={publi.date} />.
                   {publi.doi && <> doi:{<AutoLink>{publi.doi}</AutoLink>}</>}
                 </p>
                 <Links>
@@ -243,4 +237,4 @@ const IndexPageEn: React.FC = function () {
   );
 };
 
-export default IndexPageEn;
+export default IndexPageFr;

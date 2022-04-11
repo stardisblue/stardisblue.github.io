@@ -5,7 +5,7 @@ html {
   @media print {
     background-color: initial;
     color: initial;
-    font-size: 12px;
+    font-size: 10pt;
   }
 }
 
@@ -15,6 +15,31 @@ html {
 
 .print {
   display: none;
+}
+
+p {
+  max-width: 34em;
+  line-height: 1.5;
+}
+
+hr{
+  border-style: none;
+  border-width: 0;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: #999;
+}
+
+h2, h3, h4 {
+  font-family: "helvetica neue",helvetica,sans-serif;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.25rem; 
+  margin-bottom: 0.5rem;
 }
 
 @media print {
@@ -27,17 +52,22 @@ html {
     margin-bottom: 0 !important;
   }
 
-  h2,
+  h2{
+    margin-top: 0.5rem !important;
+    margin-bottom: 0 !important;
+  }
   h3,
   h4,
   p:not(:first-of-type) {
-    margin-top: 0.125rem !important;
+    margin-top: 0.25rem !important;
     margin-bottom: 0 !important;
   }
 
   p {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+    max-width: initial;
+    line-height: initial;
   }
 
   section {
@@ -47,8 +77,7 @@ html {
       margin-left: -2.5rem;
     }
 
-    h3,
-    h4 {
+    h3{
       margin-left: -1rem;
     }
   }
@@ -67,5 +96,9 @@ html {
 
   .measure-wide {
     max-width: initial;
+  }
+
+  hr{
+    display:none
   }
 }
