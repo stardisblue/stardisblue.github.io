@@ -14,7 +14,6 @@ const config: GatsbyConfig = {
     {
       resolve: 'gatsby-plugin-i18n',
       options: {
-        langs: ['en', 'fr'],
         langKeyDefault: 'fr',
         useLangKeyLayout: false,
       },
