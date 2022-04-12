@@ -216,7 +216,7 @@ const IndexPageFr: React.FC = function () {
         <title>Fati CHEN</title>
       </Helmet>
       <div className="ph2-m mw8 center">
-        <Header subtitle="Tech Lead Front" toc={toc} />
+        <Header subtitle="Lead Dev" toc={toc} />
         <main>
           <Section emoji="👨‍💻" title="A PROPOS" className="noprint">
             <p className="measure">
