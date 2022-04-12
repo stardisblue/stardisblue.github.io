@@ -2,7 +2,7 @@ import { ExperienceType, SectionType } from '../../model';
 import { LIRMM, UM } from './organisation';
 
 const experiences: SectionType<ExperienceType> = {
-  title: 'EXPERIENCES PROFESSIONNELLES ET DE RECHERCHE',
+  title: 'EXPERIENCES',
   emoji: '💼',
   content: [
     {
@@ -10,7 +10,24 @@ const experiences: SectionType<ExperienceType> = {
       title: 'Visualisation Analytique',
       organisation: UM,
       dates: ['2018-07', '2022-06'],
-      content: `Recherche dans le domaine de la visualisation analytique. Conception et implémentation d'interface web interactives pour l'analyse de données spatio-temporelles et la modélisation de leurs relations.`,
+      print: true,
+      content: `Recherche dans le domaine de la visualisation analytique axée autour de trois projets: 1. réduction de l'encombrement visuel 2. agglomération spatiale d'entités et 3. représentations interactives de données spatio-temporelles.`,
+      links: [
+        {
+          kind: 'Github',
+          href: 'https://github.com/stardisblue/fsac',
+          name: 'fsac',
+        },
+        {
+          kind: 'Observable',
+          href: 'https://observablehq.com/d/e51fd47b606ba403',
+          name: 'Démo fsac',
+        },
+      ],
+      domaines: 'visualisation, data science, IHM, full-stack',
+      roles: 'gestion de projets, recherche, développement et implémentation',
+      technologies:
+        'typescript, javascript, python, django, react-redux, d3, observable',
     },
     {
       kind: 'Stage',
@@ -21,8 +38,9 @@ const experiences: SectionType<ExperienceType> = {
         { kind: 'Github', href: 'https://github.com/agorajs', name: 'AGORAjs' },
       ],
       content: `Recherche, conception et implémentation d'algorithmes de réduction d'encombrement visuels, appliqués à la visualisation de graphes.`,
-      roles: 'Recherche, conception et implémentation',
-      technologies: 'Typescript, nodejs, d3, observable',
+      domaines: 'dessin de graphe, statistiques, web, algorithmique',
+      roles: 'recherche, conception et implémentation',
+      technologies: 'typescript, nodejs, d3, lodash, observable',
     },
     {
       kind: 'Stage',
@@ -32,15 +50,16 @@ const experiences: SectionType<ExperienceType> = {
       links: [
         {
           kind: 'Github',
-          name: 'jGetMove/jGetMove',
+          name: 'jGetMove',
           href: 'https://github.com/jGetMove/jGetMove',
         },
       ],
       content: `Conception et développement de jGetMove, un
         système performant et générique pour la détection de motifs 
         spatio-temporels sur des données de mobilité. Refactorisation du C++ et amélioration de l'algorithme.`,
-      roles: 'Refactorisation, optimisation et conception',
-      technologies: 'Java, C++',
+      domaines: 'données spatio-temporelles, data science, algorithmique',
+      roles: 'refactorisation, optimisation et conception',
+      technologies: 'java, C++',
     },
     {
       kind: 'Stage',
@@ -50,7 +69,7 @@ const experiences: SectionType<ExperienceType> = {
       links: [
         {
           kind: 'Github',
-          name: 'EternityII/EternityII',
+          name: 'EternityII',
           href: 'https://github.com/EternityII/EternityII',
         },
         {
@@ -65,7 +84,8 @@ const experiences: SectionType<ExperienceType> = {
         },
       ],
       content: `Développement d'un solveur pour un puzzle combinatoire,  EternityII. Analyse et déploiement de differentes stratégies de résolution, certaines basées sur le pré-calculs d'instances simplifiées.`,
-      roles: 'Recherche, conception et implémentation',
+      domaines: 'programmation par contraintes, algorithmique, optimisation',
+      roles: 'recherche, conception et implémentation',
       technologies: 'C++, Java',
     },
     {
@@ -73,9 +93,10 @@ const experiences: SectionType<ExperienceType> = {
       title: 'Dév. Web',
       organisation: { prefix: 'à ', name: 'WBS (Montpellier, France)' },
       dates: [['2015-03', 'LLL'], '2015-07'],
-      content: "Integration couche VOIP dans une plateforme web d'ERP.",
-      roles: 'Conception et développement',
-      technologies: 'PHP, SOAP, VOIP, JavaScript',
+      content: "Integration d'une couche VOIP dans une plateforme web d'ERP.",
+      domaines: 'front-end, back-end',
+      roles: 'conception et développement',
+      technologies: 'PHP, SOAP, VoIP, JavaScript',
     },
     {
       kind: 'Freelance',
@@ -85,9 +106,9 @@ const experiences: SectionType<ExperienceType> = {
         ['2018', 'Y'],
       ],
     },
-    {
-      title: "ECI : Club d'informatique (Lycée Daudet – Nîmes, France)",
-    },
+    // {
+    //   title: "ECI : Club d'informatique (Lycée Daudet – Nîmes, France)",
+    // },
   ],
 };
 

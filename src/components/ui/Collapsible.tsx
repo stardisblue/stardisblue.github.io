@@ -12,7 +12,6 @@ const PrintableSpan = styled.span`
     width: initial !important;
     opacity: initial !important;
     margin-left: 0.25em;
-    margin-right: 0.25em;
   }
 `;
 
@@ -25,8 +24,8 @@ export const Collapsible: React.FC<
   const $title = useRef<HTMLSpanElement>(null as any);
 
   const [pointerEvents, setPointerEvents] = useState({
-    onPointerEnter: undefined,
-    onPointerLeave: undefined,
+    onPointerEnter: () => {},
+    onPointerLeave: () => {},
   });
 
   useLayoutEffect(() => {
@@ -61,7 +60,11 @@ export const Collapsible: React.FC<
   }, [title]);
 
   return (
-    <span className={'flex ' + className} {...pointerEvents} {...props}>
+    <span
+      className={'inline-flex items-baseline ' + className}
+      {...pointerEvents}
+      {...props}
+    >
       {children}
       <PrintableSpan ref={$title} className="overflow-hidden nowrap">
         {title}

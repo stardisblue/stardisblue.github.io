@@ -10,7 +10,7 @@ export const Links: React.FC<React.HTMLAttributes<HTMLSpanElement>> = ({
     .flatMap((c, i) => [<span key={i + '__sep'} className="pl2"></span>, c])
     .slice(1);
   return (
-    <span {...props} className={classnames('flex', className)}>
+    <span {...props} className={classnames(className)}>
       {newChildren}
     </span>
   );

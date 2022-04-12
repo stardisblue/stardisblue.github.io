@@ -1,19 +1,22 @@
+import classnames from 'classnames';
 import React from 'react';
 import { Collapsible } from '.';
 import { LinkType, StrictLinkType } from '../../model';
 import * as icons from './icons';
 
-export const Link: React.FC<StrictLinkType> = ({
+export const Link: React.FC<StrictLinkType & { className?: string }> = ({
   name,
   href,
   print,
   title,
   kind,
+  className,
 }) => {
   name = name || href;
 
-  const className =
-    print === undefined ? '' : print === true ? 'print' : 'noprint';
+  className = classnames(className, {
+    print: print === undefined ? '' : print === true ? 'print' : 'noprint',
+  });
 
   if (kind) {
     const Icon: any = icons[kind];

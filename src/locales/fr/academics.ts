@@ -1,5 +1,4 @@
-import { SectionType } from '../../model';
-import { StrictOrganisationType } from './organisation';
+import { SectionType, StrictOrganisationType } from '../../model';
 
 const academics: SectionType<StrictOrganisationType> = {
   emoji: '👨‍🏫',

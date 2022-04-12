@@ -23,13 +23,17 @@ export const Header: React.FC<{ subtitle: JSX.Element; toc: TOC[] }> = ({
   toc,
 }) => (
   <PrintableHeader>
-    <h1 className="f1 helvetica mb0">Fati CHEN</h1>
-    <h2 className="f2 i normal mb3 mt0">{subtitle}</h2>
-
+    <h1 className="f1 helvetica mb0">Fati Chen</h1>
+    <h2 className="f2 i normal georgia mb3 mt0">{subtitle}</h2>
     <div className="flex flex-wrap justify-between">
       <Links>
-        <Link name="🌐 stardis.blue" href="https://stardis.blue" />
         <Link
+          className="link"
+          name="🌐 stardis.blue"
+          href="https://stardis.blue"
+        />
+        <Link
+          className="link"
           name="✉ chen.fati@gmail.com"
           href="mailto:chen.fati@gmail.com"
           title="chen.fati@gmail.com"

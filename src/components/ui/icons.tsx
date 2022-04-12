@@ -5,6 +5,7 @@ export {
   Facebook,
   Github,
   Globe2 as Globe,
+  Linkedin,
 } from 'react-bootstrap-icons';
 
 export const Observable: React.FC = () => (

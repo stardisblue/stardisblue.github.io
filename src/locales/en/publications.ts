@@ -2,7 +2,7 @@ import { PublicationsType, SectionType } from '../../model';
 
 const publications: SectionType<PublicationsType> = {
   emoji: '📄',
-  title: 'PUBLICATIONS',
+  title: 'Publications',
   content: [
     {
       title: {

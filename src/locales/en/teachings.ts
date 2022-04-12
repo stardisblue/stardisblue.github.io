@@ -3,7 +3,7 @@ import { IUTBeziers, Polytech, UM } from './organisation';
 
 const teachings: SectionType<TeachingsType> = {
   emoji: '👨‍🏫',
-  title: 'Enseignements',
+  title: 'Teachings',
   content: [
     {
       title: 'Web Oriented Architecture',

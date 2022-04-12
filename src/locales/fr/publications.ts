@@ -1,8 +1,8 @@
 import { PublicationsType, SectionType } from '../../model';
 
 const publications: SectionType<PublicationsType> = {
-  title: 'PUBLICATIONS',
   emoji: '📄',
+  title: 'Publications',
   content: [
     {
       title: {
@@ -18,7 +18,7 @@ const publications: SectionType<PublicationsType> = {
       journal: 'Journal of Graph Algorithms and Applications (JGAA)',
       prefix: 'In',
       suffix: ', 24(4): 683-706',
-      date: ['2020', '2020'],
+      date: ['2020', 'Y'],
       doi: '10.7155/jgaa.00532',
       links: [
         {
@@ -70,7 +70,7 @@ const publications: SectionType<PublicationsType> = {
         'Pascal Poncelet',
         'Maguelonne Teisseire',
       ],
-      date: ['2019', '2019'],
+      date: ['2019', 'Y'],
       links: [
         {
           kind: 'PDF',

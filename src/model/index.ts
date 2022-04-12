@@ -25,7 +25,9 @@ export type ExperienceType = {
   organisation?: OrganisationType;
   links?: LinkType[];
   dates?: [DateType, DateType];
+  print?: boolean;
   content?: string;
+  domaines?: string;
   roles?: string;
   technologies?: string;
 };

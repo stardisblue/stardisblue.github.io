@@ -9,9 +9,9 @@ const presentations: SectionType<PresentationType> = {
       title: 'ProsoVis: Prosopographic Data Exploration Interface',
       status: 'Orateur Invité',
       event:
-        'Simposio Investigación Computational : Approaches for the Analysis of Urban Mobility Data',
+        'Simposio Investigación Computational: Approaches for the Analysis of Urban Mobility Data',
       location: 'Visio',
-      date: '2021-04',
+      date: '2021-06',
       links: [
         {
           kind: 'Facebook',
