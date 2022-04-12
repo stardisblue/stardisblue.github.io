@@ -18,7 +18,7 @@ const PrintableHeader = styled.header`
   }
 `;
 
-export const Header: React.FC<{ subtitle: JSX.Element; toc: TOC[] }> = ({
+export const Header: React.FC<{ subtitle: React.ReactNode; toc: TOC[] }> = ({
   subtitle,
   toc,
 }) => (
@@ -48,7 +48,12 @@ export const Header: React.FC<{ subtitle: JSX.Element; toc: TOC[] }> = ({
           kind="Observable"
           name="@stardisblue"
           href="https://observablehq.com/@stardisblue"
-          title="@stardisblue"
+        />
+        <Link
+          kind="Linkedin"
+          name="Fati Chen"
+          href="https://www.linkedin.com/in/fati-chen/"
+          title="fati-chen"
         />
       </Links>
       <TableOfContent show={false} sections={toc} />
