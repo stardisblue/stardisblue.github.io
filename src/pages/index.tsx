@@ -29,6 +29,7 @@ import {
 import { groups } from 'd3';
 import { ExperienceType } from '../model';
 import classNames from 'classnames';
+import skills from '../locales/fr/skills';
 
 const toc = [
   { id: 'a-propos', title: 'A propos', emoji: '👨‍💻' },
@@ -137,11 +138,11 @@ const ExperienceGroup: React.FC<{
                 <em>Rôles</em> : {roles}.{' '}
               </span>
             ))}
-            {If(exp.technologies, (technologies) => (
+            {/* {If(exp.technologies, (technologies) => (
               <>
                 <em>Technos.</em> : {technologies}.{' '}
               </>
-            ))}
+            ))} */}
           </p>
         )}{' '}
       </div>
@@ -226,35 +227,51 @@ const IndexPageFr: React.FC = function () {
           toc={toc}
         />
         <main>
-          <Section emoji="👨‍💻" title="A PROPOS" className="noprint">
-            <p className="measure">
-              Je suis actuellement doctorant 👨‍🔬 à l'
-              <Org {...UM} />. Où je suis membre de l'équipe{' '}
-              <Org name="ADVANSE" url="http://advanse.lirmm.fr/" /> au{' '}
-              <Org {...LIRMM} />. Mon travail se focalise sur la réduction de
-              l'encombrement visuel appliquée aux données spatio-temporelles.
-            </p>
-            <p className="measure">
-              Je suis intéressé par les technologies web, la sécurité,
-              l'algorithmique, les sciences, l'équité et la philosophie. Je
-              parle Français, Anglais et Russe couramment. Je suis passionné
-              d'escalade 🧗 et d'Origami. J'ai aussi longtemps joué aux échecs ♟
-              et gagné des prix 🥇 durant le lycée.
-            </p>
-            <p className="measure">
-              Philanthrope, j'ai créé plusieurs micro sites web pour mes amis,
-              un <Link name="répertoire" href="https://calioppe.github.io/" />{' '}
-              de partitions 🎼 pour l'association EVS Callioppe. Un{' '}
-              <Link
-                name="chansonnier"
-                href="https://stardisblue.github.io/chansonnier"
-              />
-              🎶 imprimable pour une association d'étudiant et un
-              encodeur-décodeur de code{' '}
-              <Link name="césar" href="https://stardisblue.github.io/cesar/" />.
-            </p>
-          </Section>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+            <Section emoji="👨‍💻" title="A PROPOS" className="noprint">
+              <p className="measure">
+                Je suis actuellement doctorant 👨‍🔬 à l'
+                <Org {...UM} />. Où je suis membre de l'équipe{' '}
+                <Org name="ADVANSE" url="http://advanse.lirmm.fr/" /> au{' '}
+                <Org {...LIRMM} />. Mon travail se focalise sur la réduction de
+                l'encombrement visuel appliquée aux données spatio-temporelles.
+              </p>
+              <p className="measure">
+                Je suis intéressé par les technologies web, la sécurité,
+                l'algorithmique, les sciences, l'équité et la philosophie. Je
+                parle Français, Anglais et Russe couramment. Je suis passionné
+                d'escalade 🧗 et d'Origami. J'ai aussi longtemps joué aux échecs
+                ♟ et gagné des prix 🥇 durant le lycée.
+              </p>
+              <p className="measure">
+                Philanthrope, j'ai créé plusieurs micro sites web pour mes amis,
+                un <Link name="répertoire" href="https://calioppe.github.io/" />{' '}
+                de partitions 🎼 pour l'association EVS Callioppe. Un{' '}
+                <Link
+                  name="chansonnier"
+                  href="https://stardisblue.github.io/chansonnier"
+                />
+                🎶 imprimable pour une association d'étudiant et un
+                encodeur-décodeur de code{' '}
+                <Link
+                  name="césar"
+                  href="https://stardisblue.github.io/cesar/"
+                />
+                .
+              </p>
+            </Section>
+            <Section emoji="🛠️" title={skills.title} className="noprint">
+              {skills.content.map((skill, i) => (
+                <article key={i}>
+                  <p>
+                    <h4 className="dib mv0">{skill.name}</h4> – {skill.content}
+                  </p>
+                </article>
+              ))}
+            </Section>
+          </div>
           <News />
+          <div className="print pv2"></div>
           <NavSection
             emoji={experiences.emoji}
             title={experiences.title}
@@ -271,7 +288,7 @@ const IndexPageFr: React.FC = function () {
           <NavSection emoji={education.emoji} title={education.title} toc={toc}>
             {education.content.map((edu, i) => (
               <p key={i} className="space">
-                <strong className="helvetica">{edu.title}</strong> –{' '}
+                <h4 className="dib mv0">{edu.title}</h4> –{' '}
                 <Time date={edu.date} form="Y" />{' '}
                 <AutoOrg>{edu.organisation}</AutoOrg>
               </p>
@@ -295,7 +312,7 @@ const IndexPageFr: React.FC = function () {
               <h3>{teachings.title}</h3>
               {teachings.content.map((teach, i) => (
                 <p key={i}>
-                  <strong className="helvetica">{teach.title}</strong>,{' '}
+                  <h4 className="dib mv0">{teach.title}</h4>,{' '}
                   <Times dates={teach.dates} form="Y" spaces={false} />,{' '}
                   {teach.cursus}. <AutoOrg>{teach.organisation}</AutoOrg>
                 </p>
@@ -304,29 +321,9 @@ const IndexPageFr: React.FC = function () {
             <article>
               <h3>Encadrement</h3>
               <p>
-                <strong className="helvetica">A. Delaforge</strong>, 2019,
-                Stagiaire Master 2. Implementation d'une frise chronologique
-                dans un dashboard interactif en js.
-              </p>
-            </article>
-          </NavSection>
-          <NavSection className="print" emoji="👨‍🏫" title="MANAGEMENT" toc={toc}>
-            <article>
-              <h3>{teachings.title}</h3>
-              {teachings.content.map((teach, i) => (
-                <p key={i} className="space">
-                  <strong className="helvetica">{teach.title}</strong>,{' '}
-                  <Times dates={teach.dates} form="Y" spaces={false} />,{' '}
-                  {teach.cursus}. <AutoOrg>{teach.organisation}</AutoOrg>
-                </p>
-              ))}{' '}
-            </article>
-            <article>
-              <h3>Encadrement</h3>
-              <p>
-                <strong className="helvetica">A. Delaforge</strong>, Mars -
-                Juil. 2019, Stagiaire Master 2. Implementation d'une frise
-                chronologique dans un dashboard interactif en js.{' '}
+                <h4 className="dib mv0">A. Delaforge</h4>, 2019, Stagiaire
+                Master 2. Implementation d'une frise chronologique dans un
+                dashboard interactif en js.{' '}
                 <Link
                   kind="Linkedin"
                   name="Alexis Delaforge"
@@ -335,6 +332,47 @@ const IndexPageFr: React.FC = function () {
               </p>
             </article>
           </NavSection>
+          <Section className="print" emoji="🛠️" title={skills.title}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '1.5em',
+                alignItems: 'baseline',
+              }}
+            >
+              <article>
+                {' '}
+                <p>{skills.abstract}</p>
+                {skills.content.map((skill, i) => (
+                  <p key={i} className="space">
+                    <h4 className="dib mv0">{skill.name}</h4> – {skill.content}
+                  </p>
+                ))}
+              </article>
+              {/* </Section>
+            <Section className="print" emoji="👨‍🏫" title="MANAGEMENT"> */}
+              <div>
+                <article>
+                  <h3 className="mt0">{teachings.title}</h3>
+                  {teachings.content.map((teach, i) => (
+                    <p key={i} className="space">
+                      <h4 className="dib mv0">{teach.title}</h4>,{' '}
+                      <Times dates={teach.dates} form="Y" spaces={false} />,{' '}
+                      {teach.cursus}. <AutoOrg>{teach.organisation}</AutoOrg>
+                    </p>
+                  ))}{' '}
+                </article>
+                <article>
+                  <h3>Encadrement</h3>
+                  <p>
+                    <h4 className="dib mv0">A. Delaforge</h4>, Mars - Juil.
+                    2019, Stagiaire M2.
+                  </p>
+                </article>
+              </div>
+            </div>
+          </Section>
           <NavSection emoji="📡" title="COMMUNICATIONS" toc={toc}>
             <div className="twocolumn--print">
               <article>
@@ -346,7 +384,7 @@ const IndexPageFr: React.FC = function () {
                   <div key={i} className="space">
                     <h4 className="noprint">{edu.title}</h4>
                     <p>
-                      <strong className="print">{edu.status}</strong>
+                      <h4 className="print dib mv0">{edu.status}</h4>
                       <span className="noprint">{edu.status}</span>,{' '}
                       <em>
                         {edu.event}

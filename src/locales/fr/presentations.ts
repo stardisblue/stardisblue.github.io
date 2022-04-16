@@ -3,19 +3,18 @@ import { LIRMM } from './organisation';
 
 const presentations: SectionType<PresentationType> = {
   emoji: '🖥️',
-  title: 'PRESENTATIONS',
+  title: 'Présentations',
   content: [
     {
       title: 'ProsoVis: Prosopographic Data Exploration Interface',
       status: 'Orateur Invité',
-      event:
-        'Simposio Investigación Computational: Approaches for the Analysis of Urban Mobility Data',
+      event: 'Simposio Investigación Computational',
       location: 'Visio',
       date: '2021-06',
       links: [
         {
           kind: 'Facebook',
-          name: 'Evènement Facebook',
+          name: ' ',
           href: 'https://www.facebook.com/events/200843748562680/',
           title:
             'Evènement Facebook - Club de Ciencias Computacionales Yachay Tech',
