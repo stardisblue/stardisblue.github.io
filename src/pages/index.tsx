@@ -129,22 +129,22 @@ const ExperienceGroup: React.FC<{
               </span>
             ))}
             {If(exp.domaines, (domaines) => (
-              <>
+              <span className="noprint">
                 <em>Domaines</em> : {domaines}.{' '}
-              </>
+              </span>
             ))}
             {If(exp.roles, (roles) => (
               <span className="noprint">
                 <em>Rôles</em> : {roles}.{' '}
               </span>
             ))}
-            {/* {If(exp.technologies, (technologies) => (
+            {If(exp.technologies, (technologies) => (
               <>
                 <em>Technos.</em> : {technologies}.{' '}
               </>
-            ))} */}
+            ))}
           </p>
-        )}{' '}
+        )}
       </div>
     ))}
   </article>
@@ -261,12 +261,11 @@ const IndexPageFr: React.FC = function () {
               </p>
             </Section>
             <Section emoji="🛠️" title={skills.title} className="noprint">
+              <p>{skills.abstract}</p>
               {skills.content.map((skill, i) => (
-                <article key={i}>
-                  <p>
-                    <h4 className="dib mv0">{skill.name}</h4> – {skill.content}
-                  </p>
-                </article>
+                <p key={i} className="space">
+                  <h4 className="dib mv0">{skill.name}</h4> – {skill.content}
+                </p>
               ))}
             </Section>
           </div>
@@ -342,7 +341,6 @@ const IndexPageFr: React.FC = function () {
               }}
             >
               <article>
-                {' '}
                 <p>{skills.abstract}</p>
                 {skills.content.map((skill, i) => (
                   <p key={i} className="space">
