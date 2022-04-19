@@ -19,6 +19,8 @@ export type EducationType = {
   date: DateType;
 };
 
+export type Listing = { title: string; content: string; print?: boolean };
+
 export type ExperienceType = {
   kind?: string;
   title: string;
@@ -27,9 +29,7 @@ export type ExperienceType = {
   dates?: [DateType, DateType];
   print?: boolean;
   content?: string;
-  domaines?: string;
-  roles?: string;
-  technologies?: string;
+  groups?: Listing[];
 };
 
 export type OrganisationType = string | StrictOrganisationType;

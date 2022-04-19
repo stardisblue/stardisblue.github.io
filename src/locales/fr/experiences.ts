@@ -24,10 +24,24 @@ const experiences: SectionType<ExperienceType> = {
           name: 'Démo fsac',
         },
       ],
-      domaines: 'visualisation, data science, IHM, full-stack',
-      roles: 'gestion de projets, recherche, développement et implémentation',
-      technologies:
-        'typescript, javascript, python, django, react-redux, d3, observable',
+      groups: [
+        {
+          title: 'Domaines',
+          content: 'visualisation, data science, IHM, full-stack',
+        },
+        {
+          title: 'Rôles',
+          content:
+            'gestion de projets, recherche, développement et implémentation',
+          print: true,
+        },
+        {
+          title: 'Technos.',
+          content:
+            'typescript, javascript, python, django, react-redux, d3, observable',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Stage',
@@ -38,9 +52,21 @@ const experiences: SectionType<ExperienceType> = {
         { kind: 'Github', href: 'https://github.com/agorajs', name: 'AGORAjs' },
       ],
       content: `Recherche, conception et implémentation d'algorithmes de réduction d'encombrement visuels, appliqués à la visualisation de graphes.`,
-      domaines: 'dessin de graphe, statistiques, web, algorithmique',
-      roles: 'recherche, conception et implémentation',
-      technologies: 'typescript, nodejs, d3, lodash, observable',
+      groups: [
+        {
+          title: 'Domaines',
+          content: 'dessin de graphe, statistiques, web, algorithmique',
+        },
+        {
+          title: 'Rôles',
+          content: 'recherche, conception et implémentation',
+        },
+        {
+          title: 'Technos.',
+          content: 'typescript, nodejs, d3, lodash, observable',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Stage',
@@ -57,9 +83,21 @@ const experiences: SectionType<ExperienceType> = {
       content: `Conception et développement de jGetMove, un
         système performant et générique pour la détection de motifs 
         spatio-temporels sur des données de mobilité. Refactorisation du C++ et amélioration de l'algorithme.`,
-      domaines: 'données spatio-temporelles, data science, algorithmique',
-      roles: 'refactorisation, optimisation et conception',
-      technologies: 'java, C++',
+      groups: [
+        {
+          title: 'Domaines',
+          content: 'données spatio-temporelles, data science, algorithmique',
+        },
+        {
+          title: 'Rôles',
+          content: 'refactorisation, optimisation et conception',
+        },
+        {
+          title: 'Technos.',
+          content: 'java, C++',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Stage',
@@ -84,9 +122,21 @@ const experiences: SectionType<ExperienceType> = {
         },
       ],
       content: `Développement d'un solveur pour un puzzle combinatoire,  EternityII. Analyse et déploiement de differentes stratégies de résolution, certaines basées sur le pré-calculs d'instances simplifiées.`,
-      domaines: 'programmation par contraintes, algorithmique, optimisation',
-      roles: 'recherche, conception et implémentation',
-      technologies: 'C++, Java',
+      groups: [
+        {
+          title: 'Domaines',
+          content: 'programmation par contraintes, algorithmique, optimisation',
+        },
+        {
+          title: 'Rôles',
+          content: 'recherche, conception et implémentation',
+        },
+        {
+          title: 'Technos.',
+          content: 'C++, Java',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Stage',
@@ -94,16 +144,28 @@ const experiences: SectionType<ExperienceType> = {
       organisation: { prefix: 'à ', name: 'WBS (Montpellier, France)' },
       dates: [['2015-03', 'LLL'], '2015-07'],
       content: "Integration d'une couche VOIP dans une plateforme web d'ERP.",
-      domaines: 'front-end, back-end',
-      roles: 'conception et développement',
-      technologies: 'PHP, SOAP, VoIP, JavaScript',
+      groups: [
+        {
+          title: 'Domaines',
+          content: 'front-end, back-end',
+        },
+        {
+          title: 'Rôles',
+          content: 'conception et développement',
+        },
+        {
+          title: 'Technos.',
+          content: 'PHP, SOAP, VoIP, JavaScript',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Freelance',
       title: 'Data science, dév. web, services hardware',
       dates: [
-        ['2012', 'Y'],
-        ['2018', 'Y'],
+        ['2012', 'y'],
+        ['2018', 'y'],
       ],
     },
     // {

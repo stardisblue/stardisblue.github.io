@@ -8,7 +8,7 @@ export const Section: React.FC<
       id={`sec--${title.toLocaleLowerCase().replace(/[^a-z]+/g, '-')}`}
       {...attrs}
     >
-      <h2 className="f3 helvetica">
+      <h2>
         {emoji && <span className="normal">{emoji}</span>} {title}
       </h2>
       {children}

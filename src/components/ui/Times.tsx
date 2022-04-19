@@ -5,12 +5,12 @@ import { Time } from './Time';
 export const Times: React.FC<{
   dates: [DateType, DateType];
   form?: string;
-  spaces?: boolean;
+  nospaces?: boolean;
   locale?: Locale;
-}> = ({ dates: [start, end], form, spaces = true, locale }) => (
+}> = ({ dates: [start, end], form, nospaces, locale }) => (
   <>
     <Time date={start} form={form} locale={locale} />
-    {spaces && ' '}-{spaces && ' '}
+    {nospaces ? '-' : ' - '}
     <Time date={end} form={form} locale={locale} />
   </>
 );

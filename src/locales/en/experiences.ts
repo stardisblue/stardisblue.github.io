@@ -24,10 +24,23 @@ export const experiences: SectionType<ExperienceType> = {
           name: 'Demo fsac',
         },
       ],
-      domaines: 'visualisation, data science, HCI, full-stack',
-      roles: 'project management, research, development',
-      technologies:
-        'typescript, javascript, python, django, react-redux, d3, observable',
+      groups: [
+        {
+          title: 'Domains',
+          content: 'visualisation, data science, HCI, full-stack',
+        },
+        {
+          title: 'Roles',
+          content: 'project management, research, development',
+          print: true,
+        },
+        {
+          title: 'Techs.',
+          content:
+            'typescript, javascript, python, django, react-redux, d3, observable',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Internship',
@@ -38,9 +51,21 @@ export const experiences: SectionType<ExperienceType> = {
         { kind: 'Github', href: 'https://github.com/agorajs', name: 'AGORAjs' },
       ],
       content: `Research, development, and implementation of algorithms for visual cluttering reduction, applied to graph visualization.`,
-      domaines: 'graph drawing, statistics, web, algorithmics',
-      roles: 'research, development and implementation',
-      technologies: 'Typescript, nodejs, d3, lodash, observable',
+      groups: [
+        {
+          title: 'Domains',
+          content: 'graph drawing, statistics, web, algorithmics',
+        },
+        {
+          title: 'Roles',
+          content: 'research, development and implementation',
+        },
+        {
+          title: 'Techs.',
+          content: 'Typescript, nodejs, d3, lodash, observable',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Internship',
@@ -57,9 +82,21 @@ export const experiences: SectionType<ExperienceType> = {
       content: `Development of jGetMove, an
       efficient and unifying spatio-temporal pattern mining system for
       moving objects. Refactoring from C++ and improving the algorithm.`,
-      domaines: 'spatio-temporal data, data science, algorithmics',
-      roles: 'refactoring, optimisation et development',
-      technologies: 'java, C++',
+      groups: [
+        {
+          title: 'Domains',
+          content: 'spatio-temporal data, data science, algorithmics',
+        },
+        {
+          title: 'Roles',
+          content: 'refactoring, optimisation and development',
+        },
+        {
+          title: 'Techs.',
+          content: 'java, C++',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Internship',
@@ -84,9 +121,21 @@ export const experiences: SectionType<ExperienceType> = {
         },
       ],
       content: `Development of a solver for a combinatorial puzzle game, EternityII. Analysis and setup of various solving strategies, some based on pre-calculation of simplified instances.`,
-      domaines: 'constraint programming, algorithmics, optimisation',
-      roles: 'research, development et implementation',
-      technologies: 'C++, Java',
+      groups: [
+        {
+          title: 'Domains',
+          content: 'constraint programming, algorithmics, optimisation',
+        },
+        {
+          title: 'Roles',
+          content: 'research, development and implementation',
+        },
+        {
+          title: 'Techs.',
+          content: 'C++, Java',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Internship',
@@ -94,9 +143,21 @@ export const experiences: SectionType<ExperienceType> = {
       organisation: { prefix: 'at ', name: 'WBS (Montpellier, France)' },
       dates: [['2015-03', 'MMM'], '2015-07'],
       content: 'VoIP stack integration into a web based PGI software.',
-      domaines: 'front-end, back-end',
-      roles: 'development and implementation',
-      technologies: 'PHP, SOAP, VoIP, JavaScript',
+      groups: [
+        {
+          title: 'Domains',
+          content: 'Front-end, Back-end',
+        },
+        {
+          title: 'Roles',
+          content: 'development and implementation',
+        },
+        {
+          title: 'Techs.',
+          content: 'PHP, SOAP, VoIP, JavaScript',
+          print: true,
+        },
+      ],
     },
     {
       kind: 'Freelance',
