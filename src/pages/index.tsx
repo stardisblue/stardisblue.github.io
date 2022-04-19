@@ -157,8 +157,8 @@ const IndexPageFr: React.FC = function () {
             <article>
               <h3>Encadrement</h3>
               <InlineTitle title="A. Delaforge" comma>
-                2019, Stagiaire Master 2. Implementation d'une frise
-                chronologique dans un dashboard interactif en js.{' '}
+                Mars - Juil. 2019, Stagiaire Master 2. Implementation d'une
+                frise chronologique dans un dashboard interactif en js.{' '}
                 <Link
                   kind="Linkedin"
                   name="Alexis Delaforge"
