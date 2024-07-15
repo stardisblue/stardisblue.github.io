@@ -2,25 +2,38 @@ import React from 'react';
 import { OrganisationType, StrictOrganisationType } from '../../model';
 import { Link } from './Link';
 
-export const Org: React.FC<
-  StrictOrganisationType & { suppress?: boolean; join?: string; link?: boolean }
-> = (props) => {
-  const suppress = props.suppress === undefined ? true : props.suppress;
-  const location = props.location ? `, ${props.location}` : undefined;
+type Props = StrictOrganisationType & {
+  suppress?: boolean;
+  join?: string;
+  link?: boolean;
+};
 
-  if (props.url)
+export const Org = ({
+  suppress,
+  location,
+  url,
+  join,
+  title,
+  name,
+  link,
+  prefix,
+}: Props) => {
+  suppress ??= true;
+  location ??= `, ${location}`;
+
+  if (url)
     return (
       <>
-        {props.join && props.join + ((props.link && props.prefix) || '')}
-        <Link name={props.name} title={props.title} href={props.url} />
+        {join && join + ((link && prefix) || '')}
+        <Link name={name} title={title} href={url} />
         {!suppress && location}
       </>
     );
 
   return (
-    <span title={props.title}>
-      {props.join && props.join + ((props.link && props.prefix) || '')}
-      {props.name}
+    <span title={title}>
+      {join && join + ((link && prefix) || '')}
+      {name}
       {!suppress && location}
     </span>
   );

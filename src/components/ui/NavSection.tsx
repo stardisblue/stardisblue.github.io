@@ -1,13 +1,18 @@
 import React, { HtmlHTMLAttributes } from 'react';
-import { Section } from '.';
+import { Section } from './Section';
 import { Navigation, TOC } from '../TableOfContent';
 
-export const NavSection: React.FC<
-  HtmlHTMLAttributes<HTMLElement> & { emoji?: string; toc: TOC[] }
-> = ({ title, emoji, children, toc, ...attrs }) => (
-  <Section emoji={emoji} title={title} {...attrs}>
-    {children}
-    <Navigation sections={toc} />
-    <hr />
-  </Section>
-);
+type Props = HtmlHTMLAttributes<HTMLElement> & {
+  emoji?: string;
+  toc: TOC[];
+};
+
+export function NavSection({ title, emoji, children, toc, ...attrs }: Props) {
+  return (
+    <Section emoji={emoji} title={title} {...attrs}>
+      {children}
+      <Navigation sections={toc} />
+      <hr />
+    </Section>
+  );
+}

@@ -1,22 +1,14 @@
-import classnames from 'classnames';
 import React from 'react';
 import { Collapsible } from '.';
-import { LinkType, StrictLinkType } from '../../model';
+import { LinkType, StrictLinkType } from '@/model';
 import * as icons from './icons';
 
-export const Link: React.FC<StrictLinkType & { className?: string }> = ({
-  name,
-  href,
-  print,
-  title,
-  kind,
-  className,
-}) => {
-  name = name || href;
+type Props = StrictLinkType & {
+  className?: string;
+};
 
-  className = classnames(className, {
-    print: print === undefined ? '' : print === true ? 'print' : 'noprint',
-  });
+export function Link({ name, href, title, kind, className }: Props) {
+  name = name || href;
 
   if (kind) {
     const Icon: any = icons[kind];
@@ -49,11 +41,11 @@ export const Link: React.FC<StrictLinkType & { className?: string }> = ({
       {name}
     </a>
   );
-};
+}
 
-export const AutoLink = ({ children }: { children: LinkType }) => {
+export function AutoLink({ children }: { children: LinkType }) {
   if (typeof children === 'string') {
     return <Link href={children} />;
   }
   return <Link {...children} />;
-};
+}

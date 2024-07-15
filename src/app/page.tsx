@@ -1,7 +1,4 @@
 import React from 'react';
-import 'tachyons/css/tachyons.min.css';
-import '../styles/global.scss';
-import { Helmet } from 'react-helmet';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import {
@@ -30,6 +27,7 @@ import Presentation from '../components/items/Presentation';
 import Publication from '../components/items/Publication';
 import { Experience, Experiences } from '../components/items/Experience';
 import { ExperienceType } from '../model';
+import { Metadata } from 'next';
 
 const toc = [
   { id: 'a-propos', title: 'A propos', emoji: '👨‍💻' },
@@ -49,13 +47,14 @@ const groupedexp = groups(experiences.content, (d) =>
     ]
 );
 
-const IndexPageFr: React.FC = function () {
+export const metadata: Metadata = {
+  title: 'Fati CHEN',
+};
+
+export default function Home() {
   return (
     <main id="FC" className="georgia lh-title">
-      <Helmet>
-        <title>Fati CHEN</title>
-      </Helmet>
-      <div className="ph2-m mw8 center">
+      <div className="ph2-m container mx-auto">
         <Header
           subtitle={
             <>
@@ -65,9 +64,10 @@ const IndexPageFr: React.FC = function () {
           }
           toc={toc}
         />
+        <hr />
         <main>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-            <Section emoji="👨‍💻" title="A PROPOS" className="noprint">
+          <div className="grid grid-cols-2">
+            <Section emoji="👨‍💻" title="A PROPOS">
               <p className="measure">
                 Je suis actuellement doctorant 👨‍🔬 à l'
                 <Org {...UM} />. Où je suis membre de l'équipe{' '}
@@ -99,7 +99,7 @@ const IndexPageFr: React.FC = function () {
                 .
               </p>
             </Section>
-            <Section emoji="🛠️" title={skills.title} className="noprint">
+            <Section emoji="🛠️" title={skills.title}>
               <p>{skills.abstract}</p>
               {skills.content.map((skill, i) => (
                 <InlineTitle key={i} title={skill.name} dashed>
@@ -109,7 +109,6 @@ const IndexPageFr: React.FC = function () {
             </Section>
           </div>
           <News />
-          <div className="print pv2"></div>
           <NavSection
             emoji={experiences.emoji}
             title={experiences.title}
@@ -131,12 +130,7 @@ const IndexPageFr: React.FC = function () {
               </InlineTitle>
             ))}
           </NavSection>
-          <NavSection
-            emoji="👨‍🏫"
-            title="SERVICE ACADÉMIQUE"
-            toc={toc}
-            className="noprint"
-          >
+          <NavSection emoji="👨‍🏫" title="SERVICE ACADÉMIQUE" toc={toc}>
             <article>
               <h3>{academics.title}</h3>
               {academics.content.map((academic, i) => (
@@ -167,44 +161,8 @@ const IndexPageFr: React.FC = function () {
               </InlineTitle>
             </article>
           </NavSection>
-          <Section className="print" emoji="🛠️" title={skills.title}>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '1.5em',
-                alignItems: 'baseline',
-              }}
-            >
-              <article>
-                <p className="space">{skills.abstract}</p>
-                {skills.content.map((skill, i) => (
-                  <InlineTitle key={i} title={skill.name} dashed>
-                    {skill.content}
-                  </InlineTitle>
-                ))}
-              </article>
-              <div>
-                <article>
-                  <h3 className="mt0">{teachings.title}</h3>
-                  {teachings.content.map((teach, i) => (
-                    <InlineTitle key={i} title={teach.title} comma>
-                      <Times dates={teach.dates} form="y" nospaces />,{' '}
-                      {teach.cursus}. <AutoOrg>{teach.organisation}</AutoOrg>
-                    </InlineTitle>
-                  ))}{' '}
-                </article>
-                <article>
-                  <h3>Encadrement</h3>
-                  <InlineTitle title="A. Delaforge" comma>
-                    Mars - Juil. 2019, Stagiaire M2.
-                  </InlineTitle>
-                </article>
-              </div>
-            </div>
-          </Section>
           <NavSection emoji="📡" title="COMMUNICATIONS" toc={toc}>
-            <div className="twocolumn--print">
+            <div>
               <article>
                 <h3>
                   <span className="normal">{presentations.emoji}</span>
@@ -230,6 +188,4 @@ const IndexPageFr: React.FC = function () {
       </div>
     </main>
   );
-};
-
-export default IndexPageFr;
+}

@@ -10,7 +10,6 @@ export const experiences: SectionType<ExperienceType> = {
       title: 'Visual Analytics',
       organisation: UM,
       dates: ['2018-07', '2022-06'],
-      print: true,
       content: `Research on the data visual analysis domain based around 3 projects: 1. Reducing visual cluttering 2. spatial agglomeration clustering. 3. Interactive representations of spatio-temporal data.`,
       links: [
         {
@@ -32,13 +31,11 @@ export const experiences: SectionType<ExperienceType> = {
         {
           title: 'Roles',
           content: 'project management, research, development',
-          print: true,
         },
         {
           title: 'Techs.',
           content:
             'typescript, javascript, python, django, react-redux, d3, observable',
-          print: true,
         },
       ],
     },
@@ -63,7 +60,6 @@ export const experiences: SectionType<ExperienceType> = {
         {
           title: 'Techs.',
           content: 'Typescript, nodejs, d3, lodash, observable',
-          print: true,
         },
       ],
     },
@@ -94,7 +90,6 @@ export const experiences: SectionType<ExperienceType> = {
         {
           title: 'Techs.',
           content: 'java, C++',
-          print: true,
         },
       ],
     },
@@ -133,7 +128,6 @@ export const experiences: SectionType<ExperienceType> = {
         {
           title: 'Techs.',
           content: 'C++, Java',
-          print: true,
         },
       ],
     },
@@ -155,7 +149,6 @@ export const experiences: SectionType<ExperienceType> = {
         {
           title: 'Techs.',
           content: 'PHP, SOAP, VoIP, JavaScript',
-          print: true,
         },
       ],
     },

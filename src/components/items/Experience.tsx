@@ -1,9 +1,7 @@
-import classNames from 'classnames';
-import fr from 'date-fns/esm/locale/fr';
+import { fr, Locale } from 'date-fns/locale';
 import React from 'react';
-import { ExperienceType } from '../../model';
+import { ExperienceType } from '@/model';
 import { AutoOrg, Times, Links, AutoLink } from '../ui';
-import InlineTitle from '../ui/InlineTitle';
 import { If } from '../utils';
 
 export const Experience: React.FC<ExperienceType & { locale?: Locale }> = ({
@@ -40,17 +38,12 @@ export const Experience: React.FC<ExperienceType & { locale?: Locale }> = ({
       </p>
     )}
     {If(exp.content, (content) => {
-      console.log(exp);
-      return (
-        <p className={classNames({ noprint: exp.print !== true }, 'space')}>
-          {content}
-        </p>
-      );
+      return <p className="space">{content}</p>;
     })}
     {If(exp.groups, (groups) => (
       <p className="space">
-        {groups.map(({ title, content, print }, i) => (
-          <span key={i} className={print ? '' : 'noprint'}>
+        {groups.map(({ title, content }, i) => (
+          <span key={i}>
             <em>{title}</em> : {content}.{' '}
           </span>
         ))}
@@ -68,62 +61,34 @@ export const Experiences: React.FC<{
     <h3>{title}</h3>
     {content.map((exp, i) => (
       <div key={i} className="space">
-        <InlineTitle
-          className="print"
-          title={
-            <>
-              {exp.title}
-              <AutoOrg join=" " link={true}>
-                {exp.organisation}
-              </AutoOrg>
-            </>
-          }
-          dashed
-        >
-          {If(exp.links, (links) => (
-            <Links>
-              <AutoLink key={i}>{links[0]}</AutoLink>
-            </Links>
-          ))}
-        </InlineTitle>
-        <h4 className="noprint">
+        <h4>
           {exp.title}
           <AutoOrg join=" " link={true}>
             {exp.organisation}
           </AutoOrg>
         </h4>
-        <p className="noprint">
+        <p>
           {If(exp.dates, (dates) => (
             <em>
               <Times dates={dates} locale={locale} />
             </em>
           ))}
           {If(exp.links, (links) => (
-            <>
-              <Links className="pl1">
-                {links.map((link, i) => (
-                  <AutoLink key={i}>{link}</AutoLink>
-                ))}
-              </Links>
-            </>
+            <Links className="pl-1">
+              {links.map((link, i) => (
+                <AutoLink key={i}>{link}</AutoLink>
+              ))}
+            </Links>
           ))}
         </p>
         {If(exp.content, (content) => (
-          <p className={exp.print ? '' : 'noprint'}>{content}</p>
+          <p>{content}</p>
         ))}
         {(exp.dates || exp.groups) && (
           <p className="space">
-            {If(exp.dates, (dates) => (
-              <span className="print">
-                <em>
-                  <Times dates={dates} locale={locale} />
-                </em>
-                <span className="ph1"> – </span>
-              </span>
-            ))}
             {If(exp.groups, (groups) =>
-              groups.map(({ title, content, print }, i) => (
-                <span key={i} className={print ? '' : 'noprint'}>
+              groups.map(({ title, content }, i) => (
+                <span key={i}>
                   <em>{title}</em> : {content}.{' '}
                 </span>
               ))

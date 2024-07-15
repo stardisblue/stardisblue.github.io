@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from './ui/Link';
 
-export const Footer: React.FC = () => (
-  <footer className="noprint">
-    2022 &mdash;{' '}
-    <Link
-      className="inline-flex"
-      kind="Github"
-      href="https://github.com/stardisblue/stardisblue.github.io"
-      name="stardisblue/stardisblue.github.io"
-    />{' '}
-    Made with 💖 &amp; Gatsby
-  </footer>
-);
+export function Footer() {
+  return (
+    <footer>
+      2024 &mdash;{' '}
+      <Link
+        className="inline-flex"
+        kind="Github"
+        href="https://github.com/stardisblue/stardisblue.github.io"
+        name="stardisblue/stardisblue.github.io"
+      />{' '}
+      Made with 💖 &amp; Next.js
+    </footer>
+  );
+}

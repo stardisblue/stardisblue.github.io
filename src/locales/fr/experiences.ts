@@ -11,7 +11,6 @@ const experiences: SectionType<ExperienceType> = {
       title: 'Doctorat en Data Science & Data Viz',
       organisation: UM,
       dates: ['2018-07', '2022-06'],
-      print: true,
       content: `Recherche dans le domaine de la visualisation analytique axée autour de trois projets: 1. réduction de l'encombrement visuel 2. agglomération spatiale d'entités et 3. représentations interactives de données spatio-temporelles.`,
       links: [
         {
@@ -34,13 +33,11 @@ const experiences: SectionType<ExperienceType> = {
           title: 'Rôles',
           content:
             'gestion de projets, recherche, développement et implémentation',
-          print: true,
         },
         {
           title: 'Technos.',
           content:
             'typescript, javascript, python, django, react-redux, d3, observable',
-          print: true,
         },
       ],
     },
@@ -65,7 +62,6 @@ const experiences: SectionType<ExperienceType> = {
         {
           title: 'Technos.',
           content: 'typescript, nodejs, d3, lodash, observable',
-          print: true,
         },
       ],
     },
@@ -96,7 +92,6 @@ const experiences: SectionType<ExperienceType> = {
         {
           title: 'Technos.',
           content: 'java, C++',
-          print: true,
         },
       ],
     },
@@ -135,7 +130,6 @@ const experiences: SectionType<ExperienceType> = {
         {
           title: 'Technos.',
           content: 'C++, Java',
-          print: true,
         },
       ],
     },
@@ -157,7 +151,6 @@ const experiences: SectionType<ExperienceType> = {
         {
           title: 'Technos.',
           content: 'PHP, SOAP, VoIP, JavaScript',
-          print: true,
         },
       ],
     },

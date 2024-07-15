@@ -1,6 +1,6 @@
-import fr from 'date-fns/esm/locale/fr';
+import { fr, Locale } from 'date-fns/locale';
 import React from 'react';
-import { PresentationType } from '../../model';
+import { PresentationType } from '@/model';
 import { AutoLink, AutoOrg, Links, Time } from '../ui';
 import { IfMap } from '../utils';
 
@@ -16,16 +16,15 @@ const Presentation: React.FC<PresentationType & { locale?: Locale }> = ({
   locale = fr,
 }) => (
   <div className="space">
-    <h4 className="noprint">{title}</h4>
+    <h4>{title}</h4>
     <span>
-      <h4 className="print dib mv0">{status}</h4>
-      <span className="noprint">{status}</span>,{' '}
+      <span>{status}</span>,{' '}
       <em>
         {event}
         {<AutoOrg join=" ">{organisation}</AutoOrg>},{' '}
       </em>
       {location}
-      <span className="noprint">
+      <span>
         {IfMap(participation, (org, i) => (
           <AutoOrg join=", " key={i} children={org} />
         ))}

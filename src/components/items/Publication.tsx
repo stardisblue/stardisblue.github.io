@@ -1,4 +1,4 @@
-import fr from 'date-fns/esm/locale/fr';
+import { fr, Locale } from 'date-fns/locale';
 import React from 'react';
 import { PublicationsType } from '../../model';
 import { Authors } from '../Authors';
@@ -24,7 +24,7 @@ const Publication: React.FC<PublicationsType & { locale?: Locale }> = ({
       <strong>{authors[0]}</strong>
       <Authors>, {authors.slice(1).join(', ')}</Authors>.
       {If(journal, (journal) => (
-        <span className="noprint">
+        <span>
           {' '}
           {prefix} <em>{journal}</em>
           {If(suffix)}.
@@ -38,7 +38,7 @@ const Publication: React.FC<PublicationsType & { locale?: Locale }> = ({
         </>
       ))}
     </p>
-    <Links className="noprint">
+    <Links>
       {links.map((l, i) => (
         <AutoLink key={i}>{l}</AutoLink>
       ))}

@@ -1,8 +1,5 @@
 import React from 'react';
 
-export const Authors: React.FC = ({ children }) => (
-  <>
-    <em className="print"> et al</em>
-    <span className="noprint">{children}</span>
-  </>
-);
+export function Authors({ children }: { children: React.ReactNode }) {
+  return <span>{children}</span>;
+}

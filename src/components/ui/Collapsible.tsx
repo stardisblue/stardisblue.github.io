@@ -1,3 +1,5 @@
+'use client';
+
 import React, {
   HTMLAttributes,
   useLayoutEffect,
@@ -5,15 +7,7 @@ import React, {
   useState,
 } from 'react';
 import * as d3 from 'd3';
-import styled from 'styled-components';
-
-const PrintableSpan = styled.span`
-  @media print {
-    width: initial !important;
-    opacity: initial !important;
-    margin-left: 0.25em;
-  }
-`;
+import classNames from 'classnames';
 
 export const Collapsible: React.FC<
   HTMLAttributes<HTMLSpanElement> & {
@@ -33,7 +27,7 @@ export const Collapsible: React.FC<
     const size = $title.current.offsetWidth;
     _text
       .style('width', '0px')
-      .style('padding-left', '0rem')
+      .style('padding-left', '0.25rem')
       .style('opacity', '0');
 
     setPointerEvents({
@@ -61,14 +55,14 @@ export const Collapsible: React.FC<
 
   return (
     <span
-      className={'inline-flex items-baseline ' + className}
+      className={classNames('inline-flex', 'items-baseline', className)}
       {...pointerEvents}
       {...props}
     >
       {children}
-      <PrintableSpan ref={$title} className="overflow-hidden nowrap">
+      <span ref={$title} className="overflow-hidden whitespace-nowrap">
         {title}
-      </PrintableSpan>
+      </span>
     </span>
   );
 };

@@ -1,4 +1,4 @@
-import * as icons from './../components/ui/icons';
+import * as icons from '@/components/ui/icons';
 
 export type SectionType<T> = { title: string; emoji: string; content: T[] };
 
@@ -9,7 +9,6 @@ export type StrictLinkType = {
   href: string;
   name?: string;
   title?: string;
-  print?: boolean;
 };
 export type DateType = string | [string, string];
 
@@ -19,7 +18,7 @@ export type EducationType = {
   date: DateType;
 };
 
-export type Listing = { title: string; content: string; print?: boolean };
+export type Listing = { title: string; content: string };
 
 export type ExperienceType = {
   kind?: string;
@@ -27,7 +26,6 @@ export type ExperienceType = {
   organisation?: OrganisationType;
   links?: LinkType[];
   dates?: [DateType, DateType];
-  print?: boolean;
   content?: string;
   groups?: Listing[];
 };

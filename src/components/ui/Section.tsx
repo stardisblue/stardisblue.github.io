@@ -1,8 +1,10 @@
 import React, { HtmlHTMLAttributes } from 'react';
 
-export const Section: React.FC<
-  HtmlHTMLAttributes<HTMLElement> & { emoji?: string }
-> = ({ title = '', children, emoji, ...attrs }) => {
+type Props = HtmlHTMLAttributes<HTMLElement> & {
+  emoji?: string;
+};
+
+export function Section({ title = '', children, emoji, ...attrs }: Props) {
   return (
     <section
       id={`sec--${title.toLocaleLowerCase().replace(/[^a-z]+/g, '-')}`}
@@ -14,5 +16,4 @@ export const Section: React.FC<
       {children}
     </section>
   );
-};
-export default Section;
+}

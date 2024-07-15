@@ -1,14 +1,16 @@
 import React from 'react';
-import { format, parseISO } from 'date-fns/esm';
-import { fr } from 'date-fns/esm/locale';
-import { DateType } from '../../model';
+import { format, parseISO, Locale } from 'date-fns';
+import fr from 'date-fns/locale';
+import { DateType } from '@/model';
 import { capitalize } from 'lodash';
 
-export const Time: React.FC<{
+type Props = {
   date: DateType;
   form?: string;
   locale?: Locale;
-}> = ({ date, form = 'MMM y', locale = fr }) => {
+};
+
+export function Time({ date, form = 'MMM y', locale = fr }: Props) {
   if (typeof date !== 'string') [date, form] = date;
 
   return (
@@ -16,4 +18,4 @@ export const Time: React.FC<{
       {capitalize(format(parseISO(date), form, { locale }))}
     </time>
   );
-};
+}

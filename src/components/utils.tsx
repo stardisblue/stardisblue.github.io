@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** @deprecated */
 export const If: <T>(
   cond: T | null | undefined,
   children?: (cond: T) => React.ReactNode
@@ -9,6 +10,7 @@ export const If: <T>(
   return <>{children(cond)}</>;
 };
 
+/** @deprecated */
 export const IfMap: <T>(
   cond: T[] | null | undefined,
   children?: (cond: T, i: number) => React.ReactNode
