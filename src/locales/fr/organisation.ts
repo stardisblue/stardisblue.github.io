@@ -39,3 +39,11 @@ export const IUTBeziers: StrictOrganisationType = {
   title: 'Institut Universitaire de Technologie de Béziers',
   location: 'France',
 };
+
+export const COMWATT: StrictOrganisationType = {
+  prefix: 'à ',
+  name: 'COMWATT',
+  url: 'https://www.comwatt.com',
+  title: 'Comwatt',
+  location: 'France',
+};

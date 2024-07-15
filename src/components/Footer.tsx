@@ -10,6 +10,6 @@ export const Footer: React.FC = () => (
       href="https://github.com/stardisblue/stardisblue.github.io"
       name="stardisblue/stardisblue.github.io"
     />{' '}
-    Made with 💖 &amp; Gatsby{' '}
+    Made with 💖 &amp; Gatsby
   </footer>
 );

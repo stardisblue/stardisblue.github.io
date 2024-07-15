@@ -51,7 +51,7 @@ export const Link: React.FC<StrictLinkType & { className?: string }> = ({
   );
 };
 
-export const AutoLink: React.FC<{ children: LinkType }> = ({ children }) => {
+export const AutoLink = ({ children }: { children: LinkType }) => {
   if (typeof children === 'string') {
     return <Link href={children} />;
   }

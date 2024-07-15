@@ -1,13 +1,14 @@
 import { ExperienceType, SectionType } from '../../model';
-import { LIRMM, UM } from './organisation';
+import { COMWATT, LIRMM, UM } from './organisation';
 
 const experiences: SectionType<ExperienceType> = {
   title: 'EXPERIENCES',
   emoji: '💼',
   content: [
+    { title: 'Data Scientist & Dev. Fullstack', organisation: COMWATT },
     {
       kind: 'Doctorat',
-      title: 'Visualisation Analytique',
+      title: 'Doctorat en Data Science & Data Viz',
       organisation: UM,
       dates: ['2018-07', '2022-06'],
       print: true,

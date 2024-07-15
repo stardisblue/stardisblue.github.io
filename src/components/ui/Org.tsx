@@ -25,12 +25,14 @@ export const Org: React.FC<
     </span>
   );
 };
-export const AutoOrg: React.FC<{
+type AutoOrgProps = {
   suppress?: boolean;
   join?: string;
   link?: boolean;
   children?: OrganisationType;
-}> = ({ children, suppress, join, link }) => {
+};
+
+export const AutoOrg = ({ children, suppress, join, link }: AutoOrgProps) => {
   if (!children) return null;
   if (typeof children === 'string') return <>{children}</>;
 
