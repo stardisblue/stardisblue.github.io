@@ -1,6 +1,6 @@
 import React from 'react';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 import {
   AutoOrg,
   Link,
@@ -9,9 +9,9 @@ import {
   Section,
   Time,
   Times,
-} from '../components/ui';
-import { LIRMM, UM } from '../locales/fr/organisation';
-import { News } from '../components/News';
+} from '@/components/ui';
+import { LIRMM, UM } from '@/locales/fr/organisation';
+import { News } from '@/components/News';
 import {
   experiences,
   academics,
@@ -20,13 +20,13 @@ import {
   presentations,
   publications,
   skills,
-} from '../locales/fr';
+} from '@/locales/fr';
 import { groups } from 'd3';
-import InlineTitle from '../components/ui/InlineTitle';
-import Presentation from '../components/items/Presentation';
-import Publication from '../components/items/Publication';
-import { Experience, Experiences } from '../components/items/Experience';
-import { ExperienceType } from '../model';
+import { InlineTitle } from '@/components/ui/InlineTitle';
+import { Presentation } from '@/components/items/Presentation';
+import { Publication } from '@/components/items/Publication';
+import { Experience, Experiences } from '@/components/items/Experience';
+import { ExperienceType } from '@/model';
 import { Metadata } from 'next';
 
 const toc = [

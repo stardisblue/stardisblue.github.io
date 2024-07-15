@@ -1,6 +1,6 @@
 import React from 'react';
 import { format, parseISO, Locale } from 'date-fns';
-import fr from 'date-fns/locale';
+import { fr } from 'date-fns/locale';
 import { DateType } from '@/model';
 import { capitalize } from 'lodash';
 

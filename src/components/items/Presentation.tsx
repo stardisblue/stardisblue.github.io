@@ -4,7 +4,12 @@ import { PresentationType } from '@/model';
 import { AutoLink, AutoOrg, Links, Time } from '../ui';
 import { IfMap } from '../utils';
 
-const Presentation: React.FC<PresentationType & { locale?: Locale }> = ({
+type Props = Omit<PresentationType, 'location'> & {
+  location: string;
+  locale?: Locale;
+};
+
+export function Presentation({
   title,
   status,
   organisation,
@@ -14,29 +19,29 @@ const Presentation: React.FC<PresentationType & { locale?: Locale }> = ({
   date,
   links,
   locale = fr,
-}) => (
-  <div className="space">
-    <h4>{title}</h4>
-    <span>
-      <span>{status}</span>,{' '}
-      <em>
-        {event}
-        {<AutoOrg join=" ">{organisation}</AutoOrg>},{' '}
-      </em>
-      {location}
+}: Props) {
+  return (
+    <div className="space">
+      <h4>{title}</h4>
       <span>
-        {IfMap(participation, (org, i) => (
-          <AutoOrg join=", " key={i} children={org} />
-        ))}
+        <span>{status}</span>,{' '}
+        <em>
+          {event}
+          {<AutoOrg join=" ">{organisation}</AutoOrg>},{' '}
+        </em>
+        {location}
+        <span>
+          {IfMap(participation, (org, i) => (
+            <AutoOrg join=", " key={i} children={org} />
+          ))}
+        </span>
+        , <Time date={date} locale={locale} />.{' '}
+        <Links>
+          {IfMap(links, (l, i) => (
+            <AutoLink key={i}>{l}</AutoLink>
+          ))}
+        </Links>
       </span>
-      , <Time date={date} locale={locale} />.{' '}
-      <Links>
-        {IfMap(links, (l, i) => (
-          <AutoLink key={i}>{l}</AutoLink>
-        ))}
-      </Links>
-    </span>
-  </div>
-);
-
-export default Presentation;
+    </div>
+  );
+}

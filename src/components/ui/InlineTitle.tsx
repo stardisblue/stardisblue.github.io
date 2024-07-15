@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function InlineTitle({
+export function InlineTitle({
   title,
   className = 'space',
   children,

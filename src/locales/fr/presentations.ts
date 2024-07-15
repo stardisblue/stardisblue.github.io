@@ -1,7 +1,7 @@
 import { PresentationType, SectionType } from '../../model';
 import { LIRMM } from './organisation';
 
-const presentations: SectionType<PresentationType> = {
+const presentations = {
   emoji: '🖥️',
   title: 'Présentations',
   content: [
@@ -93,6 +93,6 @@ const presentations: SectionType<PresentationType> = {
       location: 'Průhonice/Prague, Tchéquie',
     },
   ],
-};
+} satisfies SectionType<PresentationType>;
 
 export default presentations;
