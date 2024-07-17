@@ -1,8 +1,10 @@
-import { fr, Locale } from 'date-fns/locale';
 import React from 'react';
+import { fr, Locale } from 'date-fns/locale';
+
 import { ExperienceType } from '@/model';
-import { AutoOrg, Times, Links, AutoLink } from '../ui';
-import { If } from '../utils';
+import { AutoOrg, Text } from '@/components/typography';
+import { Links, Times } from '@/components/ui';
+import { If } from '@/components/utils';
 
 type ExperienceProps = ExperienceType & {
   locale?: Locale;
@@ -11,14 +13,14 @@ type ExperienceProps = ExperienceType & {
 export function Experience({ locale = fr, ...exp }: ExperienceProps) {
   return (
     <article>
-      <h3>
+      <h3 className="text-xl mb-2">
         {exp.title}
-        <AutoOrg join=" " link={true}>
-          {exp.organisation}
-        </AutoOrg>
+        {exp.organisation && (
+          <AutoOrg join=" " link={true} value={exp.organisation} />
+        )}
       </h3>
       {(exp.dates || exp.kind || exp.links) && (
-        <p className="space">
+        <Text>
           {If(exp.dates, (dates) => (
             <em>
               <Times dates={dates} locale={locale} />
@@ -30,26 +32,22 @@ export function Experience({ locale = fr, ...exp }: ExperienceProps) {
           {If(exp.links, (links) => (
             <>
               {' '}
-              <Links key={1}>
-                {links.map((l, i) => (
-                  <AutoLink key={i}>{l}</AutoLink>
-                ))}
-              </Links>
+              <Links values={links} />
             </>
           ))}
-        </p>
+        </Text>
       )}
       {If(exp.content, (content) => {
-        return <p className="space">{content}</p>;
+        return <Text>{content}</Text>;
       })}
       {If(exp.groups, (groups) => (
-        <p className="space">
+        <Text>
           {groups.map(({ title, content }, i) => (
             <span key={i}>
               <em>{title}</em> : {content}.{' '}
             </span>
           ))}
-        </p>
+        </Text>
       ))}
     </article>
   );
@@ -64,43 +62,36 @@ type ExperiencesProps = {
 export function Experiences({ title, content, locale = fr }: ExperiencesProps) {
   return (
     <article>
-      <h3>{title}</h3>
+      <h3 className="text-xl mb-2">{title}</h3>
       {content.map((exp, i) => (
-        <div key={i} className="space">
-          <h4>
+        <div key={i} className="mb-2">
+          <h4 className="text-lg mb-2">
             {exp.title}
-            <AutoOrg join=" " link={true}>
-              {exp.organisation}
-            </AutoOrg>
+            {exp.organisation && (
+              <AutoOrg join=" " link={true} value={exp.organisation} />
+            )}
           </h4>
-          <p>
+          <Text>
             {If(exp.dates, (dates) => (
               <em>
                 <Times dates={dates} locale={locale} />
               </em>
             ))}
             {If(exp.links, (links) => (
-              <Links className="pl-1">
-                {links.map((link, i) => (
-                  <AutoLink key={i}>{link}</AutoLink>
-                ))}
-              </Links>
+              <Links className="pl-1" values={links} />
             ))}
-          </p>
+          </Text>
           {If(exp.content, (content) => (
-            <p>{content}</p>
+            <Text>{content}</Text>
           ))}
-          {(exp.dates || exp.groups) && (
-            <p className="space">
-              {If(exp.groups, (groups) =>
-                groups.map(({ title, content }, i) => (
-                  <span key={i}>
-                    <em>{title}</em> : {content}.{' '}
-                  </span>
-                ))
-              )}
-            </p>
-          )}
+          {(exp.dates || exp.groups) &&
+            If(exp.groups, (groups) =>
+              groups.map(({ title, content }, i) => (
+                <Text key={i}>
+                  <em>{title}</em> : {content}.{' '}
+                </Text>
+              ))
+            )}
         </div>
       ))}
     </article>

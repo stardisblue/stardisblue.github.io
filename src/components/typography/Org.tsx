@@ -1,15 +1,18 @@
 import React from 'react';
-import { OrganisationType, StrictOrganisationType } from '../../model';
+import type { OrganisationType, StrictOrganisationType } from '@/model';
 import { Link } from './Link';
 
-type Props = StrictOrganisationType & {
+type ModifiersProps = {
   suppress?: boolean;
   join?: string;
   link?: boolean;
 };
 
+type Props = StrictOrganisationType & ModifiersProps;
+type AutoOrgProps = ModifiersProps & { value: OrganisationType };
+
 export const Org = ({
-  suppress,
+  suppress = true,
   location,
   url,
   join,
@@ -18,8 +21,7 @@ export const Org = ({
   link,
   prefix,
 }: Props) => {
-  suppress ??= true;
-  location ??= `, ${location}`;
+  location &&= `, ${location}`;
 
   if (url)
     return (
@@ -38,16 +40,9 @@ export const Org = ({
     </span>
   );
 };
-type AutoOrgProps = {
-  suppress?: boolean;
-  join?: string;
-  link?: boolean;
-  children?: OrganisationType;
-};
 
-export const AutoOrg = ({ children, suppress, join, link }: AutoOrgProps) => {
-  if (!children) return null;
-  if (typeof children === 'string') return <>{children}</>;
+export const AutoOrg = ({ value, suppress, join, link }: AutoOrgProps) => {
+  if (typeof value === 'string') return value;
 
-  return <Org join={join} link={link} suppress={suppress} {...children} />;
+  return <Org join={join} link={link} suppress={suppress} {...value} />;
 };

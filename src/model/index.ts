@@ -1,4 +1,4 @@
-import * as icons from '@/components/ui/icons';
+import * as icons from '@/components/typography/icons';
 
 export type SectionType<T> = { title: string; emoji: string; content: T[] };
 
@@ -10,6 +10,7 @@ export type StrictLinkType = {
   name?: string;
   title?: string;
 };
+
 export type DateType = string | [string, string];
 
 export type EducationType = {

@@ -2,8 +2,9 @@ import { fr, Locale } from 'date-fns/locale';
 import React from 'react';
 import { PublicationsType } from '../../model';
 import { Authors } from '../Authors';
-import { AutoLink, Links, Time } from '../ui';
+import { Links, Time } from '../ui';
 import { If } from '../utils';
+import { AutoLink } from '../typography';
 
 type Props = PublicationsType & {
   locale?: Locale;
@@ -23,7 +24,7 @@ export function Publication({
   return (
     <div className="space">
       <h4>
-        <AutoLink>{title}</AutoLink>
+        <AutoLink value={title} />
       </h4>
       <p>
         <strong>{authors[0]}</strong>
@@ -39,15 +40,11 @@ export function Publication({
         {If(doi, (doi) => (
           <>
             {' '}
-            doi: <AutoLink>{doi}</AutoLink>
+            doi: <AutoLink value={doi} />
           </>
         ))}
       </p>
-      <Links>
-        {links.map((l, i) => (
-          <AutoLink key={i}>{l}</AutoLink>
-        ))}
-      </Links>
+      <Links values={links} />
     </div>
   );
 }

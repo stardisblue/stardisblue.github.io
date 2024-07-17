@@ -1,33 +1,27 @@
+import { groups } from 'd3';
+import { Metadata } from 'next';
 import React from 'react';
-import { Header } from '@/components/Header';
+
 import { Footer } from '@/components/Footer';
-import {
-  AutoOrg,
-  Link,
-  NavSection,
-  Org,
-  Section,
-  Time,
-  Times,
-} from '@/components/ui';
-import { LIRMM, UM } from '@/locales/fr/organisation';
+import { Header } from '@/components/Header';
+import { Experience, Experiences } from '@/components/items/Experience';
+import { Presentation } from '@/components/items/Presentation';
+import { Publication } from '@/components/items/Publication';
 import { News } from '@/components/News';
+import { AutoOrg, Link, Org, Text } from '@/components/typography';
+import { NavSection, Section, Time, Times } from '@/components/ui';
+import { InlineTitle } from '@/components/ui/InlineTitle';
 import {
-  experiences,
   academics,
-  teachings,
   education,
+  experiences,
   presentations,
   publications,
   skills,
+  teachings,
 } from '@/locales/fr';
-import { groups } from 'd3';
-import { InlineTitle } from '@/components/ui/InlineTitle';
-import { Presentation } from '@/components/items/Presentation';
-import { Publication } from '@/components/items/Publication';
-import { Experience, Experiences } from '@/components/items/Experience';
+import { LIRMM, UM } from '@/locales/fr/organisation';
 import { ExperienceType } from '@/model';
-import { Metadata } from 'next';
 
 const toc = [
   { id: 'a-propos', title: 'A propos', emoji: '👨‍💻' },
@@ -40,7 +34,7 @@ const toc = [
 const groupedexp = groups(experiences.content, (d) =>
   d.kind === 'Stage' ? 'Stages' : d.title
 ).map(
-  ([v, arr], i) =>
+  ([v, arr]) =>
     [v, arr.length > 1 ? arr : arr[0]] as [
       string,
       ExperienceType | ExperienceType[]
@@ -53,7 +47,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main id="FC" className="georgia lh-title">
+    <main id="FC">
       <div className="ph2-m container mx-auto">
         <Header
           subtitle={
@@ -68,21 +62,21 @@ export default function Home() {
         <main>
           <div className="grid grid-cols-2">
             <Section emoji="👨‍💻" title="A PROPOS">
-              <p className="measure">
+              <Text>
                 Je suis actuellement doctorant 👨‍🔬 à l'
                 <Org {...UM} />. Où je suis membre de l'équipe{' '}
                 <Org name="ADVANSE" url="http://advanse.lirmm.fr/" /> au{' '}
                 <Org {...LIRMM} />. Mon travail se focalise sur la réduction de
                 l'encombrement visuel appliquée aux données spatio-temporelles.
-              </p>
-              <p className="measure">
+              </Text>
+              <Text>
                 Je suis intéressé par les technologies web, la sécurité,
                 l'algorithmique, les sciences, l'équité et la philosophie. Je
                 parle Français, Anglais et Russe couramment. Je suis passionné
                 d'escalade 🧗 et d'Origami. J'ai aussi longtemps joué aux échecs
                 ♟ et gagné des prix 🥇 durant le lycée.
-              </p>
-              <p className="measure">
+              </Text>
+              <Text>
                 Philanthrope, j'ai créé plusieurs micro sites web pour mes amis,
                 un <Link name="répertoire" href="https://calioppe.github.io/" />{' '}
                 de partitions 🎼 pour l'association EVS Callioppe. Un{' '}
@@ -97,10 +91,10 @@ export default function Home() {
                   href="https://stardisblue.github.io/cesar/"
                 />
                 .
-              </p>
+              </Text>
             </Section>
             <Section emoji="🛠️" title={skills.title}>
-              <p>{skills.abstract}</p>
+              <Text>{skills.abstract}</Text>
               {skills.content.map((skill, i) => (
                 <InlineTitle key={i} title={skill.name} dashed>
                   {skill.content}
@@ -126,7 +120,7 @@ export default function Home() {
             {education.content.map((edu, i) => (
               <InlineTitle key={i} title={edu.title} dashed>
                 <Time date={edu.date} form="y" />{' '}
-                <AutoOrg>{edu.organisation}</AutoOrg>
+                <AutoOrg value={edu.organisation} />
               </InlineTitle>
             ))}
           </NavSection>
@@ -134,9 +128,9 @@ export default function Home() {
             <article>
               <h3>{academics.title}</h3>
               {academics.content.map((academic, i) => (
-                <p key={i}>
+                <Text key={i}>
                   {academic.title} (<Org {...academic} />)
-                </p>
+                </Text>
               ))}
             </article>
             <article>
@@ -144,7 +138,7 @@ export default function Home() {
               {teachings.content.map((teach, i) => (
                 <InlineTitle key={i} title={teach.title} comma>
                   <Times dates={teach.dates} form="y" nospaces />,{' '}
-                  {teach.cursus}. <AutoOrg>{teach.organisation}</AutoOrg>
+                  {teach.cursus}. <AutoOrg value={teach.organisation} />
                 </InlineTitle>
               ))}{' '}
             </article>

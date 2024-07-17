@@ -1,8 +1,9 @@
 import { fr, Locale } from 'date-fns/locale';
 import React from 'react';
 import { PresentationType } from '@/model';
-import { AutoLink, AutoOrg, Links, Time } from '../ui';
+import { Links, Time } from '../ui';
 import { IfMap } from '../utils';
+import { AutoOrg } from '../typography';
 
 type Props = Omit<PresentationType, 'location'> & {
   location: string;
@@ -27,20 +28,16 @@ export function Presentation({
         <span>{status}</span>,{' '}
         <em>
           {event}
-          {<AutoOrg join=" ">{organisation}</AutoOrg>},{' '}
+          {organisation && <AutoOrg join=" " value={organisation} />},{' '}
         </em>
         {location}
         <span>
           {IfMap(participation, (org, i) => (
-            <AutoOrg join=", " key={i} children={org} />
+            <AutoOrg join=", " key={i} value={org} />
           ))}
         </span>
-        , <Time date={date} locale={locale} />.{' '}
-        <Links>
-          {IfMap(links, (l, i) => (
-            <AutoLink key={i}>{l}</AutoLink>
-          ))}
-        </Links>
+        , <Time date={date} locale={locale} />.
+        {links && <Links values={links} />}
       </span>
     </div>
   );

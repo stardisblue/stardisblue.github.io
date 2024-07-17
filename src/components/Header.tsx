@@ -1,7 +1,6 @@
 import React from 'react';
 import { TableOfContent, TOC } from './TableOfContent';
 import { Links } from './ui';
-import { Link } from './ui/Link';
 import { Open_Sans, Tinos } from 'next/font/google';
 import classNames from 'classnames';
 const openSans = Open_Sans({ subsets: ['latin'] });
@@ -15,41 +14,37 @@ type Props = {
 export function Header({ subtitle, toc }: Props) {
   return (
     <header>
-      <h1 className={classNames(openSans.className, 'text-2xl')}>Fati Chen</h1>
-      <h2 className={classNames(tinos.className, 'text-xl', 'mb-3')}>
+      <h1 className={classNames(openSans.className, 'text-3xl')}>Fati Chen</h1>
+      <h2 className={classNames(tinos.className, 'text-2xl', 'mb-3')}>
         {subtitle}
       </h2>
       <div className="flex flex-wrap justify-between">
-        <Links>
-          <Link
-            className="link"
-            name="🌐 stardis.blue"
-            href="https://stardis.blue"
-          />
-          <Link
-            className="link"
-            name="✉ chen.fati@gmail.com"
-            href="mailto:chen.fati@gmail.com"
-            title="chen.fati@gmail.com"
-          />
-
-          <Link
-            kind="Github"
-            href="https://github.com/stardisblue"
-            name="stardisblue"
-          />
-          <Link
-            kind="Observable"
-            name="@stardisblue"
-            href="https://observablehq.com/@stardisblue"
-          />
-          <Link
-            kind="Linkedin"
-            name="Fati Chen"
-            href="https://www.linkedin.com/in/fati-chen/"
-            title="fati-chen"
-          />
-        </Links>
+        <Links
+          values={[
+            { name: '🌐 stardis.blue', href: 'https://stardis.blue' },
+            {
+              name: '✉ chen.fati@gmail.com',
+              href: 'mailto:chen.fati@gmail.com',
+              title: 'chen.fati@gmail.com',
+            },
+            {
+              kind: 'Github',
+              href: 'https://github.com/stardisblue',
+              name: 'stardisblue',
+            },
+            {
+              kind: 'Observable',
+              name: '@stardisblue',
+              href: 'https://observablehq.com/@stardisblue',
+            },
+            {
+              kind: 'Linkedin',
+              name: 'Fati Chen',
+              href: 'https://www.linkedin.com/in/fati-chen/',
+              title: 'fati-chen',
+            },
+          ]}
+        />
         <TableOfContent show={false} sections={toc} />
       </div>
     </header>
