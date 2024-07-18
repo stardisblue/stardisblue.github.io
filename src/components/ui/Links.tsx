@@ -1,6 +1,7 @@
-import { LinkType } from '@/model';
 import React from 'react';
-import { AutoLink } from '../typography';
+
+import { LinkType } from '@/model';
+import { AutoLink } from './typography';
 
 type Props = Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> & {
   values: LinkType[];

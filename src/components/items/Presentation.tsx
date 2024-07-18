@@ -3,7 +3,7 @@ import React from 'react';
 import { PresentationType } from '@/model';
 import { Links, Time } from '../ui';
 import { IfMap } from '../utils';
-import { AutoOrg } from '../typography';
+import { AutoOrg } from '../ui/typography';
 
 type Props = Omit<PresentationType, 'location'> & {
   location: string;

@@ -36,7 +36,7 @@ type NavigationProps = { sections: TOC[] };
 export function Navigation({ sections }: NavigationProps) {
   return (
     <div className="flex flex-wrap justify-end">
-      <span title="(joke) be careful when sailing ">
+      <span title="(joke) be careful when sailing">
         ⚓<em className="gray mr2">Navigation</em>
       </span>
       <TableOfContent sections={sections} />

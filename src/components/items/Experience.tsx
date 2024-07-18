@@ -2,7 +2,7 @@ import React from 'react';
 import { fr, Locale } from 'date-fns/locale';
 
 import { ExperienceType } from '@/model';
-import { AutoOrg, Text } from '@/components/typography';
+import { AutoOrg, Text } from '@/components/ui/typography';
 import { Links, Times } from '@/components/ui';
 import { If } from '@/components/utils';
 
@@ -55,15 +55,19 @@ export function Experience({ locale = fr, ...exp }: ExperienceProps) {
 
 type ExperiencesProps = {
   title: string;
-  content: ExperienceType[];
+  experiences: ExperienceType[];
   locale?: Locale;
 };
 
-export function Experiences({ title, content, locale = fr }: ExperiencesProps) {
+export function Experiences({
+  title,
+  experiences,
+  locale = fr,
+}: ExperiencesProps) {
   return (
     <article>
       <h3 className="text-xl mb-2">{title}</h3>
-      {content.map((exp, i) => (
+      {experiences.map((exp, i) => (
         <div key={i} className="mb-2">
           <h4 className="text-lg mb-2">
             {exp.title}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from './typography/Link';
+
+import { Link } from './ui/typography';
 
 export function Footer() {
   return (

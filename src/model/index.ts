@@ -1,4 +1,4 @@
-import * as icons from '@/components/typography/icons';
+import * as icons from '@/components/ui/typography/icons';
 
 export type SectionType<T> = { title: string; emoji: string; content: T[] };
 

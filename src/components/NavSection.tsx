@@ -1,6 +1,7 @@
 import React, { HtmlHTMLAttributes } from 'react';
-import { Section } from './Section';
-import { Navigation, TOC } from '../TableOfContent';
+
+import { Section } from './ui/Section';
+import { Navigation, TOC } from './TableOfContent';
 
 type Props = HtmlHTMLAttributes<HTMLElement> & {
   emoji?: string;

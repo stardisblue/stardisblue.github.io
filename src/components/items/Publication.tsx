@@ -4,7 +4,7 @@ import { PublicationsType } from '../../model';
 import { Authors } from '../Authors';
 import { Links, Time } from '../ui';
 import { If } from '../utils';
-import { AutoLink } from '../typography';
+import { AutoLink } from '../ui/typography';
 
 type Props = PublicationsType & {
   locale?: Locale;
