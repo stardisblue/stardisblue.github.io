@@ -1,6 +1,6 @@
-import { SectionType, StrictOrganisationType } from '../../model';
+import { SectionType, Organisation } from '@/model';
 
-const academics: SectionType<StrictOrganisationType> = {
+const academics: SectionType<Organisation> = {
   emoji: '👨‍🏫',
   title: 'Organization Committee',
   content: [

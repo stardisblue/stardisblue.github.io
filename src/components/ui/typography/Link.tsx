@@ -2,14 +2,18 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Collapsible } from '@/components/ui/Collapsible';
-import { LinkType, StrictLinkType } from '@/model';
+import { LinkLike, Link as LinkType } from '@/model';
 import * as icons from './icons';
 
-type Props = StrictLinkType & {
+export function Link({
+  name,
+  href,
+  title,
+  kind,
+  className,
+}: LinkType & {
   className?: string;
-};
-
-export function Link({ name, href, title, kind, className }: Props) {
+}) {
   name ??= href;
 
   const anchorProps = {
@@ -35,7 +39,7 @@ export function Link({ name, href, title, kind, className }: Props) {
   return <a {...anchorProps}>{name}</a>;
 }
 
-export function AutoLink({ value }: { value: LinkType }) {
+export function AutoLink({ value }: { value: LinkLike }) {
   if (typeof value === 'string') {
     return <Link href={value} />;
   }

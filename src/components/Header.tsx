@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { Open_Sans, Tinos } from 'next/font/google';
 import React from 'react';
 
-import { LinkType } from '@/model';
+import { LinkLike } from '@/model';
 import { TableOfContent, TOC } from './TableOfContent';
 import { Links } from './ui';
 
@@ -12,7 +12,7 @@ const tinos = Tinos({ weight: '400', subsets: ['latin'], style: 'italic' });
 type Props = {
   subtitle: React.ReactNode;
   toc: TOC[];
-  links: LinkType[];
+  links: LinkLike[];
 };
 
 export function Header({ subtitle, toc, links }: Props) {

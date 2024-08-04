@@ -1,6 +1,6 @@
-import { StrictOrganisationType } from '../../model';
+import { Organisation } from '@/model';
 
-export const UM: StrictOrganisationType = {
+export const UM: Organisation = {
   prefix: 'at ',
   name: 'University of Montpellier',
   url: 'https://www.umontpellier.fr/',
@@ -8,7 +8,7 @@ export const UM: StrictOrganisationType = {
   location: 'France',
 };
 
-export const LIRMM: StrictOrganisationType = {
+export const LIRMM: Organisation = {
   prefix: 'at ',
   name: 'LIRMM',
   url: 'https://www.lirmm.fr/',
@@ -17,7 +17,7 @@ export const LIRMM: StrictOrganisationType = {
   location: 'Montpellier, France',
 };
 
-export const IUTMontpellier: StrictOrganisationType = {
+export const IUTMontpellier: Organisation = {
   prefix: 'at ',
 
   name: 'UIT of Montpellier',
@@ -26,14 +26,14 @@ export const IUTMontpellier: StrictOrganisationType = {
   location: 'France',
 };
 
-export const Polytech: StrictOrganisationType = {
+export const Polytech: Organisation = {
   prefix: 'at ',
   name: 'Polytech Montpellier',
   url: 'https://www.polytech.umontpellier.fr/',
   location: 'France',
 };
 
-export const IUTBeziers: StrictOrganisationType = {
+export const IUTBeziers: Organisation = {
   prefix: 'at ',
   name: 'UIT of  Béziers',
   url: 'https://www.iutbeziers.fr/',

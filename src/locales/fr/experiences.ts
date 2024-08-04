@@ -1,7 +1,7 @@
-import { ExperienceType, SectionType } from '../../model';
+import { Experience, SectionType } from '@/model';
 import { COMWATT, LIRMM, UM } from './organisation';
 
-const experiences: SectionType<ExperienceType> = {
+const experiences: SectionType<Experience> = {
   title: 'EXPERIENCES',
   emoji: '💼',
   content: [

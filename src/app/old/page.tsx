@@ -9,7 +9,7 @@ import { Presentation } from '@/components/items/Presentation';
 import { Publication } from '@/components/items/Publication';
 import { News } from '@/components/News';
 import { AutoOrg, Link, Org, Text } from '@/components/ui/typography';
-import { NavSection, Section, Time, Times } from '@/components/ui';
+import { Section, Time, Times } from '@/components/ui';
 import { InlineTitle } from '@/components/ui/InlineTitle';
 import {
   academics,
@@ -21,7 +21,8 @@ import {
   teachings,
 } from '@/locales/fr';
 import { LIRMM, UM } from '@/locales/fr/organisation';
-import { ExperienceType, LinkType } from '@/model';
+import { Experience as ExperienceType, LinkLike } from '@/model';
+import { NavSection } from '@/components/NavSection';
 
 const toc = [
   { id: 'a-propos', title: 'A propos', emoji: '👨‍💻' },
@@ -31,7 +32,7 @@ const toc = [
   { id: 'communications', title: 'Communications', emoji: '📡' },
 ];
 
-const links: LinkType[] = [
+const links: LinkLike[] = [
   { name: '🌐 stardis.blue', href: 'https://stardis.blue' },
   {
     name: '✉ chen.fati@gmail.com',

@@ -1,14 +1,10 @@
 import { fr, Locale } from 'date-fns/locale';
 import React from 'react';
-import { PublicationsType } from '../../model';
+import { Publication as PublicationType } from '../../model';
 import { Authors } from '../Authors';
 import { Links, Time } from '../ui';
 import { If } from '../utils';
 import { AutoLink } from '../ui/typography';
-
-type Props = PublicationsType & {
-  locale?: Locale;
-};
 
 export function Publication({
   title,
@@ -20,7 +16,9 @@ export function Publication({
   prefix,
   suffix,
   locale = fr,
-}: Props) {
+}: PublicationType & {
+  locale?: Locale;
+}) {
   return (
     <div className="space">
       <h4>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fr, Locale } from 'date-fns/locale';
 
-import { ExperienceType } from '@/model';
+import { Experience as ExperienceType } from '@/model';
 import { AutoOrg, Text } from '@/components/ui/typography';
 import { Links, Times } from '@/components/ui';
 import { If } from '@/components/utils';

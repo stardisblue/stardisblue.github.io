@@ -1,6 +1,6 @@
-import { PublicationsType, SectionType } from '../../model';
+import { Publication, SectionType } from '@/model';
 
-const publications: SectionType<PublicationsType> = {
+const publications: SectionType<Publication> = {
   emoji: '📄',
   title: 'Publications',
   content: [
@@ -85,5 +85,5 @@ const publications: SectionType<PublicationsType> = {
       ],
     },
   ],
-};
+} satisfies SectionType<Publication>;
 export default publications;

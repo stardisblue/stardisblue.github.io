@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { LinkType } from '@/model';
+import { LinkLike } from '@/model';
 import { AutoLink } from './typography';
 
 type Props = Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> & {
-  values: LinkType[];
+  values: LinkLike[];
 };
 
 export function Links({ className, values, ...props }: Props) {

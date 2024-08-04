@@ -1,5 +1,5 @@
 import React from 'react';
-import type { OrganisationType, StrictOrganisationType } from '@/model';
+import type { OrganisationLike, Organisation } from '@/model';
 import { Link } from './Link';
 
 type ModifiersProps = {
@@ -8,8 +8,8 @@ type ModifiersProps = {
   link?: boolean;
 };
 
-type Props = StrictOrganisationType & ModifiersProps;
-type AutoOrgProps = ModifiersProps & { value: OrganisationType };
+type Props = Organisation & ModifiersProps;
+type AutoOrgProps = ModifiersProps & { value: OrganisationLike };
 
 export const Org = ({
   suppress = true,

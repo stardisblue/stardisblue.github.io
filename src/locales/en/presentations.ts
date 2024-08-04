@@ -1,7 +1,7 @@
-import { PresentationType, SectionType } from '../../model';
+import { Presentation, SectionType } from '@/model';
 import { LIRMM } from './organisation';
 
-const presentations: SectionType<PresentationType> = {
+const presentations: SectionType<Presentation> = {
   emoji: '🖥️',
   title: 'Presentations',
   content: [

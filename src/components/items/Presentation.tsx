@@ -1,6 +1,6 @@
 import { fr, Locale } from 'date-fns/locale';
 import React from 'react';
-import { PresentationType } from '@/model';
+import { Presentation as PresentationType } from '@/model';
 import { Links, Time } from '../ui';
 import { IfMap } from '../utils';
 import { AutoOrg } from '../ui/typography';

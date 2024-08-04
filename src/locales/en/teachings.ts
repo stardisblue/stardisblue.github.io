@@ -1,7 +1,7 @@
-import { SectionType, TeachingsType } from '../../model';
+import { SectionType, Teaching } from '@/model';
 import { IUTBeziers, Polytech, UM } from './organisation';
 
-const teachings: SectionType<TeachingsType> = {
+const teachings: SectionType<Teaching> = {
   emoji: '👨‍🏫',
   title: 'Teachings',
   content: [

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Header } from '@/components/Header';
-import { LinkType } from '@/model';
+import { LinkLike } from '@/model';
 
 const toc = [
   { id: 'a-propos', title: 'A propos', emoji: '👨‍💻' },
@@ -11,7 +11,7 @@ const toc = [
   { id: 'communications', title: 'Communications', emoji: '📡' },
 ];
 
-const links: LinkType[] = [
+const links: LinkLike[] = [
   { name: '🌐 stardis.blue', href: 'https://stardis.blue' },
   {
     name: '✉ chen.fati@gmail.com',

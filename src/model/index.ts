@@ -2,9 +2,9 @@ import * as icons from '@/components/ui/typography/icons';
 
 export type SectionType<T> = { title: string; emoji: string; content: T[] };
 
-export type LinkType = string | StrictLinkType;
+export type LinkLike = string | Link;
 
-export type StrictLinkType = {
+export type Link = {
   kind?: keyof typeof icons;
   href: string;
   name?: string;
@@ -15,25 +15,25 @@ export type DateType = string | [string, string];
 
 export type EducationType = {
   title: string;
-  organisation: OrganisationType;
+  organisation: OrganisationLike;
   date: DateType;
 };
 
 export type Listing = { title: string; content: string };
 
-export type ExperienceType = {
+export type Experience = {
   kind?: string;
   title: string;
-  organisation?: OrganisationType;
-  links?: LinkType[];
+  organisation?: OrganisationLike;
+  links?: LinkLike[];
   dates?: [DateType, DateType];
   content?: string;
   groups?: Listing[];
 };
 
-export type OrganisationType = string | StrictOrganisationType;
+export type OrganisationLike = string | Organisation;
 
-export type StrictOrganisationType = {
+export type Organisation = {
   prefix?: string;
   url?: string;
   name: string;
@@ -41,31 +41,31 @@ export type StrictOrganisationType = {
   location?: string;
 };
 
-export type PresentationType = {
+export type Presentation = {
   title: string;
   status: string;
   event: string;
-  organisation?: OrganisationType;
-  location: OrganisationType;
-  participation?: OrganisationType[];
-  links?: LinkType[];
+  organisation?: OrganisationLike;
+  location: OrganisationLike;
+  participation?: OrganisationLike[];
+  links?: LinkLike[];
   date: DateType;
 };
 
-export type PublicationsType = {
-  title: LinkType;
+export type Publication = {
+  title: LinkLike;
   authors: string[];
   journal?: string;
   prefix?: string;
   suffix?: string;
   date: DateType;
   doi?: string;
-  links: LinkType[];
+  links: LinkLike[];
 };
 
-export type TeachingsType = {
+export type Teaching = {
   title: string;
   dates: [DateType, DateType];
   cursus: string;
-  organisation: OrganisationType;
+  organisation: OrganisationLike;
 };
