@@ -1,5 +1,5 @@
 import academics from './academics';
-import education from './education';
+import educations from './educations';
 import experiences from './experiences';
 import presentations from './presentations';
 import publications from './publications';
@@ -8,7 +8,7 @@ import skills from './skills';
 
 export {
   academics,
-  education,
+  educations,
   experiences,
   presentations,
   publications,

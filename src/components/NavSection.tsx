@@ -5,14 +5,13 @@ import { Navigation, TOC } from './TableOfContent';
 
 type Props = HtmlHTMLAttributes<HTMLElement> & {
   emoji?: string;
-  toc: TOC[];
 };
 
-export function NavSection({ title, emoji, children, toc, ...attrs }: Props) {
+export function NavSection({ title, emoji, children, ...attrs }: Props) {
   return (
     <Section emoji={emoji} title={title} {...attrs}>
       {children}
-      <Navigation sections={toc} />
+      <Navigation />
       <hr />
     </Section>
   );

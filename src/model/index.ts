@@ -1,7 +1,5 @@
 import * as icons from '@/components/ui/typography/icons';
 
-export type SectionType<T> = { title: string; emoji: string; content: T[] };
-
 export type LinkLike = string | Link;
 
 export type Link = {
@@ -13,7 +11,7 @@ export type Link = {
 
 export type DateType = string | [string, string];
 
-export type EducationType = {
+export type Education = {
   title: string;
   organisation: OrganisationLike;
   date: DateType;

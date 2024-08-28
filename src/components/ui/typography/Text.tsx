@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 
-export function Text({
+export function Text<T extends JSX.ElementType>({
   className,
+  as: As = 'p',
   ...props
-}: React.HTMLAttributes<HTMLParagraphElement>) {
+}: { as?: any } & React.HTMLAttributes<T>) {
   return (
-    <p
+    <As
       className={classNames(
         'mb-2',
         'leading-normal',

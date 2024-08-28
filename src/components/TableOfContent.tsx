@@ -9,13 +9,20 @@ export type TOC = {
 
 type TableOfContentProps = {
   show?: boolean;
-  sections: TOC[];
 };
 
-export function TableOfContent({ show = true, sections }: TableOfContentProps) {
+const toc = [
+  { id: 'a-propos', title: 'A propos', emoji: '👨‍💻' },
+  { id: 'experiences', title: 'Experiences', emoji: '💼' },
+  { id: '-ducation', title: 'Education', emoji: '🎓' },
+  { id: 'service-acad-mique', title: 'Service Académique', emoji: '👨‍🏫' },
+  { id: 'communications', title: 'Communications', emoji: '📡' },
+] satisfies TOC[];
+
+export function TableOfContent({ show = true }: TableOfContentProps) {
   return (
     <div className="flex flex-wrap">
-      {sections.map(({ id, title, emoji }) => (
+      {toc.map(({ id, title, emoji }) => (
         <a className="link" key={id} href={'#sec--' + id}>
           <Collapsible title={title}>{emoji}</Collapsible>
         </a>
@@ -31,15 +38,13 @@ export function TableOfContent({ show = true, sections }: TableOfContentProps) {
   );
 }
 
-type NavigationProps = { sections: TOC[] };
-
-export function Navigation({ sections }: NavigationProps) {
+export function Navigation() {
   return (
     <div className="flex flex-wrap justify-end">
       <span title="(joke) be careful when sailing">
         ⚓<em className="gray mr2">Navigation</em>
       </span>
-      <TableOfContent sections={sections} />
+      <TableOfContent />
     </div>
   );
 }

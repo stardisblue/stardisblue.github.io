@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from './typography';
 
 type Props = {
   title: any;
@@ -7,22 +8,15 @@ type Props = {
   className?: string;
   children: React.ReactNode;
 };
-
-export function InlineTitle({
-  title,
-  className = 'space',
-  children,
-  dashed,
-  comma,
-}: Props) {
+export function InlineTitle({ title, children, dashed, comma }: Props) {
   return (
-    <div className={className}>
-      <h4 className="inline-block mv-0">{title}</h4>
-      <span>
+    <Text as="div">
+      <h4 className="inline-block mv-0 font-semibold">{title}</h4>
+      <Text className="inline">
         {dashed && ' – '}
         {comma && ', '}
         {children}
-      </span>
-    </div>
+      </Text>
+    </Text>
   );
 }
