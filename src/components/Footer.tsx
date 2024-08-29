@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Link } from './ui/typography';
+import { DeprecatedLink } from './ui/typography';
 
 export function Footer() {
   return (
     <footer>
       2024 &mdash;{' '}
-      <Link
+      <DeprecatedLink
         kind="Github"
         href="https://github.com/stardisblue/stardisblue.github.io"
         name="stardisblue.github.io"

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { OrganisationLike, Organisation } from '@/model';
-import { Link } from './Link';
+import { DeprecatedLink } from './DeprecatedLink';
 
 type ModifiersProps = {
   suppress?: boolean;
@@ -27,7 +27,7 @@ export const Org = ({
     return (
       <>
         {join && join + ((link && prefix) || '')}
-        <Link name={name} title={title} href={url} />
+        <DeprecatedLink name={name} title={title} href={url} />
         {!suppress && location}
       </>
     );

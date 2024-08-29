@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Header } from '@/components/Header';
 import { InlineTitle, Section, Time, Times } from '@/components/ui';
-import { AutoOrg, Link, Org, Text } from '@/components/ui/typography';
+import { AutoOrg, DeprecatedLink, Org, Text } from '@/components/ui/typography';
 import { NavSection } from '@/components/NavSection';
 import { Experience, Experiences } from '@/components/items/Experience';
 import { Presentation } from '@/components/items/Presentation';
@@ -72,7 +72,7 @@ export default function Home() {
           <InlineTitle title="A. Delaforge" comma>
             Mars - Juil. 2019, Stagiaire Master 2. Implementation d'une frise
             chronologique dans un dashboard interactif en js.{' '}
-            <Link
+            <DeprecatedLink
               kind="Linkedin"
               name="Alexis Delaforge"
               href="https://www.linkedin.com/in/alexis-delaforge/"

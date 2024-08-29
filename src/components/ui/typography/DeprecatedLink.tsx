@@ -3,9 +3,10 @@ import React from 'react';
 
 import { Collapsible } from '@/components/ui/Collapsible';
 import { LinkLike, Link as LinkType } from '@/model';
-import * as icons from './icons';
+import * as icons from './deprecated-icons';
 
-export function Link({
+/** @deprecated */
+export function DeprecatedLink({
   name,
   href,
   title,
@@ -39,9 +40,10 @@ export function Link({
   return <a {...anchorProps}>{name}</a>;
 }
 
+/** @deprecated */
 export function AutoLink({ value }: { value: LinkLike }) {
   if (typeof value === 'string') {
-    return <Link href={value} />;
+    return <DeprecatedLink href={value} />;
   }
-  return <Link {...value} />;
+  return <DeprecatedLink {...value} />;
 }

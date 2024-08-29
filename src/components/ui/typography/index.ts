@@ -1,3 +1,3 @@
 export { AutoOrg, Org } from '@/components/ui/typography/Org';
-export { AutoLink, Link } from './Link';
+export { AutoLink, DeprecatedLink } from './DeprecatedLink';
 export { Text } from './Text';
