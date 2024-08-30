@@ -34,6 +34,14 @@ export default function Home() {
           <LinkedInLink href="in/fati-chen/">Fati Chen</LinkedInLink>
         </div>
       </header>
+      <Section title="📰 News">
+        <iframe
+          width="100%"
+          height="319"
+          frameBorder="0"
+          src="https://observablehq.com/embed/@stardisblue/showcase?cells=viewof+showcase"
+        ></iframe>
+      </Section>
       <Section title="👨‍🏫 Expérience">
         <Experiences.Comwatt />
         <Experiences.IndepMood />
