@@ -1,20 +1,69 @@
 import classNames from 'classnames';
+import { Github, LinkedIn, Link as LinkIcon, Observable } from './icons';
 
 export function Link({
   className,
+  icon: Icon = LinkIcon,
+  iconless = false,
+  children,
   ...props
-}: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+}: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+  icon?: React.ElementType;
+  iconless?: boolean;
+}) {
   return (
     <a
       target="_blank"
       rel="noopener noreferrer"
       className={classNames(
         className,
-        'underline text-blue-600',
+        'underline',
+        'text-blue-600',
         'hover:text-blue-800',
         'visited:text-purple-600'
       )}
       {...props}
-    />
+    >
+      {!iconless && <Icon />}
+      {children}
+    </a>
   );
+}
+
+export const ObservableLink = specialLink(
+  '//observablehq.com/',
+  Observable,
+  'Observable'
+);
+
+export const LinkedInLink = specialLink(
+  '//www.linkedin.com/',
+  LinkedIn,
+  'LinkedIn'
+);
+
+export const GithubLink = specialLink('//github.com/', Github, 'github');
+
+export function specialLink(
+  baseUrl: string,
+  icon: React.ElementType,
+  prefix: string
+) {
+  return ({
+    href,
+    title,
+    icon: Icon = icon,
+    ...props
+  }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    icon?: React.ElementType<{}>;
+  }) => {
+    return (
+      <Link
+        href={`${baseUrl}${href}`}
+        title={`${prefix}:${href}`}
+        icon={Icon}
+        {...props}
+      />
+    );
+  };
 }
