@@ -5,6 +5,9 @@ export function Article({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <article className={classNames('mb-4', 'pl-4', className)} {...props} />
+    <article
+      className={classNames('mb-4', 'pl-4', 'max-w-prose', className)}
+      {...props}
+    />
   );
 }
