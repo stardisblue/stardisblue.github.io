@@ -85,17 +85,16 @@ export function SubExperience({
 
 function Keywords({ children }: { children: string[] }) {
   return (
-    <div className="inline-block">
-      <div className="flex flex-wrap items-center before:font-mono before:content-['#['] after:font-mono  after:content-[']'] *:bg-gray-100">
-        {wedge(
-          children.map((tag) => (
-            <small className="px-1 ms-1 font-mono whitespace-nowrap">
-              {tag}
-            </small>
-          )),
-          ', '
-        )}
-      </div>
+    <div className="inline-flex flex-wrap items-center before:font-mono before:text-lg after:text-lg before:content-['#['] after:font-mono  after:content-[']']">
+      <span className="sr-only">tags :</span>
+      {wedge(
+        children.map((tag) => (
+          <small className="bg-gray-100 px-1 ms-1 font-mono whitespace-nowrap rounded">
+            {tag}
+          </small>
+        )),
+        ', '
+      )}
     </div>
   );
 }
