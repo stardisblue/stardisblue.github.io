@@ -1,5 +1,6 @@
 import { TimeInterval } from './ui';
 import { Heading, Heading3 as Title } from './ui/typography';
+import { wedge } from './utils';
 
 export function Experience({
   title,
@@ -104,8 +105,4 @@ function Place({ children }: { children: React.ReactNode }) {
       {children}
     </span>
   );
-}
-
-function wedge<T, S = T>(array: T[], separator: S) {
-  return array.flatMap((v) => [v, separator]).slice(0, -1);
 }
