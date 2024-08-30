@@ -1,4 +1,4 @@
-import { Section } from '@/components/ui';
+import { Section, SectionTitle } from '@/components/ui';
 import {
   GithubLink,
   Heading1,
@@ -34,21 +34,26 @@ export default function Home() {
           <LinkedInLink href="in/fati-chen/">Fati Chen</LinkedInLink>
         </div>
       </header>
-      <Section title="📰 News">
+      <Section>
+        <SectionTitle>📰 News</SectionTitle>
         <iframe
           width="100%"
           height="319"
           frameBorder="0"
           src="https://observablehq.com/embed/@stardisblue/showcase?cells=viewof+showcase"
-        ></iframe>
+        />
       </Section>
-      <Section title="👨‍🏫 Expérience">
+      <Section>
+        <SectionTitle>👨‍🏫 Expérience</SectionTitle>
         <Experiences.Comwatt />
         <Experiences.IndepMood />
         <Experiences.Doctorat />
         <Experiences.StagesRecherche />
         <Experiences.Wbs />
         <Experiences.IndepPc />
+      </Section>
+      <Section>
+        <SectionTitle>🎓 Éducation</SectionTitle>
       </Section>
     </main>
   );

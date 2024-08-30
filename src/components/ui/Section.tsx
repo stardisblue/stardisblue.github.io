@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import { Open_Sans } from 'next/font/google';
-import { Heading2 as SectionTitle } from './typography';
 
 const tinos = Open_Sans({ weight: '500', subsets: ['latin'] });
 
@@ -28,16 +27,10 @@ export function DeprecatedSection({
   );
 }
 
-export function Section({
-  title,
-  children,
+export { Heading2 as SectionTitle } from './typography';
+export const Section = ({
   className,
   ...props
-}: { title: React.ReactNode } & React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <section className={classNames(className, 'py-4')} {...props}>
-      <SectionTitle>{title}</SectionTitle>
-      {children}
-    </section>
-  );
-}
+}: React.HTMLAttributes<HTMLElement>) => (
+  <section className={classNames(className, 'py-4')} {...props} />
+);
