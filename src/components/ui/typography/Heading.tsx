@@ -14,6 +14,7 @@ export const Heading = ({
   <Variant
     className={classNames(
       className,
+      'text-pretty',
       'font-serif',
       'font-bold',
       'small-caps',
