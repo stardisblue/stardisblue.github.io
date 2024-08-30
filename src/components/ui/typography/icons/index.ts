@@ -1,7 +1,7 @@
-import { Email } from './Email';
-import { Github } from './Github';
-import { Globe } from './Globe';
-import { LinkedIn } from './LinkedIn';
-import { Observable } from './Observable';
-
-export { Observable, Github, LinkedIn, Email, Globe };
+export { Email } from './Email';
+export { Github } from './Github';
+export { Link } from './Link';
+export { LinkedIn } from './LinkedIn';
+export { Observable } from './Observable';
+export { Presentation } from './Presentation';
+export { Document } from './Document';

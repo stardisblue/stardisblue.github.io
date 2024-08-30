@@ -1,12 +1,4 @@
 import React from 'react';
-export {
-  FileEarmarkText as PDF,
-  FileEarmarkEasel as PPT,
-  Facebook,
-  Github,
-  Globe2 as Globe,
-  Linkedin,
-} from 'react-bootstrap-icons';
 
 export const Observable: React.FC = () => (
   <svg viewBox="0 0 25 28" width="1em" height="1em" fill="currentColor">
