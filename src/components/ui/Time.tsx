@@ -13,9 +13,12 @@ type Props = {
 export function Time({ date, form = 'MMM y', locale = fr }: Props) {
   if (typeof date !== 'string') [date, form] = date;
 
-  return (
-    <time dateTime={date}>
-      {capitalize(format(parseISO(date), form, { locale }))}
-    </time>
-  );
+  let formattedDate;
+  try {
+    formattedDate = format(parseISO(date), form, { locale });
+  } catch {
+    formattedDate = date;
+  }
+
+  return <time dateTime={date}>{capitalize(formattedDate)}</time>;
 }
