@@ -10,6 +10,7 @@ type Props = Omit<PresentationType, 'location'> & {
   locale?: Locale;
 };
 
+/** @deprecated */
 export function Presentation({
   title,
   status,

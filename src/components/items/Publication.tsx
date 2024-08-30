@@ -6,6 +6,7 @@ import { Links, Time } from '../ui';
 import { If } from '../utils';
 import { AutoLink } from '../ui/typography';
 
+/** @deprecated */
 export function Publication({
   title,
   authors,

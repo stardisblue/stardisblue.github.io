@@ -1,7 +1,7 @@
 import React, { HtmlHTMLAttributes } from 'react';
 
-import { Section } from './ui/Section';
-import { Navigation, TOC } from './TableOfContent';
+import { DeprecatedSection } from './ui/Section';
+import { Navigation } from './TableOfContent';
 
 type Props = HtmlHTMLAttributes<HTMLElement> & {
   emoji?: string;
@@ -9,10 +9,10 @@ type Props = HtmlHTMLAttributes<HTMLElement> & {
 
 export function NavSection({ title, emoji, children, ...attrs }: Props) {
   return (
-    <Section emoji={emoji} title={title} {...attrs}>
+    <DeprecatedSection emoji={emoji} title={title} {...attrs}>
       {children}
       <Navigation />
       <hr />
-    </Section>
+    </DeprecatedSection>
   );
 }

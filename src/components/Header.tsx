@@ -9,6 +9,7 @@ import { links } from '@/locales/links';
 const openSans = Open_Sans({ subsets: ['latin'] });
 const tinos = Tinos({ weight: '400', subsets: ['latin'], style: 'italic' });
 
+/** @deprecated */
 export function Header() {
   return (
     <header>

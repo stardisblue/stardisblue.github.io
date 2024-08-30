@@ -1,9 +1,9 @@
 import React from 'react';
-import { Section } from './ui';
+import { DeprecatedSection } from './ui';
 
 export function News() {
   return (
-    <Section emoji="📰" title="NEWS">
+    <DeprecatedSection emoji="📰" title="NEWS">
       <iframe
         width="100%"
         height="319"
@@ -11,6 +11,6 @@ export function News() {
         src="https://observablehq.com/embed/@stardisblue/showcase?cells=viewof+showcase"
       ></iframe>
       <hr />
-    </Section>
+    </DeprecatedSection>
   );
 }

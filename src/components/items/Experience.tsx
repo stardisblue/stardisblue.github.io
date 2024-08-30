@@ -10,6 +10,7 @@ type ExperienceProps = ExperienceType & {
   locale?: Locale;
 };
 
+/** @deprecated */
 export function Experience({ locale = fr, ...exp }: ExperienceProps) {
   return (
     <article>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Header } from '@/components/Header';
-import { InlineTitle, Section, Time, Times } from '@/components/ui';
+import { InlineTitle, DeprecatedSection, Time, Times } from '@/components/ui';
 import { AutoOrg, DeprecatedLink, Org, Text } from '@/components/ui/typography';
 import { NavSection } from '@/components/NavSection';
 import { Experience, Experiences } from '@/components/items/Experience';
@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <main id="CF" className="ph2-m container mx-auto">
       <Header />
-      <Section emoji="👨‍🏫" title="COMPETENCES">
+      <DeprecatedSection emoji="👨‍🏫" title="COMPETENCES">
         <Text>
           Gestion de projets, visualisation, web, data science, architecture
           logicielle, algorithmique.
@@ -31,7 +31,7 @@ export default function Home() {
             {skill.content}
           </InlineTitle>
         ))}
-      </Section>
+      </DeprecatedSection>
       <NavSection emoji="💼" title="EXPERIENCES">
         {experiences.map(([key, exp], i) =>
           Array.isArray(exp) ? (
