@@ -101,7 +101,7 @@ function Keywords({ children }: { children: string[] }) {
 
 function Place({ children }: { children: React.ReactNode }) {
   return (
-    <span className="before:content-['🗺️'] whitespace-nowrap float-right">
+    <span className="before:content-['🗺️'] whitespace-nowrap float-right ml-4">
       {children}
     </span>
   );
