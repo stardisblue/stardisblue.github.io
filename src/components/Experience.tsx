@@ -1,4 +1,5 @@
 import { TimeInterval } from './ui';
+import { Article } from './ui/Article';
 import { Heading, Heading3 as Title } from './ui/typography';
 import { wedge } from './utils';
 
@@ -20,7 +21,7 @@ export function Experience({
   children?: React.ReactNode;
 }) {
   return (
-    <article className="mb-4">
+    <Article>
       <Place children={place} />
       <Title>{title}</Title>
       <TimeInterval start={start} end={end} form={timeFormat} />
@@ -31,7 +32,7 @@ export function Experience({
       )}
       {keywords && <Keywords children={keywords} />}
       {children && <div className="prose">{children}</div>}
-    </article>
+    </Article>
   );
 }
 
@@ -45,11 +46,11 @@ export function ExperienceGroup({
   children?: React.ReactNode;
 }) {
   return (
-    <article className="mb-4">
+    <Article>
       <Place children={place} />
       <Title>{title}</Title>
       {children}
-    </article>
+    </Article>
   );
 }
 
@@ -71,14 +72,14 @@ export function SubExperience({
   children: React.ReactNode;
 }) {
   return (
-    <article className="mb-4">
+    <Article>
       {place && <Place children={place} />}
       <Heading variant="h4">{title}</Heading>
       <TimeInterval start={start} end={end} />
       {links && <small>{wedge(links, ' · ')}</small>}
       {keywords && <Keywords children={keywords} />}
       <div className="prose">{children}</div>
-    </article>
+    </Article>
   );
 }
 
