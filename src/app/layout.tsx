@@ -19,6 +19,7 @@ export default function RootLayout({
         className={classNames(
           firaCode.variable,
           notoSerif.variable,
+          inter.variable,
           inter.className
         )}
       >
