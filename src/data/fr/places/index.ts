@@ -1,0 +1,1 @@
+export { Lirmm } from './Lirmm';

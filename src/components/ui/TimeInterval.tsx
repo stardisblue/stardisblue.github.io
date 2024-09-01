@@ -35,10 +35,12 @@ export function TimeInterval({
 
   return (
     <i>
-      <small>
-        <Time date={start} {...props} form={sameYear ? 'MMM' : props.form} /> –{' '}
-        <Time date={end} {...props} />
-      </small>
+      <span className="sr-only">dates : </span>
+      <Time
+        date={start}
+        {...props}
+        form={sameYear ? 'MMM' : props.form}
+      /> – <Time date={end} {...props} />
     </i>
   );
 }

@@ -32,5 +32,5 @@ export const Section = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) => (
-  <section className={classNames(className, 'py-4')} {...props} />
+  <section className={classNames(className, 'pb-4')} {...props} />
 );

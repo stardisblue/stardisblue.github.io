@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { HTMLAttributes } from 'react';
 
-export const Heading = ({
+const Heading = ({
   variant: Variant,
   className,
   ...props
@@ -12,14 +12,7 @@ export const Heading = ({
   >;
 } & React.HTMLAttributes<HTMLHeadingElement>) => (
   <Variant
-    className={classNames(
-      className,
-      'text-pretty',
-      'font-serif',
-      'font-bold',
-      'small-caps',
-      'mb-2'
-    )}
+    className={classNames('text-pretty', 'font-serif', 'small-caps', className)}
     {...props}
   />
 );
@@ -30,7 +23,13 @@ export const Heading1 = ({
 }: React.HTMLAttributes<HTMLHeadingElement>) =>
   Heading({
     variant: 'h1',
-    className: classNames(className, 'text-3xl'),
+    className: classNames(
+      'font-extrabold',
+      'text-[2.25em]/[1.11]',
+      'mt-0',
+      'mb-[0.89em]',
+      className
+    ),
     ...props,
   });
 
@@ -40,7 +39,13 @@ export const Heading2 = ({
 }: React.HTMLAttributes<HTMLHeadingElement>) =>
   Heading({
     variant: 'h2',
-    className: classNames(className, 'text-2xl'),
+    className: classNames(
+      'font-bold',
+      'text-[1.5em]/[1.33]',
+      'mt-[2em]',
+      'mb-[1em]',
+      className
+    ),
     ...props,
   });
 
@@ -50,9 +55,28 @@ export const Heading3 = ({
 }: React.HTMLAttributes<HTMLHeadingElement>) =>
   Heading({
     variant: 'h3',
-    className: classNames(className, 'text-xl'),
+    className: classNames(
+      'font-semibold',
+      'text-[1.25em]/[1.6]',
+      'mt-[1.6em]',
+      'mb-[0.6em]',
+      className
+    ),
     ...props,
   });
 
-export const Heading4 = (props: React.HTMLAttributes<HTMLHeadingElement>) =>
-  Heading({ variant: 'h4', ...props });
+export const Heading4 = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) =>
+  Heading({
+    variant: 'h4',
+    className: classNames(
+      'font-semibold',
+      'mt-[1.5em]',
+      'mb-[0.5em]',
+      'leading-[1.5]',
+      className
+    ),
+    ...props,
+  });

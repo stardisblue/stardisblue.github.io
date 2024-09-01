@@ -1,31 +1,15 @@
 import { Experience } from '@/components/Experience';
 import { Link, GithubLink } from '@/components/ui/typography';
 import { Document, Presentation } from '@/components/ui/typography/icons';
+import { Lirmm } from '../places';
 
 export function Doctorat() {
   return (
     <Experience
       title="Doctorat en Data Science &amp; Data Visualisation"
-      place={
-        <>
-          <Link href="//www.lirmm.fr" iconless>
-            LIRMM
-          </Link>
-          , Montpellier
-        </>
-      }
+      place={<Lirmm city />}
       dates={['2018-09', '2022-06']}
-      links={[
-        <Link href="//hal-lirmm.ccsd.cnrs.fr/tel-03840977" icon={Document}>
-          Thèse
-        </Link>,
-        <Link
-          href="//stardisblue.github.io/thesis-presentation"
-          icon={Presentation}
-        >
-          Soutenance
-        </Link>,
-      ]}
+      links={[<Thesis />, <Soutenance />]}
       keywords={['R&D', 'Data Science', 'Data Viz', 'Web']}
     >
       <p>
@@ -51,5 +35,24 @@ export function Doctorat() {
         réel.
       </p>
     </Experience>
+  );
+}
+
+function Soutenance() {
+  return (
+    <Link
+      href="//stardisblue.github.io/thesis-presentation"
+      icon={Presentation}
+    >
+      Soutenance
+    </Link>
+  );
+}
+
+function Thesis() {
+  return (
+    <Link href="//hal-lirmm.ccsd.cnrs.fr/tel-03840977" icon={Document}>
+      Thèse
+    </Link>
   );
 }

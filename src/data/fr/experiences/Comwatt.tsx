@@ -5,14 +5,7 @@ export function Comwatt() {
   return (
     <Experience
       title="Data Scientist &amp; Full Stack"
-      place={
-        <>
-          <Link href="//www.comwatt.com" iconless>
-            Comwatt
-          </Link>
-          , Montpellier
-        </>
-      }
+      place={<ComwattLink />}
       dates={['2023-03', '2024-06']}
       keywords={[
         'R&D',
@@ -31,5 +24,16 @@ export function Comwatt() {
         Veille scientifique en data. Encadrement d'une ingénieure data.
       </p>
     </Experience>
+  );
+}
+
+function ComwattLink() {
+  return (
+    <>
+      <Link href="//www.comwatt.com" iconless>
+        Comwatt
+      </Link>
+      , Montpellier
+    </>
   );
 }
