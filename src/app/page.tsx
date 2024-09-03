@@ -8,7 +8,7 @@ import {
   ObservableLink,
 } from '@/components/ui/typography';
 import { Email } from '@/components/ui/typography/icons';
-import * as Experiences from '@/data/fr/experiences';
+import * as Experiences from '@/components/experiences';
 import React from 'react';
 
 const Title = Heading1;
