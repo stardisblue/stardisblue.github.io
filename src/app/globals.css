@@ -6,23 +6,4 @@
   .small-caps {
     font-variant: small-caps;
   }
-
-  h2 + * {
-    margin-top: 0 !important;
-  }
-
-  h3 + * {
-    margin-top: 0 !important;
-  }
-
-  h4 + * {
-    margin-top: 0 !important;
-  }
-
-  .lead {
-    font-size: 1.25em;
-    line-height: 1.6;
-    margin-top: 1.2em;
-    margin-bottom: 1.2em;
-  }
 }
