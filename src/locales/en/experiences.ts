@@ -102,12 +102,12 @@ export const experiences = [
         name: 'EternityII/EternityII',
       },
       {
-        kind: 'PDF',
+        kind: 'Document',
         href: 'https://github.com/EternityII/EternityII-report/blob/master/main.pdf',
         name: 'Rapport',
       },
       {
-        kind: 'PPT',
+        kind: 'Presentation',
         href: 'https://github.com/EternityII/EternityII-presentation/blob/master/main.pdf',
         name: 'Présentation',
       },

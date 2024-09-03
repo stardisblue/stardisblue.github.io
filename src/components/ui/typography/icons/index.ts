@@ -1,7 +1,10 @@
+export { Document } from './Document';
+export { Doi } from './Doi';
 export { Email } from './Email';
+export { Facebook } from './Facebook';
 export { Github } from './Github';
+export { Hal } from './Hal';
 export { Link } from './Link';
 export { LinkedIn } from './LinkedIn';
 export { Observable } from './Observable';
 export { Presentation } from './Presentation';
-export { Document } from './Document';

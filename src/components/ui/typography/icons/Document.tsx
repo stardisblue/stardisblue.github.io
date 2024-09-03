@@ -4,7 +4,7 @@ export function Document() {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 16 16"
       fill="currentColor"
-      className="size-4 inline mr-1"
+      className="size-4 inline align-text-bottom mr-0.5"
     >
       <path
         fillRule="evenodd"

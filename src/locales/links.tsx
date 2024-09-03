@@ -18,7 +18,7 @@ export const links = [
     href: 'https://observablehq.com/@stardisblue',
   },
   {
-    kind: 'Linkedin',
+    kind: 'LinkedIn',
     name: 'Fati Chen',
     href: 'https://www.linkedin.com/in/fati-chen/',
     title: 'fati-chen',

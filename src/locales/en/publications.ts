@@ -20,12 +20,12 @@ const publications = [
     links: [
       {
         href: 'https://hal-lirmm.ccsd.cnrs.fr/lirmm-02879677',
-        kind: 'PDF',
+        kind: 'Document',
         name: 'hal: lirmm-02879677',
       },
       { kind: 'Github', href: 'https://github.com/agorajs', name: 'AGORAjs' },
       {
-        kind: 'Globe',
+        kind: 'Link',
         href: 'https://agorajs.github.io/',
         name: 'agorajs.github.io',
       },
@@ -50,7 +50,7 @@ const publications = [
     doi: '10.1007/978-3-030-35802-0_14',
     links: [
       {
-        kind: 'PDF',
+        kind: 'Document',
         name: 'hal: hal-02302617',
         href: 'https://hal-lirmm.ccsd.cnrs.fr/hal-02302617',
       },
@@ -70,7 +70,7 @@ const publications = [
     date: ['2019', '2019'],
     links: [
       {
-        kind: 'PDF',
+        kind: 'Document',
         name: 'hal: lirmm-02137577',
         href: 'https://hal-lirmm.ccsd.cnrs.fr/lirmm-02137577',
       },
