@@ -1,21 +1,17 @@
-import React from 'react';
+import { wedge } from '../utils';
 
-import { LinkLike } from '@/model';
-import { AutoLink } from './typography';
-
-type Props = Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> & {
-  values: LinkLike[];
-};
-
-export function Links({ className, values, ...props }: Props) {
+export function Links({ links }: { links: React.ReactNode[] }) {
   return (
-    <span {...props} className={className}>
-      {values
-        .flatMap((v, i) => [
-          <span key={i + '__sep'} className="pl-1" />,
-          <AutoLink key={i} value={v} />,
-        ])
-        .slice(1)}
-    </span>
+    <>
+      <span className="sr-only">liens : </span>
+      {wedge(
+        links.map((link, i) => (
+          <span key={i} className="font-mono">
+            {link}
+          </span>
+        )),
+        ' · '
+      )}
+    </>
   );
 }
