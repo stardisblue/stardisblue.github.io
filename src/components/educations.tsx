@@ -1,0 +1,58 @@
+import { Time, Place } from '@/components/ui';
+import { Heading3, Heading4, Link } from '@/components/ui/typography';
+import { UM } from './places';
+
+function EducationMetaData({
+  date,
+  place,
+}: {
+  date: string;
+  place: React.ReactNode;
+}) {
+  return (
+    <small>
+      <i>
+        <Time date={date} form="y" />
+      </i>{' '}
+      <Place>{place}</Place>
+    </small>
+  );
+}
+
+export function Educations() {
+  return (
+    <div className="grid grid-cols-1 grid-rows-4 sm:grid-cols-2 sm:grid-rows-2 lg:grid-cols-none lg:auto-cols-[minmax(max-content,_1fr)] lg:grid-flow-col lg:grid-rows-1 lg:snap-x lg:snap-mandatory lg:overflow-x-auto gap-4">
+      <article className="sm:border-l-2 sm:pl-4">
+        <EducationMetaData date="2022" place={<UM />} />
+        <Heading3 mt0>Doctorat Informatique</Heading3>
+        <Heading4 mt0>Data visualisation &amp; Data science</Heading4>
+      </article>
+      <article className="sm:border-l-2 sm:pl-4">
+        <EducationMetaData date="2018" place={<UM />} />
+        <Heading3 mt0>Master Informatique</Heading3>
+        <Heading4 mt0>Architecture logicielle</Heading4>
+      </article>
+      <article className="sm:border-l-2 sm:pl-4">
+        <EducationMetaData date="2016" place={<UM />} />
+        <Heading3 mt0>Licence Informatique</Heading3>
+        <Heading4 mt0>Architecture logicielle</Heading4>
+      </article>
+      <article className="sm:border-l-2 sm:pl-4">
+        <EducationMetaData
+          date="2015"
+          place={
+            <Link
+              href="https://iut-montpellier-sete.edu.umontpellier.fr/"
+              title="Institut Universitaire de Technologie de Montpellier"
+              iconless
+            >
+              IUT de Montpellier
+            </Link>
+          }
+        />
+        <Heading3 mt0>DUT Informatique</Heading3>
+        <Heading4 mt0>Informatique de gestion</Heading4>
+      </article>
+    </div>
+  );
+}

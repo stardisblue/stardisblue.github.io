@@ -8,6 +8,7 @@ import {
   ObservableLink,
 } from '@/components/ui/typography';
 import { Email } from '@/components/ui/typography/icons';
+import { Educations } from '@/components/educations';
 import * as Experiences from '@/components/experiences';
 import React from 'react';
 
@@ -54,6 +55,7 @@ export default function Home() {
       </Section>
       <Section>
         <SectionTitle>🎓 Éducation</SectionTitle>
+        <Educations />
       </Section>
     </main>
   );
