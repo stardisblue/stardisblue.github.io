@@ -12,7 +12,7 @@ const Heading = ({
   >;
 } & React.HTMLAttributes<HTMLHeadingElement>) => (
   <Variant
-    className={classNames('text-pretty', 'font-serif', 'small-caps', className)}
+    className={classNames('text-pretty', 'font-serif', className)}
     {...props}
   />
 );
@@ -28,6 +28,7 @@ export const Heading1 = ({
       'text-[2.25em]/[1.11]',
       'mt-0',
       'mb-[0.89em]',
+      'small-caps',
       className
     ),
     ...props,
@@ -44,6 +45,7 @@ export const Heading2 = ({
       'text-[1.5em]/[1.33]',
       'mt-[2em]',
       'mb-[1em]',
+      'small-caps',
       className
     ),
     ...props,
@@ -51,15 +53,17 @@ export const Heading2 = ({
 
 export const Heading3 = ({
   className,
+  mt0 = false,
   ...props
-}: React.HTMLAttributes<HTMLHeadingElement>) =>
+}: { mt0?: boolean } & React.HTMLAttributes<HTMLHeadingElement>) =>
   Heading({
     variant: 'h3',
     className: classNames(
       'font-semibold',
       'text-[1.25em]/[1.6]',
-      'mt-[1.6em]',
+      mt0 ? 'mt0' : 'mt-[1.6em]',
       'mb-[0.6em]',
+      'small-caps',
       className
     ),
     ...props,
@@ -67,13 +71,14 @@ export const Heading3 = ({
 
 export const Heading4 = ({
   className,
+  mt0 = false,
   ...props
-}: React.HTMLAttributes<HTMLHeadingElement>) =>
+}: { mt0?: boolean } & React.HTMLAttributes<HTMLHeadingElement>) =>
   Heading({
     variant: 'h4',
     className: classNames(
       'font-semibold',
-      'mt-[1.5em]',
+      mt0 ? 'mt0' : 'mt-[1.5em]',
       'mb-[0.5em]',
       'leading-[1.5]',
       className
