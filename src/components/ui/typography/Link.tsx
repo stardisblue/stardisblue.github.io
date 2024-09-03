@@ -1,5 +1,12 @@
 import classNames from 'classnames';
-import { Github, LinkedIn, Link as LinkIcon, Observable } from './icons';
+import {
+  Doi,
+  Github,
+  Hal,
+  LinkedIn,
+  Link as LinkIcon,
+  Observable,
+} from './icons';
 
 export function Link({
   className,
@@ -44,6 +51,10 @@ export const LinkedInLink = specialLink(
 
 export const GithubLink = specialLink('//github.com/', Github, 'github');
 
+export const DoiLink = specialLink('//doi.org/', Doi, 'doi');
+
+export const HalLink = specialLink('//hal-lirmm.ccsd.cnrs.fr/', Hal, 'hal');
+
 export function specialLink(
   baseUrl: string,
   icon: React.ElementType,
@@ -55,7 +66,8 @@ export function specialLink(
     icon: Icon = icon,
     ...props
   }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-    icon?: React.ElementType<{}>;
+    icon?: React.ElementType;
+    iconless?: boolean;
   }) => {
     return (
       <Link
