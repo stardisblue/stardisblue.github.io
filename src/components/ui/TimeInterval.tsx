@@ -2,7 +2,6 @@ import React from 'react';
 import { Time } from './Time';
 import { Locale } from 'date-fns';
 
-
 export function TimeInterval({
   start,
   end,
@@ -21,8 +20,9 @@ export function TimeInterval({
       <Time
         date={start}
         {...props}
-        form={sameYear ? 'MMM' : props.form}
-      /> – <Time date={end} {...props} />
+        form={props.form || !sameYear ? props.form : 'MMM'}
+      />{' '}
+      – <Time date={end} {...props} />
     </i>
   );
 }
