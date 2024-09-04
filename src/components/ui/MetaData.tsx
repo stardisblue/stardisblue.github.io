@@ -20,7 +20,7 @@ export function MetaData({ date, dateFormat, place, children }: Props) {
   );
 
   return (
-    <div>
+    <div className="mb-1">
       <small>
         {dateNode}{' '}
         {place && (
