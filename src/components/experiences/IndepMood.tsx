@@ -18,16 +18,14 @@ export function IndepMood() {
           ]}
         />
       </MetaData>
-      <div className="prose">
-        <p>
-          Notamment: aide à la détection d'anomalies en épidemiologie (projet
-          européen{' '}
-          <Link href="//mood-h2020.eu/epidemic-intelligence-data-and-vizualisation/">
-            MOOD
-          </Link>
-          ).
-        </p>
-      </div>
+      <p>
+        Notamment: aide à la détection d'anomalies en épidemiologie (projet
+        européen{' '}
+        <Link href="//mood-h2020.eu/epidemic-intelligence-data-and-vizualisation/">
+          MOOD
+        </Link>
+        ).
+      </p>
     </article>
   );
 }

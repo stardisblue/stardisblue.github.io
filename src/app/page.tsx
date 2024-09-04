@@ -15,7 +15,7 @@ import React from 'react';
 
 export default function Home() {
   return (
-    <div className="prose max-w-none">
+    <div className="prose prose-a:underline prose-a:text-blue-600 prose-a:hover:text-blue-800 prose-a:visited:text-purple-600 max-w-none">
       <main id="CF" className="ph2-m container mx-auto divide-y">
         <header className="py-4">
           <h1>Fati CHEN</h1>

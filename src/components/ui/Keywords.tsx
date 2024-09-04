@@ -6,10 +6,7 @@ export function Keywords({ children }: { children: string[] }) {
       <span className="sr-only">tags : </span>
       {wedge(
         children.map((tag) => (
-          <code
-            key={tag}
-            className="bg-gray-100 whitespace-nowrap font-semibold text-[0.875em] before:content-['`']  after:content-['`']"
-          >
+          <code key={tag} className="bg-gray-100 whitespace-nowrap">
             {tag}
           </code>
         )),

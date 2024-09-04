@@ -9,9 +9,7 @@ export function Wbs() {
       <MetaData date={['2015-03', '2015-07']}>
         <Keywords children={['Web', 'PHP5.3', 'jQuery', 'VoIP', 'SOAP']} />
       </MetaData>
-      <div className="prose">
-        <p>Integration d'une couche VOIP dans une plateforme web d'ERP.</p>
-      </div>
+      <p>Integration d'une couche VOIP dans une plateforme web d'ERP.</p>
     </article>
   );
 }

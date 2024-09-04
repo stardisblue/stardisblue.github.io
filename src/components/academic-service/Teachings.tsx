@@ -7,30 +7,22 @@ export function Teachings() {
       <article className="sm:border-l-2 sm:pl-4">
         <MetaData date={['2020', '2021']} dateFormat="y" place={Polytech} />
         <h4 className="mt-0">WOA (Web Oriented Architecture)</h4>
-        <div className="prose">
-          <p>Cursus : DevOps (DO3) &amp; Informatique (IG4)</p>
-        </div>
+        <p>Cursus : DevOps (DO3) &amp; Informatique (IG4)</p>
       </article>
       <article className="sm:border-l-2 sm:pl-4">
         <MetaData date={['2019', '2020']} dateFormat="y" place={Polytech} />
         <h4 className="mt-0">WOA (Web Oriented Architecture)</h4>
-        <div className="prose">
-          <p>Cursus : Informatique (IG4)</p>
-        </div>
+        <p>Cursus : Informatique (IG4)</p>
       </article>
       <article className="sm:border-l-2 sm:pl-4">
         <MetaData date={['2019', '2021']} dateFormat="y" place={IUTBeziers} />
         <h4 className="mt-0">Introduction to Web</h4>
-        <div className="prose">
-          <p>Cursus : DUT 2ième année</p>
-        </div>
+        <p>Cursus : DUT 2ième année</p>
       </article>
       <article className="sm:border-l-2 sm:pl-4">
         <MetaData date={['2018', '2019']} dateFormat="y" place={<UM />} />
         <h4 className="mt-0">Science des données</h4>
-        <div className="prose">
-          <p>Cursus : Master 1 DÉCOL</p>
-        </div>
+        <p>Cursus : Master 1 DÉCOL</p>
       </article>
     </div>
   );

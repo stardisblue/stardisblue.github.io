@@ -14,12 +14,10 @@ export function OrganisationCommitee() {
       <h4 className="mt-0">
         Extraction et Gestion des Connaissances (EGC) 2021
       </h4>
-      <div className="prose">
-        <p>
-          Événement annuel réunissant des chercheurs et praticiens de
-          disciplines relevant des sciences des données et des connaissances.
-        </p>
-      </div>
+      <p>
+        Événement annuel réunissant des chercheurs et praticiens de disciplines
+        relevant des sciences des données et des connaissances.
+      </p>
     </article>
   );
 }

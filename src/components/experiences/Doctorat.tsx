@@ -14,31 +14,28 @@ export function Doctorat() {
         <Links links={[<Thesis />, <Soutenance />]} />{' '}
         <Keywords children={['R&D', 'Data Science', 'Data Viz', 'Web']} />
       </MetaData>
-      <div className="prose">
-        <p>
-          Recherche dans le domaine de la visualisation analytique axée autour
-          de trois thématiques:
-        </p>
-        <ol>
-          <li>réduction de l'encombrement visuel</li>
-          <li>agglomération spatiale d'entités et</li>
-          <li>représentations interactives de données spatio-temporelles.</li>
-        </ol>
-        <p>
-          <GithubLink href="stardisblue/prosovis">Prosovis</GithubLink> :
-          plateforme web de visualisation analytique de données
-          prosopographiques.
-        </p>
-        <p>
-          <Link href="//agorajs.github.io">AGORA</Link> : analyse comparative
-          des différents algorithmes de placement de graphes.
-        </p>
-        <p>
-          <GithubLink href="stardisblue/fsac">FSAC</GithubLink> : agglomération
-          spatiale pour la visualisation de grand volumes de données en temps
-          réel.
-        </p>
-      </div>
+      <p>
+        Recherche dans le domaine de la visualisation analytique axée autour de
+        trois thématiques:
+      </p>
+      <ol>
+        <li>réduction de l'encombrement visuel</li>
+        <li>agglomération spatiale d'entités et</li>
+        <li>représentations interactives de données spatio-temporelles.</li>
+      </ol>
+      <p>
+        <GithubLink href="stardisblue/prosovis">Prosovis</GithubLink> :
+        plateforme web de visualisation analytique de données prosopographiques.
+      </p>
+      <p>
+        <Link href="//agorajs.github.io">AGORA</Link> : analyse comparative des
+        différents algorithmes de placement de graphes.
+      </p>
+      <p>
+        <GithubLink href="stardisblue/fsac">FSAC</GithubLink> : agglomération
+        spatiale pour la visualisation de grand volumes de données en temps
+        réel.
+      </p>
     </article>
   );
 }

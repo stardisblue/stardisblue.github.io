@@ -9,12 +9,10 @@ export function AlexisSupervision() {
         </LinkedInLink>
       </MetaData>
       <h4 className="mt-0">Stagiaire Master 2</h4>
-      <div className="prose">
-        <p>
-          Implementation d'une frise chronologique dans un dashboard interactif
-          en js.
-        </p>
-      </div>
+      <p>
+        Implementation d'une frise chronologique dans un dashboard interactif en
+        js.
+      </p>
     </article>
   );
 }

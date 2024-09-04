@@ -29,11 +29,9 @@ export function Presentations() {
           </LinkedInLink>
         </MetaData>
         <h4 className="mt-0">TDD et clean-archi avec pyspark</h4>
-        <div className="prose">
-          <p>
-            Intervenant, <em>Le double visage de Python (Data & Back)</em>.
-          </p>
-        </div>
+        <p>
+          Intervenant, <em>Le double visage de Python (Data & Back)</em>.
+        </p>
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData
@@ -48,21 +46,19 @@ export function Presentations() {
           }
         />
         <h4 className="mt-0">Epid Data Explorer</h4>
-        <div className="prose">
-          <p>
-            Représentant,{' '}
-            <em>
-              meeting{' '}
-              <Link
-                href="//mood-h2020.eu/epidemic-intelligence-data-and-vizualisation/"
-                iconless
-              >
-                MOOD
-              </Link>
-            </em>
-            .
-          </p>
-        </div>
+        <p>
+          Représentant,{' '}
+          <em>
+            meeting{' '}
+            <Link
+              href="//mood-h2020.eu/epidemic-intelligence-data-and-vizualisation/"
+              iconless
+            >
+              MOOD
+            </Link>
+          </em>
+          .
+        </p>
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData date="2022-06" place={<Lirmm />}>
@@ -75,14 +71,12 @@ export function Presentations() {
           <GithubLink href="stardisblue/thesis-presentation">code</GithubLink>
         </MetaData>
         <h4 className="mt-0">Soutenance de thèse</h4>
-        <div className="prose">
-          <p>
-            <em>
-              Réduction de l'encombrement visuel : Application à la
-              visualisation et à l'exploration de données prosopographiques
-            </em>
-          </p>
-        </div>
+        <p>
+          <em>
+            Réduction de l'encombrement visuel : Application à la visualisation
+            et à l'exploration de données prosopographiques
+          </em>
+        </p>
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData
@@ -97,22 +91,20 @@ export function Presentations() {
           }
         />
         <h4 className="mt-0">Visualisation de données</h4>
-        <div className="prose">
-          <p>
-            Intervenant,{' '}
-            <em>
-              séminaire{' '}
-              <Link
-                href="https://anr.fr/Projet-ANR-17-CE38-0013"
-                title="Découverte dans les bAses Prosopographiques Historiques de coNnaissancEs"
-                iconless
-              >
-                ANR DAPHNE
-              </Link>
-            </em>
-            .
-          </p>
-        </div>
+        <p>
+          Intervenant,{' '}
+          <em>
+            séminaire{' '}
+            <Link
+              href="https://anr.fr/Projet-ANR-17-CE38-0013"
+              title="Découverte dans les bAses Prosopographiques Historiques de coNnaissancEs"
+              iconless
+            >
+              ANR DAPHNE
+            </Link>
+          </em>
+          .
+        </p>
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData date="2021-06" place="Visio">
@@ -125,11 +117,9 @@ export function Presentations() {
           </Link>
         </MetaData>
         <h4 className="mt-0">ProsoVis: Prosopographic Data Exploration</h4>
-        <div className="prose">
-          <p>
-            Orateur Invité, <em>Simposio Investigación Computational</em>.
-          </p>
-        </div>
+        <p>
+          Orateur Invité, <em>Simposio Investigación Computational</em>.
+        </p>
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData date="2021-05" place="Visio">
@@ -138,85 +128,81 @@ export function Presentations() {
           </ObservableLink>
         </MetaData>
         <h4 className="mt-0">Node Overlap Removal Algorithms</h4>
-        <div className="prose">
-          <p>
-            Orateur Invité,{' '}
-            <em>
-              séminaire{' '}
-              <Link
-                href="https://www.labri.fr/"
-                title="Laboratoire Bordelais de Recherche en Informatique"
-                iconless
-              >
-                LaBRI
-              </Link>
-              .
-            </em>
-          </p>
-        </div>
+        <p>
+          Orateur Invité,{' '}
+          <em>
+            séminaire{' '}
+            <Link
+              href="https://www.labri.fr/"
+              title="Laboratoire Bordelais de Recherche en Informatique"
+              iconless
+            >
+              LaBRI
+            </Link>
+            .
+          </em>
+        </p>
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData date="2021-04" place="Visio" />
         <h4 className="mt-0">First look at Prosopographic Data Exploration</h4>
-        <div className="prose">
-          <p>
-            Orateur Invité,{' '}
-            <em>
-              séminaire{' '}
-              <Link
-                href="https://anr.fr/Projet-ANR-17-CE38-0013"
-                title="Découverte dans les bAses Prosopographiques Historiques de coNnaissancEs"
-                iconless
-              >
-                ANR DAPHNE
-              </Link>
-            </em>
+        <p>
+          Orateur Invité,{' '}
+          <em>
+            séminaire{' '}
+            <Link
+              href="https://anr.fr/Projet-ANR-17-CE38-0013"
+              title="Découverte dans les bAses Prosopographiques Historiques de coNnaissancEs"
+              iconless
+            >
+              ANR DAPHNE
+            </Link>
+          </em>
+          .
+        </p>
+        <p>
+          <small>
+            Collaborations :{' '}
+            {wedge(
+              [
+                <Link
+                  key="LARHRA"
+                  href="https://larhra.fr/"
+                  title="Laboratoire de recherche historique Rhônes-Alpes"
+                  iconless
+                >
+                  LARHRA
+                </Link>,
+                <Link
+                  key="TECHNÉ"
+                  href="https://techne.labo.univ-poitiers.fr/"
+                  title="Laboratoire de recherche en TECHnologies Numériques pour l’Éducation"
+                  iconless
+                >
+                  TECHNÉ
+                </Link>,
+                <Link
+                  key="CÉDRIC"
+                  href="https://cedric.cnam.fr/"
+                  title="Centre d’études et de recherche en informatique et communications"
+                  iconless
+                >
+                  CÉDRIC
+                </Link>,
+                <Link
+                  key="LAMOP"
+                  href="https://lamop.pantheonsorbonne.fr/"
+                  title="Laboratoire de Médiévistique occidentale de Paris"
+                  iconless
+                >
+                  LAMOP
+                </Link>,
+              ],
+              ', '
+            )}
             .
-          </p>
-          <p>
-            <small>
-              Collaborations :{' '}
-              {wedge(
-                [
-                  <Link
-                    key="LARHRA"
-                    href="https://larhra.fr/"
-                    title="Laboratoire de recherche historique Rhônes-Alpes"
-                    iconless
-                  >
-                    LARHRA
-                  </Link>,
-                  <Link
-                    key="TECHNÉ"
-                    href="https://techne.labo.univ-poitiers.fr/"
-                    title="Laboratoire de recherche en TECHnologies Numériques pour l’Éducation"
-                    iconless
-                  >
-                    TECHNÉ
-                  </Link>,
-                  <Link
-                    key="CÉDRIC"
-                    href="https://cedric.cnam.fr/"
-                    title="Centre d’études et de recherche en informatique et communications"
-                    iconless
-                  >
-                    CÉDRIC
-                  </Link>,
-                  <Link
-                    key="LAMOP"
-                    href="https://lamop.pantheonsorbonne.fr/"
-                    title="Laboratoire de Médiévistique occidentale de Paris"
-                    iconless
-                  >
-                    LAMOP
-                  </Link>,
-                ],
-                ', '
-              )}
-              .
-            </small>
-          </p>
-        </div>
+          </small>
+        </p>
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData date="2019-09" place="Průhonice/Prague, Tchéquie">
@@ -230,16 +216,14 @@ export function Presentations() {
         <h4 className="mt-0">
           Node Overlap Removal Algorithms: A Comparative Study
         </h4>
-        <div className="prose">
-          <p>
-            Intervenant,
-            <em>
-              27th International Symposium on Graph Drawing and Network
-              Visualization
-            </em>
-            .
-          </p>
-        </div>
+        <p>
+          Intervenant,
+          <em>
+            27th International Symposium on Graph Drawing and Network
+            Visualization
+          </em>
+          .
+        </p>
       </article>
     </div>
   );

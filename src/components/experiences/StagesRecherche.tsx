@@ -16,12 +16,10 @@ export function StagesRecherche() {
           <Links links={[<GithubLink href="agorajs">Agorajs</GithubLink>]} />{' '}
           <Keywords children={['Web', 'Stats', 'Graph Drawing']} />
         </MetaData>
-        <div className="prose">
-          <p>
-            Recherche, conception et implémentation d'algorithmes de réduction
-            d'encombrement visuels, appliqués à la visualisation de graphes.
-          </p>
-        </div>
+        <p>
+          Recherche, conception et implémentation d'algorithmes de réduction
+          d'encombrement visuels, appliqués à la visualisation de graphes.
+        </p>
       </article>
       <article>
         <h4>
@@ -33,14 +31,11 @@ export function StagesRecherche() {
           />{' '}
           <Keywords children={['Pattern Mining', 'Java']} />
         </MetaData>
-        <div className="prose">
-          <p>
-            Conception et développement de jGetMove, un système performant et
-            générique pour la détection de motifs spatio-temporels sur des
-            données de mobilité. Refactorisation du C++ et amélioration de
-            l'algorithme.
-          </p>
-        </div>
+        <p>
+          Conception et développement de jGetMove, un système performant et
+          générique pour la détection de motifs spatio-temporels sur des données
+          de mobilité. Refactorisation du C++ et amélioration de l'algorithme.
+        </p>
       </article>
       <article>
         <h4>Conception d'algorithmes de résolution par contraintes</h4>
@@ -54,13 +49,11 @@ export function StagesRecherche() {
           />{' '}
           <Keywords children={['Constraint Programming', 'C++']} />
         </MetaData>
-        <div className="prose">
-          <p>
-            Développement d'un solveur pour un puzzle combinatoire, EternityII.
-            Analyse et déploiement de differentes stratégies de résolution,
-            certaines basées sur le pré-calculs d'instances simplifiées.
-          </p>
-        </div>
+        <p>
+          Développement d'un solveur pour un puzzle combinatoire, EternityII.
+          Analyse et déploiement de differentes stratégies de résolution,
+          certaines basées sur le pré-calculs d'instances simplifiées.
+        </p>
       </article>
     </article>
   );

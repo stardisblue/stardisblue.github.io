@@ -25,13 +25,11 @@ export function Comwatt() {
           ]}
         />
       </MetaData>
-      <div className="prose">
-        <p>
-          Améliorer l'intelligence de prédiction et d'optimisation de la
-          consommation électrique. <br />
-          Veille scientifique en data. Encadrement d'une ingénieure data.
-        </p>
-      </div>
+      <p>
+        Améliorer l'intelligence de prédiction et d'optimisation de la
+        consommation électrique. <br />
+        Veille scientifique en data. Encadrement d'une ingénieure data.
+      </p>
     </article>
   );
 }
