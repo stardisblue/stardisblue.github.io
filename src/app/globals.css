@@ -7,3 +7,28 @@
     font-variant: small-caps;
   }
 }
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-pretty font-serif;
+  }
+
+  h1 {
+    @apply small-caps font-extrabold text-[2.25em]/[1.11] mt-0 mb-[0.89em];
+  }
+
+  h2 {
+    @apply small-caps font-bold text-[1.5em]/[1.33] mt-[2em] mb-[1em];
+  }
+
+  h3 {
+    @apply small-caps font-semibold text-[1.25em]/[1.6] mt-[1.6em] mb-[0.6em];
+  }
+
+  h4 {
+    @apply font-semibold mt-[1.5em] mb-[0.5em] leading-[1.5];
+  }
+}
