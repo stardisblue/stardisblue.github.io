@@ -1,15 +1,24 @@
-import { ExperienceMetaData, Place } from '@/components/Experience';
+import { Place } from '@/components/Experience';
 import { Heading3, Link } from '@/components/ui/typography';
+import { ArticleMetaData, Keywords } from '../ui';
 
 export function IndepMood() {
   return (
     <article className="max-w-prose">
       <Place>Montpellier</Place>
       <Heading3>Indépendant – Data scientist & Full Stack</Heading3>
-      <ExperienceMetaData
-        dates={['2022-06', 'présent']}
-        keywords={['R&D', 'Data Viz', 'Data Science', 'react', 'svelte', 'D3']}
-      />
+      <ArticleMetaData date={['2022-06', 'présent']}>
+        <Keywords
+          children={[
+            'R&D',
+            'Data Viz',
+            'Data Science',
+            'react',
+            'svelte',
+            'D3',
+          ]}
+        />
+      </ArticleMetaData>
       <div className="prose">
         <p>
           Notamment: aide à la détection d'anomalies en épidemiologie (projet

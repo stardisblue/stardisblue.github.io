@@ -1,5 +1,6 @@
-import { ExperienceMetaData, Place } from '@/components/Experience';
+import { Place } from '@/components/Experience';
 import { Heading3, Link } from '@/components/ui/typography';
+import { ArticleMetaData, Keywords } from '../ui';
 
 export function Comwatt() {
   return (
@@ -11,20 +12,21 @@ export function Comwatt() {
         , Montpellier
       </Place>
       <Heading3 mt0>Data Scientist &amp; Full Stack</Heading3>
-      <ExperienceMetaData
-        dates={['2023-03', '2024-06']}
-        keywords={[
-          'R&D',
-          'pyspark',
-          'airflow',
-          'python',
-          'gcloud',
-          'react',
-          'spring',
-          'java',
-        ]}
-      />
-      <div className="prose prose-stone">
+      <ArticleMetaData date={['2023-03', '2024-06']}>
+        <Keywords
+          children={[
+            'R&D',
+            'pyspark',
+            'airflow',
+            'python',
+            'gcloud',
+            'react',
+            'spring',
+            'java',
+          ]}
+        />
+      </ArticleMetaData>
+      <div className="prose">
         <p>
           Améliorer l'intelligence de prédiction et d'optimisation de la
           consommation électrique. <br />

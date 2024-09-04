@@ -1,7 +1,8 @@
-import { ExperienceMetaData, Place } from '@/components/Experience';
+import { Place } from '@/components/Experience';
 import { GithubLink, Heading3, Heading4 } from '@/components/ui/typography';
 import { Document, Presentation } from '@/components/ui/typography/icons';
 import { Lirmm } from '../places';
+import { ArticleMetaData, Keywords, Links } from '../ui';
 
 export function StagesRecherche() {
   return (
@@ -12,11 +13,10 @@ export function StagesRecherche() {
       <Heading3>Projets de recherche</Heading3>
       <article>
         <Heading4 mt0>Conception d'algorithmes de dessin de graphes</Heading4>
-        <ExperienceMetaData
-          dates={['2018-02', '2018-06']}
-          links={[<GithubLink href="agorajs">Agorajs</GithubLink>]}
-          keywords={['Web', 'Stats', 'Graph Drawing']}
-        />
+        <ArticleMetaData date={['2018-02', '2018-06']}>
+          <Links links={[<GithubLink href="agorajs">Agorajs</GithubLink>]} />{' '}
+          <Keywords children={['Web', 'Stats', 'Graph Drawing']} />
+        </ArticleMetaData>
         <div className="prose">
           <p>
             Recherche, conception et implémentation d'algorithmes de réduction
@@ -28,11 +28,12 @@ export function StagesRecherche() {
         <Heading4>
           Développement d'algorithmes d'extraction de motifs spatio-temporels
         </Heading4>
-        <ExperienceMetaData
-          dates={['2017-01', '2017-07']}
-          links={[<GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>]}
-          keywords={['Pattern Mining', 'Java']}
-        />
+        <ArticleMetaData date={['2017-01', '2017-07']}>
+          <Links
+            links={[<GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>]}
+          />{' '}
+          <Keywords children={['Pattern Mining', 'Java']} />
+        </ArticleMetaData>
         <div className="prose">
           <p>
             Conception et développement de jGetMove, un système performant et
@@ -46,15 +47,16 @@ export function StagesRecherche() {
         <Heading4>
           Conception d'algorithmes de résolution par contraintes
         </Heading4>
-        <ExperienceMetaData
-          dates={['2015-10', '2016-07']}
-          links={[
-            <GithubLink href="EternityII/EternityII">EternityII</GithubLink>,
-            <RapportEternityII />,
-            <PresentationEternityII />,
-          ]}
-          keywords={['Constraint Programming', 'C++']}
-        />
+        <ArticleMetaData date={['2015-10', '2016-07']}>
+          <Links
+            links={[
+              <GithubLink href="EternityII/EternityII">EternityII</GithubLink>,
+              <RapportEternityII />,
+              <PresentationEternityII />,
+            ]}
+          />{' '}
+          <Keywords children={['Constraint Programming', 'C++']} />
+        </ArticleMetaData>
         <div className="prose">
           <p>
             Développement d'un solveur pour un puzzle combinatoire, EternityII.
