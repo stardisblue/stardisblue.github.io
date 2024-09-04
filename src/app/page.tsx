@@ -63,10 +63,27 @@ export default function Home() {
       </Section>
       <Section>
         <SectionTitle>👨‍🏫 Service Académique</SectionTitle>
-        <article>
-          <Heading3 mt0>Comité d'organisation</Heading3>
-          <AcademicServices.OrganisationCommitee />
-        </article>
+        <div className="grid gap-y-4 lg:grid-cols-2 ">
+          <article>
+            <Heading3 mt0>Comité d'organisation</Heading3>
+            <AcademicServices.OrganisationCommitee />
+          </article>
+          <article>
+            <Heading3 mt0>Reviewer</Heading3>
+            <div className="prose">
+              <p>
+                <Link href="https://www.computer.org/csdl/journal/tg" iconless>
+                  TVCG
+                </Link>
+                ,{' '}
+                <em>
+                  IEEE Transactions on Visualization and Computer Graphics
+                </em>
+                , 1 paper.
+              </p>
+            </div>
+          </article>
+        </div>
         <article>
           <Heading3>Enseignements</Heading3>
           <AcademicServices.Teachings />
