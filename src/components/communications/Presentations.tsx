@@ -217,7 +217,7 @@ export function Presentations() {
           Node Overlap Removal Algorithms: A Comparative Study
         </h4>
         <p>
-          Intervenant,
+          Intervenant,{' '}
           <em>
             27th International Symposium on Graph Drawing and Network
             Visualization
