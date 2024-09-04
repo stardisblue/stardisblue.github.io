@@ -2,18 +2,18 @@ import { Keywords, Links, Place as UIPlace, TimeInterval } from './ui';
 
 export function ExperienceMetaData({
   dates: [start, end],
-  timeFormat,
+  dateFormat: dateFormat,
   links,
   keywords,
 }: {
   dates: [string, string];
-  timeFormat?: string | undefined;
+  dateFormat?: string;
   links?: React.ReactNode[];
-  keywords?: string[] | undefined;
+  keywords?: string[];
 }) {
   return (
     <small>
-      <TimeInterval start={start} end={end} form={timeFormat} />{' '}
+      <TimeInterval start={start} end={end} form={dateFormat} />{' '}
       {links && (
         <>
           <Links links={links} />{' '}

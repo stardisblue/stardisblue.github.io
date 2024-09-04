@@ -8,7 +8,7 @@ export function IndepPc() {
       <Heading3>Développement Web, services hardware</Heading3>
       <ExperienceMetaData
         dates={['2015', '2018']}
-        timeFormat="y"
+        dateFormat="y"
         keywords={['Wordpress', 'Prestashop', 'Joomla', 'CakePHP']}
       />
     </article>
