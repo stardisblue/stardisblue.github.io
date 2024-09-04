@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { wedge } from '../utils';
 
 export function Links({ links }: { links: React.ReactNode[] }) {
@@ -5,11 +6,7 @@ export function Links({ links }: { links: React.ReactNode[] }) {
     <>
       <span className="sr-only">liens : </span>
       {wedge(
-        links.map((link, i) => (
-          <span key={i} className="font-mono">
-            {link}
-          </span>
-        )),
+        links.map((link, i) => <Fragment key={i}>{link}</Fragment>),
         ' · '
       )}
     </>
