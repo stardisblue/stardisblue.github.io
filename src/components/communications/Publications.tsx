@@ -1,16 +1,16 @@
-import { ArticleMetaData } from '../ui';
+import { MetaData } from '../ui';
 import { DoiLink, GithubLink, HalLink, Heading4, Link } from '../ui/typography';
 
 export function Publications() {
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <article className="lg:border-l-2 lg:pl-4">
-        <ArticleMetaData date="2024" dateFormat="y">
+        <MetaData date="2024" dateFormat="y">
           <Link href="https://journals.sagepub.com/doi/full/10.1177/14604582241279720">
             Sage Journals
           </Link>{' '}
           <HalLink href="lirmm-04658031">lirmm-04658031</HalLink>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>
           Epid Data Explorer: A Visualization Tool for Exploring and Comparing
           Spatio-Temporal Epidemiological Data
@@ -24,9 +24,9 @@ export function Publications() {
         </div>
       </article>
       <article className="lg:border-l-2 lg:pl-4">
-        <ArticleMetaData date="2023-06">
+        <MetaData date="2023-06">
           <HalLink href="lirmm-04286339">lirmm-04286339</HalLink>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>
           Joint transcriptome and translatome analysis: a reproducible pipeline
         </Heading4>
@@ -47,12 +47,12 @@ export function Publications() {
         </div>
       </article>
       <article className="lg:border-l-2 lg:pl-4">
-        <ArticleMetaData date="2020" dateFormat="y">
+        <MetaData date="2020" dateFormat="y">
           <Link href="https://agorajs.github.io/">agorajs.github.io</Link>{' '}
           <GithubLink href="agorajs">AGORAjs</GithubLink>{' '}
           <HalLink href="lirmm-02879677">lirmm-02879677</HalLink>{' '}
           <DoiLink href="10.7155/jgaa.00532">10.7155/jgaa.00532</DoiLink>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>
           Node Overlap Removal Algorithms: An Extended Comparative Study
         </Heading4>
@@ -76,12 +76,12 @@ export function Publications() {
         </div>
       </article>
       <article className="lg:border-l-2 lg:pl-4">
-        <ArticleMetaData date="2019-09" place="Průhonice/Prague, Tchéquie">
+        <MetaData date="2019-09" place="Průhonice/Prague, Tchéquie">
           <HalLink href="hal-02302617">hal-02302617</HalLink>{' '}
           <DoiLink href="10.1007/978-3-030-35802-0_14">
             10.1007/978-3-030-35802-0_14
           </DoiLink>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>
           Node Overlap Removal Algorithms: A Comparative Study
         </Heading4>
@@ -106,10 +106,10 @@ export function Publications() {
         </div>
       </article>
       <article className="lg:border-l-2 lg:pl-4">
-        <ArticleMetaData date="2019" dateFormat="y">
+        <MetaData date="2019" dateFormat="y">
           <GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>{' '}
           <HalLink href="lirmm-02137577">lirmm-02137577</HalLink>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>jGetMove: Mining Multiple Movement Patterns</Heading4>
         <div className="prose">
           <p>

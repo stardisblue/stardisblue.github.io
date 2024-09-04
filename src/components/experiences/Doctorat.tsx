@@ -2,7 +2,7 @@ import { Place } from '@/components/Experience';
 import { Link, GithubLink, Heading3 } from '@/components/ui/typography';
 import { Document, Presentation } from '@/components/ui/typography/icons';
 import { Lirmm } from '../places';
-import { ArticleMetaData, Keywords, Links } from '../ui';
+import { MetaData, Keywords, Links } from '../ui';
 
 export function Doctorat() {
   return (
@@ -11,10 +11,10 @@ export function Doctorat() {
         <Lirmm city />
       </Place>
       <Heading3>Doctorat en Data Science &amp; Data Visualisation</Heading3>
-      <ArticleMetaData date={['2018-09', '2022-06']}>
+      <MetaData date={['2018-09', '2022-06']}>
         <Links links={[<Thesis />, <Soutenance />]} />{' '}
         <Keywords children={['R&D', 'Data Science', 'Data Viz', 'Web']} />
-      </ArticleMetaData>
+      </MetaData>
       <div className="prose">
         <p>
           Recherche dans le domaine de la visualisation analytique axée autour

@@ -1,6 +1,6 @@
 import { Place } from '@/components/Experience';
 import { Heading3, Link } from '@/components/ui/typography';
-import { ArticleMetaData, Keywords } from '../ui';
+import { MetaData, Keywords } from '../ui';
 
 export function Comwatt() {
   return (
@@ -12,7 +12,7 @@ export function Comwatt() {
         , Montpellier
       </Place>
       <Heading3 mt0>Data Scientist &amp; Full Stack</Heading3>
-      <ArticleMetaData date={['2023-03', '2024-06']}>
+      <MetaData date={['2023-03', '2024-06']}>
         <Keywords
           children={[
             'R&D',
@@ -25,7 +25,7 @@ export function Comwatt() {
             'java',
           ]}
         />
-      </ArticleMetaData>
+      </MetaData>
       <div className="prose">
         <p>
           Améliorer l'intelligence de prédiction et d'optimisation de la

@@ -9,7 +9,7 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export function ArticleMetaData({ date, dateFormat, place, children }: Props) {
+export function MetaData({ date, dateFormat, place, children }: Props) {
   const dateNode = Array.isArray(date) ? (
     <TimeInterval start={date[0]} end={date[1]} form={dateFormat} />
   ) : (

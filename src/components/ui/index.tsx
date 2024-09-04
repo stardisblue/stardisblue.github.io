@@ -1,4 +1,4 @@
-export { ArticleMetaData } from './ArticleMetaData';
+export { MetaData } from './MetaData';
 export { Keywords } from './Keywords';
 export { Links } from './Links';
 export { Place } from './Place';

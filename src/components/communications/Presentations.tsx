@@ -1,5 +1,5 @@
 import { Lirmm } from '../places';
-import { ArticleMetaData } from '../ui';
+import { MetaData } from '../ui';
 import {
   GithubLink,
   Heading4,
@@ -14,7 +14,7 @@ export function Presentations() {
   return (
     <div className="grid grid-cols-1 auto-rows-auto grid-flow-dense md:grid-cols-2 xl:grid-cols-3 gap-4">
       <article className="md:border-l-2 md:pl-4">
-        <ArticleMetaData
+        <MetaData
           date="2023-12"
           place={
             <>
@@ -28,7 +28,7 @@ export function Presentations() {
           <LinkedInLink href="posts/flint-company_le-double-visage-de-python-data-back-activity-7133484351492640768-wpbP?utm_source=share&utm_medium=member_desktop">
             Évènement
           </LinkedInLink>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>TDD et clean-archi avec pyspark</Heading4>
         <div className="prose">
           <p>
@@ -37,7 +37,7 @@ export function Presentations() {
         </div>
       </article>
       <article className="md:border-l-2 md:pl-4">
-        <ArticleMetaData
+        <MetaData
           date="2022-10"
           place={
             <>
@@ -66,7 +66,7 @@ export function Presentations() {
         </div>
       </article>
       <article className="md:border-l-2 md:pl-4">
-        <ArticleMetaData date="2022-06" place={<Lirmm />}>
+        <MetaData date="2022-06" place={<Lirmm />}>
           <Link
             href="//stardisblue.github.io/thesis-presentation"
             icon={Presentation}
@@ -74,7 +74,7 @@ export function Presentations() {
             Présentation
           </Link>{' '}
           <GithubLink href="stardisblue/thesis-presentation">code</GithubLink>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>Soutenance de thèse</Heading4>
         <div className="prose">
           <p>
@@ -86,7 +86,7 @@ export function Presentations() {
         </div>
       </article>
       <article className="md:border-l-2 md:pl-4">
-        <ArticleMetaData
+        <MetaData
           date="2022-05"
           place={
             <>
@@ -116,7 +116,7 @@ export function Presentations() {
         </div>
       </article>
       <article className="md:border-l-2 md:pl-4">
-        <ArticleMetaData date="2021-06" place="Visio">
+        <MetaData date="2021-06" place="Visio">
           <Link
             href="https://www.facebook.com/events/200843748562680/"
             icon={Facebook}
@@ -124,7 +124,7 @@ export function Presentations() {
           >
             Evènement
           </Link>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>ProsoVis: Prosopographic Data Exploration</Heading4>
         <div className="prose">
           <p>
@@ -133,11 +133,11 @@ export function Presentations() {
         </div>
       </article>
       <article className="md:border-l-2 md:pl-4">
-        <ArticleMetaData date="2021-05" place="Visio">
+        <MetaData date="2021-05" place="Visio">
           <ObservableLink href="@stardisblue/agora-presentation-labri">
             Présentation
           </ObservableLink>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>Node Overlap Removal Algorithms</Heading4>
         <div className="prose">
           <p>
@@ -157,7 +157,7 @@ export function Presentations() {
         </div>
       </article>
       <article className="md:border-l-2 md:pl-4">
-        <ArticleMetaData date="2021-04" place="Visio" />
+        <MetaData date="2021-04" place="Visio" />
         <Heading4 mt0>First look at Prosopographic Data Exploration</Heading4>
         <div className="prose">
           <p>
@@ -220,14 +220,14 @@ export function Presentations() {
         </div>
       </article>
       <article className="md:border-l-2 md:pl-4">
-        <ArticleMetaData date="2019-09" place="Průhonice/Prague, Tchéquie">
+        <MetaData date="2019-09" place="Průhonice/Prague, Tchéquie">
           <Link
             href="https://kam.mff.cuni.cz/gd2019/"
             title="Graph Drawing and Network Visualization"
           >
             GD 2019
           </Link>
-        </ArticleMetaData>
+        </MetaData>
         <Heading4 mt0>
           Node Overlap Removal Algorithms: A Comparative Study
         </Heading4>
