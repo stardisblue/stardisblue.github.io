@@ -6,7 +6,6 @@ import * as Experiences from '@/components/experiences';
 import { Section } from '@/components/ui';
 import {
   GithubLink,
-  Heading1,
   Link,
   LinkedInLink,
   ObservableLink,
@@ -14,12 +13,11 @@ import {
 import { Email } from '@/components/ui/typography/icons';
 import React from 'react';
 
-const Title = Heading1;
 export default function Home() {
   return (
     <main id="CF" className="ph2-m container mx-auto divide-y">
       <header className="py-4">
-        <Title>Fati CHEN</Title>
+        <h1>Fati CHEN</h1>
         <h2>Docteur en Informatique, Data Science & Data Viz</h2>
         <div>
           <Link href="//stardis.blue">stardis.blue</Link>
