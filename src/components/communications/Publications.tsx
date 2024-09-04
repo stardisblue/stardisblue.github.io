@@ -1,4 +1,4 @@
-import { MetaData } from '../ui';
+import { MetaData, Place } from '../ui';
 import { DoiLink, GithubLink, HalLink, Heading4, Link } from '../ui/typography';
 
 export function Publications() {
@@ -7,10 +7,10 @@ export function Publications() {
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2024" dateFormat="y">
           <code title="journal">[j]</code>{' '}
-          <Link href="https://journals.sagepub.com/doi/full/10.1177/14604582241279720">
-            Sage Journals
-          </Link>{' '}
-          <HalLink href="lirmm-04658031">lirmm-04658031</HalLink>
+          <HalLink href="lirmm-04658031">lirmm-04658031</HalLink>{' '}
+          <DoiLink href="10.1177/14604582241279720">
+            10.1177/14604582241279720
+          </DoiLink>
         </MetaData>
         <Heading4 mt0>
           Epid Data Explorer: A Visualization Tool for Exploring and Comparing
