@@ -6,6 +6,7 @@ export function Publications() {
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2024" dateFormat="y">
+          <code title="journal">[j]</code>{' '}
           <Link href="https://journals.sagepub.com/doi/full/10.1177/14604582241279720">
             Sage Journals
           </Link>{' '}
@@ -25,6 +26,7 @@ export function Publications() {
       </article>
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2023-06">
+          <code title="poster">[p]</code>{' '}
           <HalLink href="lirmm-04286339">lirmm-04286339</HalLink>
         </MetaData>
         <Heading4 mt0>
@@ -48,6 +50,7 @@ export function Publications() {
       </article>
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2020" dateFormat="y">
+          <code title="journal">[j]</code>{' '}
           <Link href="https://agorajs.github.io/">agorajs.github.io</Link>{' '}
           <GithubLink href="agorajs">AGORAjs</GithubLink>{' '}
           <HalLink href="lirmm-02879677">lirmm-02879677</HalLink>{' '}
@@ -76,7 +79,9 @@ export function Publications() {
         </div>
       </article>
       <article className="lg:border-l-2 lg:pl-4">
-        <MetaData date="2019-09" place="Průhonice/Prague, Tchéquie">
+        <MetaData date="2019-09">
+          <code title="conference">[c]</code>{' '}
+          <Place>Průhonice/Prague, Tchéquie</Place>{' '}
           <HalLink href="hal-02302617">hal-02302617</HalLink>{' '}
           <DoiLink href="10.1007/978-3-030-35802-0_14">
             10.1007/978-3-030-35802-0_14
@@ -107,6 +112,7 @@ export function Publications() {
       </article>
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2019" dateFormat="y">
+          <code title="software">[s]</code>{' '}
           <GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>{' '}
           <HalLink href="lirmm-02137577">lirmm-02137577</HalLink>
         </MetaData>
