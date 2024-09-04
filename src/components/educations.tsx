@@ -1,5 +1,5 @@
 import { Time, Place } from '@/components/ui';
-import { Heading3, Heading4, Link } from '@/components/ui/typography';
+import { Heading3, Link } from '@/components/ui/typography';
 import { UM } from './places';
 
 function EducationMetaData({
@@ -25,17 +25,17 @@ export function Educations() {
       <article className="sm:border-l-2 sm:pl-4">
         <EducationMetaData date="2022" place={<UM />} />
         <Heading3 mt0>Doctorat Informatique</Heading3>
-        <Heading4 mt0>Data visualisation &amp; Data science</Heading4>
+        <h4 className="mt-0">Data visualisation &amp; Data science</h4>
       </article>
       <article className="sm:border-l-2 sm:pl-4">
         <EducationMetaData date="2018" place={<UM />} />
         <Heading3 mt0>Master Informatique</Heading3>
-        <Heading4 mt0>Architecture logicielle</Heading4>
+        <h4 className="mt-0">Architecture logicielle</h4>
       </article>
       <article className="sm:border-l-2 sm:pl-4">
         <EducationMetaData date="2016" place={<UM />} />
         <Heading3 mt0>Licence Informatique</Heading3>
-        <Heading4 mt0>Architecture logicielle</Heading4>
+        <h4 className="mt-0">Architecture logicielle</h4>
       </article>
       <article className="sm:border-l-2 sm:pl-4">
         <EducationMetaData
@@ -51,7 +51,7 @@ export function Educations() {
           }
         />
         <Heading3 mt0>DUT Informatique</Heading3>
-        <Heading4 mt0>Informatique de gestion</Heading4>
+        <h4 className="mt-0">Informatique de gestion</h4>
       </article>
     </div>
   );

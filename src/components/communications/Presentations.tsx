@@ -2,7 +2,6 @@ import { Lirmm } from '../places';
 import { MetaData } from '../ui';
 import {
   GithubLink,
-  Heading4,
   Link,
   LinkedInLink,
   ObservableLink,
@@ -29,7 +28,7 @@ export function Presentations() {
             Évènement
           </LinkedInLink>
         </MetaData>
-        <Heading4 mt0>TDD et clean-archi avec pyspark</Heading4>
+        <h4 className="mt-0">TDD et clean-archi avec pyspark</h4>
         <div className="prose">
           <p>
             Intervenant, <em>Le double visage de Python (Data & Back)</em>.
@@ -48,7 +47,7 @@ export function Presentations() {
             </>
           }
         />
-        <Heading4 mt0>Epid Data Explorer</Heading4>
+        <h4 className="mt-0">Epid Data Explorer</h4>
         <div className="prose">
           <p>
             Représentant,{' '}
@@ -75,7 +74,7 @@ export function Presentations() {
           </Link>{' '}
           <GithubLink href="stardisblue/thesis-presentation">code</GithubLink>
         </MetaData>
-        <Heading4 mt0>Soutenance de thèse</Heading4>
+        <h4 className="mt-0">Soutenance de thèse</h4>
         <div className="prose">
           <p>
             <em>
@@ -97,7 +96,7 @@ export function Presentations() {
             </>
           }
         />
-        <Heading4 mt0>Visualisation de données</Heading4>
+        <h4 className="mt-0">Visualisation de données</h4>
         <div className="prose">
           <p>
             Intervenant,{' '}
@@ -125,7 +124,7 @@ export function Presentations() {
             Evènement
           </Link>
         </MetaData>
-        <Heading4 mt0>ProsoVis: Prosopographic Data Exploration</Heading4>
+        <h4 className="mt-0">ProsoVis: Prosopographic Data Exploration</h4>
         <div className="prose">
           <p>
             Orateur Invité, <em>Simposio Investigación Computational</em>.
@@ -138,7 +137,7 @@ export function Presentations() {
             Présentation
           </ObservableLink>
         </MetaData>
-        <Heading4 mt0>Node Overlap Removal Algorithms</Heading4>
+        <h4 className="mt-0">Node Overlap Removal Algorithms</h4>
         <div className="prose">
           <p>
             Orateur Invité,{' '}
@@ -158,7 +157,7 @@ export function Presentations() {
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData date="2021-04" place="Visio" />
-        <Heading4 mt0>First look at Prosopographic Data Exploration</Heading4>
+        <h4 className="mt-0">First look at Prosopographic Data Exploration</h4>
         <div className="prose">
           <p>
             Orateur Invité,{' '}
@@ -228,9 +227,9 @@ export function Presentations() {
             GD 2019
           </Link>
         </MetaData>
-        <Heading4 mt0>
+        <h4 className="mt-0">
           Node Overlap Removal Algorithms: A Comparative Study
-        </Heading4>
+        </h4>
         <div className="prose">
           <p>
             Intervenant,

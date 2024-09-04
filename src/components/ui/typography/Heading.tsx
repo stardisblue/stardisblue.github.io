@@ -35,15 +35,3 @@ export const Heading3 = ({
     className: classNames({ 'mt-0': mt0 }, className),
     ...props,
   });
-
-/** @deprecated  use <h4>  */
-export const Heading4 = ({
-  className,
-  mt0 = false,
-  ...props
-}: { mt0?: boolean } & React.HTMLAttributes<HTMLHeadingElement>) =>
-  Heading({
-    variant: 'h4',
-    className: classNames({ 'mt-0': mt0 }, className),
-    ...props,
-  });

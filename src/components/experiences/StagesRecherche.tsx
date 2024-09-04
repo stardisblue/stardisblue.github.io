@@ -1,5 +1,5 @@
 import { Place } from '@/components/Experience';
-import { GithubLink, Heading3, Heading4 } from '@/components/ui/typography';
+import { GithubLink, Heading3 } from '@/components/ui/typography';
 import { Document, Presentation } from '@/components/ui/typography/icons';
 import { Lirmm } from '../places';
 import { MetaData, Keywords, Links } from '../ui';
@@ -12,7 +12,7 @@ export function StagesRecherche() {
       </Place>
       <Heading3>Projets de recherche</Heading3>
       <article>
-        <Heading4 mt0>Conception d'algorithmes de dessin de graphes</Heading4>
+        <h4 className="mt-0">Conception d'algorithmes de dessin de graphes</h4>
         <MetaData date={['2018-02', '2018-06']}>
           <Links links={[<GithubLink href="agorajs">Agorajs</GithubLink>]} />{' '}
           <Keywords children={['Web', 'Stats', 'Graph Drawing']} />
@@ -25,9 +25,9 @@ export function StagesRecherche() {
         </div>
       </article>
       <article>
-        <Heading4>
+        <h4>
           Développement d'algorithmes d'extraction de motifs spatio-temporels
-        </Heading4>
+        </h4>
         <MetaData date={['2017-01', '2017-07']}>
           <Links
             links={[<GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>]}
@@ -44,9 +44,7 @@ export function StagesRecherche() {
         </div>
       </article>
       <article>
-        <Heading4>
-          Conception d'algorithmes de résolution par contraintes
-        </Heading4>
+        <h4>Conception d'algorithmes de résolution par contraintes</h4>
         <MetaData date={['2015-10', '2016-07']}>
           <Links
             links={[

@@ -1,5 +1,5 @@
 import { MetaData } from '../ui';
-import { LinkedInLink, Heading4 } from '../ui/typography';
+import { LinkedInLink } from '../ui/typography';
 
 export function AlexisSupervision() {
   return (
@@ -9,7 +9,7 @@ export function AlexisSupervision() {
           Alexis Delaforge
         </LinkedInLink>
       </MetaData>
-      <Heading4 mt0>Stagiaire Master 2</Heading4>
+      <h4 className="mt-0">Stagiaire Master 2</h4>
       <div className="prose">
         <p>
           Implementation d'une frise chronologique dans un dashboard interactif

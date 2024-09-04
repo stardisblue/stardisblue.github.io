@@ -1,5 +1,5 @@
 import { MetaData } from '../ui';
-import { Heading4, Link } from '../ui/typography';
+import { Link } from '../ui/typography';
 
 export function OrganisationCommitee() {
   return (
@@ -12,9 +12,9 @@ export function OrganisationCommitee() {
           EGC 2021
         </Link>
       </MetaData>
-      <Heading4 mt0>
+      <h4 className="mt-0">
         Extraction et Gestion des Connaissances (EGC) 2021
-      </Heading4>
+      </h4>
       <div className="prose">
         <p>
           Événement annuel réunissant des chercheurs et praticiens de

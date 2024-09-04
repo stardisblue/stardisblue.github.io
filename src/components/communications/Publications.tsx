@@ -1,5 +1,5 @@
 import { MetaData, Place } from '../ui';
-import { DoiLink, GithubLink, HalLink, Heading4, Link } from '../ui/typography';
+import { DoiLink, GithubLink, HalLink, Link } from '../ui/typography';
 
 export function Publications() {
   return (
@@ -12,10 +12,10 @@ export function Publications() {
             10.1177/14604582241279720
           </DoiLink>
         </MetaData>
-        <Heading4 mt0>
+        <h4 className="mt-0">
           Epid Data Explorer: A Visualization Tool for Exploring and Comparing
           Spatio-Temporal Epidemiological Data
-        </Heading4>
+        </h4>
         <div className="prose">
           <p>
             Laëtitia Viau, Jérôme Azé, <strong>Fati Chen</strong>, Pierre
@@ -29,9 +29,9 @@ export function Publications() {
           <code title="poster">[p]</code>{' '}
           <HalLink href="lirmm-04286339">lirmm-04286339</HalLink>
         </MetaData>
-        <Heading4 mt0>
+        <h4 className="mt-0">
           Joint transcriptome and translatome analysis: a reproducible pipeline
-        </Heading4>
+        </h4>
         <div className="prose">
           <p>
             Julie Ripoll, <strong>Fati Chen</strong>, Céline Mandier, Eric
@@ -56,9 +56,9 @@ export function Publications() {
           <HalLink href="lirmm-02879677">lirmm-02879677</HalLink>{' '}
           <DoiLink href="10.7155/jgaa.00532">10.7155/jgaa.00532</DoiLink>
         </MetaData>
-        <Heading4 mt0>
+        <h4 className="mt-0">
           Node Overlap Removal Algorithms: An Extended Comparative Study
-        </Heading4>
+        </h4>
         <div className="prose">
           <p>
             <strong>Fati Chen</strong>, Laurent Piccinini, Pascal Poncelet,
@@ -87,9 +87,9 @@ export function Publications() {
             10.1007/978-3-030-35802-0_14
           </DoiLink>
         </MetaData>
-        <Heading4 mt0>
+        <h4 className="mt-0">
           Node Overlap Removal Algorithms: A Comparative Study
-        </Heading4>
+        </h4>
         <div className="prose">
           <p>
             <strong>Fati Chen</strong>, Laurent Piccinini, Pascal Poncelet,
@@ -116,7 +116,7 @@ export function Publications() {
           <GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>{' '}
           <HalLink href="lirmm-02137577">lirmm-02137577</HalLink>
         </MetaData>
-        <Heading4 mt0>jGetMove: Mining Multiple Movement Patterns</Heading4>
+        <h4 className="mt-0">jGetMove: Mining Multiple Movement Patterns</h4>
         <div className="prose">
           <p>
             <strong>Fati Chen</strong>, Nhat Hai Phan, Pascal Poncelet,
