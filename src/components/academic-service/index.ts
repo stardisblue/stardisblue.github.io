@@ -1,0 +1,1 @@
+export { OrganisationCommitee } from './OrganisationCommitee';
