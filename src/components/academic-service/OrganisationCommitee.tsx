@@ -1,5 +1,4 @@
-import { MetaData } from '../ui';
-import { Link } from '../ui/typography';
+import { Link, MetaData } from '@/components/ui/';
 
 export function OrganisationCommitee() {
   return (

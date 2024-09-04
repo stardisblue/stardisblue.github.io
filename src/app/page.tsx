@@ -3,13 +3,13 @@ import * as AcademicServices from '@/components/academic-service';
 import * as Communications from '@/components/communications';
 import { Educations } from '@/components/educations';
 import * as Experiences from '@/components/experiences';
-import { Section } from '@/components/ui';
 import {
   GithubLink,
   Link,
   LinkedInLink,
   ObservableLink,
-} from '@/components/ui/typography';
+  Section,
+} from '@/components/ui';
 import { Email } from '@/components/ui/typography/icons';
 import React from 'react';
 

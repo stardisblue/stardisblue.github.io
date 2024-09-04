@@ -1,5 +1,11 @@
-import { MetaData, Place } from '../ui';
-import { DoiLink, GithubLink, HalLink, Link } from '../ui/typography';
+import {
+  DoiLink,
+  GithubLink,
+  HalLink,
+  Link,
+  MetaData,
+  Place,
+} from '@/components/ui/';
 
 export function Publications() {
   return (

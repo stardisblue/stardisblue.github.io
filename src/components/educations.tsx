@@ -1,5 +1,4 @@
-import { Time, Place } from '@/components/ui';
-import { Link } from '@/components/ui/typography';
+import { Time, Place, Link } from './ui';
 import { UM } from './places';
 
 function EducationMetaData({

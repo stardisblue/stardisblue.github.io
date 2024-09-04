@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GithubLink } from './ui/typography';
+import { GithubLink } from './ui';
 
 export function Footer() {
   return (

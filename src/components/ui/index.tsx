@@ -5,3 +5,4 @@ export { Place } from './Place';
 export * from './Section';
 export { Time } from './Time';
 export * from './TimeInterval';
+export * from './Link';

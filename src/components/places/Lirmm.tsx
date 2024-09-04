@@ -1,4 +1,4 @@
-import { Link } from '@/components/ui/typography';
+import { Link } from '@/components/ui';
 
 export const Lirmm = ({ city = false }: { city?: boolean }) => {
   const LirmmLink = (

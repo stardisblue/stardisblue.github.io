@@ -1,5 +1,4 @@
-import { MetaData } from '../ui';
-import { LinkedInLink } from '../ui/typography';
+import { LinkedInLink, MetaData } from '@/components/ui/';
 
 export function AlexisSupervision() {
   return (

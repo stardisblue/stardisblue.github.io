@@ -1,6 +1,5 @@
-import { UM } from '../places';
-import { MetaData } from '../ui';
-import { Link } from '../ui/typography';
+import { UM } from '@/components/places';
+import { Link, MetaData } from '@/components/ui/';
 
 export function Teachings() {
   return (

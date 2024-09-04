@@ -1,11 +1,11 @@
 import { Lirmm } from '../places';
-import { MetaData } from '../ui';
 import {
   GithubLink,
   Link,
   LinkedInLink,
+  MetaData,
   ObservableLink,
-} from '../ui/typography';
+} from '../ui';
 import { Facebook, Presentation } from '../ui/typography/icons';
 import { wedge } from '../utils';
 

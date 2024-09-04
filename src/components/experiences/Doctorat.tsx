@@ -1,8 +1,7 @@
 import { Place } from '@/components/Experience';
-import { Link, GithubLink } from '@/components/ui/typography';
+import { GithubLink, Keywords, Link, Links, MetaData } from '@/components/ui';
 import { Document, Presentation } from '@/components/ui/typography/icons';
 import { Lirmm } from '../places';
-import { MetaData, Keywords, Links } from '../ui';
 
 export function Doctorat() {
   return (

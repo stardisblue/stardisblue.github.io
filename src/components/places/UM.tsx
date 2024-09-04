@@ -1,4 +1,4 @@
-import { Link } from '@/components/ui/typography';
+import { Link } from '@/components/ui';
 
 export function UM() {
   return (

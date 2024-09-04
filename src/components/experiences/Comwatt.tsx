@@ -1,6 +1,5 @@
 import { Place } from '@/components/Experience';
-import { Link } from '@/components/ui/typography';
-import { MetaData, Keywords } from '../ui';
+import { Keywords, Link, MetaData } from '@/components/ui';
 
 export function Comwatt() {
   return (
