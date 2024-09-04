@@ -9,7 +9,6 @@ import {
 } from './icons';
 
 export function Link({
-  className,
   icon: Icon = LinkIcon,
   iconless = false,
   children,
@@ -19,18 +18,7 @@ export function Link({
   iconless?: boolean;
 }) {
   return (
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      className={classNames(
-        className,
-        'underline',
-        'text-blue-600',
-        'hover:text-blue-800',
-        'visited:text-purple-600'
-      )}
-      {...props}
-    >
+    <a target="_blank" rel="noopener noreferrer" {...props}>
       {!iconless && <Icon />}
       {children}
     </a>
