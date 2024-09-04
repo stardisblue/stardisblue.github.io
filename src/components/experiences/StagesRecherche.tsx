@@ -1,5 +1,5 @@
 import { Place } from '@/components/Experience';
-import { GithubLink, Heading3 } from '@/components/ui/typography';
+import { GithubLink } from '@/components/ui/typography';
 import { Document, Presentation } from '@/components/ui/typography/icons';
 import { Lirmm } from '../places';
 import { MetaData, Keywords, Links } from '../ui';
@@ -10,7 +10,7 @@ export function StagesRecherche() {
       <Place>
         <Lirmm />
       </Place>
-      <Heading3>Projets de recherche</Heading3>
+      <h3>Projets de recherche</h3>
       <article>
         <h4 className="mt-0">Conception d'algorithmes de dessin de graphes</h4>
         <MetaData date={['2018-02', '2018-06']}>

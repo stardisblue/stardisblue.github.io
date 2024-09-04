@@ -8,7 +8,6 @@ import {
   GithubLink,
   Heading1,
   Heading2,
-  Heading3,
   Link,
   LinkedInLink,
   ObservableLink,
@@ -65,11 +64,11 @@ export default function Home() {
         <SectionTitle>👨‍🏫 Service Académique</SectionTitle>
         <div className="grid gap-y-4 lg:grid-cols-2 ">
           <article>
-            <Heading3 mt0>Comité d'organisation</Heading3>
+            <h3 className="mt-0">Comité d'organisation</h3>
             <AcademicServices.OrganisationCommitee />
           </article>
           <article>
-            <Heading3 mt0>Reviewer</Heading3>
+            <h3 className="mt-0">Reviewer</h3>
             <div className="prose">
               <p>
                 <Link href="https://www.computer.org/csdl/journal/tg" iconless>
@@ -85,22 +84,22 @@ export default function Home() {
           </article>
         </div>
         <article>
-          <Heading3>Enseignements</Heading3>
+          <h3>Enseignements</h3>
           <AcademicServices.Teachings />
         </article>
         <article>
-          <Heading3>Encadrement</Heading3>
+          <h3>Encadrement</h3>
           <AcademicServices.AlexisSupervision />
         </article>
       </Section>
       <Section>
         <SectionTitle>📡 Communications</SectionTitle>
         <article>
-          <Heading3 mt0>🖥️ Présentations</Heading3>
+          <h3 className="mt-0">🖥️ Présentations</h3>
           <Communications.Presentations />
         </article>
         <article>
-          <Heading3>📄 Publications</Heading3>
+          <h3>📄 Publications</h3>
           <Communications.Publications />
         </article>
       </Section>

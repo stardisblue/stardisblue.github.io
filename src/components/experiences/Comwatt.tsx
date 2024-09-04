@@ -1,5 +1,5 @@
 import { Place } from '@/components/Experience';
-import { Heading3, Link } from '@/components/ui/typography';
+import { Link } from '@/components/ui/typography';
 import { MetaData, Keywords } from '../ui';
 
 export function Comwatt() {
@@ -11,7 +11,7 @@ export function Comwatt() {
         </Link>
         , Montpellier
       </Place>
-      <Heading3 mt0>Data Scientist &amp; Full Stack</Heading3>
+      <h3 className="mt-0">Data Scientist &amp; Full Stack</h3>
       <MetaData date={['2023-03', '2024-06']}>
         <Keywords
           children={[

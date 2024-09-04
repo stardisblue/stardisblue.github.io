@@ -1,5 +1,5 @@
 import { Place } from '@/components/Experience';
-import { Link, GithubLink, Heading3 } from '@/components/ui/typography';
+import { Link, GithubLink } from '@/components/ui/typography';
 import { Document, Presentation } from '@/components/ui/typography/icons';
 import { Lirmm } from '../places';
 import { MetaData, Keywords, Links } from '../ui';
@@ -10,7 +10,7 @@ export function Doctorat() {
       <Place>
         <Lirmm city />
       </Place>
-      <Heading3>Doctorat en Data Science &amp; Data Visualisation</Heading3>
+      <h3>Doctorat en Data Science &amp; Data Visualisation</h3>
       <MetaData date={['2018-09', '2022-06']}>
         <Links links={[<Thesis />, <Soutenance />]} />{' '}
         <Keywords children={['R&D', 'Data Science', 'Data Viz', 'Web']} />

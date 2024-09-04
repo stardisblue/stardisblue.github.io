@@ -1,12 +1,12 @@
 import { Place } from '@/components/Experience';
-import { Heading3, Link } from '@/components/ui/typography';
+import { Link } from '@/components/ui/typography';
 import { MetaData, Keywords } from '../ui';
 
 export function IndepMood() {
   return (
     <article className="max-w-prose">
       <Place>Montpellier</Place>
-      <Heading3>Indépendant – Data scientist & Full Stack</Heading3>
+      <h3>Indépendant – Data scientist & Full Stack</h3>
       <MetaData date={['2022-06', 'présent']}>
         <Keywords
           children={[
