@@ -3,11 +3,10 @@ import * as AcademicServices from '@/components/academic-service';
 import * as Communications from '@/components/communications';
 import { Educations } from '@/components/educations';
 import * as Experiences from '@/components/experiences';
-import { Section, SectionTitle } from '@/components/ui';
+import { Section } from '@/components/ui';
 import {
   GithubLink,
   Heading1,
-  Heading2,
   Link,
   LinkedInLink,
   ObservableLink,
@@ -16,14 +15,12 @@ import { Email } from '@/components/ui/typography/icons';
 import React from 'react';
 
 const Title = Heading1;
-const Subtitle = Heading2;
-
 export default function Home() {
   return (
     <main id="CF" className="ph2-m container mx-auto divide-y">
       <header className="py-4">
         <Title>Fati CHEN</Title>
-        <Subtitle>Docteur en Informatique, Data Science & Data Viz</Subtitle>
+        <h2>Docteur en Informatique, Data Science & Data Viz</h2>
         <div>
           <Link href="//stardis.blue">stardis.blue</Link>
           {' · '}
@@ -39,7 +36,7 @@ export default function Home() {
         </div>
       </header>
       <Section>
-        <SectionTitle>📰 News</SectionTitle>
+        <h2>📰 News</h2>
         <iframe
           width="100%"
           height="319"
@@ -48,7 +45,7 @@ export default function Home() {
         />
       </Section>
       <Section>
-        <SectionTitle>👨‍🏫 Expérience</SectionTitle>
+        <h2>👨‍🏫 Expérience</h2>
         <Experiences.Comwatt />
         <Experiences.IndepMood />
         <Experiences.Doctorat />
@@ -57,11 +54,11 @@ export default function Home() {
         <Experiences.IndepPc />
       </Section>
       <Section>
-        <SectionTitle>🎓 Éducation</SectionTitle>
+        <h2>🎓 Éducation</h2>
         <Educations />
       </Section>
       <Section>
-        <SectionTitle>👨‍🏫 Service Académique</SectionTitle>
+        <h2>👨‍🏫 Service Académique</h2>
         <div className="grid gap-y-4 lg:grid-cols-2 ">
           <article>
             <h3 className="mt-0">Comité d'organisation</h3>
@@ -93,7 +90,7 @@ export default function Home() {
         </article>
       </Section>
       <Section>
-        <SectionTitle>📡 Communications</SectionTitle>
+        <h2>📡 Communications</h2>
         <article>
           <h3 className="mt-0">🖥️ Présentations</h3>
           <Communications.Presentations />

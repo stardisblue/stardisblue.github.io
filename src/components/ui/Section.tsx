@@ -27,7 +27,6 @@ export function DeprecatedSection({
   );
 }
 
-export { Heading2 as SectionTitle } from './typography';
 export const Section = ({
   className,
   ...props

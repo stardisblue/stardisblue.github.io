@@ -16,10 +16,3 @@ export const Heading1 = (props: React.HTMLAttributes<HTMLHeadingElement>) =>
     variant: 'h1',
     ...props,
   });
-
-/** @deprecated use <h2>  */
-export const Heading2 = (props: React.HTMLAttributes<HTMLHeadingElement>) =>
-  Heading({
-    variant: 'h2',
-    ...props,
-  });
