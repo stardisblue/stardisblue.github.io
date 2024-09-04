@@ -6,7 +6,7 @@ import {
   MetaData,
   ObservableLink,
 } from '../ui';
-import { Facebook, Presentation } from '../ui/typography/icons';
+import { Facebook, Presentation } from '../ui/icons';
 import { wedge } from '../utils';
 
 export function Presentations() {

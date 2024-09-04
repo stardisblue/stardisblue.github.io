@@ -10,7 +10,7 @@ import {
   ObservableLink,
   Section,
 } from '@/components/ui';
-import { Email } from '@/components/ui/typography/icons';
+import { Email } from '@/components/ui/icons';
 import React from 'react';
 
 export default function Home() {

@@ -6,7 +6,7 @@ import {
   LinkedIn,
   Link as LinkIcon,
   Observable,
-} from './typography/icons';
+} from './icons';
 
 export function Link({
   icon: Icon = LinkIcon,

@@ -1,4 +1,4 @@
-import * as icons from '@/components/ui/typography/icons';
+import * as icons from '@/components/ui/icons';
 
 export type LinkLike = string | Link;
 
