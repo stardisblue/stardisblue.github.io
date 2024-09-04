@@ -1,35 +1,20 @@
-import {
-  Place,
-  Section,
-  SectionTitle,
-  Time,
-  TimeInterval,
-} from '@/components/ui';
+import { Footer } from '@/components/Footer';
 import * as AcademicServices from '@/components/academic-service';
 import * as Communications from '@/components/communications';
+import { Educations } from '@/components/educations';
+import * as Experiences from '@/components/experiences';
+import { Section, SectionTitle } from '@/components/ui';
 import {
-  DoiLink,
   GithubLink,
-  HalLink,
   Heading1,
   Heading2,
   Heading3,
-  Heading4,
   Link,
   LinkedInLink,
   ObservableLink,
 } from '@/components/ui/typography';
-import {
-  Email,
-  Facebook,
-  Presentation,
-} from '@/components/ui/typography/icons';
-import { Educations } from '@/components/educations';
-import * as Experiences from '@/components/experiences';
-import { Lirmm, UM } from '@/components/places';
+import { Email } from '@/components/ui/typography/icons';
 import React from 'react';
-import { wedge } from '@/components/utils';
-import { Footer } from '@/components/Footer';
 
 const Title = Heading1;
 const Subtitle = Heading2;
