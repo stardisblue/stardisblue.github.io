@@ -49,21 +49,33 @@ export const LinkedInLink = specialLink(
   'LinkedIn'
 );
 
-export const GithubLink = specialLink('//github.com/', Github, 'github');
+export const GithubLink = specialLink(
+  '//github.com/',
+  Github,
+  'github',
+  'font-mono'
+);
 
-export const DoiLink = specialLink('//doi.org/', Doi, 'doi');
+export const DoiLink = specialLink('//doi.org/', Doi, 'doi', 'font-mono');
 
-export const HalLink = specialLink('//hal-lirmm.ccsd.cnrs.fr/', Hal, 'hal');
+export const HalLink = specialLink(
+  '//hal-lirmm.ccsd.cnrs.fr/',
+  Hal,
+  'hal',
+  'font-mono'
+);
 
 export function specialLink(
   baseUrl: string,
   icon: React.ElementType,
-  prefix: string
+  prefix: string,
+  baseClassName?: string
 ) {
   return ({
     href,
     title,
     icon: Icon = icon,
+    className,
     ...props
   }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
     icon?: React.ElementType;
@@ -74,6 +86,7 @@ export function specialLink(
         href={`${baseUrl}${href}`}
         title={`${prefix}:${href}`}
         icon={Icon}
+        className={classNames(baseClassName, className)}
         {...props}
       />
     );
