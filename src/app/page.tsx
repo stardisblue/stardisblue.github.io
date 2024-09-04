@@ -67,7 +67,7 @@ export default function Home() {
             <div className="prose">
               <p>
                 <Link href="https://www.computer.org/csdl/journal/tg" iconless>
-                  TVCG
+                  TVCG 2023
                 </Link>
                 ,{' '}
                 <em>
