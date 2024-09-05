@@ -36,6 +36,35 @@ export default function Home() {
             <LinkedInLink href="in/fati-chen/">Fati Chen</LinkedInLink>
           </div>
         </header>
+        <Section className="max-w-prose">
+          <h2>À propos</h2>
+          <p className="lead">
+            Je suis intéressé par les technologies web, la sécurité,
+            l'algorithmique, les sciences, l'équité et la philosophie. Je parle
+            Français, Anglais et Russe couramment. Je suis passionné d'escalade
+            🧗 et d'Origami. J'ai aussi longtemps joué aux échecs ♟ et gagné des
+            prix 🥇 durant le lycée.
+          </p>
+          <p>
+            J'ai aussi créé plusieurs micro sites web pour mes amis, un{' '}
+            <Link title="répertoire" href="https://calioppe.github.io/">
+              répertoire
+            </Link>{' '}
+            de partitions 🎼 pour l'association EVS Callioppe. Un{' '}
+            <Link
+              title="chansonnier"
+              href="https://stardisblue.github.io/chansonnier"
+            >
+              chansonnier
+            </Link>
+            🎶 imprimable pour une association d'étudiant et un
+            encodeur-décodeur de code{' '}
+            <Link title="césar" href="https://stardisblue.github.io/cesar/">
+              césar
+            </Link>
+            .
+          </p>
+        </Section>
         <Section>
           <h2>📰 News</h2>
           <iframe
