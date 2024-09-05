@@ -6,13 +6,15 @@ import {
   MetaData,
   Place,
 } from '@/components/ui/';
+import classNames from 'classnames';
+import React, { HTMLAttributes } from 'react';
 
 export function Publications() {
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2024" dateFormat="y">
-          <code title="journal">[j]</code>{' '}
+          <PubliCode title="journal">[j]</PubliCode>{' '}
           <HalLink href="lirmm-04658031">lirmm-04658031</HalLink>{' '}
           <DoiLink href="10.1177/14604582241279720">
             10.1177/14604582241279720
@@ -30,7 +32,7 @@ export function Publications() {
       </article>
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2023-06">
-          <code title="poster">[p]</code>{' '}
+          <PubliCode title="poster">[p]</PubliCode>{' '}
           <HalLink href="lirmm-04286339">lirmm-04286339</HalLink>
         </MetaData>
         <h4 className="mt-0">
@@ -50,7 +52,7 @@ export function Publications() {
       </article>
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2020" dateFormat="y">
-          <code title="journal">[j]</code>{' '}
+          <PubliCode title="journal">[j]</PubliCode>{' '}
           <Link href="https://agorajs.github.io/">agorajs.github.io</Link>{' '}
           <GithubLink href="agorajs">AGORAjs</GithubLink>{' '}
           <HalLink href="lirmm-02879677">lirmm-02879677</HalLink>{' '}
@@ -78,7 +80,7 @@ export function Publications() {
       </article>
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2019-09">
-          <code title="conference">[c]</code>{' '}
+          <PubliCode title="conference">[c]</PubliCode>{' '}
           <Place>Průhonice/Prague, Tchéquie</Place>{' '}
           <HalLink href="hal-02302617">hal-02302617</HalLink>{' '}
           <DoiLink href="10.1007/978-3-030-35802-0_14">
@@ -108,7 +110,7 @@ export function Publications() {
       </article>
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2019" dateFormat="y">
-          <code title="software">[s]</code>{' '}
+          <PubliCode title="software">[s]</PubliCode>{' '}
           <GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>{' '}
           <HalLink href="lirmm-02137577">lirmm-02137577</HalLink>
         </MetaData>
@@ -119,5 +121,18 @@ export function Publications() {
         </p>
       </article>
     </div>
+  );
+}
+
+function PubliCode({ className, ...props }: HTMLAttributes<HTMLElement>) {
+  return (
+    <code
+      className={classNames(
+        'before:content-none',
+        'after:content-none',
+        className
+      )}
+      {...props}
+    />
   );
 }
