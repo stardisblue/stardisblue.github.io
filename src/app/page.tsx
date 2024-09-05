@@ -58,7 +58,7 @@ export default function Home() {
         </Section>
         <Section>
           <h2>👨‍🏫 Service Académique</h2>
-          <div className="grid gap-y-4 lg:grid-cols-2 ">
+          <div className="grid gap-4 lg:grid-cols-2">
             <article>
               <h3 className="mt-0">Comité d'organisation</h3>
               <AcademicServices.OrganisationCommitee />
