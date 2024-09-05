@@ -14,7 +14,12 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       fontFamily: {
-        sans: ['var(--font-inter)'],
+        sans: [
+          'var(--font-inter)',
+          {
+            fontFeatureSettings: '"ss01","ss04","ss03","cv06","cv11"',
+          },
+        ],
         serif: ['var(--font-noto-serif)'],
         mono: ['var(--font-fira-code)'],
       },

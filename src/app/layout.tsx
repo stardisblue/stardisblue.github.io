@@ -14,17 +14,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body
-        className={classNames(
-          firaCode.variable,
-          notoSerif.variable,
-          inter.variable,
-          inter.className
-        )}
-      >
-        {children}
-      </body>
+    <html
+      lang="fr"
+      className={classNames(
+        firaCode.variable,
+        notoSerif.variable,
+        inter.variable
+      )}
+    >
+      <body>{children}</body>
     </html>
   );
 }
