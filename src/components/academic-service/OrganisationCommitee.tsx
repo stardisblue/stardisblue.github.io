@@ -12,9 +12,7 @@ export function OrganisationCommitee() {
           EGC 2021
         </Link>
       </MetaData>
-      <h4 className="mt-0">
-        Extraction et Gestion des Connaissances (EGC) 2021
-      </h4>
+      <h4>Extraction et Gestion des Connaissances (EGC) 2021</h4>
       <p>
         Événement annuel réunissant des chercheurs et praticiens de disciplines
         relevant des sciences des données et des connaissances.

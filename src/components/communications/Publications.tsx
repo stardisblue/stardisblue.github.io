@@ -20,7 +20,7 @@ export function Publications() {
             10.1177/14604582241279720
           </DoiLink>
         </MetaData>
-        <h4 className="mt-0">
+        <h4>
           Epid Data Explorer: A Visualization Tool for Exploring and Comparing
           Spatio-Temporal Epidemiological Data
         </h4>
@@ -35,7 +35,7 @@ export function Publications() {
           <PubliCode title="poster">[p]</PubliCode>{' '}
           <HalLink href="lirmm-04286339">lirmm-04286339</HalLink>
         </MetaData>
-        <h4 className="mt-0">
+        <h4>
           Joint transcriptome and translatome analysis: a reproducible pipeline
         </h4>
         <p>
@@ -57,9 +57,7 @@ export function Publications() {
           <HalLink href="lirmm-02879677">lirmm-02879677</HalLink>{' '}
           <DoiLink href="10.7155/jgaa.00532">10.7155/jgaa.00532</DoiLink>
         </MetaData>
-        <h4 className="mt-0">
-          Node Overlap Removal Algorithms: An Extended Comparative Study
-        </h4>
+        <h4>Node Overlap Removal Algorithms: An Extended Comparative Study</h4>
         <p>
           <strong>Fati Chen</strong>, Laurent Piccinini, Pascal Poncelet, Arnaud
           Sallaberry.{' '}
@@ -85,9 +83,7 @@ export function Publications() {
             10.1007/978-3-030-35802-0_14
           </DoiLink>
         </MetaData>
-        <h4 className="mt-0">
-          Node Overlap Removal Algorithms: A Comparative Study
-        </h4>
+        <h4>Node Overlap Removal Algorithms: A Comparative Study</h4>
         <p>
           <strong>Fati Chen</strong>, Laurent Piccinini, Pascal Poncelet, Arnaud
           Sallaberry.{' '}
@@ -111,7 +107,7 @@ export function Publications() {
           <GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>{' '}
           <HalLink href="lirmm-02137577">lirmm-02137577</HalLink>
         </MetaData>
-        <h4 className="mt-0">jGetMove: Mining Multiple Movement Patterns</h4>
+        <h4>jGetMove: Mining Multiple Movement Patterns</h4>
         <p>
           <strong>Fati Chen</strong>, Nhat Hai Phan, Pascal Poncelet, Maguelonne
           Teisseire

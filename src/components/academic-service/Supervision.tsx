@@ -8,7 +8,7 @@ export function AlexisSupervision() {
           Alexis Delaforge
         </LinkedInLink>
       </MetaData>
-      <h4 className="mt-0">Stagiaire Master 2</h4>
+      <h4>Stagiaire Master 2</h4>
       <p>
         Implementation d'une frise chronologique dans un dashboard interactif en
         js.

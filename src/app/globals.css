@@ -22,3 +22,9 @@
     @apply small-caps;
   }
 }
+
+@layer components {
+  .metadata + * {
+    @apply mt-0;
+  }
+}

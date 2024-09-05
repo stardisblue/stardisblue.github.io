@@ -8,7 +8,7 @@ export function Reviewer() {
           TVCG 2023
         </Link>
       </MetaData>
-      <h4 className="mt-0">
+      <h4>
         IEEE Transactions on Visualization and Computer Graphics (TVCG) 2023
       </h4>
       <p>1 paper</p>

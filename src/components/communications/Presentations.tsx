@@ -28,7 +28,7 @@ export function Presentations() {
             Évènement
           </LinkedInLink>
         </MetaData>
-        <h4 className="mt-0">TDD et clean-archi avec pyspark</h4>
+        <h4>TDD et clean-archi avec pyspark</h4>
         <p>
           Intervenant, <em>Le double visage de Python (Data & Back)</em>.
         </p>
@@ -42,7 +42,7 @@ export function Presentations() {
             </>
           }
         />
-        <h4 className="mt-0">Epid Data Explorer</h4>
+        <h4>Epid Data Explorer</h4>
         <p>
           Représentant,{' '}
           <em>
@@ -64,7 +64,7 @@ export function Presentations() {
           </Link>{' '}
           <GithubLink href="stardisblue/thesis-presentation">code</GithubLink>
         </MetaData>
-        <h4 className="mt-0">Soutenance de thèse</h4>
+        <h4>Soutenance de thèse</h4>
         <p>
           <em>
             Réduction de l'encombrement visuel : Application à la visualisation
@@ -82,7 +82,7 @@ export function Presentations() {
             </>
           }
         />
-        <h4 className="mt-0">Visualisation de données</h4>
+        <h4>Visualisation de données</h4>
         <p>
           Intervenant,{' '}
           <em>
@@ -107,7 +107,7 @@ export function Presentations() {
             Evènement
           </Link>
         </MetaData>
-        <h4 className="mt-0">ProsoVis: Prosopographic Data Exploration</h4>
+        <h4>ProsoVis: Prosopographic Data Exploration</h4>
         <p>
           Orateur Invité, <em>Simposio Investigación Computational</em>.
         </p>
@@ -118,7 +118,7 @@ export function Presentations() {
             Présentation
           </ObservableLink>
         </MetaData>
-        <h4 className="mt-0">Node Overlap Removal Algorithms</h4>
+        <h4>Node Overlap Removal Algorithms</h4>
         <p>
           Orateur Invité,{' '}
           <em>
@@ -135,7 +135,7 @@ export function Presentations() {
       </article>
       <article className="md:border-l-2 md:pl-4">
         <MetaData date="2021-04" place="Visio" />
-        <h4 className="mt-0">First look at Prosopographic Data Exploration</h4>
+        <h4>First look at Prosopographic Data Exploration</h4>
         <p>
           Orateur Invité,{' '}
           <em>
@@ -199,9 +199,7 @@ export function Presentations() {
             GD 2019
           </Link>
         </MetaData>
-        <h4 className="mt-0">
-          Node Overlap Removal Algorithms: A Comparative Study
-        </h4>
+        <h4>Node Overlap Removal Algorithms: A Comparative Study</h4>
         <p>
           Intervenant,{' '}
           <em>
