@@ -28,8 +28,11 @@ export function Doctorat() {
         plateforme web de visualisation analytique de données prosopographiques.
       </p>
       <p>
-        <Link href="//agorajs.github.io">AGORA</Link> : analyse comparative des
-        différents algorithmes de placement de graphes.
+        <Link href="//agorajs.github.io" icon>
+          AGORA
+        </Link>{' '}
+        : analyse comparative des différents algorithmes de placement de
+        graphes.
       </p>
       <p>
         <GithubLink href="stardisblue/fsac">FSAC</GithubLink> : agglomération

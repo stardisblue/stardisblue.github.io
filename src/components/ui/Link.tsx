@@ -1,25 +1,17 @@
 import classNames from 'classnames';
-import {
-  Doi,
-  Github,
-  Hal,
-  LinkedIn,
-  Link as LinkIcon,
-  Observable,
-} from './icons';
+import { Chain, Doi, Github, Hal, LinkedIn, Observable } from './icons';
 
 export function Link({
-  icon: Icon = LinkIcon,
-  iconless = false,
+  icon: Icon,
   children,
   ...props
 }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  icon?: React.ElementType;
-  iconless?: boolean;
+  icon?: React.ElementType | true;
 }) {
+  if (Icon === true) Icon = Chain;
   return (
     <a target="_blank" rel="noopener noreferrer" {...props}>
-      {!iconless && <Icon />}
+      {Icon && <Icon />}
       {children}
     </a>
   );
@@ -66,14 +58,13 @@ export function specialLink(
     className,
     ...props
   }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-    icon?: React.ElementType;
-    iconless?: boolean;
+    icon?: React.ElementType | false;
   }) => {
     return (
       <Link
         href={`${baseUrl}${href}`}
         title={`${prefix}:${href}`}
-        icon={Icon}
+        icon={Icon === false ? undefined : Icon}
         className={classNames(baseClassName, className)}
         {...props}
       />

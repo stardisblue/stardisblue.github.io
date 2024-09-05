@@ -25,7 +25,7 @@ const publications = [
       },
       { kind: 'Github', href: 'https://github.com/agorajs', name: 'AGORAjs' },
       {
-        kind: 'Link',
+        kind: 'Chain',
         href: 'https://agorajs.github.io/',
         name: 'agorajs.github.io',
       },

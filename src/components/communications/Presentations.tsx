@@ -17,7 +17,7 @@ export function Presentations() {
           date="2023-12"
           place={
             <>
-              <LinkedInLink href="company/slbglobal/" iconless>
+              <LinkedInLink href="company/slbglobal/" icon={false}>
                 SLB
               </LinkedInLink>
               , Montpellier
@@ -38,10 +38,7 @@ export function Presentations() {
           date="2022-10"
           place={
             <>
-              <Link href="https://www.cirad.fr/" iconless>
-                CIRAD
-              </Link>
-              , Paris
+              <Link href="https://www.cirad.fr/">CIRAD</Link>, Paris
             </>
           }
         />
@@ -50,10 +47,7 @@ export function Presentations() {
           Représentant,{' '}
           <em>
             meeting{' '}
-            <Link
-              href="//mood-h2020.eu/epidemic-intelligence-data-and-vizualisation/"
-              iconless
-            >
+            <Link href="//mood-h2020.eu/epidemic-intelligence-data-and-vizualisation/">
               MOOD
             </Link>
           </em>
@@ -83,10 +77,8 @@ export function Presentations() {
           date="2022-05"
           place={
             <>
-              <Link href="https://www.sorbonne-universite.fr/" iconless>
-                Sorbonne
-              </Link>
-              , Paris
+              <Link href="https://www.sorbonne-universite.fr/">Sorbonne</Link>,
+              Paris
             </>
           }
         />
@@ -98,7 +90,6 @@ export function Presentations() {
             <Link
               href="https://anr.fr/Projet-ANR-17-CE38-0013"
               title="Découverte dans les bAses Prosopographiques Historiques de coNnaissancEs"
-              iconless
             >
               ANR DAPHNE
             </Link>
@@ -135,7 +126,6 @@ export function Presentations() {
             <Link
               href="https://www.labri.fr/"
               title="Laboratoire Bordelais de Recherche en Informatique"
-              iconless
             >
               LaBRI
             </Link>
@@ -153,7 +143,6 @@ export function Presentations() {
             <Link
               href="https://anr.fr/Projet-ANR-17-CE38-0013"
               title="Découverte dans les bAses Prosopographiques Historiques de coNnaissancEs"
-              iconless
             >
               ANR DAPHNE
             </Link>
@@ -169,7 +158,6 @@ export function Presentations() {
                   key="LARHRA"
                   href="https://larhra.fr/"
                   title="Laboratoire de recherche historique Rhônes-Alpes"
-                  iconless
                 >
                   LARHRA
                 </Link>,
@@ -177,7 +165,6 @@ export function Presentations() {
                   key="TECHNÉ"
                   href="https://techne.labo.univ-poitiers.fr/"
                   title="Laboratoire de recherche en TECHnologies Numériques pour l’Éducation"
-                  iconless
                 >
                   TECHNÉ
                 </Link>,
@@ -185,7 +172,6 @@ export function Presentations() {
                   key="CÉDRIC"
                   href="https://cedric.cnam.fr/"
                   title="Centre d’études et de recherche en informatique et communications"
-                  iconless
                 >
                   CÉDRIC
                 </Link>,
@@ -193,7 +179,6 @@ export function Presentations() {
                   key="LAMOP"
                   href="https://lamop.pantheonsorbonne.fr/"
                   title="Laboratoire de Médiévistique occidentale de Paris"
-                  iconless
                 >
                   LAMOP
                 </Link>,
@@ -209,6 +194,7 @@ export function Presentations() {
           <Link
             href="https://kam.mff.cuni.cz/gd2019/"
             title="Graph Drawing and Network Visualization"
+            icon
           >
             GD 2019
           </Link>

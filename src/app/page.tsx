@@ -21,7 +21,9 @@ export default function Home() {
           <h1>Fati CHEN</h1>
           <h2>Docteur en Informatique, Data Science & Data Viz</h2>
           <div>
-            <Link href="//stardis.blue">stardis.blue</Link>
+            <Link href="//stardis.blue" icon>
+              stardis.blue
+            </Link>
             {' · '}
             <Link href="mailto:chen.fati@gmail.com" icon={Email}>
               chen.fati@gmail.com

@@ -1,14 +1,11 @@
-import { Place } from '@/components/Experience';
 import { Keywords, Link, MetaData } from '@/components/ui';
+import { Place } from '../Experience';
 
 export function Comwatt() {
   return (
     <article className="max-w-prose">
       <Place>
-        <Link href="//www.comwatt.com" iconless>
-          Comwatt
-        </Link>
-        , Montpellier
+        <Link href="//www.comwatt.com">Comwatt</Link>, Montpellier
       </Place>
       <h3 className="mt-0">Data Scientist &amp; Full Stack</h3>
       <MetaData date={['2023-03', '2024-06']}>

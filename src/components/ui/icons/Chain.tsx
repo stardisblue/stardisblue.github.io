@@ -1,4 +1,4 @@
-export function Link() {
+export function Chain() {
   return (
     <span className="whitespace-nowrap after:content-['\FEFF']">
       <svg

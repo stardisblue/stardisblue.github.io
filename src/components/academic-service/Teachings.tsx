@@ -32,14 +32,11 @@ const IUTBeziers = (
   <Link
     href="https://www.iutbeziers.fr/"
     title="Institut Universitaire de Technologie de Béziers"
-    iconless
   >
     IUT de Béziers
   </Link>
 );
 
 const Polytech = (
-  <Link href="https://www.polytech.umontpellier.fr/" iconless>
-    Polytech Montpellier
-  </Link>
+  <Link href="https://www.polytech.umontpellier.fr/">Polytech Montpellier</Link>
 );

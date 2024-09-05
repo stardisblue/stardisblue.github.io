@@ -42,10 +42,7 @@ export function Publications() {
           Julie Ripoll, <strong>Fati Chen</strong>, Céline Mandier, Eric Rivals.{' '}
           <em>
             23es Journées Ouvertes en Biologie, Informatique et Mathématiques (
-            <Link href="https://jobim2023.sciencesconf.org/" iconless>
-              JOBIM 2023
-            </Link>
-            )
+            <Link href="https://jobim2023.sciencesconf.org/">JOBIM 2023</Link>)
           </em>
           , Nice, France. Jun 2023.
         </p>
@@ -53,7 +50,9 @@ export function Publications() {
       <article className="lg:border-l-2 lg:pl-4">
         <MetaData date="2020" dateFormat="y">
           <PubliCode title="journal">[j]</PubliCode>{' '}
-          <Link href="https://agorajs.github.io/">agorajs.github.io</Link>{' '}
+          <Link href="https://agorajs.github.io/" icon>
+            agorajs.github.io
+          </Link>{' '}
           <GithubLink href="agorajs">AGORAjs</GithubLink>{' '}
           <HalLink href="lirmm-02879677">lirmm-02879677</HalLink>{' '}
           <DoiLink href="10.7155/jgaa.00532">10.7155/jgaa.00532</DoiLink>
@@ -69,7 +68,6 @@ export function Publications() {
             <Link
               href="https://jgaa.info"
               title="Journal of Graph Algorithms and Applications"
-              iconless
             >
               JGAA
             </Link>
@@ -99,7 +97,6 @@ export function Publications() {
             <Link
               href="https://kam.mff.cuni.cz/gd2019/"
               title="Graph Drawing and Network Visualization"
-              iconless
             >
               GD 2019
             </Link>

@@ -5,7 +5,6 @@ export const Lirmm = ({ city = false }: { city?: boolean }) => {
     <Link
       href="//www.lirmm.fr"
       title="Laboratoire d'Informatique, de Robotique et de Microélectronique de Montpellier"
-      iconless
     >
       LIRMM
     </Link>

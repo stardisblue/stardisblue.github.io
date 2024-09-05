@@ -27,7 +27,6 @@ export function Educations() {
             <Link
               href="https://iut-montpellier-sete.edu.umontpellier.fr/"
               title="Institut Universitaire de Technologie de Montpellier"
-              iconless
             >
               IUT de Montpellier
             </Link>

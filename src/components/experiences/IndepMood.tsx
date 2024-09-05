@@ -21,7 +21,10 @@ export function IndepMood() {
       <p>
         Notamment: aide à la détection d'anomalies en épidemiologie (projet
         européen{' '}
-        <Link href="//mood-h2020.eu/epidemic-intelligence-data-and-vizualisation/">
+        <Link
+          href="//mood-h2020.eu/epidemic-intelligence-data-and-vizualisation/"
+          icon
+        >
           MOOD
         </Link>
         ).

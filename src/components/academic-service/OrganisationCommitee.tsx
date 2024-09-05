@@ -7,6 +7,7 @@ export function OrganisationCommitee() {
         <Link
           href="https://egc2021.sciencesconf.org/"
           title="Extraction et Gestion des Connaissances 2021"
+          icon
         >
           EGC 2021
         </Link>
