@@ -11,6 +11,8 @@ export function Place({
         "before:content-['🗺️']",
         'whitespace-nowrap',
         'before:not-italic',
+        'me-1',
+        'last:me-0',
         className
       )}
       {...props}

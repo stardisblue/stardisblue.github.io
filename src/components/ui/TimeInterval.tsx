@@ -15,7 +15,7 @@ export function TimeInterval({
   const sameYear = start.slice(0, 4) === end.slice(0, 4);
 
   return (
-    <i>
+    <i className="me-1 last:me-0">
       <span className="sr-only">dates : </span>
       <Time
         date={start}
