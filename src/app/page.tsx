@@ -65,16 +65,7 @@ export default function Home() {
             </article>
             <article>
               <h3 className="mt-0">Reviewer</h3>
-              <p>
-                <Link href="https://www.computer.org/csdl/journal/tg" iconless>
-                  TVCG 2023
-                </Link>
-                ,{' '}
-                <em>
-                  IEEE Transactions on Visualization and Computer Graphics
-                </em>
-                , 1 paper.
-              </p>
+              <AcademicServices.Reviewer />
             </article>
           </div>
           <article>
