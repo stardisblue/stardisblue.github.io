@@ -1,5 +1,5 @@
 export { MetaData } from './MetaData';
-export { Keywords } from './Keywords';
+export { Keywords, Tags } from './Tags';
 export { Links } from './Links';
 export { Place } from './Place';
 export * from './Section';
