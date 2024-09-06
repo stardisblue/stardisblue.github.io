@@ -1,11 +1,10 @@
-import { Place } from '@/components/Experience';
-import { Link, MetaData, Tags } from '@/components/ui';
+import { Link, MetaData, Place, Tags } from '@/components/ui';
 
 export function IndepMood() {
   return (
     <article className="max-w-prose">
-      <Place>Montpellier</Place>
       <h3>Indépendant – Data scientist & Full Stack</h3>
+      <Place>Montpellier</Place>
       <MetaData date={['2022-06', 'présent']}>
         <Tags>R&D, Data Viz, Data Science, react, svelte, D3</Tags>
       </MetaData>

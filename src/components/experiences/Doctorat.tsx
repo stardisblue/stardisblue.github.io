@@ -1,15 +1,21 @@
-import { Place } from '@/components/Experience';
-import { GithubLink, Link, Links, MetaData, Tags } from '@/components/ui';
+import {
+  GithubLink,
+  Link,
+  Links,
+  MetaData,
+  Place,
+  Tags,
+} from '@/components/ui';
 import { Document, Presentation } from '@/components/ui/icons';
 import { Lirmm } from '../places';
 
 export function Doctorat() {
   return (
     <article className="max-w-prose">
+      <h3>Doctorat en Data Science &amp; Data Visualisation</h3>
       <Place>
         <Lirmm city />
       </Place>
-      <h3>Doctorat en Data Science &amp; Data Visualisation</h3>
       <MetaData date={['2018-09', '2022-06']}>
         <Links links={[<Thesis />, <Soutenance />]} />{' '}
         <Tags>R&D, Data Science, Data Viz, Web</Tags>

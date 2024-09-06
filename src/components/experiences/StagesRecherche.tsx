@@ -1,15 +1,14 @@
-import { Place } from '@/components/Experience';
-import { GithubLink, Links, MetaData, Tags } from '@/components/ui';
+import { GithubLink, Links, MetaData, Place, Tags } from '@/components/ui';
 import { Document, Presentation } from '@/components/ui/icons';
 import { Lirmm } from '../places';
 
 export function StagesRecherche() {
   return (
     <article className="max-w-prose">
+      <h3>Projets de recherche</h3>
       <Place>
         <Lirmm />
       </Place>
-      <h3>Projets de recherche</h3>
       <article>
         <h4 className="mt-0">Conception d'algorithmes de dessin de graphes</h4>
         <MetaData date={['2018-02', '2018-06']}>
