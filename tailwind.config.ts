@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
 import typography from '@tailwindcss/typography';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 const config: Config = {
   content: [
@@ -15,13 +16,13 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
-          'var(--font-inter)',
+          ['var(--font-inter)', ...fontFamily.sans],
           {
             fontFeatureSettings: '"ss01","ss04","ss03","cv06","cv11"',
           },
         ],
-        serif: ['var(--font-noto-serif)'],
-        mono: ['var(--font-fira-code)'],
+        serif: ['var(--font-noto-serif)', ...fontFamily.serif],
+        mono: ['var(--font-fira-code)', ...fontFamily.mono],
       },
     },
   },
