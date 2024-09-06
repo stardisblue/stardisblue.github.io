@@ -1,5 +1,5 @@
 import { Place } from '@/components/Experience';
-import { MetaData, Keywords } from '../ui';
+import { MetaData, Tags } from '../ui';
 
 export function IndepPc() {
   return (
@@ -7,7 +7,7 @@ export function IndepPc() {
       <Place>Nîmes, Montpellier</Place>
       <h3>Développement Web, services hardware</h3>
       <MetaData date={['2015', '2018']} dateFormat="y">
-        <Keywords children={['Wordpress', 'Prestashop', 'Joomla', 'CakePHP']} />
+        <Tags>Wordpress, Prestashop, Joomla, CakePHP</Tags>
       </MetaData>
     </article>
   );

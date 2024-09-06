@@ -1,5 +1,5 @@
 import { Place } from '@/components/Experience';
-import { GithubLink, Keywords, Links, MetaData } from '@/components/ui';
+import { GithubLink, Links, MetaData, Tags } from '@/components/ui';
 import { Document, Presentation } from '@/components/ui/icons';
 import { Lirmm } from '../places';
 
@@ -14,7 +14,7 @@ export function StagesRecherche() {
         <h4 className="mt-0">Conception d'algorithmes de dessin de graphes</h4>
         <MetaData date={['2018-02', '2018-06']}>
           <Links links={[<GithubLink href="agorajs">Agorajs</GithubLink>]} />{' '}
-          <Keywords children={['Web', 'Stats', 'Graph Drawing']} />
+          <Tags>Web, Stats, Graph Drawing</Tags>
         </MetaData>
         <p>
           Recherche, conception et implémentation d'algorithmes de réduction
@@ -29,7 +29,7 @@ export function StagesRecherche() {
           <Links
             links={[<GithubLink href="jGetMove/jGetMove">jGetMove</GithubLink>]}
           />{' '}
-          <Keywords children={['Pattern Mining', 'Java']} />
+          <Tags>Pattern Mining, Java</Tags>
         </MetaData>
         <p>
           Conception et développement de jGetMove, un système performant et
@@ -47,7 +47,7 @@ export function StagesRecherche() {
               <PresentationEternityII />,
             ]}
           />{' '}
-          <Keywords children={['Constraint Programming', 'C++']} />
+          <Tags>Constraint Programming, C++</Tags>
         </MetaData>
         <p>
           Développement d'un solveur pour un puzzle combinatoire, EternityII.

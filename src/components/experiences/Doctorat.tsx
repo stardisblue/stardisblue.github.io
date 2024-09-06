@@ -1,5 +1,5 @@
 import { Place } from '@/components/Experience';
-import { GithubLink, Keywords, Link, Links, MetaData } from '@/components/ui';
+import { GithubLink, Link, Links, MetaData, Tags } from '@/components/ui';
 import { Document, Presentation } from '@/components/ui/icons';
 import { Lirmm } from '../places';
 
@@ -12,7 +12,7 @@ export function Doctorat() {
       <h3>Doctorat en Data Science &amp; Data Visualisation</h3>
       <MetaData date={['2018-09', '2022-06']}>
         <Links links={[<Thesis />, <Soutenance />]} />{' '}
-        <Keywords children={['R&D', 'Data Science', 'Data Viz', 'Web']} />
+        <Tags>R&D, Data Science, Data Viz, Web</Tags>
       </MetaData>
       <p>
         Recherche dans le domaine de la visualisation analytique axée autour de

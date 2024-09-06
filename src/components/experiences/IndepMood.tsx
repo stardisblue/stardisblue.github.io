@@ -1,5 +1,5 @@
 import { Place } from '@/components/Experience';
-import { Keywords, Link, MetaData } from '@/components/ui';
+import { Link, MetaData, Tags } from '@/components/ui';
 
 export function IndepMood() {
   return (
@@ -7,16 +7,7 @@ export function IndepMood() {
       <Place>Montpellier</Place>
       <h3>Indépendant – Data scientist & Full Stack</h3>
       <MetaData date={['2022-06', 'présent']}>
-        <Keywords
-          children={[
-            'R&D',
-            'Data Viz',
-            'Data Science',
-            'react',
-            'svelte',
-            'D3',
-          ]}
-        />
+        <Tags>R&D, Data Viz, Data Science, react, svelte, D3</Tags>
       </MetaData>
       <p>
         Notamment: aide à la détection d'anomalies en épidemiologie (projet

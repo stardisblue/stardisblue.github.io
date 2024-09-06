@@ -1,4 +1,4 @@
-import { Keywords, Link, MetaData } from '@/components/ui';
+import { Link, MetaData, Tags } from '@/components/ui';
 import { Place } from '../Experience';
 
 export function Comwatt() {
@@ -9,18 +9,7 @@ export function Comwatt() {
       </Place>
       <h3 className="mt-0">Data Scientist &amp; Full Stack</h3>
       <MetaData date={['2023-03', '2024-06']}>
-        <Keywords
-          children={[
-            'R&D',
-            'pyspark',
-            'airflow',
-            'python',
-            'gcloud',
-            'react',
-            'spring',
-            'java',
-          ]}
-        />
+        <Tags>R&D, pyspark, airflow, python, gcloud, react, spring, java</Tags>
       </MetaData>
       <p>
         Améliorer l'intelligence de prédiction et d'optimisation de la
