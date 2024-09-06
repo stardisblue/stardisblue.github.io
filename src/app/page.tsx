@@ -16,7 +16,7 @@ import React from 'react';
 export default function Home() {
   return (
     <div className="prose prose-a:underline prose-a:text-blue-600 prose-a:hover:text-blue-800 prose-a:visited:text-purple-600 max-w-none">
-      <main id="CF" className="ph2-m container mx-auto divide-y">
+      <main id="CF" className="ph2-m container px-4 mx-auto divide-y">
         <header className="py-4">
           <h1>Fati CHEN</h1>
           <h2>Docteur en Informatique, Data Science & Data Viz</h2>
