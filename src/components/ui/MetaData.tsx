@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { Place } from './Place';
 import { Time } from './Time';
 import { TimeInterval } from './TimeInterval';
@@ -7,9 +8,16 @@ type Props = {
   dateFormat?: string;
   place?: React.ReactNode;
   children?: React.ReactNode;
+  className?: string;
 };
 
-export function MetaData({ date, dateFormat, place, children }: Props) {
+export function MetaData({
+  date,
+  dateFormat,
+  place,
+  children,
+  className,
+}: Props) {
   const dateNode = Array.isArray(date) ? (
     <TimeInterval start={date[0]} end={date[1]} form={dateFormat} />
   ) : (
@@ -20,7 +28,7 @@ export function MetaData({ date, dateFormat, place, children }: Props) {
   );
 
   return (
-    <small className="metadata mb-1 block">
+    <small className={classNames('metadata mb-1 block', className)}>
       {dateNode} {place && <Place>{place}</Place>} {children}
     </small>
   );
