@@ -17,9 +17,9 @@ export function Comwatt() {
           Veille scientifique en data. Encadrement d'une ingénieure data.
         </p>
         <p>
-          Gestion et l'analyse des données temps-réel et batch pour garantir
-          l'efficacité et la robustesse de toute stack data. L'objectif est de
-          garantir le traitement de plus de 30k mesures/min et le bon
+          Gestion et analyse des données temps-réel et batch pour garantir
+          l'efficacité et la robustesse de toute la stack data. L'objectif est
+          de garantir le traitement de plus de 30k mesures/min et le bon
           déroulement des processus data quotidiens pour plus de 15000 foyers
           francais.
         </p>
@@ -56,9 +56,10 @@ export function Comwatt() {
           </div>
           <ul className="mb-0">
             <li>Unification de deux front-end react en un seul</li>
-            <li>Intégration des entrées-sorties liées à la datascience</li>
+            <li>Intégration des entrées-sorties liées à la data science</li>
             <li>Gestion multilingue front (i18n)</li>
             <li>Développement de nouvelles briques fonctionnelles</li>
+            <li>Mise en place de la procédure de migration vers timescale</li>
           </ul>
         </div>
       </div>
