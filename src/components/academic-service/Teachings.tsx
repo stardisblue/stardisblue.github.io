@@ -1,9 +1,17 @@
 import { UM } from '@/components/places';
-import { Link, MetaData } from '@/components/ui/';
+import { Link, MetaData, TimeInterval } from '@/components/ui/';
 
 export function Teachings() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 lg:grid-cols-none lg:auto-cols-[minmax(max-content,_1fr)] lg:grid-flow-col lg:grid-rows-1 lg:snap-x lg:snap-mandatory lg:overflow-x-auto gap-4 lg:pb-4">
+      <article className="sm:border-l-2 sm:pl-4">
+        <MetaData date={['2024', '2025']} dateFormat="y" place={Polytech} />
+        <h4>Introduction à l'informatique</h4>
+        <p>
+          Cursus : cycle Préparatoire{' '}
+          <abbr title="Parcours des écoles d'ingénieurs Polytech">PeiP</abbr>
+        </p>
+      </article>
       <article className="sm:border-l-2 sm:pl-4">
         <MetaData date={['2020', '2021']} dateFormat="y" place={Polytech} />
         <h4>WOA (Web Oriented Architecture)</h4>
