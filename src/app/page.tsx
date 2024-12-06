@@ -10,31 +10,35 @@ import {
   ObservableLink,
   Section,
 } from '@/components/ui';
-import { Email } from '@/components/ui/icons';
+import { Logo } from '@/components/ui/Logo';
+import { Email, Stardisblue } from '@/components/ui/icons';
 import React from 'react';
 
 export default function Home() {
   return (
     <div className="prose prose-a:underline prose-a:text-blue-600 prose-a:hover:text-blue-800 prose-a:visited:text-purple-600 max-w-none">
       <main id="CF" className="ph2-m container px-4 mx-auto divide-y">
-        <header className="py-4">
-          <h1>Fati CHEN</h1>
-          <h2>Docteur en Informatique, Data Science & Data Viz</h2>
-          <div>
-            <Link href="//stardis.blue" icon>
-              stardis.blue
-            </Link>
-            {' · '}
-            <Link href="mailto:chen.fati@gmail.com" icon={Email}>
-              chen.fati@gmail.com
-            </Link>
-            {' · '}
-            <GithubLink href="stardisblue">stardisblue</GithubLink>
-            {' · '}
-            <ObservableLink href="@stardisblue">@stardisblue</ObservableLink>
-            {' · '}
-            <LinkedInLink href="in/fati-chen/">Fati Chen</LinkedInLink>
+        <header className="py-4 flex">
+          <div className="flex-grow">
+            <h1>Fati CHEN</h1>
+            <h2>Docteur en Informatique, Data Science & Data Viz</h2>
+            <div>
+              <Link href="//stardis.blue" icon={Stardisblue}>
+                stardis.blue
+              </Link>
+              {' · '}
+              <Link href="mailto:chen.fati@gmail.com" icon={Email}>
+                chen.fati@gmail.com
+              </Link>
+              {' · '}
+              <GithubLink href="stardisblue">stardisblue</GithubLink>
+              {' · '}
+              <ObservableLink href="@stardisblue">@stardisblue</ObservableLink>
+              {' · '}
+              <LinkedInLink href="in/fati-chen/">Fati Chen</LinkedInLink>
+            </div>
           </div>
+          <Logo />
         </header>
         <Section>
           <h2>À propos</h2>

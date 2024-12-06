@@ -8,3 +8,4 @@ export { Chain } from './Chain';
 export { LinkedIn } from './LinkedIn';
 export { Observable } from './Observable';
 export { Presentation } from './Presentation';
+export { Stardisblue } from './Stardisblue';
